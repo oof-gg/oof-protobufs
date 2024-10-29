@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package global;
+
+message GlobalTime {
+  int64 timestamp = 1; // Unix timestamp in milliseconds to synchronize time across clients
+}

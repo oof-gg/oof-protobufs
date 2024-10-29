@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package global;
+
+// Global Events, message can trigger API calls or other events
+message GlobalEvent {
+  string id = 1; // Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
+  string event_name = 2;
+  int64 timestamp = 3;
+  optional string game_id = 4;
+  optional string player_id = 5;
+  optional string team_id = 6;
+  optional string data = 8; // Can be any JSON data
+  string type = 9;
+}

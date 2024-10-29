@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package global;
+
+// Message joining or leaving a game
+message JoinLeaveGame {
+  string player_id = 1;
+  string game_id = 2;
+
+  enum Action {
+    JOIN = 0;
+    LEAVE = 1;
+  }
+
+  Action action = 3;
+}

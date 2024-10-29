@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package game;
+
+import "player/player.proto";
+// TODO: Game Score?
+message Session {
+  string id = 1;
+  string game_id = 2;
+  repeated player.Player players = 3; // Players in the session
+  GameState state = 4;
+  map<string, GameAttribute> attributes = 5; // Game attributes
+
+  enum GameState {
+    CREATED = 0;
+    WAITING = 1;
+    STARTED = 2;
+    FINISHED = 3;
+  }
+
+  message GameAttribute {
+    string key = 1;
+    oneof value {
+      string string_value = 2;
+      int32 int_value = 3;
+      float float_value = 4;
+      bool bool_value = 5;
+    }
+  }
+}
