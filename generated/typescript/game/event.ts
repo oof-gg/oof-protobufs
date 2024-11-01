@@ -2,15 +2,15 @@
 // versions:
 //   protoc-gen-ts_proto  v2.2.5
 //   protoc               v5.28.2
-// source: global/event.proto
+// source: game/event.proto
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
-export const protobufPackage = "global";
+export const protobufPackage = "game";
 
 /** Global Events, message can trigger API calls or other events */
-export interface GlobalEvent {
+export interface GameEvent {
   /** Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
   id: string;
   eventName: string;
@@ -22,69 +22,9 @@ export interface GlobalEvent {
     | undefined;
   /** Can be any JSON data */
   data?: string | undefined;
-  type: GlobalEvent_EventType;
 }
 
-/**
- * Global Channel Types of Events
- * CUSTOM - Custom events
- * ANNOUNCEMENT - Announcements
- * ALERT - Alerts
- * EVENT - Events
- * REQUEST - Requests
- */
-export enum GlobalEvent_EventType {
-  CUSTOM = 0,
-  ANNOUNCEMENT = 1,
-  ALERT = 2,
-  EVENT = 3,
-  REQUEST = 4,
-  UNRECOGNIZED = -1,
-}
-
-export function globalEvent_EventTypeFromJSON(object: any): GlobalEvent_EventType {
-  switch (object) {
-    case 0:
-    case "CUSTOM":
-      return GlobalEvent_EventType.CUSTOM;
-    case 1:
-    case "ANNOUNCEMENT":
-      return GlobalEvent_EventType.ANNOUNCEMENT;
-    case 2:
-    case "ALERT":
-      return GlobalEvent_EventType.ALERT;
-    case 3:
-    case "EVENT":
-      return GlobalEvent_EventType.EVENT;
-    case 4:
-    case "REQUEST":
-      return GlobalEvent_EventType.REQUEST;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return GlobalEvent_EventType.UNRECOGNIZED;
-  }
-}
-
-export function globalEvent_EventTypeToJSON(object: GlobalEvent_EventType): string {
-  switch (object) {
-    case GlobalEvent_EventType.CUSTOM:
-      return "CUSTOM";
-    case GlobalEvent_EventType.ANNOUNCEMENT:
-      return "ANNOUNCEMENT";
-    case GlobalEvent_EventType.ALERT:
-      return "ALERT";
-    case GlobalEvent_EventType.EVENT:
-      return "EVENT";
-    case GlobalEvent_EventType.REQUEST:
-      return "REQUEST";
-    case GlobalEvent_EventType.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
-}
-
-function createBaseGlobalEvent(): GlobalEvent {
+function createBaseGameEvent(): GameEvent {
   return {
     id: "",
     eventName: "",
@@ -93,12 +33,11 @@ function createBaseGlobalEvent(): GlobalEvent {
     playerId: undefined,
     teamId: undefined,
     data: undefined,
-    type: 0,
   };
 }
 
-export const GlobalEvent: MessageFns<GlobalEvent> = {
-  encode(message: GlobalEvent, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const GameEvent: MessageFns<GameEvent> = {
+  encode(message: GameEvent, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -120,16 +59,13 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.data !== undefined) {
       writer.uint32(66).string(message.data);
     }
-    if (message.type !== 0) {
-      writer.uint32(72).int32(message.type);
-    }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): GlobalEvent {
+  decode(input: BinaryReader | Uint8Array, length?: number): GameEvent {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseGlobalEvent();
+    const message = createBaseGameEvent();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -189,14 +125,6 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
           message.data = reader.string();
           continue;
         }
-        case 9: {
-          if (tag !== 72) {
-            break;
-          }
-
-          message.type = reader.int32() as any;
-          continue;
-        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -206,7 +134,7 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     return message;
   },
 
-  fromJSON(object: any): GlobalEvent {
+  fromJSON(object: any): GameEvent {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       eventName: isSet(object.eventName) ? globalThis.String(object.eventName) : "",
@@ -215,11 +143,10 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
-      type: isSet(object.type) ? globalEvent_EventTypeFromJSON(object.type) : 0,
     };
   },
 
-  toJSON(message: GlobalEvent): unknown {
+  toJSON(message: GameEvent): unknown {
     const obj: any = {};
     if (message.id !== "") {
       obj.id = message.id;
@@ -242,17 +169,14 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.data !== undefined) {
       obj.data = message.data;
     }
-    if (message.type !== 0) {
-      obj.type = globalEvent_EventTypeToJSON(message.type);
-    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<GlobalEvent>, I>>(base?: I): GlobalEvent {
-    return GlobalEvent.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<GameEvent>, I>>(base?: I): GameEvent {
+    return GameEvent.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<GlobalEvent>, I>>(object: I): GlobalEvent {
-    const message = createBaseGlobalEvent();
+  fromPartial<I extends Exact<DeepPartial<GameEvent>, I>>(object: I): GameEvent {
+    const message = createBaseGameEvent();
     message.id = object.id ?? "";
     message.eventName = object.eventName ?? "";
     message.timestamp = object.timestamp ?? 0;
@@ -260,7 +184,6 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     message.playerId = object.playerId ?? undefined;
     message.teamId = object.teamId ?? undefined;
     message.data = object.data ?? undefined;
-    message.type = object.type ?? 0;
     return message;
   },
 };

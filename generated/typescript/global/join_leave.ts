@@ -14,6 +14,8 @@ export interface JoinLeaveGame {
   playerId: string;
   gameId: string;
   action: JoinLeaveGame_Action;
+  teamId?: string | undefined;
+  sessionId?: string | undefined;
 }
 
 export enum JoinLeaveGame_Action {
@@ -50,7 +52,7 @@ export function joinLeaveGame_ActionToJSON(object: JoinLeaveGame_Action): string
 }
 
 function createBaseJoinLeaveGame(): JoinLeaveGame {
-  return { playerId: "", gameId: "", action: 0 };
+  return { playerId: "", gameId: "", action: 0, teamId: undefined, sessionId: undefined };
 }
 
 export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
@@ -63,6 +65,12 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
     }
     if (message.action !== 0) {
       writer.uint32(24).int32(message.action);
+    }
+    if (message.teamId !== undefined) {
+      writer.uint32(34).string(message.teamId);
+    }
+    if (message.sessionId !== undefined) {
+      writer.uint32(42).string(message.sessionId);
     }
     return writer;
   },
@@ -98,6 +106,22 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
           message.action = reader.int32() as any;
           continue;
         }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.teamId = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.sessionId = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -112,6 +136,8 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
       action: isSet(object.action) ? joinLeaveGame_ActionFromJSON(object.action) : 0,
+      teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : undefined,
     };
   },
 
@@ -126,6 +152,12 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
     if (message.action !== 0) {
       obj.action = joinLeaveGame_ActionToJSON(message.action);
     }
+    if (message.teamId !== undefined) {
+      obj.teamId = message.teamId;
+    }
+    if (message.sessionId !== undefined) {
+      obj.sessionId = message.sessionId;
+    }
     return obj;
   },
 
@@ -137,6 +169,8 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
     message.playerId = object.playerId ?? "";
     message.gameId = object.gameId ?? "";
     message.action = object.action ?? 0;
+    message.teamId = object.teamId ?? undefined;
+    message.sessionId = object.sessionId ?? undefined;
     return message;
   },
 };

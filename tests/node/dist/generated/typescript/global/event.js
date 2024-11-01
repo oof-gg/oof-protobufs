@@ -11,11 +11,21 @@ exports.globalEvent_EventTypeToJSON = globalEvent_EventTypeToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
 exports.protobufPackage = "global";
+/**
+ * Global Channel Types of Events
+ * CUSTOM - Custom events
+ * ANNOUNCEMENT - Announcements
+ * ALERT - Alerts
+ * EVENT - Events
+ * REQUEST - Requests
+ */
 var GlobalEvent_EventType;
 (function (GlobalEvent_EventType) {
     GlobalEvent_EventType[GlobalEvent_EventType["CUSTOM"] = 0] = "CUSTOM";
     GlobalEvent_EventType[GlobalEvent_EventType["ANNOUNCEMENT"] = 1] = "ANNOUNCEMENT";
-    GlobalEvent_EventType[GlobalEvent_EventType["GAME"] = 2] = "GAME";
+    GlobalEvent_EventType[GlobalEvent_EventType["ALERT"] = 2] = "ALERT";
+    GlobalEvent_EventType[GlobalEvent_EventType["EVENT"] = 3] = "EVENT";
+    GlobalEvent_EventType[GlobalEvent_EventType["REQUEST"] = 4] = "REQUEST";
     GlobalEvent_EventType[GlobalEvent_EventType["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(GlobalEvent_EventType || (exports.GlobalEvent_EventType = GlobalEvent_EventType = {}));
 function globalEvent_EventTypeFromJSON(object) {
@@ -27,8 +37,14 @@ function globalEvent_EventTypeFromJSON(object) {
         case "ANNOUNCEMENT":
             return GlobalEvent_EventType.ANNOUNCEMENT;
         case 2:
-        case "GAME":
-            return GlobalEvent_EventType.GAME;
+        case "ALERT":
+            return GlobalEvent_EventType.ALERT;
+        case 3:
+        case "EVENT":
+            return GlobalEvent_EventType.EVENT;
+        case 4:
+        case "REQUEST":
+            return GlobalEvent_EventType.REQUEST;
         case -1:
         case "UNRECOGNIZED":
         default:
@@ -41,8 +57,12 @@ function globalEvent_EventTypeToJSON(object) {
             return "CUSTOM";
         case GlobalEvent_EventType.ANNOUNCEMENT:
             return "ANNOUNCEMENT";
-        case GlobalEvent_EventType.GAME:
-            return "GAME";
+        case GlobalEvent_EventType.ALERT:
+            return "ALERT";
+        case GlobalEvent_EventType.EVENT:
+            return "EVENT";
+        case GlobalEvent_EventType.REQUEST:
+            return "REQUEST";
         case GlobalEvent_EventType.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
