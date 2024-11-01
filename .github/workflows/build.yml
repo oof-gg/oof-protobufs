@@ -12,3 +12,12 @@ jobs:
   build_protobufs:
     # This job builds the protobufs for Python, TypeScript, and Go
     runs-on: ubuntu-latest
+  build_python_package:
+    # This job builds the Python package
+    runs-on: ubuntu-latest
+  build_typescript_package:
+    # This job builds the TypeScript package
+    runs-on: ubuntu-latest
+  build_go_package:
+    # This job builds the Go package
+    runs-on: ubuntu-latest

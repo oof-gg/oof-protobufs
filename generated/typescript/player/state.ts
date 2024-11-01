@@ -15,6 +15,7 @@ export interface State {
   gameId: string;
   state: State_PlayerState;
   attributes: { [key: string]: State_PlayerAttribute };
+  timestamp: number;
 }
 
 export enum State_PlayerState {
@@ -70,7 +71,7 @@ export interface State_PlayerAttribute {
 }
 
 function createBaseState(): State {
-  return { playerId: "", sessionId: "", gameId: "", state: 0, attributes: {} };
+  return { playerId: "", sessionId: "", gameId: "", state: 0, attributes: {}, timestamp: 0 };
 }
 
 export const State: MessageFns<State> = {
@@ -90,6 +91,9 @@ export const State: MessageFns<State> = {
     Object.entries(message.attributes).forEach(([key, value]) => {
       State_AttributesEntry.encode({ key: key as any, value }, writer.uint32(42).fork()).join();
     });
+    if (message.timestamp !== 0) {
+      writer.uint32(48).int64(message.timestamp);
+    }
     return writer;
   },
 
@@ -143,6 +147,14 @@ export const State: MessageFns<State> = {
           }
           continue;
         }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.timestamp = longToNumber(reader.int64());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -164,6 +176,7 @@ export const State: MessageFns<State> = {
           return acc;
         }, {})
         : {},
+      timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
     };
   },
 
@@ -190,6 +203,9 @@ export const State: MessageFns<State> = {
         });
       }
     }
+    if (message.timestamp !== 0) {
+      obj.timestamp = Math.round(message.timestamp);
+    }
     return obj;
   },
 
@@ -211,6 +227,7 @@ export const State: MessageFns<State> = {
       },
       {},
     );
+    message.timestamp = object.timestamp ?? 0;
     return message;
   },
 };
@@ -428,6 +445,17 @@ export type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function longToNumber(int64: { toString(): string }): number {
+  const num = globalThis.Number(int64.toString());
+  if (num > globalThis.Number.MAX_SAFE_INTEGER) {
+    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+  }
+  if (num < globalThis.Number.MIN_SAFE_INTEGER) {
+    throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
+  }
+  return num;
+}
 
 function isObject(value: any): boolean {
   return typeof value === "object" && value !== null;

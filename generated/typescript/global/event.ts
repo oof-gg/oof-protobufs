@@ -22,7 +22,46 @@ export interface GlobalEvent {
     | undefined;
   /** Can be any JSON data */
   data?: string | undefined;
-  type: string;
+  type: GlobalEvent_EventType;
+}
+
+export enum GlobalEvent_EventType {
+  CUSTOM = 0,
+  ANNOUNCEMENT = 1,
+  GAME = 2,
+  UNRECOGNIZED = -1,
+}
+
+export function globalEvent_EventTypeFromJSON(object: any): GlobalEvent_EventType {
+  switch (object) {
+    case 0:
+    case "CUSTOM":
+      return GlobalEvent_EventType.CUSTOM;
+    case 1:
+    case "ANNOUNCEMENT":
+      return GlobalEvent_EventType.ANNOUNCEMENT;
+    case 2:
+    case "GAME":
+      return GlobalEvent_EventType.GAME;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return GlobalEvent_EventType.UNRECOGNIZED;
+  }
+}
+
+export function globalEvent_EventTypeToJSON(object: GlobalEvent_EventType): string {
+  switch (object) {
+    case GlobalEvent_EventType.CUSTOM:
+      return "CUSTOM";
+    case GlobalEvent_EventType.ANNOUNCEMENT:
+      return "ANNOUNCEMENT";
+    case GlobalEvent_EventType.GAME:
+      return "GAME";
+    case GlobalEvent_EventType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
 }
 
 function createBaseGlobalEvent(): GlobalEvent {
@@ -34,7 +73,7 @@ function createBaseGlobalEvent(): GlobalEvent {
     playerId: undefined,
     teamId: undefined,
     data: undefined,
-    type: "",
+    type: 0,
   };
 }
 
@@ -61,8 +100,8 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.data !== undefined) {
       writer.uint32(66).string(message.data);
     }
-    if (message.type !== "") {
-      writer.uint32(74).string(message.type);
+    if (message.type !== 0) {
+      writer.uint32(72).int32(message.type);
     }
     return writer;
   },
@@ -131,11 +170,11 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
           continue;
         }
         case 9: {
-          if (tag !== 74) {
+          if (tag !== 72) {
             break;
           }
 
-          message.type = reader.string();
+          message.type = reader.int32() as any;
           continue;
         }
       }
@@ -156,7 +195,7 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
-      type: isSet(object.type) ? globalThis.String(object.type) : "",
+      type: isSet(object.type) ? globalEvent_EventTypeFromJSON(object.type) : 0,
     };
   },
 
@@ -183,8 +222,8 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.data !== undefined) {
       obj.data = message.data;
     }
-    if (message.type !== "") {
-      obj.type = message.type;
+    if (message.type !== 0) {
+      obj.type = globalEvent_EventTypeToJSON(message.type);
     }
     return obj;
   },
@@ -201,7 +240,7 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     message.playerId = object.playerId ?? undefined;
     message.teamId = object.teamId ?? undefined;
     message.data = object.data ?? undefined;
-    message.type = object.type ?? "";
+    message.type = object.type ?? 0;
     return message;
   },
 };
