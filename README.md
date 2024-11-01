@@ -1,54 +1,12 @@
 # Protobufs for Global, Game, and Player state
 Protobuf messages for Global, Game and Player states for the SDK to use. This will provide a common language for the SDK to communicate with the server, and ensure maintainability and consistency for the events being passed.
 
-## Global State
-- Global Time
-- Join or Leave Game
-  - State
-    - Join
-    - Leave
-  - Player ID
-  - Player Name
-  - Player Team
-  - Player Role
-- Global Events
-  - Event ID
-  - Event Name
-  - Event Type
-  - Event Time
-
-## Game State
-- Game Start or End
-  - State
-    - Start
-    - End
-  - Game ID
-  - Game Name
-  - Game Type
-  - Game Map
-  - Game Time (Concerns with manipulating time)
-  - Game Players
-  - Game Teams
-  - Game Event Hash
-  
-# Player State in Game
-  - Player Join or Leave
-    - State
-      - Join
-      - Leave
-    - Player ID
-    - Player Name
-    - Player Team
-    - Player Role
-  - Player Ready or Not
-    - Player Ready or Not
-    - Player ID
-  - Player Score
-    - Player ID
-    - Player Score
-  - Player Health
-    - Player ID
-    - Player Health
+# Todo
+- [ ] Linter
+- [ ] Tests for Typescript protobufs
+- [ ] Tests for Python protobufs
+- [ ] Example usage for Typescript
+- [ ] Example usage for Python
 
 # Player State in Global
 Retrievable player state in the global state. This will allow the SDK to retrieve player state from the global state.

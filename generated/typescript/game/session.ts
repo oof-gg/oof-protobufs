@@ -71,6 +71,7 @@ export interface Session_AttributesEntry {
   value: Session_GameAttribute | undefined;
 }
 
+/** TODO: Check if this is the best way to represent game attributes */
 export interface Session_GameAttribute {
   key: string;
   stringValue?: string | undefined;
