@@ -11,5 +11,11 @@ message GlobalEvent {
   optional string player_id = 5;
   optional string team_id = 6;
   optional string data = 8; // Can be any JSON data
-  string type = 9;
+  EventType type = 9;
+
+  enum EventType {
+    CUSTOM = 0;
+    ANNOUNCEMENT = 1;
+    GAME = 2;
+  }
 }

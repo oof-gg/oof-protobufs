@@ -8,6 +8,7 @@ message State {
   string game_id = 3;
   PlayerState state = 4;
   map<string, PlayerAttribute> attributes = 5;
+  int64 timestamp = 6;
 
   enum PlayerState {
     WAITING = 0;
