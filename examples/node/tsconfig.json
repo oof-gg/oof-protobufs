@@ -2,7 +2,6 @@
   "compilerOptions": {
     "paths": {
       "@protos/*": ["../../generated/typescript/*"],
-      "@bufbuild/protobuf/*": ["./node_modules/@bufbuild/protobuf/*"],
     },
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
@@ -111,6 +110,5 @@
     "baseUrl": "./",
      "outDir": "dist",
   },
-  "include": ["src","generated/typescript/**/*.ts"],
 }
 

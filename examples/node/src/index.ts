@@ -1,5 +1,5 @@
-import { Session, Session_GameAttribute, Session_GameState } from '@protos/game/session';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/player';
+import { Session, Session_GameAttribute, Session_GameState } from '../../../generated/typescript/game/session';
+import { Player, Player_PlayerStatus, Player_PlayerType } from '../../../generated/typescript/player/player';
 
 const playerType = Player_PlayerType.HUMAN;
 const playerStatus = Player_PlayerStatus.ACTIVE;

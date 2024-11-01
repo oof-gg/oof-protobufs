@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const session_1 = require("../typescript/game/session");
-const player_1 = require("../typescript/player/player");
-console.log(session_1.Session, player_1.Player);
+const session_1 = require("../../../generated/typescript/game/session");
+const player_1 = require("../../../generated/typescript/player/player");
 const playerType = player_1.Player_PlayerType.HUMAN;
 const playerStatus = player_1.Player_PlayerStatus.ACTIVE;
 const samplePlayer = {
