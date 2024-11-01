@@ -339,13 +339,15 @@ Message joining or leaving a game
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| player_id | [string](#string) |  |  |
-| session_id | [string](#string) |  |  |
-| game_id | [string](#string) |  |  |
-| action_type | [Action.ActionType](#player-Action-ActionType) |  |  |
-| position | [Action.Position](#player-Action-Position) | optional |  |
-| velocity | [Action.Velocity](#player-Action-Velocity) | optional |  |
-| action | [Action.ActionEntry](#player-Action-ActionEntry) | repeated | Flexible data structure for custom actions |
+| player_id | [string](#string) |  | Unique identifier of the player |
+| session_id | [string](#string) |  | Unique identifier of the session |
+| game_id | [string](#string) |  | Unique identifier of the game |
+| action_type | [Action.ActionType](#player-Action-ActionType) |  | Type of action |
+| position | [Action.Position](#player-Action-Position) | optional | Position of the player (optional) |
+| velocity | [Action.Velocity](#player-Action-Velocity) | optional | Velocity of the player (optional) |
+| action | [Action.ActionEntry](#player-Action-ActionEntry) | repeated | Custom actions the player can take
+
+Flexible data structure for custom actions |
 | timestamp | [int64](#int64) |  |  |
 
 
@@ -372,12 +374,12 @@ Message joining or leaving a game
 <a name="player-Action-PlayerAction"></a>
 
 ### Action.PlayerAction
-
+Custom actions the player can take
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
+| key | [string](#string) |  | Unique identifier of the action |
 | string_value | [string](#string) |  |  |
 | int_value | [int32](#int32) |  |  |
 | float_value | [float](#float) |  |  |
@@ -391,7 +393,7 @@ Message joining or leaving a game
 <a name="player-Action-Position"></a>
 
 ### Action.Position
-
+Position of the player
 
 
 | Field | Type | Label | Description |
@@ -408,7 +410,7 @@ Message joining or leaving a game
 <a name="player-Action-Velocity"></a>
 
 ### Action.Velocity
-
+Velocity of the player
 
 
 | Field | Type | Label | Description |
@@ -427,18 +429,18 @@ Message joining or leaving a game
 <a name="player-Action-ActionType"></a>
 
 ### Action.ActionType
-
+Type of action
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CUSTOM | 0 |  |
-| MOVE | 1 |  |
-| JUMP | 2 |  |
-| SHOOT | 3 |  |
-| PICKUP | 4 |  |
-| DROP | 5 |  |
-| USE | 6 |  |
-| INTERACT | 7 |  |
+| CUSTOM | 0 | Custom action |
+| MOVE | 1 | Move action |
+| JUMP | 2 | Jump action |
+| SHOOT | 3 | Shoot action |
+| PICKUP | 4 | Pickup action |
+| DROP | 5 | Drop action |
+| USE | 6 | Use action |
+| INTERACT | 7 | Interact action |
 
 
  
