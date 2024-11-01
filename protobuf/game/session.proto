@@ -18,6 +18,7 @@ message Session {
     FINISHED = 3;
   }
 
+  //TODO: Check if this is the best way to represent game attributes
   message GameAttribute {
     string key = 1;
     oneof value {

@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile-ts": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=../output/typescript --proto_path=. game/*.proto global/*.proto player/*.proto",
+    "compile-ts": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=../examples/node/typescript  --ts_proto_opt=outputServices=grpc-js,esModuleInterop=true --proto_path=. game/*.proto global/*.proto player/*.proto",
     "compile-py": "protoc --python_out=../output/python --proto_path=. game/*.proto global/*.proto player/*.proto"
   },
   "author": "Brian <brian@oof.gg> (https://www.oof.gg/)",

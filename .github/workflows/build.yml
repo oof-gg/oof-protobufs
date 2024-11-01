@@ -1,0 +1,14 @@
+name: Run Tests, Build protobufs for Python, TypeScript, and Go
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  run_tests:
+    # This job runs tests for the Python, TypeScript, and Go code
+    runs-on: ubuntu-latest
+  build_protobufs:
+    # This job builds the protobufs for Python, TypeScript, and Go
+    runs-on: ubuntu-latest
