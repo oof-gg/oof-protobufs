@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const globals_1 = require("@jest/globals");
 const player_1 = require("../../../generated/typescript/player/player");
 const action_1 = require("../../../generated/typescript/player/action");
+const event_1 = require("../../../generated/typescript/game/event");
 const join_leave_1 = require("../../../generated/typescript/global/join_leave");
 const session_1 = require("../../../generated/typescript/game/session");
-(0, globals_1.describe)("trivia module", () => {
+(0, globals_1.describe)("trivia scenario", () => {
     // TODO: Test Trivia Data Structures with Player, Game, Global
     (0, globals_1.test)("should have the ability to join a game", () => {
         (0, globals_1.expect)(join_leave_1.JoinLeaveGame).toBeDefined();
@@ -66,6 +67,35 @@ const session_1 = require("../../../generated/typescript/game/session");
         (0, globals_1.expect)(session.players).toEqual(decodedSession.players);
         (0, globals_1.expect)(session.state).toBe(decodedSession.state);
         (0, globals_1.expect)(session.attributes).toEqual(decodedSession.attributes);
+    });
+    (0, globals_1.test)("should have the ability to receive a game event", () => {
+        (0, globals_1.expect)(event_1.GameEvent).toBeDefined();
+        const gameEvent = {
+            id: 'event1',
+            eventName: 'question',
+            timestamp: new Date().getTime(),
+            gameId: 'game1',
+            sessionId: 'session1',
+            playerId: 'player1',
+            teamId: 'red',
+            data: JSON.stringify({ question: 'bar', choices: ['foo', 'bar', 'baz'] }),
+            type: event_1.GameEvent_EventType.CUSTOM
+        };
+        // encode
+        const encodedGameEvent = event_1.GameEvent.encode(gameEvent).finish();
+        (0, globals_1.expect)(encodedGameEvent).toBeInstanceOf(Uint8Array);
+        // decode
+        const decodeGameEvent = event_1.GameEvent.decode(encodedGameEvent);
+        (0, globals_1.expect)(decodeGameEvent).toEqual(gameEvent);
+        (0, globals_1.expect)(gameEvent).toBeDefined();
+        (0, globals_1.expect)(gameEvent.id).toBe(decodeGameEvent.id);
+        (0, globals_1.expect)(gameEvent.eventName).toBe(decodeGameEvent.eventName);
+        (0, globals_1.expect)(gameEvent.timestamp).toBe(decodeGameEvent.timestamp);
+        (0, globals_1.expect)(gameEvent.gameId).toBe(decodeGameEvent.gameId);
+        (0, globals_1.expect)(gameEvent.playerId).toBe(decodeGameEvent.playerId);
+        (0, globals_1.expect)(gameEvent.teamId).toBe(decodeGameEvent.teamId);
+        (0, globals_1.expect)(gameEvent.data).toBe(decodeGameEvent.data);
+        (0, globals_1.expect)(gameEvent.type).toBe(decodeGameEvent.type);
     });
     (0, globals_1.test)("should have the ability to send a game action", () => {
         (0, globals_1.expect)(action_1.Action).toBeDefined();

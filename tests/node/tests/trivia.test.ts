@@ -3,11 +3,12 @@ import { Player, Player_PlayerStatus, Player_PlayerType } from '../../../generat
 import { Action, Action_ActionType, Action_PlayerAction } from '../../../generated/typescript/player/action';
 import { State, State_PlayerAttribute, State_PlayerState } from '../../../generated/typescript/player/state';
 import { GlobalEvent, GlobalEvent_EventType } from '../../../generated/typescript/global/event';
+import { GameEvent, GameEvent_EventType } from '../../../generated/typescript/game/event';
 import { JoinLeaveGame, JoinLeaveGame_Action } from '../../../generated/typescript/global/join_leave';
 import { GlobalTime } from '../../../generated/typescript/global/time';
 import { Session, Session_GameAttribute, Session_GameState } from '../../../generated/typescript/game/session';
 
-describe("trivia module", () => {
+describe("trivia scenario", () => {
   // TODO: Test Trivia Data Structures with Player, Game, Global
   test("should have the ability to join a game", () => {
     expect(JoinLeaveGame).toBeDefined();
@@ -79,6 +80,40 @@ describe("trivia module", () => {
     expect(session.state).toBe(decodedSession.state);
     expect(session.attributes).toEqual(decodedSession.attributes);
 
+  });
+
+  test("should have the ability to receive a game event", () => {
+    expect(GameEvent).toBeDefined();
+
+    const gameEvent: GameEvent = {
+      id: 'event1',
+      eventName: 'question',
+      timestamp: new Date().getTime(),
+      gameId: 'game1',
+      sessionId: 'session1',
+      playerId: 'player1',
+      teamId: 'red',
+      data: JSON.stringify({question: 'bar', choices: ['foo', 'bar', 'baz']}),
+      type: GameEvent_EventType.CUSTOM
+    }
+
+    // encode
+    const encodedGameEvent = GameEvent.encode(gameEvent).finish();
+    expect(encodedGameEvent).toBeInstanceOf(Uint8Array);
+
+    // decode
+    const decodeGameEvent = GameEvent.decode(encodedGameEvent);
+    expect(decodeGameEvent).toEqual(gameEvent);
+
+    expect(gameEvent).toBeDefined();
+    expect(gameEvent.id).toBe(decodeGameEvent.id);
+    expect(gameEvent.eventName).toBe(decodeGameEvent.eventName);
+    expect(gameEvent.timestamp).toBe(decodeGameEvent.timestamp);
+    expect(gameEvent.gameId).toBe(decodeGameEvent.gameId);
+    expect(gameEvent.playerId).toBe(decodeGameEvent.playerId);
+    expect(gameEvent.teamId).toBe(decodeGameEvent.teamId);
+    expect(gameEvent.data).toBe(decodeGameEvent.data);
+    expect(gameEvent.type).toBe(decodeGameEvent.type);
   });
 
   test("should have the ability to send a game action", () => {

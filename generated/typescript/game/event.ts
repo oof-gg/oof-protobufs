@@ -17,11 +17,41 @@ export interface GameEvent {
   timestamp: number;
   gameId?: string | undefined;
   playerId?: string | undefined;
+  sessionId?: string | undefined;
   teamId?:
     | string
     | undefined;
   /** Can be any JSON data */
   data?: string | undefined;
+  type: GameEvent_EventType;
+}
+
+/** CUSTOM - Custom events */
+export enum GameEvent_EventType {
+  CUSTOM = 0,
+  UNRECOGNIZED = -1,
+}
+
+export function gameEvent_EventTypeFromJSON(object: any): GameEvent_EventType {
+  switch (object) {
+    case 0:
+    case "CUSTOM":
+      return GameEvent_EventType.CUSTOM;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return GameEvent_EventType.UNRECOGNIZED;
+  }
+}
+
+export function gameEvent_EventTypeToJSON(object: GameEvent_EventType): string {
+  switch (object) {
+    case GameEvent_EventType.CUSTOM:
+      return "CUSTOM";
+    case GameEvent_EventType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
 }
 
 function createBaseGameEvent(): GameEvent {
@@ -31,8 +61,10 @@ function createBaseGameEvent(): GameEvent {
     timestamp: 0,
     gameId: undefined,
     playerId: undefined,
+    sessionId: undefined,
     teamId: undefined,
     data: undefined,
+    type: 0,
   };
 }
 
@@ -53,11 +85,17 @@ export const GameEvent: MessageFns<GameEvent> = {
     if (message.playerId !== undefined) {
       writer.uint32(42).string(message.playerId);
     }
+    if (message.sessionId !== undefined) {
+      writer.uint32(58).string(message.sessionId);
+    }
     if (message.teamId !== undefined) {
-      writer.uint32(50).string(message.teamId);
+      writer.uint32(66).string(message.teamId);
     }
     if (message.data !== undefined) {
-      writer.uint32(66).string(message.data);
+      writer.uint32(74).string(message.data);
+    }
+    if (message.type !== 0) {
+      writer.uint32(80).int32(message.type);
     }
     return writer;
   },
@@ -109,12 +147,12 @@ export const GameEvent: MessageFns<GameEvent> = {
           message.playerId = reader.string();
           continue;
         }
-        case 6: {
-          if (tag !== 50) {
+        case 7: {
+          if (tag !== 58) {
             break;
           }
 
-          message.teamId = reader.string();
+          message.sessionId = reader.string();
           continue;
         }
         case 8: {
@@ -122,7 +160,23 @@ export const GameEvent: MessageFns<GameEvent> = {
             break;
           }
 
+          message.teamId = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
           message.data = reader.string();
+          continue;
+        }
+        case 10: {
+          if (tag !== 80) {
+            break;
+          }
+
+          message.type = reader.int32() as any;
           continue;
         }
       }
@@ -141,8 +195,10 @@ export const GameEvent: MessageFns<GameEvent> = {
       timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : undefined,
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : undefined,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+      type: isSet(object.type) ? gameEvent_EventTypeFromJSON(object.type) : 0,
     };
   },
 
@@ -163,11 +219,17 @@ export const GameEvent: MessageFns<GameEvent> = {
     if (message.playerId !== undefined) {
       obj.playerId = message.playerId;
     }
+    if (message.sessionId !== undefined) {
+      obj.sessionId = message.sessionId;
+    }
     if (message.teamId !== undefined) {
       obj.teamId = message.teamId;
     }
     if (message.data !== undefined) {
       obj.data = message.data;
+    }
+    if (message.type !== 0) {
+      obj.type = gameEvent_EventTypeToJSON(message.type);
     }
     return obj;
   },
@@ -182,8 +244,10 @@ export const GameEvent: MessageFns<GameEvent> = {
     message.timestamp = object.timestamp ?? 0;
     message.gameId = object.gameId ?? undefined;
     message.playerId = object.playerId ?? undefined;
+    message.sessionId = object.sessionId ?? undefined;
     message.teamId = object.teamId ?? undefined;
     message.data = object.data ?? undefined;
+    message.type = object.type ?? 0;
     return message;
   },
 };
