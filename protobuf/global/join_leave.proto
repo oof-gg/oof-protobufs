@@ -6,11 +6,12 @@ package global;
 message JoinLeaveGame {
   string player_id = 1;
   string game_id = 2;
+  Action action = 3;
+  optional string team_id = 4;
+  optional string session_id = 5;
 
   enum Action {
     JOIN = 0;
     LEAVE = 1;
   }
-
-  Action action = 3;
 }

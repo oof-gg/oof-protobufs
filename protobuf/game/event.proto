@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package global;
+package game;
 
 // Global Events, message can trigger API calls or other events
-message GlobalEvent {
+message GameEvent {
   string id = 1; // Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
   string event_name = 2;
   int64 timestamp = 3;
@@ -11,21 +11,4 @@ message GlobalEvent {
   optional string player_id = 5;
   optional string team_id = 6;
   optional string data = 8; // Can be any JSON data
-  EventType type = 9;
-
-  /** 
-    Global Channel Types of Events
-    CUSTOM - Custom events
-    ANNOUNCEMENT - Announcements
-    ALERT - Alerts
-    EVENT - Events
-    REQUEST - Requests
-  **/
-  enum EventType {
-    CUSTOM = 0;
-    ANNOUNCEMENT = 1;
-    ALERT = 2;
-    EVENT = 3;
-    REQUEST = 4;
-  }
 }
