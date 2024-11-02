@@ -204,13 +204,13 @@ Global Events, message can trigger API calls or other events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  | Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary |
-| event_name | [string](#string) |  |  |
-| timestamp | [int64](#int64) |  |  |
-| game_id | [string](#string) | optional |  |
-| player_id | [string](#string) | optional |  |
-| team_id | [string](#string) | optional |  |
+| event_name | [string](#string) |  | Event name |
+| timestamp | [int64](#int64) |  | Unix timestamp in milliseconds to synchronize time across clients |
+| game_id | [string](#string) | optional | Game ID |
+| player_id | [string](#string) | optional | Player ID |
+| team_id | [string](#string) | optional | Team ID |
 | data | [string](#string) | optional | Can be any JSON data |
-| type | [GlobalEvent.EventType](#global-GlobalEvent-EventType) |  |  |
+| type | [GlobalEvent.EventType](#global-GlobalEvent-EventType) |  | Enum for event types |
 
 
 
@@ -222,20 +222,15 @@ Global Events, message can trigger API calls or other events
 <a name="global-GlobalEvent-EventType"></a>
 
 ### GlobalEvent.EventType
-Global Channel Types of Events
-CUSTOM - Custom events
-ANNOUNCEMENT - Announcements
-ALERT - Alerts
-EVENT - Events
-REQUEST - Requests
+Enum for event types
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CUSTOM | 0 |  |
-| ANNOUNCEMENT | 1 |  |
-| ALERT | 2 |  |
-| EVENT | 3 |  |
-| REQUEST | 4 |  |
+| CUSTOM | 0 | Custom events |
+| ANNOUNCEMENT | 1 | Announcements |
+| ALERT | 2 | Alerts |
+| EVENT | 3 | Events |
+| REQUEST | 4 | Requests |
 
 
  

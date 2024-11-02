@@ -6,18 +6,64 @@ on:
       - 'main'
 
 jobs:
+  build_protos:
+    # This job builds the protobufs for Python, TypeScript, and Go
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+
+      - name: Build TypeScript protobufs
+        run: |
+          cd protobuf
+          npm install
+          npm run compile-ts      
+
+      - name: Upload Protobuf Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: compiled-protos
+          path: generated  # Path to the built files
+
   run_tests:
     # This job runs tests for the Python, TypeScript, and Go code
     runs-on: ubuntu-latest
-  build_protobufs:
-    # This job builds the protobufs for Python, TypeScript, and Go
-    runs-on: ubuntu-latest
-  build_python_package:
-    # This job builds the Python package
-    runs-on: ubuntu-latest
-  build_typescript_package:
-    # This job builds the TypeScript package
-    runs-on: ubuntu-latest
-  build_go_package:
-    # This job builds the Go package
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]  # Using Node.js version 22
+    steps:
+      - name: Download Protobuf Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: compiled-protos
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+      
+      - name: Install dependencies in protobufs directory
+        run: |
+          cd protobuf
+          npm install
+
+      - name: Compile TypeScript code
+        run: |
+          cd protobuf
+          npm run compile-ts
+
+      - name: Run TypeScript tests
+        run: |
+          cd tests/node
+          npm install
+          npm run test
+
+# Install dependencies required for all jobs
