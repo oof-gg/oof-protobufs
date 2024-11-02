@@ -14,7 +14,7 @@ jobs:
         node-version: [22.x]  # Using Node.js version 22
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
