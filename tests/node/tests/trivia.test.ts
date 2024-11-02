@@ -83,6 +83,7 @@ describe("trivia scenario", () => {
       stringValue: '["42", "24", "12", "21"]',
     };
 
+    // Server-side game event (e.g. in response to a player action OR something like new Trivia question)
     const gameEvent: GameEvent = {
       id: 'event1',
       eventName: 'question',
@@ -117,6 +118,8 @@ describe("trivia scenario", () => {
     expect(gameEvent.attributes.possibleAnswers?.stringValue).toBe(decodeGameEvent.attributes.possibleAnswers?.stringValue);
     expect(gameEvent.type).toBe(decodeGameEvent.type);
   });
+
+  test.skip("should have the ability to receive a score update from the game", () => {});
 
   test("should have the ability to send a game action", () => {
     expect(Action).toBeDefined();
