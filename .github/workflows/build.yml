@@ -63,6 +63,8 @@ jobs:
 
       - name: Run TypeScript tests
         run: |
+          npm install @bufbuild/protobuf
+          npm install tsconfig-paths
           echo "Current directory:"
           ls -l
           echo "Changing to tests/node directory..."
@@ -70,8 +72,6 @@ jobs:
           echo "Installing npm dependencies..."
           npm install --include=dev || { echo "npm install --include=dev failed"; exit 1; }
           echo "Installing @bufbuild/protobuf..."
-          npm install @bufbuild/protobuf --save || { echo "npm install @bufbuild/protobuf failed"; exit 1; }
-          npm install tsconfig-paths
           echo "Running TypeScript tests..."
           npm run test
 
