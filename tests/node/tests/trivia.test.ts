@@ -66,7 +66,7 @@ describe("trivia scenario", () => {
     expect(session).toBeDefined();
     expect(session.id).toBe(decodedSession.id);
     expect(session.gameId).toBe(decodedSession.gameId);
-    expect(session.players).toEqual(decodedSession.players);
+    expect(session.playerIds).toEqual(decodedSession.playerIds);
     expect(session.state).toBe(decodedSession.state);
     expect(session.attributes).toEqual(decodedSession.attributes);
 
