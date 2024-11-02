@@ -9,6 +9,7 @@ Protobuf messages for Global, Game and Player states for the SDK to use. This wi
 - [ ] Example usage for Python
 - [ ] Resolve linking deps for typescript (@protos vs. ../../../protos)
 - [ ] Validate multiplayer scenario with server-based conflict resolution
+- [ ] Update example links to @bufbuilder
 
 # Player State in Global
 Retrievable player state in the global state. This will allow the SDK to retrieve player state from the global state.
