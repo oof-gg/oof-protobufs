@@ -65,6 +65,7 @@ jobs:
         run: |
           cd tests/node
           npm install --include=dev
+          npm install @bufbuild/protobuf --save
           npm run test
 
 # Install dependencies required for all jobs
