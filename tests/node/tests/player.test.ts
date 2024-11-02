@@ -42,7 +42,6 @@ describe('player module', () => {
     expect(State).toBeDefined();
 
     const playerAttribute: State_PlayerAttribute = {
-      key: 'health',
       intValue: 100
     };
 
@@ -71,7 +70,6 @@ describe('player module', () => {
 
   test('should encode and decode the player actions', () => {
     const playerAction: Action_PlayerAction = {
-      key: 'jump',
       stringValue: 'high'
     };
 
@@ -79,7 +77,7 @@ describe('player module', () => {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      actionType: Action_ActionType.CUSTOM,
+      type: Action_ActionType.CUSTOM,
       action: {
         playerAction
       },
@@ -95,7 +93,7 @@ describe('player module', () => {
     expect(decodedAction.playerId).toBe(action.playerId);
     expect(decodedAction.sessionId).toBe(action.sessionId);
     expect(decodedAction.gameId).toBe(action.gameId);
-    expect(decodedAction.actionType).toBe(action.actionType);
+    expect(decodedAction.type).toBe(action.type);
     expect(decodedAction.action).toEqual(action.action);
   });
 });

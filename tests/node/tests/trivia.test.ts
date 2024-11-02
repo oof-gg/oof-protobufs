@@ -3,7 +3,7 @@ import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/p
 import { Action, Action_ActionType, Action_PlayerAction } from '@protos/player/action';
 import { State, State_PlayerAttribute, State_PlayerState } from '@protos/player/state';
 import { GlobalEvent, GlobalEvent_EventType } from '@protos/global/event';
-import { GameEvent, GameEvent_EventType } from '@protos/game/event';
+import { GameEvent, GameEvent_EventType, GameEvent_AttributesEntry, GameEvent_EventAttribute } from '@protos/game/event';
 import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/global/join_leave';
 import { GlobalTime } from '@protos/global/time';
 import { Session, Session_GameAttribute, Session_GameState } from '@protos/game/session';
@@ -50,8 +50,7 @@ describe("trivia scenario", () => {
       role: 'admin',
     };
 
-    const gameAttribute: Session_GameAttribute = {
-      key: 'difficulty',
+    const difficulty: Session_GameAttribute = {
       intValue: 1,
     };
 
@@ -61,7 +60,7 @@ describe("trivia scenario", () => {
       players: [player],
       state: Session_GameState.CREATED,
       attributes: {
-        difficulty: gameAttribute,
+        difficulty
       },
     };
 
@@ -85,6 +84,14 @@ describe("trivia scenario", () => {
   test("should have the ability to receive a game event", () => {
     expect(GameEvent).toBeDefined();
 
+    const question: GameEvent_EventAttribute = {
+      stringValue: 'What is the answer to life, the universe, and everything?',
+    };
+
+    const possibleAnswers: GameEvent_EventAttribute = {
+      stringValue: '["42", "24", "12", "21"]',
+    };
+
     const gameEvent: GameEvent = {
       id: 'event1',
       eventName: 'question',
@@ -93,7 +100,10 @@ describe("trivia scenario", () => {
       sessionId: 'session1',
       playerId: 'player1',
       teamId: 'red',
-      data: JSON.stringify({question: 'bar', choices: ['foo', 'bar', 'baz']}),
+      attributes: {
+        question,
+        possibleAnswers
+      },
       type: GameEvent_EventType.CUSTOM
     }
 
@@ -112,7 +122,8 @@ describe("trivia scenario", () => {
     expect(gameEvent.gameId).toBe(decodeGameEvent.gameId);
     expect(gameEvent.playerId).toBe(decodeGameEvent.playerId);
     expect(gameEvent.teamId).toBe(decodeGameEvent.teamId);
-    expect(gameEvent.data).toBe(decodeGameEvent.data);
+    expect(gameEvent.attributes.question?.stringValue).toBe(decodeGameEvent.attributes.question?.stringValue);
+    expect(gameEvent.attributes.possibleAnswers?.stringValue).toBe(decodeGameEvent.attributes.possibleAnswers?.stringValue);
     expect(gameEvent.type).toBe(decodeGameEvent.type);
   });
 
@@ -120,7 +131,6 @@ describe("trivia scenario", () => {
     expect(Action).toBeDefined();
 
     const playerAction: Action_PlayerAction = {
-      key: 'answer',
       stringValue: 'The answer is 42',
     };
 
@@ -128,7 +138,7 @@ describe("trivia scenario", () => {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      actionType: Action_ActionType.CUSTOM,
+      type: Action_ActionType.CUSTOM,
       action: {
         playerAction
       },
@@ -148,7 +158,7 @@ describe("trivia scenario", () => {
     expect(playerActionObj.playerId).toBe(decodedAction.playerId);
     expect(playerActionObj.sessionId).toBe(decodedAction.sessionId);
     expect(playerActionObj.gameId).toBe(decodedAction.gameId);
-    expect(playerActionObj.actionType).toBe(decodedAction.actionType);
+    expect(playerActionObj.type).toBe(decodedAction.type);
     expect(playerActionObj.action).toEqual(decodedAction.action);
   });
 

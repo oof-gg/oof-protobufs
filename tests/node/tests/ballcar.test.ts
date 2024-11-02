@@ -7,7 +7,7 @@ import { GameEvent, GameEvent_EventType } from '@protos/game/event';
 import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/global/join_leave';
 import { GlobalTime } from '@protos/global/time';
 import { Session, Session_GameAttribute, Session_GameState } from '@protos/game/session';
-import { RegisterEntity, RegisterEntity_EntityAttribute, EntityUpdate } from '@protos/game/entity';
+import { RegisterEntity, RegisterEntity_EntityAttribute, EntityUpdate, RegisterEntity_ControllerStateEnum } from '@protos/game/entity';
 
 describe('ballcar module', () => {
   // TODO: Register new entities for ball and car (e.g. car, ball, etc.)
@@ -16,38 +16,37 @@ describe('ballcar module', () => {
     expect(RegisterEntity).toBeDefined();
     expect(RegisterEntity_EntityAttribute).toBeDefined();
 
-    const ballX: RegisterEntity_EntityAttribute = {
-      key: 'velocity_x',
+    const velX: RegisterEntity_EntityAttribute = {
       floatValue: 1.0,
     };
 
-    const ballY: RegisterEntity_EntityAttribute = {
-      key: 'velocity_y',
+    const velY: RegisterEntity_EntityAttribute = {
       floatValue: 1.0,
     };
 
     const posX: RegisterEntity_EntityAttribute = {
-      key: 'position_x',
       floatValue: 0.0,
     };
 
     const posY: RegisterEntity_EntityAttribute = {
-      key: 'position_y',
       floatValue: 0.0,
     };
 
+    // Ball entity attributes controller by server
     const ballEntity: RegisterEntity = {
       id: 'ball',
       name: 'Ball',
       type: 'ball',
       sessionId: 'session1',
       gameId: 'game1',
-      attributes: [
-        ballX,
-        ballY,
+      controllerState: RegisterEntity_ControllerStateEnum.SERVER,
+      playerId: 'player1',
+      attributes: {
+        velX,
+        velY,
         posX,
         posY
-      ]
+      }
     };
 
     const encodedBallEntity = RegisterEntity.encode(ballEntity).finish();
@@ -63,6 +62,8 @@ describe('ballcar module', () => {
   });
   // TODO: Implement entity protobufs
   test('should encode and decode the ball entity', () => {
+
+
   });
 
   test('should encode and decode the ballcar state', () => {

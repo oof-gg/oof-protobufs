@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { GlobalEvent, GlobalEvent_EventType } from '@protos/global/event';
+import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@protos/global/event';
 import { JoinLeaveGame } from '@protos/global/join_leave';
 import { GlobalTime } from '@protos/global/time';
 
@@ -8,6 +8,10 @@ describe('global module', () => {
 
     expect(GlobalEvent).toBeDefined();
 
+    const globalAttribute: GlobalEvent_EventAttribute = {
+      stringValue: 'value'
+    }
+
     const globalEvent: GlobalEvent = {
       id: 'event1',
       eventName: 'event1',
@@ -15,7 +19,9 @@ describe('global module', () => {
       gameId: 'game1',
       playerId: 'player1',
       teamId: 'red',
-      data: JSON.stringify({foo: 'bar'}),
+      attributes: {
+        globalAttribute
+      },
       type: GlobalEvent_EventType.CUSTOM
     }
 
@@ -31,7 +37,7 @@ describe('global module', () => {
     expect(decodedGlobalEvent.gameId).toBe(globalEvent.gameId);
     expect(decodedGlobalEvent.playerId).toBe(globalEvent.playerId);
     expect(decodedGlobalEvent.teamId).toBe(globalEvent.teamId);
-    expect(decodedGlobalEvent.data).toBe(globalEvent.data);
+    expect(decodedGlobalEvent.attributes.attribute?.stringValue).toBe(globalEvent.attributes.attribute?.stringValue);
     expect(decodedGlobalEvent.type).toBe(globalEvent.type);
   });
 
