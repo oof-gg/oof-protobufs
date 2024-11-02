@@ -9,9 +9,17 @@ jobs:
   build_protos:
     # This job builds the protobufs for Python, TypeScript, and Go
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22.x]  # Using Node.js version 22
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
       - name: Install protoc
         run: |
