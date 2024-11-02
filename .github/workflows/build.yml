@@ -34,7 +34,7 @@ jobs:
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
           echo "Current directory:"
-          cd protobuf/typescript
+          cd ../generated/typescript
           ls -l
 
       - name: Upload Protobuf Artifacts
