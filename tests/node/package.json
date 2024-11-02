@@ -7,7 +7,7 @@
     "test": "npm run build && jest dist/"
   },
   "keywords": [],
-  "author": "Brian S. <https://www.oof.gg/>",
+  "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "license": "ISC",
   "description": "",
   "devDependencies": {
