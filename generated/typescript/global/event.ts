@@ -97,6 +97,7 @@ export interface GlobalEvent_AttributesEntry {
   value: GlobalEvent_EventAttribute | undefined;
 }
 
+/** / Message for event attributes */
 export interface GlobalEvent_EventAttribute {
   stringValue?: string | undefined;
   intValue?: number | undefined;

@@ -9,15 +9,9 @@ Protobuf messages for Global, Game and Player states for the SDK to use. This wi
 - [ ] Example usage for Python
 - [ ] Resolve linking deps for typescript (@protos vs. ../../../protos)
 - [ ] Validate multiplayer scenario with server-based conflict resolution
-- [ ] Update example links to @bufbuilder
-
-# Player State in Global
-Retrievable player state in the global state. This will allow the SDK to retrieve player state from the global state.
-  - Player Name
-    - Player ID
-    - Player Name
-    - Player Team
-    - Player Score
+- [ ] Validate MMO scenario
+- [ ] Validate Player scenario
+- [ ] Update example links to @bufbuilder for proper builds/testing
 
 ## Hashing/Checksum on Events
 Prevent event manipulation of game events by hashing the events and storing the hash in the game state. This will allow the SDK to verify the integrity of the events being passed. More details to be added here.
@@ -41,7 +35,7 @@ Reasoning for using the attribute paradigm for the player state.
 - Extensibility (e.g. adding new attribute types)
 - Maintainability (e.g. deprecating attributes)
 
-## Example Protobufs
+## Example Protobufs fir Attributes
 Player Message
 ```
 message Player {

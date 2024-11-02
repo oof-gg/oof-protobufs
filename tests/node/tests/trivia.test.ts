@@ -39,16 +39,7 @@ describe("trivia scenario", () => {
     expect(Session).toBeDefined();
     expect(Player).toBeDefined();
 
-    const player: Player = {
-      id: 'player1',
-      username: 'John Doe',
-      email: 'foo@bar.com',
-      team: 'red',
-      score: 100,
-      type: Player_PlayerType.HUMAN,
-      status: Player_PlayerStatus.ACTIVE,
-      role: 'admin',
-    };
+    const players = ['player1', 'player2', 'player3'];
 
     const difficulty: Session_GameAttribute = {
       intValue: 1,
@@ -57,7 +48,7 @@ describe("trivia scenario", () => {
     const session: Session = {
       id: 'session1',
       gameId: 'game1',
-      players: [player],
+      playerIds: players,
       state: Session_GameState.CREATED,
       attributes: {
         difficulty

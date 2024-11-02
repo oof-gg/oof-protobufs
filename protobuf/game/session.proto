@@ -9,10 +9,11 @@ message Session {
   string id = 1;
   string game_id = 2;
   /// Players in the session (can be used to store player state and attributes)
-  /// TODO: Determine if player references should be retrieved in full or just the player IDs.
   /// Optional: This can be used to store player state and attributes, but not recommended for large player counts.
-  repeated player.Player players = 3; 
+  repeated string player_ids = 3;
+  /// Game state as defined by the GameState enum
   GameState state = 4;
+  /// Game attributes as a map of string to GameAttribute
   map<string, GameAttribute> attributes = 5; // Game attributes
 
   enum GameState {

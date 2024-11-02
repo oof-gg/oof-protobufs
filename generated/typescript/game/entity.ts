@@ -21,10 +21,7 @@ export interface RegisterEntity {
   sessionId: string;
   /** / The game id of the entity */
   gameId: string;
-  /**
-   * TODO: Seems redundant to have to define these attributes if we're using a map
-   * / The attributes of the entity
-   */
+  /** / The attributes of the entity */
   attributes: { [key: string]: RegisterEntity_EntityAttribute };
   /** / The controller of the entity */
   controllerState: RegisterEntity_ControllerStateEnum;
