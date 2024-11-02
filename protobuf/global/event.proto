@@ -16,10 +16,19 @@ message GlobalEvent {
   optional string player_id = 5;
   /// Team ID
   optional string team_id = 6;
-  /// Can be any JSON data
-  optional string data = 8;
+  /// Can be a key-value pair and the values can be string, int, float, or bool
+  map <string, EventAttribute> attributes = 7;
   /// Enum for event types 
-  EventType type = 9;
+  EventType type = 8;
+
+  message EventAttribute {
+    oneof value {
+      string string_value = 1;
+      int32 int_value = 2;
+      float float_value = 3;
+      bool bool_value = 4;
+    }
+  }
 
   /// Enum for event types
   enum EventType {

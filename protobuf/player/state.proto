@@ -17,7 +17,6 @@ message State {
   }
 
   message PlayerAttribute {
-    string key = 1;
     oneof value {
       string string_value = 2;
       int32 int_value = 3;

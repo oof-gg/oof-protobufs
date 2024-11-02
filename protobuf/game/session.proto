@@ -20,7 +20,7 @@ message Session {
 
   //TODO: Check if this is the best way to represent game attributes
   message GameAttribute {
-    string key = 1;
+    /// Value of the attribute
     oneof value {
       string string_value = 2;
       int32 int_value = 3;

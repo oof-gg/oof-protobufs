@@ -10,7 +10,7 @@ message Action {
   /// Unique identifier of the game
   string game_id = 3;
   /// Type of action
-  ActionType action_type = 4;
+  ActionType type = 4;
   /// Position of the player (optional)
   optional Position position = 5;
   /// Velocity of the player (optional)
@@ -55,8 +55,6 @@ message Action {
 
   /// Custom actions the player can take
   message PlayerAction {
-    /// Unique identifier of the action
-    string key = 1;
     /// Value of the action
     oneof value {
       string string_value = 2;

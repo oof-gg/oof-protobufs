@@ -11,8 +11,17 @@ message GameEvent {
   optional string player_id = 5;
   optional string session_id = 7;
   optional string team_id = 8;
-  optional string data = 9; // Can be any JSON data
+  map <string, EventAttribute> attributes = 9;
   EventType type = 10;
+
+  message EventAttribute {
+    oneof value {
+      string string_value = 1;
+      int32 int_value = 2;
+      float float_value = 3;
+      bool bool_value = 4;
+    }
+  }
 
   /** 
     CUSTOM - Custom events
