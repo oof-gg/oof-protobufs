@@ -64,7 +64,7 @@ jobs:
       - name: Run TypeScript tests
         run: |
           cd tests/node
-          npm install
+          npm install --include=dev
           npm run test
 
 # Install dependencies required for all jobs
