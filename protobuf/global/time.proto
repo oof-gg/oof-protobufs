@@ -2,6 +2,10 @@ syntax = "proto3";
 
 package global;
 
+/// Message to synchronize time across clients
 message GlobalTime {
-  int64 timestamp = 1; // Unix timestamp in milliseconds to synchronize time across clients
+  /// Unix timestamp in milliseconds to synchronize time across clients
+  int64 timestamp = 1; 
+  /// Hash of the timestamp to pass to the server
+  string hash = 2;
 }

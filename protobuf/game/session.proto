@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package game;
 
-import "player/player.proto";
-
 /// Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 message Session {
   string id = 1;
