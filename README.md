@@ -34,3 +34,28 @@ Prevent event manipulation of game events by hashing the events and storing the 
 - lower_snake_case for file names
 - deprecate fields only
 - double-quote strings
+
+# Standard Attribute Schema
+Reasoning for using the attribute paradigm for the player state.
+- Flexibility (e.g. adding new attributes)
+- Extensibility (e.g. adding new attribute types)
+- Maintainability (e.g. deprecating attributes)
+
+## Example Protobufs
+Player Message
+```
+message Player {
+  map <string, PlayerAttribute> attributes = 1;
+}
+```
+PlayerAttribute Message
+```
+message PlayerAttribute {
+  oneof value {
+    string string_value = 2;
+    int32 int_value = 3;
+    float float_value = 4;
+    bool bool_value = 5;
+  }
+}
+```

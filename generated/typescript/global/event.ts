@@ -29,10 +29,8 @@ export interface GlobalEvent {
   teamId?:
     | string
     | undefined;
-  /** / Can be any JSON data */
-  data?:
-    | string
-    | undefined;
+  /** / Can be a key-value pair and the values can be string, int, float, or bool */
+  attributes: { [key: string]: GlobalEvent_EventAttribute };
   /** / Enum for event types */
   type: GlobalEvent_EventType;
 }
@@ -94,6 +92,18 @@ export function globalEvent_EventTypeToJSON(object: GlobalEvent_EventType): stri
   }
 }
 
+export interface GlobalEvent_AttributesEntry {
+  key: string;
+  value: GlobalEvent_EventAttribute | undefined;
+}
+
+export interface GlobalEvent_EventAttribute {
+  stringValue?: string | undefined;
+  intValue?: number | undefined;
+  floatValue?: number | undefined;
+  boolValue?: boolean | undefined;
+}
+
 function createBaseGlobalEvent(): GlobalEvent {
   return {
     id: "",
@@ -102,7 +112,7 @@ function createBaseGlobalEvent(): GlobalEvent {
     gameId: undefined,
     playerId: undefined,
     teamId: undefined,
-    data: undefined,
+    attributes: {},
     type: 0,
   };
 }
@@ -127,11 +137,11 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.teamId !== undefined) {
       writer.uint32(50).string(message.teamId);
     }
-    if (message.data !== undefined) {
-      writer.uint32(66).string(message.data);
-    }
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      GlobalEvent_AttributesEntry.encode({ key: key as any, value }, writer.uint32(58).fork()).join();
+    });
     if (message.type !== 0) {
-      writer.uint32(72).int32(message.type);
+      writer.uint32(64).int32(message.type);
     }
     return writer;
   },
@@ -191,16 +201,19 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
           message.teamId = reader.string();
           continue;
         }
-        case 8: {
-          if (tag !== 66) {
+        case 7: {
+          if (tag !== 58) {
             break;
           }
 
-          message.data = reader.string();
+          const entry7 = GlobalEvent_AttributesEntry.decode(reader, reader.uint32());
+          if (entry7.value !== undefined) {
+            message.attributes[entry7.key] = entry7.value;
+          }
           continue;
         }
-        case 9: {
-          if (tag !== 72) {
+        case 8: {
+          if (tag !== 64) {
             break;
           }
 
@@ -224,7 +237,15 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : undefined,
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
-      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: GlobalEvent_EventAttribute }>(
+          (acc, [key, value]) => {
+            acc[key] = GlobalEvent_EventAttribute.fromJSON(value);
+            return acc;
+          },
+          {},
+        )
+        : {},
       type: isSet(object.type) ? globalEvent_EventTypeFromJSON(object.type) : 0,
     };
   },
@@ -249,8 +270,14 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     if (message.teamId !== undefined) {
       obj.teamId = message.teamId;
     }
-    if (message.data !== undefined) {
-      obj.data = message.data;
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = GlobalEvent_EventAttribute.toJSON(v);
+        });
+      }
     }
     if (message.type !== 0) {
       obj.type = globalEvent_EventTypeToJSON(message.type);
@@ -269,8 +296,202 @@ export const GlobalEvent: MessageFns<GlobalEvent> = {
     message.gameId = object.gameId ?? undefined;
     message.playerId = object.playerId ?? undefined;
     message.teamId = object.teamId ?? undefined;
-    message.data = object.data ?? undefined;
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GlobalEvent_EventAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = GlobalEvent_EventAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
     message.type = object.type ?? 0;
+    return message;
+  },
+};
+
+function createBaseGlobalEvent_AttributesEntry(): GlobalEvent_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const GlobalEvent_AttributesEntry: MessageFns<GlobalEvent_AttributesEntry> = {
+  encode(message: GlobalEvent_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      GlobalEvent_EventAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GlobalEvent_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGlobalEvent_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = GlobalEvent_EventAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GlobalEvent_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? GlobalEvent_EventAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: GlobalEvent_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = GlobalEvent_EventAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GlobalEvent_AttributesEntry>, I>>(base?: I): GlobalEvent_AttributesEntry {
+    return GlobalEvent_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GlobalEvent_AttributesEntry>, I>>(object: I): GlobalEvent_AttributesEntry {
+    const message = createBaseGlobalEvent_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? GlobalEvent_EventAttribute.fromPartial(object.value)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseGlobalEvent_EventAttribute(): GlobalEvent_EventAttribute {
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+}
+
+export const GlobalEvent_EventAttribute: MessageFns<GlobalEvent_EventAttribute> = {
+  encode(message: GlobalEvent_EventAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.stringValue !== undefined) {
+      writer.uint32(10).string(message.stringValue);
+    }
+    if (message.intValue !== undefined) {
+      writer.uint32(16).int32(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      writer.uint32(29).float(message.floatValue);
+    }
+    if (message.boolValue !== undefined) {
+      writer.uint32(32).bool(message.boolValue);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GlobalEvent_EventAttribute {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGlobalEvent_EventAttribute();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.stringValue = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.intValue = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 29) {
+            break;
+          }
+
+          message.floatValue = reader.float();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.boolValue = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GlobalEvent_EventAttribute {
+    return {
+      stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
+      intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
+      floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
+      boolValue: isSet(object.boolValue) ? globalThis.Boolean(object.boolValue) : undefined,
+    };
+  },
+
+  toJSON(message: GlobalEvent_EventAttribute): unknown {
+    const obj: any = {};
+    if (message.stringValue !== undefined) {
+      obj.stringValue = message.stringValue;
+    }
+    if (message.intValue !== undefined) {
+      obj.intValue = Math.round(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      obj.floatValue = message.floatValue;
+    }
+    if (message.boolValue !== undefined) {
+      obj.boolValue = message.boolValue;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GlobalEvent_EventAttribute>, I>>(base?: I): GlobalEvent_EventAttribute {
+    return GlobalEvent_EventAttribute.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GlobalEvent_EventAttribute>, I>>(object: I): GlobalEvent_EventAttribute {
+    const message = createBaseGlobalEvent_EventAttribute();
+    message.stringValue = object.stringValue ?? undefined;
+    message.intValue = object.intValue ?? undefined;
+    message.floatValue = object.floatValue ?? undefined;
+    message.boolValue = object.boolValue ?? undefined;
     return message;
   },
 };
@@ -296,6 +517,10 @@ function longToNumber(int64: { toString(): string }): number {
     throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
   }
   return num;
+}
+
+function isObject(value: any): boolean {
+  return typeof value === "object" && value !== null;
 }
 
 function isSet(value: any): boolean {

@@ -63,7 +63,6 @@ export interface State_AttributesEntry {
 }
 
 export interface State_PlayerAttribute {
-  key: string;
   stringValue?: string | undefined;
   intValue?: number | undefined;
   floatValue?: number | undefined;
@@ -311,14 +310,11 @@ export const State_AttributesEntry: MessageFns<State_AttributesEntry> = {
 };
 
 function createBaseState_PlayerAttribute(): State_PlayerAttribute {
-  return { key: "", stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
 
 export const State_PlayerAttribute: MessageFns<State_PlayerAttribute> = {
   encode(message: State_PlayerAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.key !== "") {
-      writer.uint32(10).string(message.key);
-    }
     if (message.stringValue !== undefined) {
       writer.uint32(18).string(message.stringValue);
     }
@@ -341,14 +337,6 @@ export const State_PlayerAttribute: MessageFns<State_PlayerAttribute> = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.key = reader.string();
-          continue;
-        }
         case 2: {
           if (tag !== 18) {
             break;
@@ -392,7 +380,6 @@ export const State_PlayerAttribute: MessageFns<State_PlayerAttribute> = {
 
   fromJSON(object: any): State_PlayerAttribute {
     return {
-      key: isSet(object.key) ? globalThis.String(object.key) : "",
       stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
       intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
       floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
@@ -402,9 +389,6 @@ export const State_PlayerAttribute: MessageFns<State_PlayerAttribute> = {
 
   toJSON(message: State_PlayerAttribute): unknown {
     const obj: any = {};
-    if (message.key !== "") {
-      obj.key = message.key;
-    }
     if (message.stringValue !== undefined) {
       obj.stringValue = message.stringValue;
     }
@@ -425,7 +409,6 @@ export const State_PlayerAttribute: MessageFns<State_PlayerAttribute> = {
   },
   fromPartial<I extends Exact<DeepPartial<State_PlayerAttribute>, I>>(object: I): State_PlayerAttribute {
     const message = createBaseState_PlayerAttribute();
-    message.key = object.key ?? "";
     message.stringValue = object.stringValue ?? undefined;
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;

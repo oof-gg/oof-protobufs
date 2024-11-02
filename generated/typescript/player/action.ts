@@ -17,7 +17,7 @@ export interface Action {
   /** / Unique identifier of the game */
   gameId: string;
   /** / Type of action */
-  actionType: Action_ActionType;
+  type: Action_ActionType;
   /** / Position of the player (optional) */
   position?:
     | Action_Position
@@ -130,8 +130,6 @@ export interface Action_Velocity {
 
 /** / Custom actions the player can take */
 export interface Action_PlayerAction {
-  /** / Unique identifier of the action */
-  key: string;
   stringValue?: string | undefined;
   intValue?: number | undefined;
   floatValue?: number | undefined;
@@ -143,7 +141,7 @@ function createBaseAction(): Action {
     playerId: "",
     sessionId: "",
     gameId: "",
-    actionType: 0,
+    type: 0,
     position: undefined,
     velocity: undefined,
     action: {},
@@ -162,8 +160,8 @@ export const Action: MessageFns<Action> = {
     if (message.gameId !== "") {
       writer.uint32(26).string(message.gameId);
     }
-    if (message.actionType !== 0) {
-      writer.uint32(32).int32(message.actionType);
+    if (message.type !== 0) {
+      writer.uint32(32).int32(message.type);
     }
     if (message.position !== undefined) {
       Action_Position.encode(message.position, writer.uint32(42).fork()).join();
@@ -216,7 +214,7 @@ export const Action: MessageFns<Action> = {
             break;
           }
 
-          message.actionType = reader.int32() as any;
+          message.type = reader.int32() as any;
           continue;
         }
         case 5: {
@@ -268,7 +266,7 @@ export const Action: MessageFns<Action> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : "",
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-      actionType: isSet(object.actionType) ? action_ActionTypeFromJSON(object.actionType) : 0,
+      type: isSet(object.type) ? action_ActionTypeFromJSON(object.type) : 0,
       position: isSet(object.position) ? Action_Position.fromJSON(object.position) : undefined,
       velocity: isSet(object.velocity) ? Action_Velocity.fromJSON(object.velocity) : undefined,
       action: isObject(object.action)
@@ -292,8 +290,8 @@ export const Action: MessageFns<Action> = {
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
     }
-    if (message.actionType !== 0) {
-      obj.actionType = action_ActionTypeToJSON(message.actionType);
+    if (message.type !== 0) {
+      obj.type = action_ActionTypeToJSON(message.type);
     }
     if (message.position !== undefined) {
       obj.position = Action_Position.toJSON(message.position);
@@ -324,7 +322,7 @@ export const Action: MessageFns<Action> = {
     message.playerId = object.playerId ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
-    message.actionType = object.actionType ?? 0;
+    message.type = object.type ?? 0;
     message.position = (object.position !== undefined && object.position !== null)
       ? Action_Position.fromPartial(object.position)
       : undefined;
@@ -608,14 +606,11 @@ export const Action_Velocity: MessageFns<Action_Velocity> = {
 };
 
 function createBaseAction_PlayerAction(): Action_PlayerAction {
-  return { key: "", stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
 
 export const Action_PlayerAction: MessageFns<Action_PlayerAction> = {
   encode(message: Action_PlayerAction, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.key !== "") {
-      writer.uint32(10).string(message.key);
-    }
     if (message.stringValue !== undefined) {
       writer.uint32(18).string(message.stringValue);
     }
@@ -638,14 +633,6 @@ export const Action_PlayerAction: MessageFns<Action_PlayerAction> = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.key = reader.string();
-          continue;
-        }
         case 2: {
           if (tag !== 18) {
             break;
@@ -689,7 +676,6 @@ export const Action_PlayerAction: MessageFns<Action_PlayerAction> = {
 
   fromJSON(object: any): Action_PlayerAction {
     return {
-      key: isSet(object.key) ? globalThis.String(object.key) : "",
       stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
       intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
       floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
@@ -699,9 +685,6 @@ export const Action_PlayerAction: MessageFns<Action_PlayerAction> = {
 
   toJSON(message: Action_PlayerAction): unknown {
     const obj: any = {};
-    if (message.key !== "") {
-      obj.key = message.key;
-    }
     if (message.stringValue !== undefined) {
       obj.stringValue = message.stringValue;
     }
@@ -722,7 +705,6 @@ export const Action_PlayerAction: MessageFns<Action_PlayerAction> = {
   },
   fromPartial<I extends Exact<DeepPartial<Action_PlayerAction>, I>>(object: I): Action_PlayerAction {
     const message = createBaseAction_PlayerAction();
-    message.key = object.key ?? "";
     message.stringValue = object.stringValue ?? undefined;
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;

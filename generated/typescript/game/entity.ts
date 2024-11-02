@@ -21,13 +21,61 @@ export interface RegisterEntity {
   sessionId: string;
   /** / The game id of the entity */
   gameId: string;
-  /** / The attributes of the entity */
-  attributes: RegisterEntity_EntityAttribute[];
+  /**
+   * TODO: Seems redundant to have to define these attributes if we're using a map
+   * / The attributes of the entity
+   */
+  attributes: { [key: string]: RegisterEntity_EntityAttribute };
+  /** / The controller of the entity */
+  controllerState: RegisterEntity_ControllerStateEnum;
+  /** / The owner of the entity */
+  playerId?:
+    | string
+    | undefined;
+  /** / Can be any JSON data */
+  data?: string | undefined;
+}
+
+export enum RegisterEntity_ControllerStateEnum {
+  SERVER = 0,
+  PLAYER = 1,
+  UNRECOGNIZED = -1,
+}
+
+export function registerEntity_ControllerStateEnumFromJSON(object: any): RegisterEntity_ControllerStateEnum {
+  switch (object) {
+    case 0:
+    case "SERVER":
+      return RegisterEntity_ControllerStateEnum.SERVER;
+    case 1:
+    case "PLAYER":
+      return RegisterEntity_ControllerStateEnum.PLAYER;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return RegisterEntity_ControllerStateEnum.UNRECOGNIZED;
+  }
+}
+
+export function registerEntity_ControllerStateEnumToJSON(object: RegisterEntity_ControllerStateEnum): string {
+  switch (object) {
+    case RegisterEntity_ControllerStateEnum.SERVER:
+      return "SERVER";
+    case RegisterEntity_ControllerStateEnum.PLAYER:
+      return "PLAYER";
+    case RegisterEntity_ControllerStateEnum.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+export interface RegisterEntity_AttributesEntry {
+  key: string;
+  value: RegisterEntity_EntityAttribute | undefined;
 }
 
 /** / The EntityAttribute message */
 export interface RegisterEntity_EntityAttribute {
-  key: string;
   stringValue?: string | undefined;
   intValue?: number | undefined;
   floatValue?: number | undefined;
@@ -47,7 +95,17 @@ export interface EntityUpdate {
 }
 
 function createBaseRegisterEntity(): RegisterEntity {
-  return { name: "", type: "", id: "", sessionId: "", gameId: "", attributes: [] };
+  return {
+    name: "",
+    type: "",
+    id: "",
+    sessionId: "",
+    gameId: "",
+    attributes: {},
+    controllerState: 0,
+    playerId: undefined,
+    data: undefined,
+  };
 }
 
 export const RegisterEntity: MessageFns<RegisterEntity> = {
@@ -67,8 +125,17 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     if (message.gameId !== "") {
       writer.uint32(42).string(message.gameId);
     }
-    for (const v of message.attributes) {
-      RegisterEntity_EntityAttribute.encode(v!, writer.uint32(50).fork()).join();
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      RegisterEntity_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
+    });
+    if (message.controllerState !== 0) {
+      writer.uint32(56).int32(message.controllerState);
+    }
+    if (message.playerId !== undefined) {
+      writer.uint32(66).string(message.playerId);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(74).string(message.data);
     }
     return writer;
   },
@@ -125,7 +192,34 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
             break;
           }
 
-          message.attributes.push(RegisterEntity_EntityAttribute.decode(reader, reader.uint32()));
+          const entry6 = RegisterEntity_AttributesEntry.decode(reader, reader.uint32());
+          if (entry6.value !== undefined) {
+            message.attributes[entry6.key] = entry6.value;
+          }
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.controllerState = reader.int32() as any;
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.playerId = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.data = reader.string();
           continue;
         }
       }
@@ -144,9 +238,20 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-      attributes: globalThis.Array.isArray(object?.attributes)
-        ? object.attributes.map((e: any) => RegisterEntity_EntityAttribute.fromJSON(e))
-        : [],
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: RegisterEntity_EntityAttribute }>(
+          (acc, [key, value]) => {
+            acc[key] = RegisterEntity_EntityAttribute.fromJSON(value);
+            return acc;
+          },
+          {},
+        )
+        : {},
+      controllerState: isSet(object.controllerState)
+        ? registerEntity_ControllerStateEnumFromJSON(object.controllerState)
+        : 0,
+      playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -167,8 +272,23 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
     }
-    if (message.attributes?.length) {
-      obj.attributes = message.attributes.map((e) => RegisterEntity_EntityAttribute.toJSON(e));
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = RegisterEntity_EntityAttribute.toJSON(v);
+        });
+      }
+    }
+    if (message.controllerState !== 0) {
+      obj.controllerState = registerEntity_ControllerStateEnumToJSON(message.controllerState);
+    }
+    if (message.playerId !== undefined) {
+      obj.playerId = message.playerId;
+    }
+    if (message.data !== undefined) {
+      obj.data = message.data;
     }
     return obj;
   },
@@ -183,20 +303,107 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
-    message.attributes = object.attributes?.map((e) => RegisterEntity_EntityAttribute.fromPartial(e)) || [];
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<
+      { [key: string]: RegisterEntity_EntityAttribute }
+    >((acc, [key, value]) => {
+      if (value !== undefined) {
+        acc[key] = RegisterEntity_EntityAttribute.fromPartial(value);
+      }
+      return acc;
+    }, {});
+    message.controllerState = object.controllerState ?? 0;
+    message.playerId = object.playerId ?? undefined;
+    message.data = object.data ?? undefined;
+    return message;
+  },
+};
+
+function createBaseRegisterEntity_AttributesEntry(): RegisterEntity_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const RegisterEntity_AttributesEntry: MessageFns<RegisterEntity_AttributesEntry> = {
+  encode(message: RegisterEntity_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      RegisterEntity_EntityAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RegisterEntity_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRegisterEntity_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = RegisterEntity_EntityAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RegisterEntity_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? RegisterEntity_EntityAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: RegisterEntity_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = RegisterEntity_EntityAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<RegisterEntity_AttributesEntry>, I>>(base?: I): RegisterEntity_AttributesEntry {
+    return RegisterEntity_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<RegisterEntity_AttributesEntry>, I>>(
+    object: I,
+  ): RegisterEntity_AttributesEntry {
+    const message = createBaseRegisterEntity_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? RegisterEntity_EntityAttribute.fromPartial(object.value)
+      : undefined;
     return message;
   },
 };
 
 function createBaseRegisterEntity_EntityAttribute(): RegisterEntity_EntityAttribute {
-  return { key: "", stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
 
 export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAttribute> = {
   encode(message: RegisterEntity_EntityAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.key !== "") {
-      writer.uint32(10).string(message.key);
-    }
     if (message.stringValue !== undefined) {
       writer.uint32(18).string(message.stringValue);
     }
@@ -219,14 +426,6 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.key = reader.string();
-          continue;
-        }
         case 2: {
           if (tag !== 18) {
             break;
@@ -270,7 +469,6 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
 
   fromJSON(object: any): RegisterEntity_EntityAttribute {
     return {
-      key: isSet(object.key) ? globalThis.String(object.key) : "",
       stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
       intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
       floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
@@ -280,9 +478,6 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
 
   toJSON(message: RegisterEntity_EntityAttribute): unknown {
     const obj: any = {};
-    if (message.key !== "") {
-      obj.key = message.key;
-    }
     if (message.stringValue !== undefined) {
       obj.stringValue = message.stringValue;
     }
@@ -305,7 +500,6 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     object: I,
   ): RegisterEntity_EntityAttribute {
     const message = createBaseRegisterEntity_EntityAttribute();
-    message.key = object.key ?? "";
     message.stringValue = object.stringValue ?? undefined;
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;
@@ -435,6 +629,10 @@ export type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
+
+function isObject(value: any): boolean {
+  return typeof value === "object" && value !== null;
+}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;

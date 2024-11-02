@@ -73,7 +73,6 @@ export interface Session_AttributesEntry {
 
 /** TODO: Check if this is the best way to represent game attributes */
 export interface Session_GameAttribute {
-  key: string;
   stringValue?: string | undefined;
   intValue?: number | undefined;
   floatValue?: number | undefined;
@@ -305,14 +304,11 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
 };
 
 function createBaseSession_GameAttribute(): Session_GameAttribute {
-  return { key: "", stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
 
 export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
   encode(message: Session_GameAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.key !== "") {
-      writer.uint32(10).string(message.key);
-    }
     if (message.stringValue !== undefined) {
       writer.uint32(18).string(message.stringValue);
     }
@@ -335,14 +331,6 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.key = reader.string();
-          continue;
-        }
         case 2: {
           if (tag !== 18) {
             break;
@@ -386,7 +374,6 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
 
   fromJSON(object: any): Session_GameAttribute {
     return {
-      key: isSet(object.key) ? globalThis.String(object.key) : "",
       stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
       intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
       floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
@@ -396,9 +383,6 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
 
   toJSON(message: Session_GameAttribute): unknown {
     const obj: any = {};
-    if (message.key !== "") {
-      obj.key = message.key;
-    }
     if (message.stringValue !== undefined) {
       obj.stringValue = message.stringValue;
     }
@@ -419,7 +403,6 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
   },
   fromPartial<I extends Exact<DeepPartial<Session_GameAttribute>, I>>(object: I): Session_GameAttribute {
     const message = createBaseSession_GameAttribute();
-    message.key = object.key ?? "";
     message.stringValue = object.stringValue ?? undefined;
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;

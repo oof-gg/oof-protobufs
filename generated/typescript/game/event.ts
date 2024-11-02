@@ -18,11 +18,8 @@ export interface GameEvent {
   gameId?: string | undefined;
   playerId?: string | undefined;
   sessionId?: string | undefined;
-  teamId?:
-    | string
-    | undefined;
-  /** Can be any JSON data */
-  data?: string | undefined;
+  teamId?: string | undefined;
+  attributes: { [key: string]: GameEvent_EventAttribute };
   type: GameEvent_EventType;
 }
 
@@ -54,6 +51,18 @@ export function gameEvent_EventTypeToJSON(object: GameEvent_EventType): string {
   }
 }
 
+export interface GameEvent_AttributesEntry {
+  key: string;
+  value: GameEvent_EventAttribute | undefined;
+}
+
+export interface GameEvent_EventAttribute {
+  stringValue?: string | undefined;
+  intValue?: number | undefined;
+  floatValue?: number | undefined;
+  boolValue?: boolean | undefined;
+}
+
 function createBaseGameEvent(): GameEvent {
   return {
     id: "",
@@ -63,7 +72,7 @@ function createBaseGameEvent(): GameEvent {
     playerId: undefined,
     sessionId: undefined,
     teamId: undefined,
-    data: undefined,
+    attributes: {},
     type: 0,
   };
 }
@@ -91,9 +100,9 @@ export const GameEvent: MessageFns<GameEvent> = {
     if (message.teamId !== undefined) {
       writer.uint32(66).string(message.teamId);
     }
-    if (message.data !== undefined) {
-      writer.uint32(74).string(message.data);
-    }
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      GameEvent_AttributesEntry.encode({ key: key as any, value }, writer.uint32(74).fork()).join();
+    });
     if (message.type !== 0) {
       writer.uint32(80).int32(message.type);
     }
@@ -168,7 +177,10 @@ export const GameEvent: MessageFns<GameEvent> = {
             break;
           }
 
-          message.data = reader.string();
+          const entry9 = GameEvent_AttributesEntry.decode(reader, reader.uint32());
+          if (entry9.value !== undefined) {
+            message.attributes[entry9.key] = entry9.value;
+          }
           continue;
         }
         case 10: {
@@ -197,7 +209,12 @@ export const GameEvent: MessageFns<GameEvent> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : undefined,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
-      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: GameEvent_EventAttribute }>((acc, [key, value]) => {
+          acc[key] = GameEvent_EventAttribute.fromJSON(value);
+          return acc;
+        }, {})
+        : {},
       type: isSet(object.type) ? gameEvent_EventTypeFromJSON(object.type) : 0,
     };
   },
@@ -225,8 +242,14 @@ export const GameEvent: MessageFns<GameEvent> = {
     if (message.teamId !== undefined) {
       obj.teamId = message.teamId;
     }
-    if (message.data !== undefined) {
-      obj.data = message.data;
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = GameEvent_EventAttribute.toJSON(v);
+        });
+      }
     }
     if (message.type !== 0) {
       obj.type = gameEvent_EventTypeToJSON(message.type);
@@ -246,8 +269,202 @@ export const GameEvent: MessageFns<GameEvent> = {
     message.playerId = object.playerId ?? undefined;
     message.sessionId = object.sessionId ?? undefined;
     message.teamId = object.teamId ?? undefined;
-    message.data = object.data ?? undefined;
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameEvent_EventAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = GameEvent_EventAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
     message.type = object.type ?? 0;
+    return message;
+  },
+};
+
+function createBaseGameEvent_AttributesEntry(): GameEvent_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const GameEvent_AttributesEntry: MessageFns<GameEvent_AttributesEntry> = {
+  encode(message: GameEvent_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      GameEvent_EventAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GameEvent_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGameEvent_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = GameEvent_EventAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GameEvent_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? GameEvent_EventAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: GameEvent_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = GameEvent_EventAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GameEvent_AttributesEntry>, I>>(base?: I): GameEvent_AttributesEntry {
+    return GameEvent_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GameEvent_AttributesEntry>, I>>(object: I): GameEvent_AttributesEntry {
+    const message = createBaseGameEvent_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? GameEvent_EventAttribute.fromPartial(object.value)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseGameEvent_EventAttribute(): GameEvent_EventAttribute {
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+}
+
+export const GameEvent_EventAttribute: MessageFns<GameEvent_EventAttribute> = {
+  encode(message: GameEvent_EventAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.stringValue !== undefined) {
+      writer.uint32(10).string(message.stringValue);
+    }
+    if (message.intValue !== undefined) {
+      writer.uint32(16).int32(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      writer.uint32(29).float(message.floatValue);
+    }
+    if (message.boolValue !== undefined) {
+      writer.uint32(32).bool(message.boolValue);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GameEvent_EventAttribute {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGameEvent_EventAttribute();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.stringValue = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.intValue = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 29) {
+            break;
+          }
+
+          message.floatValue = reader.float();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.boolValue = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GameEvent_EventAttribute {
+    return {
+      stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
+      intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
+      floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
+      boolValue: isSet(object.boolValue) ? globalThis.Boolean(object.boolValue) : undefined,
+    };
+  },
+
+  toJSON(message: GameEvent_EventAttribute): unknown {
+    const obj: any = {};
+    if (message.stringValue !== undefined) {
+      obj.stringValue = message.stringValue;
+    }
+    if (message.intValue !== undefined) {
+      obj.intValue = Math.round(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      obj.floatValue = message.floatValue;
+    }
+    if (message.boolValue !== undefined) {
+      obj.boolValue = message.boolValue;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GameEvent_EventAttribute>, I>>(base?: I): GameEvent_EventAttribute {
+    return GameEvent_EventAttribute.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GameEvent_EventAttribute>, I>>(object: I): GameEvent_EventAttribute {
+    const message = createBaseGameEvent_EventAttribute();
+    message.stringValue = object.stringValue ?? undefined;
+    message.intValue = object.intValue ?? undefined;
+    message.floatValue = object.floatValue ?? undefined;
+    message.boolValue = object.boolValue ?? undefined;
     return message;
   },
 };
@@ -273,6 +490,10 @@ function longToNumber(int64: { toString(): string }): number {
     throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
   }
   return num;
+}
+
+function isObject(value: any): boolean {
+  return typeof value === "object" && value !== null;
 }
 
 function isSet(value: any): boolean {
