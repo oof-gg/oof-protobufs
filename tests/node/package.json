@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc --build",
-    "test": "npx jest"
+    "test": "npx jest --config jest.config.js"
   },
   "keywords": [],
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
