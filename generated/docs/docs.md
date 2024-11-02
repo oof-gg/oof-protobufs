@@ -270,9 +270,11 @@ Represents a game session, can be used to store game state and attributes such a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
-| players | [player.Player](#player-Player) | repeated | Players in the session (can be used to store player state and attributes) / TODO: Check if this is the best way to represent players in a session, as an example, in a MMO, a session can have thousands of players, and this can be a performance issue. Would make sense to check against the server to see if a player is in a session vs. storing all players here. |
-| state | [Session.GameState](#game-Session-GameState) |  |  |
-| attributes | [Session.AttributesEntry](#game-Session-AttributesEntry) | repeated | Game attributes |
+| player_ids | [string](#string) | repeated | Players in the session (can be used to store player state and attributes) / Optional: This can be used to store player state and attributes, but not recommended for large player counts. |
+| state | [Session.GameState](#game-Session-GameState) |  | Game state as defined by the GameState enum |
+| attributes | [Session.AttributesEntry](#game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
+
+Game attributes |
 
 
 
@@ -480,12 +482,13 @@ Message joining or leaving a game
 <a name="global-GlobalTime"></a>
 
 ### GlobalTime
-
+Message to synchronize time across clients
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | timestamp | [int64](#int64) |  | Unix timestamp in milliseconds to synchronize time across clients |
+| hash | [string](#string) |  | Hash of the timestamp to pass to the server |
 
 
 

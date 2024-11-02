@@ -9,19 +9,25 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "global";
 
+/** / Message to synchronize time across clients */
 export interface GlobalTime {
-  /** Unix timestamp in milliseconds to synchronize time across clients */
+  /** / Unix timestamp in milliseconds to synchronize time across clients */
   timestamp: number;
+  /** / Hash of the timestamp to pass to the server */
+  hash: string;
 }
 
 function createBaseGlobalTime(): GlobalTime {
-  return { timestamp: 0 };
+  return { timestamp: 0, hash: "" };
 }
 
 export const GlobalTime: MessageFns<GlobalTime> = {
   encode(message: GlobalTime, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.timestamp !== 0) {
       writer.uint32(8).int64(message.timestamp);
+    }
+    if (message.hash !== "") {
+      writer.uint32(18).string(message.hash);
     }
     return writer;
   },
@@ -41,6 +47,14 @@ export const GlobalTime: MessageFns<GlobalTime> = {
           message.timestamp = longToNumber(reader.int64());
           continue;
         }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.hash = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -51,13 +65,19 @@ export const GlobalTime: MessageFns<GlobalTime> = {
   },
 
   fromJSON(object: any): GlobalTime {
-    return { timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0 };
+    return {
+      timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
+      hash: isSet(object.hash) ? globalThis.String(object.hash) : "",
+    };
   },
 
   toJSON(message: GlobalTime): unknown {
     const obj: any = {};
     if (message.timestamp !== 0) {
       obj.timestamp = Math.round(message.timestamp);
+    }
+    if (message.hash !== "") {
+      obj.hash = message.hash;
     }
     return obj;
   },
@@ -68,6 +88,7 @@ export const GlobalTime: MessageFns<GlobalTime> = {
   fromPartial<I extends Exact<DeepPartial<GlobalTime>, I>>(object: I): GlobalTime {
     const message = createBaseGlobalTime();
     message.timestamp = object.timestamp ?? 0;
+    message.hash = object.hash ?? "";
     return message;
   },
 };
