@@ -33,9 +33,6 @@ jobs:
           npm install || { echo "npm install failed"; exit 1; }
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
-          echo "Current directory:"
-          cd typescript
-          ls -l
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
