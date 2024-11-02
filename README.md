@@ -35,7 +35,7 @@ Reasoning for using the attribute paradigm for the player state.
 - Extensibility (e.g. adding new attribute types)
 - Maintainability (e.g. deprecating attributes)
 
-## Example Protobufs fir Attributes
+## Example Protobufs for Attributes
 Player Message
 ```
 message Player {
