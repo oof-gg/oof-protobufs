@@ -11,33 +11,43 @@ export const protobufPackage = "global";
 
 /** Global Events, message can trigger API calls or other events */
 export interface GlobalEvent {
-  /** Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
+  /** / Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
   id: string;
+  /** / Event name */
   eventName: string;
+  /** / Unix timestamp in milliseconds to synchronize time across clients */
   timestamp: number;
-  gameId?: string | undefined;
-  playerId?: string | undefined;
+  /** / Game ID */
+  gameId?:
+    | string
+    | undefined;
+  /** / Player ID */
+  playerId?:
+    | string
+    | undefined;
+  /** / Team ID */
   teamId?:
     | string
     | undefined;
-  /** Can be any JSON data */
-  data?: string | undefined;
+  /** / Can be any JSON data */
+  data?:
+    | string
+    | undefined;
+  /** / Enum for event types */
   type: GlobalEvent_EventType;
 }
 
-/**
- * Global Channel Types of Events
- * CUSTOM - Custom events
- * ANNOUNCEMENT - Announcements
- * ALERT - Alerts
- * EVENT - Events
- * REQUEST - Requests
- */
+/** / Enum for event types */
 export enum GlobalEvent_EventType {
+  /** CUSTOM - / Custom events */
   CUSTOM = 0,
+  /** ANNOUNCEMENT - / Announcements */
   ANNOUNCEMENT = 1,
+  /** ALERT - / Alerts */
   ALERT = 2,
+  /** EVENT - / Events */
   EVENT = 3,
+  /** REQUEST - / Requests */
   REQUEST = 4,
   UNRECOGNIZED = -1,
 }
