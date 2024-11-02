@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc --build",
-    "test": "npm run build && npx jest"
+    "test": "npx jest"
   },
   "keywords": [],
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
