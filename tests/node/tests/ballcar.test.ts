@@ -45,8 +45,8 @@ describe('ballcar module', () => {
         velX,
         velY,
         posX,
-        posY
-      }
+        posY,
+      },
     };
 
     const encodedBallEntity = RegisterEntity.encode(ballEntity).finish();
