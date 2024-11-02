@@ -8,7 +8,9 @@ import "player/player.proto";
 message Session {
   string id = 1;
   string game_id = 2;
-  repeated player.Player players = 3; // Players in the session
+  /// Players in the session (can be used to store player state and attributes)
+  /// TODO: Check if this is the best way to represent players in a session, as an example, in a MMO, a session can have thousands of players, and this can be a performance issue. Would make sense to check against the server to see if a player is in a session vs. storing all players here.
+  repeated player.Player players = 3;
   GameState state = 4;
   map<string, GameAttribute> attributes = 5; // Game attributes
 
