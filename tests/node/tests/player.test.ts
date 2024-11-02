@@ -1,7 +1,7 @@
 import {describe, expect, test} from '@jest/globals';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '../../../generated/typescript/player/player';
-import { Action, Action_ActionType, Action_PlayerAction } from '../../../generated/typescript/player/action';
-import { State, State_PlayerAttribute, State_PlayerState } from '../../../generated/typescript/player/state';
+import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/player';
+import { Action, Action_ActionType, Action_PlayerAction } from '@protos/player/action';
+import { State, State_PlayerAttribute, State_PlayerState } from '@protos/player/state';
 
 describe('player module', () => {
   test('should encode and decode the player object', () => {

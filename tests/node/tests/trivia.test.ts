@@ -1,12 +1,12 @@
 import {describe, expect, test} from '@jest/globals';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '../../../generated/typescript/player/player';
-import { Action, Action_ActionType, Action_PlayerAction } from '../../../generated/typescript/player/action';
-import { State, State_PlayerAttribute, State_PlayerState } from '../../../generated/typescript/player/state';
-import { GlobalEvent, GlobalEvent_EventType } from '../../../generated/typescript/global/event';
-import { GameEvent, GameEvent_EventType } from '../../../generated/typescript/game/event';
-import { JoinLeaveGame, JoinLeaveGame_Action } from '../../../generated/typescript/global/join_leave';
-import { GlobalTime } from '../../../generated/typescript/global/time';
-import { Session, Session_GameAttribute, Session_GameState } from '../../../generated/typescript/game/session';
+import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/player';
+import { Action, Action_ActionType, Action_PlayerAction } from '@protos/player/action';
+import { State, State_PlayerAttribute, State_PlayerState } from '@protos/player/state';
+import { GlobalEvent, GlobalEvent_EventType } from '@protos/global/event';
+import { GameEvent, GameEvent_EventType } from '@protos/game/event';
+import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/global/join_leave';
+import { GlobalTime } from '@protos/global/time';
+import { Session, Session_GameAttribute, Session_GameState } from '@protos/game/session';
 
 describe("trivia scenario", () => {
   // TODO: Test Trivia Data Structures with Player, Game, Global
