@@ -41,9 +41,7 @@ jobs:
   run_tests:
     # This job runs tests for the Python, TypeScript, and Go code
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: false
+    needs: build_protos
     strategy:
       matrix:
         node-version: [22.x]  # Using Node.js version 22
