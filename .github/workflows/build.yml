@@ -63,6 +63,9 @@ jobs:
 
       - name: Run TypeScript tests
         run: |
+          echo "Current directory:"
+          ls -l
+          echo "Changing to tests/node directory..."
           cd tests/node
           echo "Installing npm dependencies..."
           npm install --include=dev || { echo "npm install --include=dev failed"; exit 1; }
