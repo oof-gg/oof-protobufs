@@ -14,7 +14,6 @@ message RegisterEntity {
   string session_id = 4;
   /// The game id of the entity
   string game_id = 5;
-  //TODO: Seems redundant to have to define these attributes if we're using a map
   /// The attributes of the entity
   map<string, EntityAttribute> attributes = 6;
   /// The controller of the entity

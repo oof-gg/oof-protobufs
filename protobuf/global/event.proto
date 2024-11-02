@@ -21,6 +21,7 @@ message GlobalEvent {
   /// Enum for event types 
   EventType type = 8;
 
+  /// Message for event attributes
   message EventAttribute {
     oneof value {
       string string_value = 1;

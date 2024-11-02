@@ -3,8 +3,18 @@
 
 ## Table of Contents
 
+- [game/entity.proto](#game_entity-proto)
+    - [EntityUpdate](#game-EntityUpdate)
+    - [RegisterEntity](#game-RegisterEntity)
+    - [RegisterEntity.AttributesEntry](#game-RegisterEntity-AttributesEntry)
+    - [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute)
+  
+    - [RegisterEntity.ControllerStateEnum](#game-RegisterEntity-ControllerStateEnum)
+  
 - [game/event.proto](#game_event-proto)
     - [GameEvent](#game-GameEvent)
+    - [GameEvent.AttributesEntry](#game-GameEvent-AttributesEntry)
+    - [GameEvent.EventAttribute](#game-GameEvent-EventAttribute)
   
     - [GameEvent.EventType](#game-GameEvent-EventType)
   
@@ -17,6 +27,8 @@
   
 - [global/event.proto](#global_event-proto)
     - [GlobalEvent](#global-GlobalEvent)
+    - [GlobalEvent.AttributesEntry](#global-GlobalEvent-AttributesEntry)
+    - [GlobalEvent.EventAttribute](#global-GlobalEvent-EventAttribute)
   
     - [GlobalEvent.EventType](#global-GlobalEvent-EventType)
   
@@ -54,6 +66,109 @@
 
 
 
+<a name="game_entity-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## game/entity.proto
+
+
+
+<a name="game-EntityUpdate"></a>
+
+### EntityUpdate
+The EntityUpdate message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+| attributes | [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute) | repeated | The attributes of the entity |
+
+
+
+
+
+
+<a name="game-RegisterEntity"></a>
+
+### RegisterEntity
+The RegisterEntity message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The name of the entity, e.g. &#34;ball&#34; |
+| type | [string](#string) |  | The type of the entity, e.g. &#34;object&#34; |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+| attributes | [RegisterEntity.AttributesEntry](#game-RegisterEntity-AttributesEntry) | repeated | The attributes of the entity |
+| controller_state | [RegisterEntity.ControllerStateEnum](#game-RegisterEntity-ControllerStateEnum) |  | The controller of the entity |
+| player_id | [string](#string) | optional | The owner of the entity |
+| data | [string](#string) | optional | Can be any JSON data |
+
+
+
+
+
+
+<a name="game-RegisterEntity-AttributesEntry"></a>
+
+### RegisterEntity.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute) |  |  |
+
+
+
+
+
+
+<a name="game-RegisterEntity-EntityAttribute"></a>
+
+### RegisterEntity.EntityAttribute
+The EntityAttribute message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| string_value | [string](#string) |  |  |
+| int_value | [int32](#int32) |  |  |
+| float_value | [float](#float) |  |  |
+| bool_value | [bool](#bool) |  |  |
+
+
+
+
+
+ 
+
+
+<a name="game-RegisterEntity-ControllerStateEnum"></a>
+
+### RegisterEntity.ControllerStateEnum
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SERVER | 0 |  |
+| PLAYER | 1 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="game_event-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -76,8 +191,42 @@ Global Events, message can trigger API calls or other events
 | player_id | [string](#string) | optional |  |
 | session_id | [string](#string) | optional |  |
 | team_id | [string](#string) | optional |  |
-| data | [string](#string) | optional | Can be any JSON data |
+| attributes | [GameEvent.AttributesEntry](#game-GameEvent-AttributesEntry) | repeated |  |
 | type | [GameEvent.EventType](#game-GameEvent-EventType) |  |  |
+
+
+
+
+
+
+<a name="game-GameEvent-AttributesEntry"></a>
+
+### GameEvent.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [GameEvent.EventAttribute](#game-GameEvent-EventAttribute) |  |  |
+
+
+
+
+
+
+<a name="game-GameEvent-EventAttribute"></a>
+
+### GameEvent.EventAttribute
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| string_value | [string](#string) |  |  |
+| int_value | [int32](#int32) |  |  |
+| float_value | [float](#float) |  |  |
+| bool_value | [bool](#bool) |  |  |
 
 
 
@@ -114,7 +263,7 @@ CUSTOM - Custom events
 <a name="game-Session"></a>
 
 ### Session
-TODO: Game Score?
+Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 
 
 | Field | Type | Label | Description |
@@ -154,7 +303,6 @@ TODO: Check if this is the best way to represent game attributes
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
 | string_value | [string](#string) |  |  |
 | int_value | [int32](#int32) |  |  |
 | float_value | [float](#float) |  |  |
@@ -209,8 +357,42 @@ Global Events, message can trigger API calls or other events
 | game_id | [string](#string) | optional | Game ID |
 | player_id | [string](#string) | optional | Player ID |
 | team_id | [string](#string) | optional | Team ID |
-| data | [string](#string) | optional | Can be any JSON data |
+| attributes | [GlobalEvent.AttributesEntry](#global-GlobalEvent-AttributesEntry) | repeated | Can be a key-value pair and the values can be string, int, float, or bool |
 | type | [GlobalEvent.EventType](#global-GlobalEvent-EventType) |  | Enum for event types |
+
+
+
+
+
+
+<a name="global-GlobalEvent-AttributesEntry"></a>
+
+### GlobalEvent.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [GlobalEvent.EventAttribute](#global-GlobalEvent-EventAttribute) |  |  |
+
+
+
+
+
+
+<a name="global-GlobalEvent-EventAttribute"></a>
+
+### GlobalEvent.EventAttribute
+Message for event attributes
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| string_value | [string](#string) |  |  |
+| int_value | [int32](#int32) |  |  |
+| float_value | [float](#float) |  |  |
+| bool_value | [bool](#bool) |  |  |
 
 
 
@@ -337,7 +519,7 @@ Message joining or leaving a game
 | player_id | [string](#string) |  | Unique identifier of the player |
 | session_id | [string](#string) |  | Unique identifier of the session |
 | game_id | [string](#string) |  | Unique identifier of the game |
-| action_type | [Action.ActionType](#player-Action-ActionType) |  | Type of action |
+| type | [Action.ActionType](#player-Action-ActionType) |  | Type of action |
 | position | [Action.Position](#player-Action-Position) | optional | Position of the player (optional) |
 | velocity | [Action.Velocity](#player-Action-Velocity) | optional | Velocity of the player (optional) |
 | action | [Action.ActionEntry](#player-Action-ActionEntry) | repeated | Custom actions the player can take
@@ -374,7 +556,6 @@ Custom actions the player can take
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  | Unique identifier of the action |
 | string_value | [string](#string) |  |  |
 | int_value | [int32](#int32) |  |  |
 | float_value | [float](#float) |  |  |
@@ -559,7 +740,6 @@ Type of action
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| key | [string](#string) |  |  |
 | string_value | [string](#string) |  |  |
 | int_value | [int32](#int32) |  |  |
 | float_value | [float](#float) |  |  |

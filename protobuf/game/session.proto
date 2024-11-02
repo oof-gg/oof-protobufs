@@ -3,7 +3,8 @@ syntax = "proto3";
 package game;
 
 import "player/player.proto";
-// TODO: Game Score?
+
+/// Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 message Session {
   string id = 1;
   string game_id = 2;
