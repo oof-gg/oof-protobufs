@@ -29,8 +29,10 @@ jobs:
       - name: Build TypeScript protobufs
         run: |
           cd protobuf
-          npm install
-          npm run compile-ts      
+          echo "Installing npm dependencies..."
+          npm install || { echo "npm install failed"; exit 1; }
+          echo "Compiling TypeScript protobufs..."
+          npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
