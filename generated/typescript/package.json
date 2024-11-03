@@ -10,9 +10,21 @@
     "README.md"
   ],
   "exports": {
-    "game": "./game/*.ts",
-    "global": "./global/*.ts",
-    "player": "./player/*.ts"
+    "./game/*": {
+      "import": "./dist/game/*.js",
+      "require": "./dist/game/*.js",
+      "types": "./dist/game/*.d.ts"
+    },
+    "./global/*": {
+      "import": "./dist/global/*.js",
+      "require": "./dist/global/*.js",
+      "types": "./dist/global/*.d.ts"
+    },
+    "./player/*": {
+      "import": "./dist/player/*.js",
+      "require": "./dist/player/*.js",
+      "types": "./dist/player/*.d.ts"
+    }
   },
   "repository": {
     "type": "git",
