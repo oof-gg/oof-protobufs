@@ -9,11 +9,17 @@
     "player",
     "README.md"
   ],
+  "exports": {
+    "./game": "./game/*.ts",
+    "./global": "./global/*.ts",
+    "./player": "./player/*.ts"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/oof-gg/oof-protobufs.git"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.2"
-  }
+  },
+  "license": "Apache-2.0"
 }

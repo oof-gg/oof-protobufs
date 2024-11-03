@@ -10,7 +10,7 @@
     "compile-docs": "protoc --doc_out=../generated/docs --doc_opt=markdown,docs.md --proto_path=. game/*.proto global/*.proto player/*.proto"
   },
   "author": "Brian <brian@oof.gg> (https://www.oof.gg/)",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "description": "",
   "devDependencies": {
     "ts-proto": "^2.2.5",
