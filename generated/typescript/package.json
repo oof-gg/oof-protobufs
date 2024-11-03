@@ -1,12 +1,12 @@
 {
   "name": "@oof.gg/protobuf-ts",
   "version": "1.0.6",
-  "types": "typescript",
+  "types": ".",
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "files": [
-    "game",
-    "global",
-    "player",
+    "game/*.js",
+    "global/*.js",
+    "player/*.js",
     "README.md"
   ],
   "repository": {
