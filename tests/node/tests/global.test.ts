@@ -1,7 +1,7 @@
 import {describe, expect, test} from '@jest/globals';
-import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@protos/global/event';
-import { JoinLeaveGame } from '@protos/global/join_leave';
-import { GlobalTime } from '@protos/global/time';
+import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@protos/src/global/event';
+import { JoinLeaveGame } from '@protos/src/global/join_leave';
+import { GlobalTime } from '@protos/src/global/time';
 
 describe('global module', () => {
   test('should encode and decode the global event object', () => {
