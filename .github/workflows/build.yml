@@ -99,8 +99,6 @@ jobs:
           npm version patch -m "ci: bump version to %s"
           git config user.email "brian@oof.gg"
           git config user.name "Brian S."
-          git add package.json 
-          git commit -m "ci: bump version"
           echo "Push the new version commit and tag to GitHub"
           git push --follow-tags
         env:
