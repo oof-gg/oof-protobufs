@@ -5,6 +5,10 @@
   "files": [
     "../typescript"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/oof-gg/oof-protobufs.git"
+  },
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.2"
   }
