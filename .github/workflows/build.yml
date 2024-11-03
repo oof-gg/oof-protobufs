@@ -92,7 +92,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd generated/typescript
-          npm run ci
+          npm ci
           npm install
           echo "Bump the version (choose one of patch, minor, or major)"
           npm version patch -m "ci: bump version to %s"
