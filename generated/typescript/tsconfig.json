@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ES2020",
+    "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": ".",
+    "rootDir": "./src",
     "moduleResolution": "node",
-    "baseUrl": "."
+    "baseUrl": "./src",
+    "declaration": true,
+    "declarationDir": "./dist",
+    "lib": ["ES2020", "DOM"]
   },
-  "include": ["game/**/*", "global/**/*", "player/**/*"]
+  "include": ["src/game/**/*", "src/global/**/*", "src/player/**/*"]
 }
