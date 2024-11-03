@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "types": "typescript",
   "files": [
-    "../typescript"
+    "typescript"
   ],
   "repository": {
     "type": "git",

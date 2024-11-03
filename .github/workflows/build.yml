@@ -92,6 +92,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd generated/typescript
+          echo "Installing npm dependencies..."
           npm ci
           npm install
           echo "Bump the version (choose one of patch, minor, or major)"
@@ -102,5 +103,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
-
-# Install dependencies required for all jobs
