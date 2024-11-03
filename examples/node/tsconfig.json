@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "paths": {
-      "@protos/*": ["../../generated/typescript/*"],
-      "@oof.gg/protobuf-ts/*": ["node_modules/@oof.gg/protobuf-ts/*"],
-    },
-    "target": "es2017",                                  
-    "module": "commonjs",                                
+    "target": "es2020",                                  
+    "module": "NodeNext",                                
     "esModuleInterop": true, 
     "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "nodenext",
     "strict": true,   
     "skipLibCheck": true,
-    "baseUrl": "./",
+    "rootDir": "./src",
+    "baseUrl": "./src",
     "outDir": "dist",
   },
 }
