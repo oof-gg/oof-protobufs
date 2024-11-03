@@ -1,17 +1,14 @@
 name: Run Tests, Build protobufs for Python, TypeScript, and Go
 
-stages:
-  - test
-  - build
-  - publish
-
 on:
   push:
     branches:
       - 'main'
+      - 'dev'
   pull_request:
     branches:
       - main     # Run on pull requests targeting the main branch
+      - dev     # Run on pull requests targeting the dev branch
 
 jobs:
   build_protos:
