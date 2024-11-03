@@ -90,7 +90,8 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd generated
+          cd generated/typescript
           npm install
+          npm
 
 # Install dependencies required for all jobs
