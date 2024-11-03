@@ -87,14 +87,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-      
-      - name: Setup github credentials for pushing
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          echo "Setting up GitHub credentials..."
-          git remote set-url origin "https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-      
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
       - name: Install dependencies
         run: |
           cd generated/typescript
@@ -103,8 +98,8 @@ jobs:
           npm version patch -m "ci: bump version to %s"
           echo "Push the new version commit and tag to GitHub"
           git push --follow-tags
-          npm publish
+          npm publish --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
 # Install dependencies required for all jobs
