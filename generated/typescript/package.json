@@ -6,7 +6,8 @@
   "files": [
     "game",
     "global",
-    "player"
+    "player",
+    "README.md"
   ],
   "repository": {
     "type": "git",
