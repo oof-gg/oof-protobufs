@@ -97,6 +97,8 @@ jobs:
           npm install
           echo "Bump the version (choose one of patch, minor, or major)"
           npm version patch -m "ci: bump version to %s"
+          git add package.json 
+          git commit -m "ci: bump version"
           echo "Push the new version commit and tag to GitHub"
           git push --follow-tags
           npm publish --access public
