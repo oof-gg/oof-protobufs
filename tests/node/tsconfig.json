@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "paths": {
-      "@protos/*": ["../../generated/typescript/*"],
+      "@protos/*": ["../../generated/typescript/src/*"],
       "@bufbuild/*": ["tests/node/node_modules/@bufbuild/*"],
     },
     /* Visit https://aka.ms/tsconfig to read more about this file */

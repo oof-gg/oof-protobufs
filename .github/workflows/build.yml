@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - 'main'
+      - 'dev'
+  pull_request:
+    branches:
+      - main     # Run on pull requests targeting the main branch
+      - dev     # Run on pull requests targeting the dev branch
 
 jobs:
   build_protos:
@@ -79,6 +84,7 @@ jobs:
     # This job builds the npm package
     runs-on: ubuntu-latest
     needs: [build_protos, run_tests]
+    if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -94,14 +100,15 @@ jobs:
           cd generated/typescript
           echo "Installing npm dependencies..."
           npm ci
-          npm install
+          npm install --save
+          npm run build
           git config user.email "brian@oof.gg"
           git config user.name "Brian S."
           echo "Bumping the version (choose one of patch, minor, or major)"
           NEW_VERSION=$(npm version patch -m "ci: bump version to %s")
           
           echo "Committing the new version and pushing to GitHub..."
-          git add package.json package-lock.json
+          git add dist package.json package-lock.json
           git commit -m "ci: bump version to $NEW_VERSION"
           git push --follow-tags
         env:
