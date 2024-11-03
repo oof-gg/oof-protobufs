@@ -92,18 +92,12 @@ jobs:
         run: |
           cd generated/typescript
           npm install
-          
-      - name: Auto-increment version
-        run: |
-          # Bump the version (choose one of patch, minor, or major)
+          echo "Bump the version (choose one of patch, minor, or major)"
           npm version patch -m "ci: bump version to %s"
-          
-          # Push the new version commit and tag to GitHub
+          echo "Push the new version commit and tag to GitHub"
           git push --follow-tags
-
-      - name: Publish to npm
-        run: npm publish
+          npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
 # Install dependencies required for all jobs
