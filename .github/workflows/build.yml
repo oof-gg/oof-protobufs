@@ -93,7 +93,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           echo "Setting up GitHub credentials..."
-          git remote set-url origin "https://{{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+          git remote set-url origin "https://{{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
       
       - name: Install dependencies
         run: |
