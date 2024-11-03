@@ -14,5 +14,7 @@ To use the protos in your TypeScript project:
 import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@oof-gg/protobuf-ts/global/event';
 ```
 
-# More Information
-For a full list of available messages, see the [protobufs](https://github.com/oof-gg/oof-protobufs/blob/main/generated/docs/docs.md) documentation on Github.
+# Documentation and Examples
+For a full list of available messages, see the [protobufs](https://github.com/oof-gg/oof-protobufs/blob/main/generated/docs/docs.md) documentation on Github. You can also visit the [repository](https://github.com/oof-gg/oof-protobufs) for tests and examples on how to use the protobufs in your project.
+
+Note: The protobufs are still in development and may change.
