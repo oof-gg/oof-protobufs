@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "postbuild": "cp -r node_modules dist/"
   },
   "keywords": [],
-  "author": "Brian S. <brian@convnet.ai> (https://www.convnet.ai/)",
+  "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "license": "ISC",
   "description": "",
   "devDependencies": {
@@ -14,6 +16,7 @@
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.2.2",
+    "@oof.gg/protobuf-ts": "^1.0.7",
     "ts-proto": "^2.2.5"
   }
 }

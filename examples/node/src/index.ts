@@ -1,6 +1,6 @@
-import { Session, Session_GameAttribute, Session_GameState } from '../../../generated/typescript/game/session';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '../../../generated/typescript/player/player';
-import { Action, Action_ActionType, Action_PlayerAction } from '../../../generated/typescript/player/action';
+import { Session, Session_GameAttribute, Session_GameState } from '@oof.gg/protobuf-ts/game/session';
+import { Player, Player_PlayerStatus, Player_PlayerType } from '@oof.gg/protobuf-ts/player/player';
+import { Action, Action_ActionType, Action_PlayerAction } from '@oof.gg/protobuf-ts/player/action';
 
 const playerType = Player_PlayerType.HUMAN;
 const playerStatus = Player_PlayerStatus.ACTIVE;
@@ -17,23 +17,21 @@ const samplePlayer: Player = {
 };
 
 const difficultyAttribute: Session_GameAttribute = {
-  key: 'difficulty',
   intValue: 1,
 };
 
 const maxScoreAttribute: Session_GameAttribute = {
-  key: 'max_score',
   intValue: 100,
 };
 
 const session: Session = {
   id: 'session1',
   gameId: 'game1',
-  players: [samplePlayer],
+  playerIds: ['player1'],
   state: Session_GameState.CREATED,
   attributes: {
-    difficulty: difficultyAttribute,
-    max_score: maxScoreAttribute,
+    difficultyAttribute,
+    maxScoreAttribute,
   },
 }
 
@@ -50,7 +48,6 @@ const decodedSession = Session.decode(encodedSession);
 console.log(decodedSession);
 
 const playerAction: Action_PlayerAction = {
-  key: 'jump',
   stringValue: 'high',
 };
 
@@ -58,7 +55,7 @@ const action: Action = {
   playerId: 'player1',
   sessionId: 'session1',
   gameId: 'game1',
-  actionType: Action_ActionType.CUSTOM,
+  type: Action_ActionType.CUSTOM,
   action: {
     playerAction: playerAction,
   },
