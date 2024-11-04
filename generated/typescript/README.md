@@ -13,6 +13,10 @@ To use the protos in your TypeScript project:
 ```
 import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@oof.gg/protobuf-ts/global/event';
 
+const globalAttribute: GlobalEvent_EventAttribute = {
+  stringValue: 'value'
+}
+
 const globalEvent: GlobalEvent = {
   id: 'event1',
   eventName: 'event1',
