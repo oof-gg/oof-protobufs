@@ -12,6 +12,21 @@ npm install @oof.gg/protobuf-ts
 To use the protos in your TypeScript project:
 ```
 import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@oof.gg/protobuf-ts/global/event';
+
+const globalEvent: GlobalEvent = {
+  id: 'event1',
+  eventName: 'event1',
+  timestamp: new Date().getTime(),
+  gameId: 'game1',
+  playerId: 'player1',
+  teamId: 'red',
+  attributes: {
+    globalAttribute
+  },
+  type: GlobalEvent_EventType.CUSTOM
+}
+
+const encodedGlobalEvent = GlobalEvent.encode(globalEvent).finish();
 ```
 
 # Documentation and Examples
