@@ -11,7 +11,7 @@ npm install @oof.gg/protobuf-ts
 # Development
 To use the protos in your TypeScript project:
 ```
-import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@oof-gg/protobuf-ts/global/event';
+import { GlobalEvent, GlobalEvent_EventType, GlobalEvent_EventAttribute } from '@oof.gg/protobuf-ts/global/event';
 ```
 
 # Documentation and Examples
