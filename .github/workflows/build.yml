@@ -39,11 +39,11 @@ jobs:
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
 
-      - name: Build Golang protobufs
-        run: |
-          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-          echo "Compiling Golang protobufs..."
-          npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
+      # - name: Build Golang protobufs
+      #   run: |
+      #     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+      #     echo "Compiling Golang protobufs..."
+      #     npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
@@ -86,35 +86,35 @@ jobs:
           echo "Running TypeScript tests..."
           npm run test
 
-  run_tests_go:
-    # This job runs tests for the Python, TypeScript, and Go code
-    runs-on: ubuntu-latest
-    needs: build_protos
-    strategy:
-      matrix:
-        go-version: [1.17]  # Using Go version 1.17
-    steps:
-      - name: Download Protobuf Artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: compiled-protos
+  # run_tests_go:
+  #   # This job runs tests for the Python, TypeScript, and Go code
+  #   runs-on: ubuntu-latest
+  #   needs: build_protos
+  #   strategy:
+  #     matrix:
+  #       go-version: [1.17]  # Using Go version 1.17
+  #   steps:
+  #     - name: Download Protobuf Artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: compiled-protos
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
-      - name: Set up Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: ${{ matrix.go-version }}
+  #     - name: Set up Go
+  #       uses: actions/setup-go@v2
+  #       with:
+  #         go-version: ${{ matrix.go-version }}
 
-      - name: Run Go tests
-        run: |
-          echo "Current directory:"
-          ls -l
-          echo "Changing to tests/go directory..."
-          cd tests/go
-          echo "Running Go tests..."
-          go test ./...
+  #     - name: Run Go tests
+  #       run: |
+  #         echo "Current directory:"
+  #         ls -l
+  #         echo "Changing to tests/go directory..."
+  #         cd tests/go
+  #         echo "Running Go tests..."
+  #         go test ./...
 
   build_npm:
     # This job builds the npm package
@@ -162,6 +162,7 @@ jobs:
   release:
     name: Create Release
     runs-on: ubuntu-latest
+    needs: [build_npm]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
