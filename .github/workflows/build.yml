@@ -48,6 +48,12 @@ jobs:
           cd protobuf
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           echo "Compiling Golang protobufs..."
+      
+      - name: Add Go bin to PATH
+        run: echo "$HOME/go/bin" >> $GITHUB_PATH
+
+      - name: Build Golang protobufs
+        run: |
           npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
