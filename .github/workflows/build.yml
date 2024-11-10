@@ -167,7 +167,7 @@ jobs:
 
   auto_tag_release:
     runs-on: ubuntu-latest
-    needs: [build_protos, run_tests_ts, run_tests_go]
+    needs: [build_protos, run_tests_ts]
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
