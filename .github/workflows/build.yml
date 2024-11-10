@@ -165,34 +165,53 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
-  release:
+  auto_tag_release:
     runs-on: ubuntu-latest
-
+    needs: [build_protos, run_tests_ts, run_tests_go]
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
 
-      - name: Get previous tag
-        id: prev_tag
+      - name: Get the latest tag
+        id: get_latest_tag
         run: |
-          # Find the previous tag before the latest one
-          TAGS=$(git tag --sort=-creatordate)
-          PREV_TAG=$(echo "$TAGS" | sed -n 2p)
-          echo "previous_tag=$PREV_TAG" >> $GITHUB_ENV
+          # Get the latest tag (sorted by version, not date)
+          LATEST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
+
+      - name: Calculate the next tag version
+        id: calc_new_version
+        run: |
+          # Parse the latest tag to increment the patch version
+          LATEST_TAG=${{ env.latest_tag }}
+          MAJOR=$(echo $LATEST_TAG | cut -d. -f1 | cut -dv -f2)
+          MINOR=$(echo $LATEST_TAG | cut -d. -f2)
+          PATCH=$(echo $LATEST_TAG | cut -d. -f3)
+
+          # Increment the patch version (you can change this to major/minor as needed)
+          NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
+          
+          echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
+
+      - name: Create a new tag
+        run: |
+          NEW_TAG=${{ env.new_tag }}
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
 
       - name: Generate changelog
         id: changelog
         run: |
-          # Get the previous and current tags
-          CURRENT_TAG=${GITHUB_REF#refs/tags/}
-          PREV_TAG=${{ env.previous_tag }}
-
-          # Generate the changelog between the two tags
-          if [ -n "$PREV_TAG" ]; then
-            CHANGELOG=$(git log "$PREV_TAG".."$CURRENT_TAG" --oneline)
+          LATEST_TAG=${{ env.latest_tag }}
+          NEW_TAG=${{ env.new_tag }}
+          
+          # Generate the changelog between the last and new tag
+          if [ "$LATEST_TAG" != "v0.0.0" ]; then
+            CHANGELOG=$(git log "$LATEST_TAG".."$NEW_TAG" --oneline)
           else
             CHANGELOG=$(git log --oneline)  # First release case
           fi
+
           echo "$CHANGELOG" > changelog.txt
           echo "changelog=$CHANGELOG" >> $GITHUB_ENV
 
@@ -201,8 +220,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: "Release ${{ github.ref_name }}"
+          tag_name: ${{ env.new_tag }}
+          release_name: "Release ${{ env.new_tag }}"
           body: "${{ env.changelog }}"
           draft: false
           prerelease: false
