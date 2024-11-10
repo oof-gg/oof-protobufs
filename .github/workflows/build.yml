@@ -43,11 +43,11 @@ jobs:
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
 
-      # - name: Build Golang protobufs
-      #   run: |
-      #     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-      #     echo "Compiling Golang protobufs..."
-      #     npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
+      - name: Build Golang protobufs
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          echo "Compiling Golang protobufs..."
+          npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
