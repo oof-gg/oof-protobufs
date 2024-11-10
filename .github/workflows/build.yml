@@ -47,6 +47,8 @@ jobs:
         run: |
           cd protobuf
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          echo "Installing npm dependencies..."
+          npm install || { echo "npm install failed"; exit 1; }
           echo "Compiling Golang protobufs..."
       
       - name: Add Go bin to PATH
