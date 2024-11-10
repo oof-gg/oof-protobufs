@@ -119,7 +119,7 @@ jobs:
   build_npm:
     # This job builds the npm package
     runs-on: ubuntu-latest
-    needs: [build_protos, run_tests]
+    needs: [build_protos, run_tests_ts]
     if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Checkout code
