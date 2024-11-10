@@ -42,7 +42,6 @@ jobs:
       - name: Build Golang protobufs
         run: |
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-          cd protobuf
           echo "Compiling Golang protobufs..."
           npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
 
