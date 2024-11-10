@@ -15,3 +15,5 @@ message JoinLeaveGame {
     LEAVE = 1;
   }
 }
+
+option go_package = "generated/go/global";

@@ -39,13 +39,19 @@ jobs:
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
 
+      - name: Build Golang protobufs
+        run: |
+          cd protobuf
+          echo "Compiling Golang protobufs..."
+          npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
+
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: compiled-protos
           path: generated  # Path to the built files
 
-  run_tests:
+  run_tests_ts:
     # This job runs tests for the Python, TypeScript, and Go code
     runs-on: ubuntu-latest
     needs: build_protos
@@ -79,6 +85,36 @@ jobs:
           echo "Installing @bufbuild/protobuf..."
           echo "Running TypeScript tests..."
           npm run test
+
+  run_tests_go:
+    # This job runs tests for the Python, TypeScript, and Go code
+    runs-on: ubuntu-latest
+    needs: build_protos
+    strategy:
+      matrix:
+        go-version: [1.17]  # Using Go version 1.17
+    steps:
+      - name: Download Protobuf Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: compiled-protos
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Run Go tests
+        run: |
+          echo "Current directory:"
+          ls -l
+          echo "Changing to tests/go directory..."
+          cd tests/go
+          echo "Running Go tests..."
+          go test ./...
 
   build_npm:
     # This job builds the npm package
@@ -122,3 +158,20 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Protobufs ${{ github.ref }}
+          draft: false
+          prerelease: false

@@ -30,3 +30,5 @@ message GameEvent {
     CUSTOM = 0;
   }
 }
+
+option go_package = "generated/go/game";

@@ -64,3 +64,5 @@ message Action {
     }
   }
 }
+
+option go_package = "generated/go/player";

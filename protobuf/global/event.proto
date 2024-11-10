@@ -45,3 +45,5 @@ message GlobalEvent {
     REQUEST = 4;
   }
 }
+
+option go_package = "generated/go/global";
