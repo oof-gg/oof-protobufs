@@ -164,3 +164,45 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v3
+
+      - name: Get previous tag
+        id: prev_tag
+        run: |
+          # Find the previous tag before the latest one
+          TAGS=$(git tag --sort=-creatordate)
+          PREV_TAG=$(echo "$TAGS" | sed -n 2p)
+          echo "previous_tag=$PREV_TAG" >> $GITHUB_ENV
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          # Get the previous and current tags
+          CURRENT_TAG=${GITHUB_REF#refs/tags/}
+          PREV_TAG=${{ env.previous_tag }}
+
+          # Generate the changelog between the two tags
+          if [ -n "$PREV_TAG" ]; then
+            CHANGELOG=$(git log "$PREV_TAG".."$CURRENT_TAG" --oneline)
+          else
+            CHANGELOG=$(git log --oneline)  # First release case
+          fi
+          echo "$CHANGELOG" > changelog.txt
+          echo "changelog=$CHANGELOG" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: "Release ${{ github.ref_name }}"
+          body: "${{ env.changelog }}"
+          draft: false
+          prerelease: false
