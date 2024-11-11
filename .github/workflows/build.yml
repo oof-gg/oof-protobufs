@@ -178,7 +178,7 @@ jobs:
       - name: Get the latest tag
         id: get_latest_tag
         run: |
-          # Get the latest tag (sorted by version, not date)
+          # Get the latest tag by date
           LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v0.0.0")
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
 
@@ -213,13 +213,10 @@ jobs:
           
           # Generate the changelog between the last and new tag
           if [ "$LATEST_TAG" != "v0.0.0" ]; then
-            CHANGELOG=$(git log "$LATEST_TAG".."$NEW_TAG" --oneline)
+            git log "$LATEST_TAG".."$NEW_TAG" --oneline > changelog.txt
           else
-            CHANGELOG=$(git log --oneline)  # First release case
+            git log --oneline > changelog.txt  # First release case
           fi
-
-          echo "$CHANGELOG" > changelog.txt
-          echo "changelog=$CHANGELOG" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         uses: actions/create-release@v1
@@ -228,6 +225,6 @@ jobs:
         with:
           tag_name: ${{ env.new_tag }}
           release_name: "Release ${{ env.new_tag }}"
-          body: "${{ env.changelog }}"
+          body_path: ./changelog.txt  # Read changelog directly from file
           draft: false
           prerelease: false
