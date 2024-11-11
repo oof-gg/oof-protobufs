@@ -173,7 +173,7 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history to access all tags
+          fetch-depth: 0
 
       - name: Get the latest tag
         id: get_latest_tag
@@ -197,8 +197,6 @@ jobs:
           # Increment the patch version (or change logic for major/minor if needed)
           NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
           
-          echo "Generating changelog between $LATEST_TAG and $NEW_TAG..."
-
           echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Create a new tag
