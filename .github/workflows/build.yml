@@ -167,7 +167,7 @@ jobs:
 
   auto_tag_release:
     runs-on: ubuntu-latest
-    needs: [build_npm]
+    needs: build_npm
     if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Check out the code
@@ -177,7 +177,7 @@ jobs:
         id: get_latest_tag
         run: |
           # Get the latest tag (sorted by version, not date)
-          LATEST_TAG=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          LATEST_TAG=$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "v0.0.0")
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Calculate the next tag version
@@ -185,11 +185,14 @@ jobs:
         run: |
           # Parse the latest tag to increment the patch version
           LATEST_TAG=${{ env.latest_tag }}
-          MAJOR=$(echo $LATEST_TAG | cut -d. -f1 | cut -dv -f2)
-          MINOR=$(echo $LATEST_TAG | cut -d. -f2)
-          PATCH=$(echo $LATEST_TAG | cut -d. -f3)
 
-          # Increment the patch version (you can change this to major/minor as needed)
+          # Remove the "v" prefix and split into major, minor, and patch
+          VERSION_NUMBER=${LATEST_TAG#v}
+          MAJOR=$(echo "$VERSION_NUMBER" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_NUMBER" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_NUMBER" | cut -d. -f3)
+
+          # Increment the patch version (or change logic for major/minor if needed)
           NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
           
           echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
@@ -197,8 +200,8 @@ jobs:
       - name: Create a new tag
         run: |
           NEW_TAG=${{ env.new_tag }}
-          git tag $NEW_TAG
-          git push origin $NEW_TAG
+          git tag "$NEW_TAG"
+          git push origin "$NEW_TAG"
 
       - name: Generate changelog
         id: changelog
