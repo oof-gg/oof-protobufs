@@ -9,3 +9,5 @@ message GlobalTime {
   /// Hash of the timestamp to pass to the server
   string hash = 2;
 }
+
+option go_package = "generated/go/global";

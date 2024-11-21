@@ -54,3 +54,5 @@ message EntityUpdate {
   /// The attributes of the entity
   repeated RegisterEntity.EntityAttribute attributes = 4;
 }
+
+option go_package = "generated/go/game";

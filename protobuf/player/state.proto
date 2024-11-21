@@ -25,3 +25,5 @@ message State {
     }
   }
 }
+
+option go_package = "generated/go/player";

@@ -22,3 +22,5 @@ message Player {
     INACTIVE = 1;
   }
 }
+
+option go_package = "generated/go/player";

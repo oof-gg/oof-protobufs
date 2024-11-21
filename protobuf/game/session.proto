@@ -32,3 +32,5 @@ message Session {
     }
   }
 }
+
+option go_package = "generated/go/game";
