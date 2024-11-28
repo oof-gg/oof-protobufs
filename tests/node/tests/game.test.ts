@@ -1,13 +1,13 @@
 import {describe, expect, test} from '@jest/globals';
-import {Instance, InstanceState, InstanceCommandMessage, InstanceCommandState, AuthConfig} from '@protos/game/instance';
+import {Instance, InstanceStateEnum, InstanceCommandMessage, AuthConfig, InstanceCommandEnum} from '@protos/game/instance';
 
 describe('Instance proto', () => {
   test('should create an Instance with default values', () => {
     expect(Instance).toBeDefined();
-    expect(InstanceState).toBeDefined();
+    expect(InstanceStateEnum).toBeDefined();
 
     const instance: Instance = {
-      state: InstanceState.INITIALIZING,
+      state: InstanceStateEnum.INITIALIZING,
       gameId: '',
       playerId: '',
       data: '',
@@ -25,7 +25,7 @@ describe('Instance proto', () => {
 
   test('should set and get state', () => {
     const instance: Instance = {
-      state: InstanceState.RUNNING,
+      state: InstanceStateEnum.RUNNING,
       gameId: '',
       playerId: '',
       data: '',
@@ -41,10 +41,10 @@ describe('Instance proto', () => {
   describe('Instance proto', () => {
     test('should create an Instance with default values', () => {
       expect(Instance).toBeDefined();
-      expect(InstanceState).toBeDefined();
+      expect(InstanceStateEnum).toBeDefined();
 
       const instance: Instance = {
-        state: InstanceState.INITIALIZING,
+        state: InstanceStateEnum.INITIALIZING,
         gameId: '',
         playerId: '',
         data: '',
@@ -62,7 +62,7 @@ describe('Instance proto', () => {
 
     test('should set and get state', () => {
       const instance: Instance = {
-        state: InstanceState.RUNNING,
+        state: InstanceStateEnum.RUNNING,
         gameId: '',
         playerId: '',
         data: '',
@@ -85,7 +85,7 @@ describe('Instance proto', () => {
       };
 
       const instanceCommandMessage: InstanceCommandMessage = {
-        state: InstanceCommandState.START,
+        state: InstanceCommandEnum.START,
         gameId: 'game123',
         playerId: 'player123',
         data: 'some data',

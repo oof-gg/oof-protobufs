@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package game;
 
-enum InstanceState {
+enum InstanceStateEnum {
   INITIALIZING = 0;
   RUNNING = 1;
   PAUSED = 2;
@@ -12,7 +12,7 @@ enum InstanceState {
   STOPPED = 6;
 }
 
-enum InstanceCommandState {
+enum InstanceCommandEnum {
   START = 0;
   PAUSE = 1;
   RESUME = 2;
@@ -23,7 +23,7 @@ enum InstanceCommandState {
 
 /// Represents the game instance (between App and Game), can be used to trigger operations to run in parent App from child Game container over messages. This would be the local state of the game instance last received.
 message Instance {
-  InstanceState state = 1;
+  InstanceStateEnum state = 1;
   optional string game_id = 2;
   optional string player_id = 3;
   optional string data = 4;
@@ -31,7 +31,7 @@ message Instance {
 
 /// Incoming message from the game instance to the app instance (between Game and App)
 message InstanceNotification {
-  InstanceState state = 1;
+  InstanceStateEnum state = 1;
   optional string game_id = 2;
   optional string player_id = 3;
   optional string data = 4;
@@ -39,7 +39,7 @@ message InstanceNotification {
 
 /// Represents the command to be sent to the game instance that is currently running (not the game state data itself)
 message InstanceCommandMessage {
-  InstanceCommandState state = 1;
+  InstanceCommandEnum state = 1;
   optional string game_id = 2;
   optional string player_id = 3;
   optional string data = 4;
