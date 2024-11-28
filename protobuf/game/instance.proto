@@ -20,4 +20,27 @@ message Instance {
   optional string data = 4;
 }
 
+/// Incoming message from the game instance to the app instance
+message InstanceNotification {
+  InstanceState state = 1;
+  optional string game_id = 2;
+  optional string player_id = 3;
+  optional string data = 4;
+}
+
+/// Represents the command to be sent to the game instance that is currently running (not the game state data itself)
+message InstanceCommand {
+  InstanceState state = 1;
+  optional string game_id = 2;
+  optional string player_id = 3;
+  optional string data = 4;
+  optional AuthConfig auth_config = 5;
+}
+
+/// Represents the authentication configuration for the game instance
+message AuthConfig {
+  string token = 1;
+  map<string, string> config = 2;
+}
+
 option go_package = "generated/go/game";
