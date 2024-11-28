@@ -14,6 +14,8 @@ message GameEvent {
   map <string, EventAttribute> attributes = 9;
   EventType type = 10;
 
+  //TODO: Modifier for Entity/Player/Team/Session to update any of the attributes
+
   message EventAttribute {
     oneof value {
       string string_value = 1;
