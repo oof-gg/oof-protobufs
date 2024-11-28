@@ -12,6 +12,15 @@ enum InstanceState {
   STOPPED = 6;
 }
 
+enum InstanceCommandState {
+  START = 0;
+  PAUSE = 1;
+  RESUME = 2;
+  STOP = 3;
+  ABORT = 4;
+  SHUTDOWN = 5;
+}
+
 /// Represents the game instance (between App and Game), can be used to trigger operations to run in parent App from child Game container over messages.
 message Instance {
   InstanceState state = 1;
@@ -29,8 +38,8 @@ message InstanceNotification {
 }
 
 /// Represents the command to be sent to the game instance that is currently running (not the game state data itself)
-message InstanceCommand {
-  InstanceState state = 1;
+message InstanceCommandMessage {
+  InstanceCommandState state = 1;
   optional string game_id = 2;
   optional string player_id = 3;
   optional string data = 4;
