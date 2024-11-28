@@ -19,3 +19,5 @@ message Instance {
   optional string player_id = 3;
   optional string data = 4;
 }
+
+option go_package = "generated/go/game";
