@@ -1,6 +1,6 @@
 {
   "name": "@oof.gg/protobuf-ts",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "types": ".",
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "files": [
