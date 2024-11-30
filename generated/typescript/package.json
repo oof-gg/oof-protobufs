@@ -9,20 +9,10 @@
     "package.json"
   ],
   "exports": {
-    "./game/*": {
-      "import": "./dist/game/*.js",
-      "require": "./dist/game/*.js",
-      "types": "./dist/game/*.d.ts"
-    },
-    "./global/*": {
-      "import": "./dist/global/*.js",
-      "require": "./dist/global/*.js",
-      "types": "./dist/global/*.d.ts"
-    },
-    "./player/*": {
-      "import": "./dist/player/*.js",
-      "require": "./dist/player/*.js",
-      "types": "./dist/player/*.d.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
   "repository": {
