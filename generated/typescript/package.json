@@ -2,6 +2,8 @@
   "name": "@oof.gg/protobuf-ts",
   "version": "1.0.35",
   "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "files": [
     "dist",
