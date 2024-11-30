@@ -1,7 +1,7 @@
 {
   "name": "@oof.gg/protobuf-ts",
   "version": "1.0.20",
-  "types": ".",
+  "types": "./dist/index.d.ts",
   "author": "Brian S. <brian@oof.gg> (https://www.oof.gg/)",
   "files": [
     "dist",
