@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package communication;
+
+import "game/event.proto";
+import "global/event.proto";
+import "global/time.proto";
+import "player/action.proto";
+
+
+message Event {
+  oneof event {
+    game.GameEvent game_event = 1;
+    player.PlayerAction player_event = 2;
+    global.GlobalEvent state_event = 3;
+    global.GlobalTime global_time = 4;
+  }
+}
+
+service Communication {
+  rpc StreamEvents (stream Event) returns (stream Event);
+}
