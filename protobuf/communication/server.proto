@@ -7,11 +7,10 @@ import "global/event.proto";
 import "global/time.proto";
 import "player/action.proto";
 
-
 message Event {
   oneof event {
     game.GameEvent game_event = 1;
-    player.PlayerAction player_event = 2;
+    player.Action player_event = 2;
     global.GlobalEvent state_event = 3;
     global.GlobalTime global_time = 4;
   }
@@ -20,3 +19,5 @@ message Event {
 service Communication {
   rpc StreamEvents (stream Event) returns (stream Event);
 }
+
+option go_package = "generated/go/communication";
