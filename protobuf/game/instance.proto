@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package game;
 
+/// Represents the state of the game instance that is currently running
 enum InstanceStateEnum {
   INITIALIZING = 0;
   RUNNING = 1;
@@ -12,6 +13,7 @@ enum InstanceStateEnum {
   STOPPED = 6;
 }
 
+/// Available commands to be sent to the game instance
 enum InstanceCommandEnum {
   START = 0;
   PAUSE = 1;
