@@ -10,5 +10,5 @@
     "declarationDir": "./dist",
     "lib": ["ES2020", "DOM"]
   },
-  "include": ["src/game/**/*", "src/global/**/*", "src/player/**/*"]
+  "include": ["src/game/**/*", "src/global/**/*", "src/player/**/*", "src/index.ts"],
 }
