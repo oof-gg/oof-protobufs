@@ -11,7 +11,7 @@ message Event {
   oneof event {
     game.GameEvent game_event = 1;
     player.Action player_event = 2;
-    global.GlobalEvent state_event = 3;
+    global.GlobalEvent global_event = 3;
     global.GlobalTime global_time = 4;
   }
 }
