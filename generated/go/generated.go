@@ -2,8 +2,8 @@
 package generated
 
 import (
-    _ "generated/go/game"
-    _ "generated/go/global"
-    _ "generated/go/player"
-    _ "generated/go/communication"
+    _ "github.com/oof-gg/oof-protobufs/generated/go/game"
+    _ "github.com/oof-gg/oof-protobufs/generated/go/global"
+    _ "github.com/oof-gg/oof-protobufs/generated/go/player"
+    _ "github.com/oof-gg/oof-protobufs/generated/go/communication"
 )
