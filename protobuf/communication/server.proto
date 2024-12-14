@@ -20,4 +20,4 @@ service Communication {
   rpc StreamEvents (stream Event) returns (stream Event);
 }
 
-option go_package = "generated/go/communication";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/communication";
