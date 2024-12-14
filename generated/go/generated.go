@@ -1,8 +1,9 @@
+// generated/go/generated.go
 package generated
 
 import (
-	"generated/go/game"
-	"generated/go/global"
-	"generated/go/player"
-	"generated/go/communication"
+    _ "generated/go/game"
+    _ "generated/go/global"
+    _ "generated/go/player"
+    _ "generated/go/communication"
 )
