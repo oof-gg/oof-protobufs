@@ -54,4 +54,4 @@ message AuthConfig {
   map<string, string> config = 2;
 }
 
-option go_package = "generated/go/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/game";
