@@ -65,4 +65,4 @@ message Action {
   }
 }
 
-option go_package = "generated/go/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/player";
