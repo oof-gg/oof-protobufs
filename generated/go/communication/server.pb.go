@@ -7,9 +7,9 @@
 package communication
 
 import (
-	player "generated/go/player"
 	game "github.com/oof-gg/oof-protobufs/generated/go/game"
 	global "github.com/oof-gg/oof-protobufs/generated/go/global"
+	player "github.com/oof-gg/oof-protobufs/generated/go/player"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
