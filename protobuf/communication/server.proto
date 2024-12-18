@@ -18,10 +18,12 @@ message Event {
   }
 }
 
+/// Input message for authentication
 message AuthRequest {
   string token = 1;
 }
 
+/// Standard response message
 message StdResponse {
   string status = 1;
   string status_code = 2;
