@@ -2,9 +2,11 @@ syntax = "proto3";
 
 package communication;
 
-import "game/event.proto";
 import "global/event.proto";
+import "global/join_leave.proto";
 import "global/time.proto";
+import "game/event.proto";
+import "game/session.proto";
 import "player/action.proto";
 
 message Event {
@@ -16,8 +18,29 @@ message Event {
   }
 }
 
-service Communication {
-  rpc StreamEvents (stream Event) returns (stream Event);
+message AuthRequest {
+  string token = 1;
+}
+
+message StdResponse {
+  string status = 1;
+  string status_code = 2;
+  string data = 3;
+}
+
+service Auth {
+  rpc Authenticate (AuthRequest) returns (StdResponse);
+}
+
+service Global {
+  rpc JoinLeave (global.JoinLeaveGame) returns (StdResponse);
+  rpc StreamEvents (stream global.GlobalEvent) returns (stream global.GlobalEvent);
+}
+
+service Game {
+  rpc CreateSession (game.Session) returns (game.Session);
+  rpc UpdateSession (game.Session) returns (game.Session);
+  rpc StreamEvents (stream game.GameEvent) returns (stream game.GameEvent);
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/communication";
