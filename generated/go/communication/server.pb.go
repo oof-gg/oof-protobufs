@@ -130,6 +130,7 @@ func (*Event_GlobalEvent) isEvent_Event() {}
 
 func (*Event_GlobalTime) isEvent_Event() {}
 
+// / Input message for authentication
 type AuthRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -175,6 +176,7 @@ func (x *AuthRequest) GetToken() string {
 	return ""
 }
 
+// / Standard response message
 type StdResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
