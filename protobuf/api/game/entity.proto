@@ -1,0 +1,109 @@
+syntax = "proto3";
+
+package api.game;
+
+/// The Entity message
+message Entity {
+  /// The name of the entity, e.g. "ball"
+  string name = 1; 
+  /// The type of the entity, e.g. "object"
+  string type = 2;
+  /// The unique identifier of the entity
+  string id = 3;
+  /// The session id of the entity
+  string session_id = 4;
+  /// The game id of the entity
+  string game_id = 5;
+  /// The attributes of the entity
+  map<string, EntityAttribute> attributes = 6;
+  /// The controller of the entity
+  ControllerStateEnum controller = 7;
+  /// The owner of the entity
+  optional string player_id = 8;
+  /// Can be any JSON data
+  optional string data = 9; 
+
+  enum ControllerStateEnum {
+    SERVER = 0;
+    PLAYER = 1;
+  }
+
+}
+/// The Entities message
+message Entities {
+  /// The entities
+  repeated Entity entities = 1;
+}
+
+/// The EntityAttribute message
+message EntityAttribute {
+  //TODO: Do we need a key?
+  //TODO: Can we simply have 1 value field and use a oneof that contains a string, int, float, bool?
+  /// The value of the attribute (string, int, float, bool)
+  oneof value {
+    string string_value = 2;
+    int32 int_value = 3;
+    float float_value = 4;
+    bool bool_value = 5;
+  }
+}
+
+/// The EntityCreate message
+message EntityGet {
+  /// The unique identifier of the entity
+  string id = 1;
+  /// The session id of the entity
+  string session_id = 2;
+  /// The game id of the entity
+  string game_id = 3;
+}
+
+/// The RegisterEntity message
+message EntityCreate {
+  /// The name of the entity, e.g. "ball"
+  string name = 1; 
+  /// The type of the entity, e.g. "object"
+  string type = 2;
+  /// The session id of the entity
+  string session_id = 4;
+  /// The game id of the entity
+  string game_id = 5;
+  /// The attributes of the entity
+  map<string, EntityAttribute> attributes = 6;
+  /// The controller of the entity
+  ControllerStateEnum controller = 7;
+  /// The owner of the entity
+  optional string player_id = 8;
+  /// Can be any JSON data
+  optional string data = 9; 
+
+  enum ControllerStateEnum {
+    SERVER = 0;
+    PLAYER = 1;
+  }
+
+}
+
+/// The EntityUpdate message
+message EntityUpdate {
+  /// The unique identifier of the entity
+  string id = 1;
+  /// The session id of the entity
+  string session_id = 2;
+  /// The game id of the entity
+  string game_id = 3;
+  /// The attributes of the entity
+  repeated EntityAttribute attributes = 4;
+}
+
+/// The EntityDelete message
+message EntityDelete {
+  /// The unique identifier of the entity
+  string id = 1;
+  /// The session id of the entity
+  string session_id = 2;
+  /// The game id of the entity
+  string game_id = 3;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

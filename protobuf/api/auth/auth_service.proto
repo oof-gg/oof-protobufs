@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package api.auth;
+
+// Go package path for the generated code
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/auth";
+
+// Service definition for authentication
+service AuthService {
+    // User login RPC to generate an access token
+    rpc Login(LoginRequest) returns (LoginResponse);
+
+    // RPC to validate an existing token
+    rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+
+    // RPC to refresh an access token using a refresh token
+    rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
+}
+
+// Request for Login RPC
+message LoginRequest {
+    string username = 1; // Username or email
+    string password = 2; // User's password
+}
+
+// Response for Login RPC
+message LoginResponse {
+    string access_token = 1;  // JWT Access Token
+    string refresh_token = 2; // Refresh Token
+    int64 expires_in = 3;     // Token expiration time in seconds
+}
+
+// Request for ValidateToken RPC
+message ValidateTokenRequest {
+    string access_token = 1; // JWT to validate
+}
+
+// Response for ValidateToken RPC
+message ValidateTokenResponse {
+    bool is_valid = 1;       // Indicates if the token is valid
+    string user_id = 2;      // ID of the authenticated user
+    string role = 3;         // Role of the user (e.g., admin, user)
+}
+
+// Request for RefreshToken RPC
+message RefreshTokenRequest {
+    string refresh_token = 1; // Refresh Token
+}
+
+// Response for RefreshToken RPC
+message RefreshTokenResponse {
+    string access_token = 1;  // New JWT Access Token
+    int64 expires_in = 2;     // Token expiration time in seconds
+}

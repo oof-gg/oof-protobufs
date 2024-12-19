@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package api.global;
+
+/// Message to synchronize time across clients
+message GlobalTime {
+  /// Unix timestamp in milliseconds to synchronize time across clients
+  int64 timestamp = 1; 
+  /// Hash of the timestamp to pass to the server
+  string hash = 2;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/global";

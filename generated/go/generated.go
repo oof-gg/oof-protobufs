@@ -2,8 +2,9 @@
 package generated
 
 import (
-    _ "github.com/oof-gg/oof-protobufs/generated/go/game"
-    _ "github.com/oof-gg/oof-protobufs/generated/go/global"
-    _ "github.com/oof-gg/oof-protobufs/generated/go/player"
-    _ "github.com/oof-gg/oof-protobufs/generated/go/communication"
+    - "github.com/oof-gg/oof-protobufs/generated/go/api/auth"
+	_ "github.com/oof-gg/oof-protobufs/generated/go/api/game"
+	_ "github.com/oof-gg/oof-protobufs/generated/go/api/global"
+	_ "github.com/oof-gg/oof-protobufs/generated/go/api/player"
+	_ "github.com/oof-gg/oof-protobufs/generated/go/std"
 )

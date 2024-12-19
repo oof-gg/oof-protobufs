@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package api.game;
+
+/// Represents the state of the game instance that is currently running
+enum InstanceStateEnum {
+  INITIALIZING = 0;
+  RUNNING = 1;
+  PAUSED = 2;
+  CRASHED = 3;
+  ABORTED = 4;
+  SHUTTING_DOWN = 5;
+  STOPPED = 6;
+}
+
+/// Available commands to be sent to the game instance
+enum InstanceCommandEnum {
+  START = 0;
+  PAUSE = 1;
+  RESUME = 2;
+  STOP = 3;
+  ABORT = 4;
+  SHUTDOWN = 5;
+}
+
+/// Represents the game instance (between App and Game), can be used to trigger operations to run in parent App from child Game container over messages. This would be the local state of the game instance last received.
+message Instance {
+  InstanceStateEnum state = 1;
+  optional string game_id = 2;
+  optional string player_id = 3;
+  optional string data = 4;
+}
+
+/// Incoming message from the game instance to the app instance (between Game and App)
+message InstanceNotification {
+  InstanceStateEnum state = 1;
+  optional string game_id = 2;
+  optional string player_id = 3;
+  optional string data = 4;
+}
+
+/// Represents the command to be sent to the game instance that is currently running (not the game state data itself)
+message InstanceCommandMessage {
+  InstanceCommandEnum state = 1;
+  optional string game_id = 2;
+  optional string player_id = 3;
+  optional string data = 4;
+  optional AuthConfig auth_config = 5;
+}
+
+/// Represents the authentication and configuration for the game instance
+message AuthConfig {
+  string token = 1;
+  map<string, string> config = 2;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";
