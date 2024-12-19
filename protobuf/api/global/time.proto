@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package global;
+package api.global;
 
 /// Message to synchronize time across clients
 message GlobalTime {
@@ -10,4 +10,4 @@ message GlobalTime {
   string hash = 2;
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/global";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/global";

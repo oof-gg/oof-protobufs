@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package game;
+package api.game;
 
 /// The RegisterEntity message
 message RegisterEntity {
@@ -55,4 +55,4 @@ message EntityUpdate {
   repeated RegisterEntity.EntityAttribute attributes = 4;
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

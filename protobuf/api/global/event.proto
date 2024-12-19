@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package global;
+package api.global;
 
 // Global Events, message can trigger API calls or other events
 message GlobalEvent {
@@ -46,4 +46,4 @@ message GlobalEvent {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/global";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/global";

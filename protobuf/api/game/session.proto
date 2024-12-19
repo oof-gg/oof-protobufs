@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package game;
+package api.game;
 
 /// Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 message Session {
@@ -33,4 +33,4 @@ message Session {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

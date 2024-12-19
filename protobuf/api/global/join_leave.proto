@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package global;
+package api.global;
 
 enum RegionEnum {
     REGION_UNSPECIFIED = 0; // Default unspecified region
@@ -49,4 +49,4 @@ message JoinLeaveGame {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/global";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/global";

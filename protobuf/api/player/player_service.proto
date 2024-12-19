@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package api.player;
+
+import "api/player/action.proto";
+
+service PlayerService {
+  rpc StreamEvents (stream api.player.PlayerAction) returns (stream api.player.PlayerAction);
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";

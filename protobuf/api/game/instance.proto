@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package game;
+package api.game;
 
 /// Represents the state of the game instance that is currently running
 enum InstanceStateEnum {
@@ -54,4 +54,4 @@ message AuthConfig {
   map<string, string> config = 2;
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

@@ -1,0 +1,16 @@
+
+syntax = "proto3";
+
+package api.game;
+
+import "api/game/session.proto";
+import "api/game/event.proto";
+
+service Game {
+  rpc CreateSession (api.game.Session) returns (api.game.Session);
+  rpc UpdateSession (api.game.Session) returns (api.game.Session);
+  rpc StreamEvents (stream api.game.GameEvent) returns (stream api.game.GameEvent);
+}
+
+// Go package path for the generated code
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

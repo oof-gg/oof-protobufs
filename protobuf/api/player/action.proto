@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package player;
+package api.player;
 
-message Action {
+message PlayerAction {
   /// Unique identifier of the player
   string player_id = 1;
   /// Unique identifier of the session
@@ -65,4 +65,4 @@ message Action {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";
