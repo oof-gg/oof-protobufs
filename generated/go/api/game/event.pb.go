@@ -65,13 +65,13 @@ func (GameEvent_EventType) EnumDescriptor() ([]byte, []int) {
 	return file_api_game_event_proto_rawDescGZIP(), []int{0, 0}
 }
 
-// Global Events, message can trigger API calls or other events
+// / Game Events, message can trigger API calls or other events
 type GameEvent struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         string                               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` // Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
+	Id         string                               `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"` /// Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
 	EventName  string                               `protobuf:"bytes,2,opt,name=event_name,json=eventName,proto3" json:"event_name,omitempty"`
 	Timestamp  int64                                `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	GameId     *string                              `protobuf:"bytes,4,opt,name=game_id,json=gameId,proto3,oneof" json:"game_id,omitempty"`

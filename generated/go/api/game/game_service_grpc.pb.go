@@ -22,7 +22,13 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Game_CreateSession_FullMethodName = "/api.game.Game/CreateSession"
+	Game_GetSession_FullMethodName    = "/api.game.Game/GetSession"
 	Game_UpdateSession_FullMethodName = "/api.game.Game/UpdateSession"
+	Game_DeleteSession_FullMethodName = "/api.game.Game/DeleteSession"
+	Game_CreateEntity_FullMethodName  = "/api.game.Game/CreateEntity"
+	Game_GetEntity_FullMethodName     = "/api.game.Game/GetEntity"
+	Game_UpdateEntity_FullMethodName  = "/api.game.Game/UpdateEntity"
+	Game_DeleteEntity_FullMethodName  = "/api.game.Game/DeleteEntity"
 	Game_StreamEvents_FullMethodName  = "/api.game.Game/StreamEvents"
 )
 
@@ -31,7 +37,15 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GameClient interface {
 	CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	GetSession(ctx context.Context, in *SessionGet, opts ...grpc.CallOption) (*Sessions, error)
 	UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	DeleteSession(ctx context.Context, in *SessionDelete, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	// TODO: Adjust payloads for protos
+	CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	GetEntity(ctx context.Context, in *EntityGet, opts ...grpc.CallOption) (*Entities, error)
+	UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	DeleteEntity(ctx context.Context, in *EntityDelete, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	// Stream events from the game
 	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[api_game.GameEvent, api_game.GameEvent], error)
 }
 
@@ -53,10 +67,70 @@ func (c *gameClient) CreateSession(ctx context.Context, in *Session, opts ...grp
 	return out, nil
 }
 
+func (c *gameClient) GetSession(ctx context.Context, in *SessionGet, opts ...grpc.CallOption) (*Sessions, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Sessions)
+	err := c.cc.Invoke(ctx, Game_GetSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gameClient) UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(std.StandardResponse)
 	err := c.cc.Invoke(ctx, Game_UpdateSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) DeleteSession(ctx context.Context, in *SessionDelete, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(std.StandardResponse)
+	err := c.cc.Invoke(ctx, Game_DeleteSession_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(std.StandardResponse)
+	err := c.cc.Invoke(ctx, Game_CreateEntity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) GetEntity(ctx context.Context, in *EntityGet, opts ...grpc.CallOption) (*Entities, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Entities)
+	err := c.cc.Invoke(ctx, Game_GetEntity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(std.StandardResponse)
+	err := c.cc.Invoke(ctx, Game_UpdateEntity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameClient) DeleteEntity(ctx context.Context, in *EntityDelete, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(std.StandardResponse)
+	err := c.cc.Invoke(ctx, Game_DeleteEntity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +155,15 @@ type Game_StreamEventsClient = grpc.BidiStreamingClient[api_game.GameEvent, api_
 // for forward compatibility.
 type GameServer interface {
 	CreateSession(context.Context, *Session) (*std.StandardResponse, error)
+	GetSession(context.Context, *SessionGet) (*Sessions, error)
 	UpdateSession(context.Context, *Session) (*std.StandardResponse, error)
+	DeleteSession(context.Context, *SessionDelete) (*std.StandardResponse, error)
+	// TODO: Adjust payloads for protos
+	CreateEntity(context.Context, *EntityCreate) (*std.StandardResponse, error)
+	GetEntity(context.Context, *EntityGet) (*Entities, error)
+	UpdateEntity(context.Context, *EntityUpdate) (*std.StandardResponse, error)
+	DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error)
+	// Stream events from the game
 	StreamEvents(grpc.BidiStreamingServer[api_game.GameEvent, api_game.GameEvent]) error
 	mustEmbedUnimplementedGameServer()
 }
@@ -96,8 +178,26 @@ type UnimplementedGameServer struct{}
 func (UnimplementedGameServer) CreateSession(context.Context, *Session) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
+func (UnimplementedGameServer) GetSession(context.Context, *SessionGet) (*Sessions, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSession not implemented")
+}
 func (UnimplementedGameServer) UpdateSession(context.Context, *Session) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSession not implemented")
+}
+func (UnimplementedGameServer) DeleteSession(context.Context, *SessionDelete) (*std.StandardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSession not implemented")
+}
+func (UnimplementedGameServer) CreateEntity(context.Context, *EntityCreate) (*std.StandardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateEntity not implemented")
+}
+func (UnimplementedGameServer) GetEntity(context.Context, *EntityGet) (*Entities, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetEntity not implemented")
+}
+func (UnimplementedGameServer) UpdateEntity(context.Context, *EntityUpdate) (*std.StandardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateEntity not implemented")
+}
+func (UnimplementedGameServer) DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteEntity not implemented")
 }
 func (UnimplementedGameServer) StreamEvents(grpc.BidiStreamingServer[api_game.GameEvent, api_game.GameEvent]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamEvents not implemented")
@@ -141,6 +241,24 @@ func _Game_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Game_GetSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionGet)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).GetSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_GetSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).GetSession(ctx, req.(*SessionGet))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Game_UpdateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Session)
 	if err := dec(in); err != nil {
@@ -155,6 +273,96 @@ func _Game_UpdateSession_Handler(srv interface{}, ctx context.Context, dec func(
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(GameServer).UpdateSession(ctx, req.(*Session))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_DeleteSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SessionDelete)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).DeleteSession(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_DeleteSession_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).DeleteSession(ctx, req.(*SessionDelete))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_CreateEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EntityCreate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).CreateEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_CreateEntity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).CreateEntity(ctx, req.(*EntityCreate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_GetEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EntityGet)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).GetEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_GetEntity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).GetEntity(ctx, req.(*EntityGet))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_UpdateEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EntityUpdate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).UpdateEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_UpdateEntity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).UpdateEntity(ctx, req.(*EntityUpdate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Game_DeleteEntity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EntityDelete)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServer).DeleteEntity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Game_DeleteEntity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServer).DeleteEntity(ctx, req.(*EntityDelete))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -178,8 +386,32 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Game_CreateSession_Handler,
 		},
 		{
+			MethodName: "GetSession",
+			Handler:    _Game_GetSession_Handler,
+		},
+		{
 			MethodName: "UpdateSession",
 			Handler:    _Game_UpdateSession_Handler,
+		},
+		{
+			MethodName: "DeleteSession",
+			Handler:    _Game_DeleteSession_Handler,
+		},
+		{
+			MethodName: "CreateEntity",
+			Handler:    _Game_CreateEntity_Handler,
+		},
+		{
+			MethodName: "GetEntity",
+			Handler:    _Game_GetEntity_Handler,
+		},
+		{
+			MethodName: "UpdateEntity",
+			Handler:    _Game_UpdateEntity_Handler,
+		},
+		{
+			MethodName: "DeleteEntity",
+			Handler:    _Game_DeleteEntity_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

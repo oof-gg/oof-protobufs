@@ -9,9 +9,9 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "api.game";
 
-/** Global Events, message can trigger API calls or other events */
+/** / Game Events, message can trigger API calls or other events */
 export interface GameEvent {
-  /** Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
+  /** / Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
   id: string;
   eventName: string;
   timestamp: number;

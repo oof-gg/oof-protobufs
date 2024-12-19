@@ -82,6 +82,20 @@ export interface Session_GameAttribute {
   boolValue?: boolean | undefined;
 }
 
+export interface SessionGet {
+  id?: string | undefined;
+  gameId?: string | undefined;
+}
+
+export interface SessionDelete {
+  id: string;
+  gameId: string;
+}
+
+export interface Sessions {
+  sessions: Session[];
+}
+
 function createBaseSession(): Session {
   return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
 }
@@ -412,6 +426,218 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;
     message.boolValue = object.boolValue ?? undefined;
+    return message;
+  },
+};
+
+function createBaseSessionGet(): SessionGet {
+  return { id: undefined, gameId: undefined };
+}
+
+export const SessionGet: MessageFns<SessionGet> = {
+  encode(message: SessionGet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== undefined) {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.gameId !== undefined) {
+      writer.uint32(18).string(message.gameId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionGet {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessionGet();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SessionGet {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : undefined,
+    };
+  },
+
+  toJSON(message: SessionGet): unknown {
+    const obj: any = {};
+    if (message.id !== undefined) {
+      obj.id = message.id;
+    }
+    if (message.gameId !== undefined) {
+      obj.gameId = message.gameId;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SessionGet>, I>>(base?: I): SessionGet {
+    return SessionGet.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SessionGet>, I>>(object: I): SessionGet {
+    const message = createBaseSessionGet();
+    message.id = object.id ?? undefined;
+    message.gameId = object.gameId ?? undefined;
+    return message;
+  },
+};
+
+function createBaseSessionDelete(): SessionDelete {
+  return { id: "", gameId: "" };
+}
+
+export const SessionDelete: MessageFns<SessionDelete> = {
+  encode(message: SessionDelete, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(18).string(message.gameId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionDelete {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessionDelete();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SessionDelete {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+    };
+  },
+
+  toJSON(message: SessionDelete): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SessionDelete>, I>>(base?: I): SessionDelete {
+    return SessionDelete.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SessionDelete>, I>>(object: I): SessionDelete {
+    const message = createBaseSessionDelete();
+    message.id = object.id ?? "";
+    message.gameId = object.gameId ?? "";
+    return message;
+  },
+};
+
+function createBaseSessions(): Sessions {
+  return { sessions: [] };
+}
+
+export const Sessions: MessageFns<Sessions> = {
+  encode(message: Sessions, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.sessions) {
+      Session.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Sessions {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessions();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.sessions.push(Session.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Sessions {
+    return {
+      sessions: globalThis.Array.isArray(object?.sessions) ? object.sessions.map((e: any) => Session.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: Sessions): unknown {
+    const obj: any = {};
+    if (message.sessions?.length) {
+      obj.sessions = message.sessions.map((e) => Session.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Sessions>, I>>(base?: I): Sessions {
+    return Sessions.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Sessions>, I>>(object: I): Sessions {
+    const message = createBaseSessions();
+    message.sessions = object.sessions?.map((e) => Session.fromPartial(e)) || [];
     return message;
   },
 };

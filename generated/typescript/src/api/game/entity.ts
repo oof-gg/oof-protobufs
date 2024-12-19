@@ -9,8 +9,8 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "api.game";
 
-/** / The RegisterEntity message */
-export interface RegisterEntity {
+/** / The Entity message */
+export interface Entity {
   /** / The name of the entity, e.g. "ball" */
   name: string;
   /** / The type of the entity, e.g. "object" */
@@ -22,9 +22,9 @@ export interface RegisterEntity {
   /** / The game id of the entity */
   gameId: string;
   /** / The attributes of the entity */
-  attributes: { [key: string]: RegisterEntity_EntityAttribute };
+  attributes: { [key: string]: EntityAttribute };
   /** / The controller of the entity */
-  controllerState: RegisterEntity_ControllerStateEnum;
+  controller: Entity_ControllerStateEnum;
   /** / The owner of the entity */
   playerId?:
     | string
@@ -33,50 +33,126 @@ export interface RegisterEntity {
   data?: string | undefined;
 }
 
-export enum RegisterEntity_ControllerStateEnum {
+export enum Entity_ControllerStateEnum {
   SERVER = 0,
   PLAYER = 1,
   UNRECOGNIZED = -1,
 }
 
-export function registerEntity_ControllerStateEnumFromJSON(object: any): RegisterEntity_ControllerStateEnum {
+export function entity_ControllerStateEnumFromJSON(object: any): Entity_ControllerStateEnum {
   switch (object) {
     case 0:
     case "SERVER":
-      return RegisterEntity_ControllerStateEnum.SERVER;
+      return Entity_ControllerStateEnum.SERVER;
     case 1:
     case "PLAYER":
-      return RegisterEntity_ControllerStateEnum.PLAYER;
+      return Entity_ControllerStateEnum.PLAYER;
     case -1:
     case "UNRECOGNIZED":
     default:
-      return RegisterEntity_ControllerStateEnum.UNRECOGNIZED;
+      return Entity_ControllerStateEnum.UNRECOGNIZED;
   }
 }
 
-export function registerEntity_ControllerStateEnumToJSON(object: RegisterEntity_ControllerStateEnum): string {
+export function entity_ControllerStateEnumToJSON(object: Entity_ControllerStateEnum): string {
   switch (object) {
-    case RegisterEntity_ControllerStateEnum.SERVER:
+    case Entity_ControllerStateEnum.SERVER:
       return "SERVER";
-    case RegisterEntity_ControllerStateEnum.PLAYER:
+    case Entity_ControllerStateEnum.PLAYER:
       return "PLAYER";
-    case RegisterEntity_ControllerStateEnum.UNRECOGNIZED:
+    case Entity_ControllerStateEnum.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
 }
 
-export interface RegisterEntity_AttributesEntry {
+export interface Entity_AttributesEntry {
   key: string;
-  value: RegisterEntity_EntityAttribute | undefined;
+  value: EntityAttribute | undefined;
+}
+
+/** / The Entities message */
+export interface Entities {
+  /** / The entities */
+  entities: Entity[];
 }
 
 /** / The EntityAttribute message */
-export interface RegisterEntity_EntityAttribute {
+export interface EntityAttribute {
   stringValue?: string | undefined;
   intValue?: number | undefined;
   floatValue?: number | undefined;
   boolValue?: boolean | undefined;
+}
+
+/** / The EntityCreate message */
+export interface EntityGet {
+  /** / The unique identifier of the entity */
+  id: string;
+  /** / The session id of the entity */
+  sessionId: string;
+  /** / The game id of the entity */
+  gameId: string;
+}
+
+/** / The RegisterEntity message */
+export interface EntityCreate {
+  /** / The name of the entity, e.g. "ball" */
+  name: string;
+  /** / The type of the entity, e.g. "object" */
+  type: string;
+  /** / The session id of the entity */
+  sessionId: string;
+  /** / The game id of the entity */
+  gameId: string;
+  /** / The attributes of the entity */
+  attributes: { [key: string]: EntityAttribute };
+  /** / The controller of the entity */
+  controller: EntityCreate_ControllerStateEnum;
+  /** / The owner of the entity */
+  playerId?:
+    | string
+    | undefined;
+  /** / Can be any JSON data */
+  data?: string | undefined;
+}
+
+export enum EntityCreate_ControllerStateEnum {
+  SERVER = 0,
+  PLAYER = 1,
+  UNRECOGNIZED = -1,
+}
+
+export function entityCreate_ControllerStateEnumFromJSON(object: any): EntityCreate_ControllerStateEnum {
+  switch (object) {
+    case 0:
+    case "SERVER":
+      return EntityCreate_ControllerStateEnum.SERVER;
+    case 1:
+    case "PLAYER":
+      return EntityCreate_ControllerStateEnum.PLAYER;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return EntityCreate_ControllerStateEnum.UNRECOGNIZED;
+  }
+}
+
+export function entityCreate_ControllerStateEnumToJSON(object: EntityCreate_ControllerStateEnum): string {
+  switch (object) {
+    case EntityCreate_ControllerStateEnum.SERVER:
+      return "SERVER";
+    case EntityCreate_ControllerStateEnum.PLAYER:
+      return "PLAYER";
+    case EntityCreate_ControllerStateEnum.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+export interface EntityCreate_AttributesEntry {
+  key: string;
+  value: EntityAttribute | undefined;
 }
 
 /** / The EntityUpdate message */
@@ -88,10 +164,20 @@ export interface EntityUpdate {
   /** / The game id of the entity */
   gameId: string;
   /** / The attributes of the entity */
-  attributes: RegisterEntity_EntityAttribute[];
+  attributes: EntityAttribute[];
 }
 
-function createBaseRegisterEntity(): RegisterEntity {
+/** / The EntityDelete message */
+export interface EntityDelete {
+  /** / The unique identifier of the entity */
+  id: string;
+  /** / The session id of the entity */
+  sessionId: string;
+  /** / The game id of the entity */
+  gameId: string;
+}
+
+function createBaseEntity(): Entity {
   return {
     name: "",
     type: "",
@@ -99,14 +185,14 @@ function createBaseRegisterEntity(): RegisterEntity {
     sessionId: "",
     gameId: "",
     attributes: {},
-    controllerState: 0,
+    controller: 0,
     playerId: undefined,
     data: undefined,
   };
 }
 
-export const RegisterEntity: MessageFns<RegisterEntity> = {
-  encode(message: RegisterEntity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const Entity: MessageFns<Entity> = {
+  encode(message: Entity, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -123,10 +209,10 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
       writer.uint32(42).string(message.gameId);
     }
     Object.entries(message.attributes).forEach(([key, value]) => {
-      RegisterEntity_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
+      Entity_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
     });
-    if (message.controllerState !== 0) {
-      writer.uint32(56).int32(message.controllerState);
+    if (message.controller !== 0) {
+      writer.uint32(56).int32(message.controller);
     }
     if (message.playerId !== undefined) {
       writer.uint32(66).string(message.playerId);
@@ -137,10 +223,10 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): RegisterEntity {
+  decode(input: BinaryReader | Uint8Array, length?: number): Entity {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRegisterEntity();
+    const message = createBaseEntity();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -189,7 +275,7 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
             break;
           }
 
-          const entry6 = RegisterEntity_AttributesEntry.decode(reader, reader.uint32());
+          const entry6 = Entity_AttributesEntry.decode(reader, reader.uint32());
           if (entry6.value !== undefined) {
             message.attributes[entry6.key] = entry6.value;
           }
@@ -200,7 +286,7 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
             break;
           }
 
-          message.controllerState = reader.int32() as any;
+          message.controller = reader.int32() as any;
           continue;
         }
         case 8: {
@@ -228,7 +314,7 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     return message;
   },
 
-  fromJSON(object: any): RegisterEntity {
+  fromJSON(object: any): Entity {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       type: isSet(object.type) ? globalThis.String(object.type) : "",
@@ -236,23 +322,18 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
       attributes: isObject(object.attributes)
-        ? Object.entries(object.attributes).reduce<{ [key: string]: RegisterEntity_EntityAttribute }>(
-          (acc, [key, value]) => {
-            acc[key] = RegisterEntity_EntityAttribute.fromJSON(value);
-            return acc;
-          },
-          {},
-        )
+        ? Object.entries(object.attributes).reduce<{ [key: string]: EntityAttribute }>((acc, [key, value]) => {
+          acc[key] = EntityAttribute.fromJSON(value);
+          return acc;
+        }, {})
         : {},
-      controllerState: isSet(object.controllerState)
-        ? registerEntity_ControllerStateEnumFromJSON(object.controllerState)
-        : 0,
+      controller: isSet(object.controller) ? entity_ControllerStateEnumFromJSON(object.controller) : 0,
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
-  toJSON(message: RegisterEntity): unknown {
+  toJSON(message: Entity): unknown {
     const obj: any = {};
     if (message.name !== "") {
       obj.name = message.name;
@@ -274,12 +355,12 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
       if (entries.length > 0) {
         obj.attributes = {};
         entries.forEach(([k, v]) => {
-          obj.attributes[k] = RegisterEntity_EntityAttribute.toJSON(v);
+          obj.attributes[k] = EntityAttribute.toJSON(v);
         });
       }
     }
-    if (message.controllerState !== 0) {
-      obj.controllerState = registerEntity_ControllerStateEnumToJSON(message.controllerState);
+    if (message.controller !== 0) {
+      obj.controller = entity_ControllerStateEnumToJSON(message.controller);
     }
     if (message.playerId !== undefined) {
       obj.playerId = message.playerId;
@@ -290,50 +371,51 @@ export const RegisterEntity: MessageFns<RegisterEntity> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<RegisterEntity>, I>>(base?: I): RegisterEntity {
-    return RegisterEntity.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<Entity>, I>>(base?: I): Entity {
+    return Entity.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<RegisterEntity>, I>>(object: I): RegisterEntity {
-    const message = createBaseRegisterEntity();
+  fromPartial<I extends Exact<DeepPartial<Entity>, I>>(object: I): Entity {
+    const message = createBaseEntity();
     message.name = object.name ?? "";
     message.type = object.type ?? "";
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
-    message.attributes = Object.entries(object.attributes ?? {}).reduce<
-      { [key: string]: RegisterEntity_EntityAttribute }
-    >((acc, [key, value]) => {
-      if (value !== undefined) {
-        acc[key] = RegisterEntity_EntityAttribute.fromPartial(value);
-      }
-      return acc;
-    }, {});
-    message.controllerState = object.controllerState ?? 0;
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: EntityAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = EntityAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    message.controller = object.controller ?? 0;
     message.playerId = object.playerId ?? undefined;
     message.data = object.data ?? undefined;
     return message;
   },
 };
 
-function createBaseRegisterEntity_AttributesEntry(): RegisterEntity_AttributesEntry {
+function createBaseEntity_AttributesEntry(): Entity_AttributesEntry {
   return { key: "", value: undefined };
 }
 
-export const RegisterEntity_AttributesEntry: MessageFns<RegisterEntity_AttributesEntry> = {
-  encode(message: RegisterEntity_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const Entity_AttributesEntry: MessageFns<Entity_AttributesEntry> = {
+  encode(message: Entity_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
     if (message.value !== undefined) {
-      RegisterEntity_EntityAttribute.encode(message.value, writer.uint32(18).fork()).join();
+      EntityAttribute.encode(message.value, writer.uint32(18).fork()).join();
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): RegisterEntity_AttributesEntry {
+  decode(input: BinaryReader | Uint8Array, length?: number): Entity_AttributesEntry {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRegisterEntity_AttributesEntry();
+    const message = createBaseEntity_AttributesEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -350,7 +432,7 @@ export const RegisterEntity_AttributesEntry: MessageFns<RegisterEntity_Attribute
             break;
           }
 
-          message.value = RegisterEntity_EntityAttribute.decode(reader, reader.uint32());
+          message.value = EntityAttribute.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -362,45 +444,103 @@ export const RegisterEntity_AttributesEntry: MessageFns<RegisterEntity_Attribute
     return message;
   },
 
-  fromJSON(object: any): RegisterEntity_AttributesEntry {
+  fromJSON(object: any): Entity_AttributesEntry {
     return {
       key: isSet(object.key) ? globalThis.String(object.key) : "",
-      value: isSet(object.value) ? RegisterEntity_EntityAttribute.fromJSON(object.value) : undefined,
+      value: isSet(object.value) ? EntityAttribute.fromJSON(object.value) : undefined,
     };
   },
 
-  toJSON(message: RegisterEntity_AttributesEntry): unknown {
+  toJSON(message: Entity_AttributesEntry): unknown {
     const obj: any = {};
     if (message.key !== "") {
       obj.key = message.key;
     }
     if (message.value !== undefined) {
-      obj.value = RegisterEntity_EntityAttribute.toJSON(message.value);
+      obj.value = EntityAttribute.toJSON(message.value);
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<RegisterEntity_AttributesEntry>, I>>(base?: I): RegisterEntity_AttributesEntry {
-    return RegisterEntity_AttributesEntry.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<Entity_AttributesEntry>, I>>(base?: I): Entity_AttributesEntry {
+    return Entity_AttributesEntry.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<RegisterEntity_AttributesEntry>, I>>(
-    object: I,
-  ): RegisterEntity_AttributesEntry {
-    const message = createBaseRegisterEntity_AttributesEntry();
+  fromPartial<I extends Exact<DeepPartial<Entity_AttributesEntry>, I>>(object: I): Entity_AttributesEntry {
+    const message = createBaseEntity_AttributesEntry();
     message.key = object.key ?? "";
     message.value = (object.value !== undefined && object.value !== null)
-      ? RegisterEntity_EntityAttribute.fromPartial(object.value)
+      ? EntityAttribute.fromPartial(object.value)
       : undefined;
     return message;
   },
 };
 
-function createBaseRegisterEntity_EntityAttribute(): RegisterEntity_EntityAttribute {
+function createBaseEntities(): Entities {
+  return { entities: [] };
+}
+
+export const Entities: MessageFns<Entities> = {
+  encode(message: Entities, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.entities) {
+      Entity.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Entities {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntities();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.entities.push(Entity.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Entities {
+    return {
+      entities: globalThis.Array.isArray(object?.entities) ? object.entities.map((e: any) => Entity.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: Entities): unknown {
+    const obj: any = {};
+    if (message.entities?.length) {
+      obj.entities = message.entities.map((e) => Entity.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Entities>, I>>(base?: I): Entities {
+    return Entities.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Entities>, I>>(object: I): Entities {
+    const message = createBaseEntities();
+    message.entities = object.entities?.map((e) => Entity.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseEntityAttribute(): EntityAttribute {
   return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
 
-export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAttribute> = {
-  encode(message: RegisterEntity_EntityAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityAttribute: MessageFns<EntityAttribute> = {
+  encode(message: EntityAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.stringValue !== undefined) {
       writer.uint32(18).string(message.stringValue);
     }
@@ -416,10 +556,10 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): RegisterEntity_EntityAttribute {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityAttribute {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseRegisterEntity_EntityAttribute();
+    const message = createBaseEntityAttribute();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -464,7 +604,7 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     return message;
   },
 
-  fromJSON(object: any): RegisterEntity_EntityAttribute {
+  fromJSON(object: any): EntityAttribute {
     return {
       stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
       intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
@@ -473,7 +613,7 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     };
   },
 
-  toJSON(message: RegisterEntity_EntityAttribute): unknown {
+  toJSON(message: EntityAttribute): unknown {
     const obj: any = {};
     if (message.stringValue !== undefined) {
       obj.stringValue = message.stringValue;
@@ -490,17 +630,388 @@ export const RegisterEntity_EntityAttribute: MessageFns<RegisterEntity_EntityAtt
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<RegisterEntity_EntityAttribute>, I>>(base?: I): RegisterEntity_EntityAttribute {
-    return RegisterEntity_EntityAttribute.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityAttribute>, I>>(base?: I): EntityAttribute {
+    return EntityAttribute.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<RegisterEntity_EntityAttribute>, I>>(
-    object: I,
-  ): RegisterEntity_EntityAttribute {
-    const message = createBaseRegisterEntity_EntityAttribute();
+  fromPartial<I extends Exact<DeepPartial<EntityAttribute>, I>>(object: I): EntityAttribute {
+    const message = createBaseEntityAttribute();
     message.stringValue = object.stringValue ?? undefined;
     message.intValue = object.intValue ?? undefined;
     message.floatValue = object.floatValue ?? undefined;
     message.boolValue = object.boolValue ?? undefined;
+    return message;
+  },
+};
+
+function createBaseEntityGet(): EntityGet {
+  return { id: "", sessionId: "", gameId: "" };
+}
+
+export const EntityGet: MessageFns<EntityGet> = {
+  encode(message: EntityGet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.sessionId !== "") {
+      writer.uint32(18).string(message.sessionId);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(26).string(message.gameId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityGet {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityGet();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.sessionId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityGet {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+    };
+  },
+
+  toJSON(message: EntityGet): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.sessionId !== "") {
+      obj.sessionId = message.sessionId;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityGet>, I>>(base?: I): EntityGet {
+    return EntityGet.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityGet>, I>>(object: I): EntityGet {
+    const message = createBaseEntityGet();
+    message.id = object.id ?? "";
+    message.sessionId = object.sessionId ?? "";
+    message.gameId = object.gameId ?? "";
+    return message;
+  },
+};
+
+function createBaseEntityCreate(): EntityCreate {
+  return {
+    name: "",
+    type: "",
+    sessionId: "",
+    gameId: "",
+    attributes: {},
+    controller: 0,
+    playerId: undefined,
+    data: undefined,
+  };
+}
+
+export const EntityCreate: MessageFns<EntityCreate> = {
+  encode(message: EntityCreate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.type !== "") {
+      writer.uint32(18).string(message.type);
+    }
+    if (message.sessionId !== "") {
+      writer.uint32(34).string(message.sessionId);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(42).string(message.gameId);
+    }
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      EntityCreate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
+    });
+    if (message.controller !== 0) {
+      writer.uint32(56).int32(message.controller);
+    }
+    if (message.playerId !== undefined) {
+      writer.uint32(66).string(message.playerId);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(74).string(message.data);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityCreate();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.name = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.type = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.sessionId = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          const entry6 = EntityCreate_AttributesEntry.decode(reader, reader.uint32());
+          if (entry6.value !== undefined) {
+            message.attributes[entry6.key] = entry6.value;
+          }
+          continue;
+        }
+        case 7: {
+          if (tag !== 56) {
+            break;
+          }
+
+          message.controller = reader.int32() as any;
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.playerId = reader.string();
+          continue;
+        }
+        case 9: {
+          if (tag !== 74) {
+            break;
+          }
+
+          message.data = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityCreate {
+    return {
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      type: isSet(object.type) ? globalThis.String(object.type) : "",
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: EntityAttribute }>((acc, [key, value]) => {
+          acc[key] = EntityAttribute.fromJSON(value);
+          return acc;
+        }, {})
+        : {},
+      controller: isSet(object.controller) ? entityCreate_ControllerStateEnumFromJSON(object.controller) : 0,
+      playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+    };
+  },
+
+  toJSON(message: EntityCreate): unknown {
+    const obj: any = {};
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.type !== "") {
+      obj.type = message.type;
+    }
+    if (message.sessionId !== "") {
+      obj.sessionId = message.sessionId;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = EntityAttribute.toJSON(v);
+        });
+      }
+    }
+    if (message.controller !== 0) {
+      obj.controller = entityCreate_ControllerStateEnumToJSON(message.controller);
+    }
+    if (message.playerId !== undefined) {
+      obj.playerId = message.playerId;
+    }
+    if (message.data !== undefined) {
+      obj.data = message.data;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityCreate>, I>>(base?: I): EntityCreate {
+    return EntityCreate.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityCreate>, I>>(object: I): EntityCreate {
+    const message = createBaseEntityCreate();
+    message.name = object.name ?? "";
+    message.type = object.type ?? "";
+    message.sessionId = object.sessionId ?? "";
+    message.gameId = object.gameId ?? "";
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: EntityAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = EntityAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    message.controller = object.controller ?? 0;
+    message.playerId = object.playerId ?? undefined;
+    message.data = object.data ?? undefined;
+    return message;
+  },
+};
+
+function createBaseEntityCreate_AttributesEntry(): EntityCreate_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEntry> = {
+  encode(message: EntityCreate_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      EntityAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreate_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityCreate_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = EntityAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityCreate_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? EntityAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: EntityCreate_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = EntityAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityCreate_AttributesEntry>, I>>(base?: I): EntityCreate_AttributesEntry {
+    return EntityCreate_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityCreate_AttributesEntry>, I>>(object: I): EntityCreate_AttributesEntry {
+    const message = createBaseEntityCreate_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? EntityAttribute.fromPartial(object.value)
+      : undefined;
     return message;
   },
 };
@@ -521,7 +1032,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
       writer.uint32(26).string(message.gameId);
     }
     for (const v of message.attributes) {
-      RegisterEntity_EntityAttribute.encode(v!, writer.uint32(34).fork()).join();
+      EntityAttribute.encode(v!, writer.uint32(34).fork()).join();
     }
     return writer;
   },
@@ -562,7 +1073,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
             break;
           }
 
-          message.attributes.push(RegisterEntity_EntityAttribute.decode(reader, reader.uint32()));
+          message.attributes.push(EntityAttribute.decode(reader, reader.uint32()));
           continue;
         }
       }
@@ -580,7 +1091,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
       attributes: globalThis.Array.isArray(object?.attributes)
-        ? object.attributes.map((e: any) => RegisterEntity_EntityAttribute.fromJSON(e))
+        ? object.attributes.map((e: any) => EntityAttribute.fromJSON(e))
         : [],
     };
   },
@@ -597,7 +1108,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
       obj.gameId = message.gameId;
     }
     if (message.attributes?.length) {
-      obj.attributes = message.attributes.map((e) => RegisterEntity_EntityAttribute.toJSON(e));
+      obj.attributes = message.attributes.map((e) => EntityAttribute.toJSON(e));
     }
     return obj;
   },
@@ -610,7 +1121,99 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
-    message.attributes = object.attributes?.map((e) => RegisterEntity_EntityAttribute.fromPartial(e)) || [];
+    message.attributes = object.attributes?.map((e) => EntityAttribute.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseEntityDelete(): EntityDelete {
+  return { id: "", sessionId: "", gameId: "" };
+}
+
+export const EntityDelete: MessageFns<EntityDelete> = {
+  encode(message: EntityDelete, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.sessionId !== "") {
+      writer.uint32(18).string(message.sessionId);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(26).string(message.gameId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityDelete {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityDelete();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.sessionId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityDelete {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+    };
+  },
+
+  toJSON(message: EntityDelete): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.sessionId !== "") {
+      obj.sessionId = message.sessionId;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityDelete>, I>>(base?: I): EntityDelete {
+    return EntityDelete.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityDelete>, I>>(object: I): EntityDelete {
+    const message = createBaseEntityDelete();
+    message.id = object.id ?? "";
+    message.sessionId = object.sessionId ?? "";
+    message.gameId = object.gameId ?? "";
     return message;
   },
 };
