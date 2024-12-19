@@ -1,12 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/player';
-import { Action, Action_ActionType, Action_PlayerAction } from '@protos/player/action';
-import { State, State_PlayerAttribute, State_PlayerState } from '@protos/player/state';
-import { GlobalEvent, GlobalEvent_EventType } from '@protos/global/event';
-import { GameEvent, GameEvent_EventType, GameEvent_AttributesEntry, GameEvent_EventAttribute } from '@protos/game/event';
-import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/global/join_leave';
-import { GlobalTime } from '@protos/global/time';
-import { Session, Session_GameAttribute, Session_GameState } from '@protos/game/session';
+import { Player } from '@protos/api/player/player';
+import { GameEvent, GameEvent_EventType, GameEvent_EventAttribute } from '@protos/api/game/event';
+import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/api/global/join_leave';
+import { Session, Session_GameAttribute, Session_GameState } from '@protos/api/game/session';
+import { PlayerAction, PlayerAction_ActionType, PlayerAction_PlayerAction } from '@protos/api/player/action';
 
 describe("trivia scenario", () => {
   // TODO: Test Trivia Data Structures with Player, Game, Global
@@ -122,17 +119,17 @@ describe("trivia scenario", () => {
   test.skip("should have the ability to receive a score update from the game", () => {});
 
   test("should have the ability to send a game action", () => {
-    expect(Action).toBeDefined();
+    expect(PlayerAction).toBeDefined();
 
-    const playerAction: Action_PlayerAction = {
+    const playerAction: PlayerAction_PlayerAction = {
       stringValue: 'The answer is 42',
     };
 
-    const playerActionObj: Action = {
+    const playerActionObj: PlayerAction = {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      type: Action_ActionType.CUSTOM,
+      type: PlayerAction_ActionType.CUSTOM,
       action: {
         playerAction
       },
@@ -141,11 +138,11 @@ describe("trivia scenario", () => {
     };
 
     // encode
-    const encodedAction = Action.encode(playerActionObj).finish();
+    const encodedAction = PlayerAction.encode(playerActionObj).finish();
     expect(encodedAction).toBeInstanceOf(Uint8Array);
     
     // decode
-    const decodedAction = Action.decode(encodedAction);
+    const decodedAction = PlayerAction.decode(encodedAction);
     expect(decodedAction).toEqual(playerActionObj);
 
     expect(playerActionObj).toBeDefined();

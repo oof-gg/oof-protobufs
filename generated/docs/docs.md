@@ -3,98 +3,269 @@
 
 ## Table of Contents
 
-- [game/entity.proto](#game_entity-proto)
-    - [EntityUpdate](#game-EntityUpdate)
-    - [RegisterEntity](#game-RegisterEntity)
-    - [RegisterEntity.AttributesEntry](#game-RegisterEntity-AttributesEntry)
-    - [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute)
+- [api/auth/auth_service.proto](#api_auth_auth_service-proto)
+    - [LoginRequest](#api-auth-LoginRequest)
+    - [LoginResponse](#api-auth-LoginResponse)
+    - [RefreshTokenRequest](#api-auth-RefreshTokenRequest)
+    - [RefreshTokenResponse](#api-auth-RefreshTokenResponse)
+    - [ValidateTokenRequest](#api-auth-ValidateTokenRequest)
+    - [ValidateTokenResponse](#api-auth-ValidateTokenResponse)
   
-    - [RegisterEntity.ControllerStateEnum](#game-RegisterEntity-ControllerStateEnum)
+    - [AuthService](#api-auth-AuthService)
   
-- [game/event.proto](#game_event-proto)
-    - [GameEvent](#game-GameEvent)
-    - [GameEvent.AttributesEntry](#game-GameEvent-AttributesEntry)
-    - [GameEvent.EventAttribute](#game-GameEvent-EventAttribute)
+- [api/game/entity.proto](#api_game_entity-proto)
+    - [Entities](#api-game-Entities)
+    - [Entity](#api-game-Entity)
+    - [Entity.AttributesEntry](#api-game-Entity-AttributesEntry)
+    - [EntityAttribute](#api-game-EntityAttribute)
+    - [EntityCreate](#api-game-EntityCreate)
+    - [EntityCreate.AttributesEntry](#api-game-EntityCreate-AttributesEntry)
+    - [EntityDelete](#api-game-EntityDelete)
+    - [EntityGet](#api-game-EntityGet)
+    - [EntityUpdate](#api-game-EntityUpdate)
   
-    - [GameEvent.EventType](#game-GameEvent-EventType)
+    - [Entity.ControllerStateEnum](#api-game-Entity-ControllerStateEnum)
+    - [EntityCreate.ControllerStateEnum](#api-game-EntityCreate-ControllerStateEnum)
   
-- [game/session.proto](#game_session-proto)
-    - [Session](#game-Session)
-    - [Session.AttributesEntry](#game-Session-AttributesEntry)
-    - [Session.GameAttribute](#game-Session-GameAttribute)
+- [api/game/event.proto](#api_game_event-proto)
+    - [GameEvent](#api-game-GameEvent)
+    - [GameEvent.AttributesEntry](#api-game-GameEvent-AttributesEntry)
+    - [GameEvent.EventAttribute](#api-game-GameEvent-EventAttribute)
   
-    - [Session.GameState](#game-Session-GameState)
+    - [GameEvent.EventType](#api-game-GameEvent-EventType)
   
-- [global/event.proto](#global_event-proto)
-    - [GlobalEvent](#global-GlobalEvent)
-    - [GlobalEvent.AttributesEntry](#global-GlobalEvent-AttributesEntry)
-    - [GlobalEvent.EventAttribute](#global-GlobalEvent-EventAttribute)
+- [api/game/game_service.proto](#api_game_game_service-proto)
+    - [Game](#api-game-Game)
   
-    - [GlobalEvent.EventType](#global-GlobalEvent-EventType)
+- [api/game/instance.proto](#api_game_instance-proto)
+    - [AuthConfig](#api-game-AuthConfig)
+    - [AuthConfig.ConfigEntry](#api-game-AuthConfig-ConfigEntry)
+    - [Instance](#api-game-Instance)
+    - [InstanceCommandMessage](#api-game-InstanceCommandMessage)
+    - [InstanceNotification](#api-game-InstanceNotification)
   
-- [global/join_leave.proto](#global_join_leave-proto)
-    - [JoinLeaveGame](#global-JoinLeaveGame)
+    - [InstanceCommandEnum](#api-game-InstanceCommandEnum)
+    - [InstanceStateEnum](#api-game-InstanceStateEnum)
   
-    - [JoinLeaveGame.Action](#global-JoinLeaveGame-Action)
+- [api/game/session.proto](#api_game_session-proto)
+    - [Session](#api-game-Session)
+    - [Session.AttributesEntry](#api-game-Session-AttributesEntry)
+    - [Session.GameAttribute](#api-game-Session-GameAttribute)
+    - [SessionDelete](#api-game-SessionDelete)
+    - [SessionGet](#api-game-SessionGet)
+    - [Sessions](#api-game-Sessions)
   
-- [global/time.proto](#global_time-proto)
-    - [GlobalTime](#global-GlobalTime)
+    - [Session.GameState](#api-game-Session-GameState)
   
-- [player/action.proto](#player_action-proto)
-    - [Action](#player-Action)
-    - [Action.ActionEntry](#player-Action-ActionEntry)
-    - [Action.PlayerAction](#player-Action-PlayerAction)
-    - [Action.Position](#player-Action-Position)
-    - [Action.Velocity](#player-Action-Velocity)
+- [api/global/event.proto](#api_global_event-proto)
+    - [GlobalEvent](#api-global-GlobalEvent)
+    - [GlobalEvent.AttributesEntry](#api-global-GlobalEvent-AttributesEntry)
+    - [GlobalEvent.EventAttribute](#api-global-GlobalEvent-EventAttribute)
   
-    - [Action.ActionType](#player-Action-ActionType)
+    - [GlobalEvent.EventType](#api-global-GlobalEvent-EventType)
   
-- [player/player.proto](#player_player-proto)
-    - [Player](#player-Player)
+- [api/global/global_service.proto](#api_global_global_service-proto)
+    - [GlobalService](#api-global-GlobalService)
   
-    - [Player.PlayerStatus](#player-Player-PlayerStatus)
-    - [Player.PlayerType](#player-Player-PlayerType)
+- [api/global/join_leave.proto](#api_global_join_leave-proto)
+    - [JoinLeaveGame](#api-global-JoinLeaveGame)
   
-- [player/state.proto](#player_state-proto)
-    - [State](#player-State)
-    - [State.AttributesEntry](#player-State-AttributesEntry)
-    - [State.PlayerAttribute](#player-State-PlayerAttribute)
+    - [JoinLeaveGame.Action](#api-global-JoinLeaveGame-Action)
+    - [RegionEnum](#api-global-RegionEnum)
   
-    - [State.PlayerState](#player-State-PlayerState)
+- [api/global/time.proto](#api_global_time-proto)
+    - [GlobalTime](#api-global-GlobalTime)
+  
+- [api/player/action.proto](#api_player_action-proto)
+    - [PlayerAction](#api-player-PlayerAction)
+    - [PlayerAction.ActionEntry](#api-player-PlayerAction-ActionEntry)
+    - [PlayerAction.PlayerAction](#api-player-PlayerAction-PlayerAction)
+    - [PlayerAction.Position](#api-player-PlayerAction-Position)
+    - [PlayerAction.Velocity](#api-player-PlayerAction-Velocity)
+  
+    - [PlayerAction.ActionType](#api-player-PlayerAction-ActionType)
+  
+- [api/player/player.proto](#api_player_player-proto)
+    - [Player](#api-player-Player)
+    - [PlayerCreate](#api-player-PlayerCreate)
+    - [PlayerGet](#api-player-PlayerGet)
+    - [PlayerUpdate](#api-player-PlayerUpdate)
+    - [Players](#api-player-Players)
+  
+    - [PlayerStatus](#api-player-PlayerStatus)
+    - [PlayerType](#api-player-PlayerType)
+  
+- [api/player/player_service.proto](#api_player_player_service-proto)
+    - [PlayerService](#api-player-PlayerService)
+  
+- [api/player/state.proto](#api_player_state-proto)
+    - [State](#api-player-State)
+    - [State.AttributesEntry](#api-player-State-AttributesEntry)
+    - [State.PlayerAttribute](#api-player-State-PlayerAttribute)
+  
+    - [State.PlayerState](#api-player-State-PlayerState)
+  
+- [std/responses.proto](#std_responses-proto)
+    - [Error](#std-Error)
+    - [PaginatedResponse](#std-PaginatedResponse)
+    - [PaginationMetadata](#std-PaginationMetadata)
+    - [StandardResponse](#std-StandardResponse)
+    - [Success](#std-Success)
   
 - [Scalar Value Types](#scalar-value-types)
 
 
 
-<a name="game_entity-proto"></a>
+<a name="api_auth_auth_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## game/entity.proto
+## api/auth/auth_service.proto
 
 
 
-<a name="game-EntityUpdate"></a>
+<a name="api-auth-LoginRequest"></a>
 
-### EntityUpdate
-The EntityUpdate message
+### LoginRequest
+Request for Login RPC
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | The unique identifier of the entity |
-| session_id | [string](#string) |  | The session id of the entity |
-| game_id | [string](#string) |  | The game id of the entity |
-| attributes | [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute) | repeated | The attributes of the entity |
+| username | [string](#string) |  | Username or email |
+| password | [string](#string) |  | User&#39;s password |
 
 
 
 
 
 
-<a name="game-RegisterEntity"></a>
+<a name="api-auth-LoginResponse"></a>
 
-### RegisterEntity
-The RegisterEntity message
+### LoginResponse
+Response for Login RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| access_token | [string](#string) |  | JWT Access Token |
+| refresh_token | [string](#string) |  | Refresh Token |
+| expires_in | [int64](#int64) |  | Token expiration time in seconds |
+
+
+
+
+
+
+<a name="api-auth-RefreshTokenRequest"></a>
+
+### RefreshTokenRequest
+Request for RefreshToken RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| refresh_token | [string](#string) |  | Refresh Token |
+
+
+
+
+
+
+<a name="api-auth-RefreshTokenResponse"></a>
+
+### RefreshTokenResponse
+Response for RefreshToken RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| access_token | [string](#string) |  | New JWT Access Token |
+| expires_in | [int64](#int64) |  | Token expiration time in seconds |
+
+
+
+
+
+
+<a name="api-auth-ValidateTokenRequest"></a>
+
+### ValidateTokenRequest
+Request for ValidateToken RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| access_token | [string](#string) |  | JWT to validate |
+
+
+
+
+
+
+<a name="api-auth-ValidateTokenResponse"></a>
+
+### ValidateTokenResponse
+Response for ValidateToken RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| is_valid | [bool](#bool) |  | Indicates if the token is valid |
+| user_id | [string](#string) |  | ID of the authenticated user |
+| role | [string](#string) |  | Role of the user (e.g., admin, user) |
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-auth-AuthService"></a>
+
+### AuthService
+Service definition for authentication
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| Login | [LoginRequest](#api-auth-LoginRequest) | [LoginResponse](#api-auth-LoginResponse) | User login RPC to generate an access token |
+| ValidateToken | [ValidateTokenRequest](#api-auth-ValidateTokenRequest) | [ValidateTokenResponse](#api-auth-ValidateTokenResponse) | RPC to validate an existing token |
+| RefreshToken | [RefreshTokenRequest](#api-auth-RefreshTokenRequest) | [RefreshTokenResponse](#api-auth-RefreshTokenResponse) | RPC to refresh an access token using a refresh token |
+
+ 
+
+
+
+<a name="api_game_entity-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/game/entity.proto
+
+
+
+<a name="api-game-Entities"></a>
+
+### Entities
+The Entities message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| entities | [Entity](#api-game-Entity) | repeated | The entities |
+
+
+
+
+
+
+<a name="api-game-Entity"></a>
+
+### Entity
+The Entity message
 
 
 | Field | Type | Label | Description |
@@ -104,8 +275,8 @@ The RegisterEntity message
 | id | [string](#string) |  | The unique identifier of the entity |
 | session_id | [string](#string) |  | The session id of the entity |
 | game_id | [string](#string) |  | The game id of the entity |
-| attributes | [RegisterEntity.AttributesEntry](#game-RegisterEntity-AttributesEntry) | repeated | The attributes of the entity |
-| controller_state | [RegisterEntity.ControllerStateEnum](#game-RegisterEntity-ControllerStateEnum) |  | The controller of the entity |
+| attributes | [Entity.AttributesEntry](#api-game-Entity-AttributesEntry) | repeated | The attributes of the entity |
+| controller | [Entity.ControllerStateEnum](#api-game-Entity-ControllerStateEnum) |  | The controller of the entity |
 | player_id | [string](#string) | optional | The owner of the entity |
 | data | [string](#string) | optional | Can be any JSON data |
 
@@ -114,25 +285,25 @@ The RegisterEntity message
 
 
 
-<a name="game-RegisterEntity-AttributesEntry"></a>
+<a name="api-game-Entity-AttributesEntry"></a>
 
-### RegisterEntity.AttributesEntry
+### Entity.AttributesEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [RegisterEntity.EntityAttribute](#game-RegisterEntity-EntityAttribute) |  |  |
+| value | [EntityAttribute](#api-game-EntityAttribute) |  |  |
 
 
 
 
 
 
-<a name="game-RegisterEntity-EntityAttribute"></a>
+<a name="api-game-EntityAttribute"></a>
 
-### RegisterEntity.EntityAttribute
+### EntityAttribute
 The EntityAttribute message
 
 
@@ -147,12 +318,114 @@ The EntityAttribute message
 
 
 
+
+<a name="api-game-EntityCreate"></a>
+
+### EntityCreate
+The RegisterEntity message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  | The name of the entity, e.g. &#34;ball&#34; |
+| type | [string](#string) |  | The type of the entity, e.g. &#34;object&#34; |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+| attributes | [EntityCreate.AttributesEntry](#api-game-EntityCreate-AttributesEntry) | repeated | The attributes of the entity |
+| controller | [EntityCreate.ControllerStateEnum](#api-game-EntityCreate-ControllerStateEnum) |  | The controller of the entity |
+| player_id | [string](#string) | optional | The owner of the entity |
+| data | [string](#string) | optional | Can be any JSON data |
+
+
+
+
+
+
+<a name="api-game-EntityCreate-AttributesEntry"></a>
+
+### EntityCreate.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [EntityAttribute](#api-game-EntityAttribute) |  |  |
+
+
+
+
+
+
+<a name="api-game-EntityDelete"></a>
+
+### EntityDelete
+The EntityDelete message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+
+
+
+
+
+
+<a name="api-game-EntityGet"></a>
+
+### EntityGet
+The EntityCreate message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+
+
+
+
+
+
+<a name="api-game-EntityUpdate"></a>
+
+### EntityUpdate
+The EntityUpdate message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+| attributes | [EntityAttribute](#api-game-EntityAttribute) | repeated | The attributes of the entity |
+
+
+
+
+
  
 
 
-<a name="game-RegisterEntity-ControllerStateEnum"></a>
+<a name="api-game-Entity-ControllerStateEnum"></a>
 
-### RegisterEntity.ControllerStateEnum
+### Entity.ControllerStateEnum
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| SERVER | 0 |  |
+| PLAYER | 1 |  |
+
+
+
+<a name="api-game-EntityCreate-ControllerStateEnum"></a>
+
+### EntityCreate.ControllerStateEnum
 
 
 | Name | Number | Description |
@@ -169,17 +442,17 @@ The EntityAttribute message
 
 
 
-<a name="game_event-proto"></a>
+<a name="api_game_event-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## game/event.proto
+## api/game/event.proto
 
 
 
-<a name="game-GameEvent"></a>
+<a name="api-game-GameEvent"></a>
 
 ### GameEvent
-Global Events, message can trigger API calls or other events
+Game Events, message can trigger API calls or other events
 
 
 | Field | Type | Label | Description |
@@ -191,15 +464,15 @@ Global Events, message can trigger API calls or other events
 | player_id | [string](#string) | optional |  |
 | session_id | [string](#string) | optional |  |
 | team_id | [string](#string) | optional |  |
-| attributes | [GameEvent.AttributesEntry](#game-GameEvent-AttributesEntry) | repeated |  |
-| type | [GameEvent.EventType](#game-GameEvent-EventType) |  |  |
+| attributes | [GameEvent.AttributesEntry](#api-game-GameEvent-AttributesEntry) | repeated |  |
+| type | [GameEvent.EventType](#api-game-GameEvent-EventType) |  |  |
 
 
 
 
 
 
-<a name="game-GameEvent-AttributesEntry"></a>
+<a name="api-game-GameEvent-AttributesEntry"></a>
 
 ### GameEvent.AttributesEntry
 
@@ -208,14 +481,14 @@ Global Events, message can trigger API calls or other events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [GameEvent.EventAttribute](#game-GameEvent-EventAttribute) |  |  |
+| value | [GameEvent.EventAttribute](#api-game-GameEvent-EventAttribute) |  |  |
 
 
 
 
 
 
-<a name="game-GameEvent-EventAttribute"></a>
+<a name="api-game-GameEvent-EventAttribute"></a>
 
 ### GameEvent.EventAttribute
 
@@ -235,7 +508,7 @@ Global Events, message can trigger API calls or other events
  
 
 
-<a name="game-GameEvent-EventType"></a>
+<a name="api-game-GameEvent-EventType"></a>
 
 ### GameEvent.EventType
 CUSTOM - Custom events
@@ -253,14 +526,184 @@ CUSTOM - Custom events
 
 
 
-<a name="game_session-proto"></a>
+<a name="api_game_game_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## game/session.proto
+## api/game/game_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-game-Game"></a>
+
+### Game
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CreateSession | [Session](#api-game-Session) | [.std.StandardResponse](#std-StandardResponse) |  |
+| GetSession | [SessionGet](#api-game-SessionGet) | [Sessions](#api-game-Sessions) |  |
+| UpdateSession | [Session](#api-game-Session) | [.std.StandardResponse](#std-StandardResponse) |  |
+| DeleteSession | [SessionDelete](#api-game-SessionDelete) | [.std.StandardResponse](#std-StandardResponse) |  |
+| CreateEntity | [EntityCreate](#api-game-EntityCreate) | [.std.StandardResponse](#std-StandardResponse) | TODO: Adjust payloads for protos |
+| GetEntity | [EntityGet](#api-game-EntityGet) | [Entities](#api-game-Entities) |  |
+| UpdateEntity | [EntityUpdate](#api-game-EntityUpdate) | [.std.StandardResponse](#std-StandardResponse) |  |
+| DeleteEntity | [EntityDelete](#api-game-EntityDelete) | [.std.StandardResponse](#std-StandardResponse) |  |
+| StreamEvents | [GameEvent](#api-game-GameEvent) stream | [GameEvent](#api-game-GameEvent) stream | Stream events from the game |
+
+ 
 
 
 
-<a name="game-Session"></a>
+<a name="api_game_instance-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/game/instance.proto
+
+
+
+<a name="api-game-AuthConfig"></a>
+
+### AuthConfig
+Represents the authentication and configuration for the game instance
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| token | [string](#string) |  |  |
+| config | [AuthConfig.ConfigEntry](#api-game-AuthConfig-ConfigEntry) | repeated |  |
+
+
+
+
+
+
+<a name="api-game-AuthConfig-ConfigEntry"></a>
+
+### AuthConfig.ConfigEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="api-game-Instance"></a>
+
+### Instance
+Represents the game instance (between App and Game), can be used to trigger operations to run in parent App from child Game container over messages. This would be the local state of the game instance last received.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [InstanceStateEnum](#api-game-InstanceStateEnum) |  |  |
+| game_id | [string](#string) | optional |  |
+| player_id | [string](#string) | optional |  |
+| data | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="api-game-InstanceCommandMessage"></a>
+
+### InstanceCommandMessage
+Represents the command to be sent to the game instance that is currently running (not the game state data itself)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [InstanceCommandEnum](#api-game-InstanceCommandEnum) |  |  |
+| game_id | [string](#string) | optional |  |
+| player_id | [string](#string) | optional |  |
+| data | [string](#string) | optional |  |
+| auth_config | [AuthConfig](#api-game-AuthConfig) | optional |  |
+
+
+
+
+
+
+<a name="api-game-InstanceNotification"></a>
+
+### InstanceNotification
+Incoming message from the game instance to the app instance (between Game and App)
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| state | [InstanceStateEnum](#api-game-InstanceStateEnum) |  |  |
+| game_id | [string](#string) | optional |  |
+| player_id | [string](#string) | optional |  |
+| data | [string](#string) | optional |  |
+
+
+
+
+
+ 
+
+
+<a name="api-game-InstanceCommandEnum"></a>
+
+### InstanceCommandEnum
+Available commands to be sent to the game instance
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| START | 0 |  |
+| PAUSE | 1 |  |
+| RESUME | 2 |  |
+| STOP | 3 |  |
+| ABORT | 4 |  |
+| SHUTDOWN | 5 |  |
+
+
+
+<a name="api-game-InstanceStateEnum"></a>
+
+### InstanceStateEnum
+Represents the state of the game instance that is currently running
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| INITIALIZING | 0 |  |
+| RUNNING | 1 |  |
+| PAUSED | 2 |  |
+| CRASHED | 3 |  |
+| ABORTED | 4 |  |
+| SHUTTING_DOWN | 5 |  |
+| STOPPED | 6 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="api_game_session-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/game/session.proto
+
+
+
+<a name="api-game-Session"></a>
 
 ### Session
 Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
@@ -271,8 +714,8 @@ Represents a game session, can be used to store game state and attributes such a
 | id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
 | player_ids | [string](#string) | repeated | Players in the session (can be used to store player state and attributes) / Optional: This can be used to store player state and attributes, but not recommended for large player counts. |
-| state | [Session.GameState](#game-Session-GameState) |  | Game state as defined by the GameState enum |
-| attributes | [Session.AttributesEntry](#game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
+| state | [Session.GameState](#api-game-Session-GameState) |  | Game state as defined by the GameState enum |
+| attributes | [Session.AttributesEntry](#api-game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
 
 Game attributes |
 
@@ -281,7 +724,7 @@ Game attributes |
 
 
 
-<a name="game-Session-AttributesEntry"></a>
+<a name="api-game-Session-AttributesEntry"></a>
 
 ### Session.AttributesEntry
 
@@ -290,14 +733,14 @@ Game attributes |
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Session.GameAttribute](#game-Session-GameAttribute) |  |  |
+| value | [Session.GameAttribute](#api-game-Session-GameAttribute) |  |  |
 
 
 
 
 
 
-<a name="game-Session-GameAttribute"></a>
+<a name="api-game-Session-GameAttribute"></a>
 
 ### Session.GameAttribute
 TODO: Check if this is the best way to represent game attributes
@@ -314,10 +757,57 @@ TODO: Check if this is the best way to represent game attributes
 
 
 
+
+<a name="api-game-SessionDelete"></a>
+
+### SessionDelete
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| game_id | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="api-game-SessionGet"></a>
+
+### SessionGet
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) | optional |  |
+| game_id | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="api-game-Sessions"></a>
+
+### Sessions
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| sessions | [Session](#api-game-Session) | repeated |  |
+
+
+
+
+
  
 
 
-<a name="game-Session-GameState"></a>
+<a name="api-game-Session-GameState"></a>
 
 ### Session.GameState
 
@@ -338,14 +828,14 @@ TODO: Check if this is the best way to represent game attributes
 
 
 
-<a name="global_event-proto"></a>
+<a name="api_global_event-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## global/event.proto
+## api/global/event.proto
 
 
 
-<a name="global-GlobalEvent"></a>
+<a name="api-global-GlobalEvent"></a>
 
 ### GlobalEvent
 Global Events, message can trigger API calls or other events
@@ -359,15 +849,15 @@ Global Events, message can trigger API calls or other events
 | game_id | [string](#string) | optional | Game ID |
 | player_id | [string](#string) | optional | Player ID |
 | team_id | [string](#string) | optional | Team ID |
-| attributes | [GlobalEvent.AttributesEntry](#global-GlobalEvent-AttributesEntry) | repeated | Can be a key-value pair and the values can be string, int, float, or bool |
-| type | [GlobalEvent.EventType](#global-GlobalEvent-EventType) |  | Enum for event types |
+| attributes | [GlobalEvent.AttributesEntry](#api-global-GlobalEvent-AttributesEntry) | repeated | Can be a key-value pair and the values can be string, int, float, or bool |
+| type | [GlobalEvent.EventType](#api-global-GlobalEvent-EventType) |  | Enum for event types |
 
 
 
 
 
 
-<a name="global-GlobalEvent-AttributesEntry"></a>
+<a name="api-global-GlobalEvent-AttributesEntry"></a>
 
 ### GlobalEvent.AttributesEntry
 
@@ -376,14 +866,14 @@ Global Events, message can trigger API calls or other events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [GlobalEvent.EventAttribute](#global-GlobalEvent-EventAttribute) |  |  |
+| value | [GlobalEvent.EventAttribute](#api-global-GlobalEvent-EventAttribute) |  |  |
 
 
 
 
 
 
-<a name="global-GlobalEvent-EventAttribute"></a>
+<a name="api-global-GlobalEvent-EventAttribute"></a>
 
 ### GlobalEvent.EventAttribute
 Message for event attributes
@@ -403,7 +893,7 @@ Message for event attributes
  
 
 
-<a name="global-GlobalEvent-EventType"></a>
+<a name="api-global-GlobalEvent-EventType"></a>
 
 ### GlobalEvent.EventType
 Enum for event types
@@ -425,14 +915,41 @@ Enum for event types
 
 
 
-<a name="global_join_leave-proto"></a>
+<a name="api_global_global_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## global/join_leave.proto
+## api/global/global_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-global-GlobalService"></a>
+
+### GlobalService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| JoinLeave | [JoinLeaveGame](#api-global-JoinLeaveGame) | [.std.StandardResponse](#std-StandardResponse) |  |
+| StreamEvents | [GlobalEvent](#api-global-GlobalEvent) stream | [GlobalEvent](#api-global-GlobalEvent) stream |  |
+
+ 
 
 
 
-<a name="global-JoinLeaveGame"></a>
+<a name="api_global_join_leave-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/global/join_leave.proto
+
+
+
+<a name="api-global-JoinLeaveGame"></a>
 
 ### JoinLeaveGame
 Message joining or leaving a game
@@ -442,9 +959,10 @@ Message joining or leaving a game
 | ----- | ---- | ----- | ----------- |
 | player_id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
-| action | [JoinLeaveGame.Action](#global-JoinLeaveGame-Action) |  |  |
+| action | [JoinLeaveGame.Action](#api-global-JoinLeaveGame-Action) |  |  |
 | team_id | [string](#string) | optional |  |
 | session_id | [string](#string) | optional |  |
+| region | [RegionEnum](#api-global-RegionEnum) | optional |  |
 
 
 
@@ -453,7 +971,7 @@ Message joining or leaving a game
  
 
 
-<a name="global-JoinLeaveGame-Action"></a>
+<a name="api-global-JoinLeaveGame-Action"></a>
 
 ### JoinLeaveGame.Action
 
@@ -464,22 +982,60 @@ Message joining or leaving a game
 | LEAVE | 1 |  |
 
 
- 
+
+<a name="api-global-RegionEnum"></a>
+
+### RegionEnum
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| REGION_UNSPECIFIED | 0 | Default unspecified region |
+| NA_EAST | 1 | Americas
+
+North America East |
+| NA_WEST | 2 | North America West |
+| SA | 3 | South America (all countries) |
+| EU_WEST | 4 | Europe
+
+Western Europe |
+| EU_CENTRAL | 5 | Central Europe |
+| EU_NORTH | 6 | Northern Europe |
+| AS_EAST | 7 | Asia
+
+East Asia |
+| AS_SE | 8 | Southeast Asia |
+| AS_SOUTH | 9 | South Asia |
+| OC | 10 | Oceania
+
+Oceania (e.g., Australia, New Zealand) |
+| MENA | 11 | MENA (Middle East &amp; North Africa)
+
+Middle East and North Africa |
+| AFRICA | 12 | Sub-Saharan Africa
+
+Sub-Saharan Africa |
+| GLOBAL | 13 | Global
+
+Cross-region/global servers |
+
 
  
 
  
 
+ 
 
 
-<a name="global_time-proto"></a>
+
+<a name="api_global_time-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## global/time.proto
+## api/global/time.proto
 
 
 
-<a name="global-GlobalTime"></a>
+<a name="api-global-GlobalTime"></a>
 
 ### GlobalTime
 Message to synchronize time across clients
@@ -504,16 +1060,16 @@ Message to synchronize time across clients
 
 
 
-<a name="player_action-proto"></a>
+<a name="api_player_action-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## player/action.proto
+## api/player/action.proto
 
 
 
-<a name="player-Action"></a>
+<a name="api-player-PlayerAction"></a>
 
-### Action
+### PlayerAction
 
 
 
@@ -522,10 +1078,10 @@ Message to synchronize time across clients
 | player_id | [string](#string) |  | Unique identifier of the player |
 | session_id | [string](#string) |  | Unique identifier of the session |
 | game_id | [string](#string) |  | Unique identifier of the game |
-| type | [Action.ActionType](#player-Action-ActionType) |  | Type of action |
-| position | [Action.Position](#player-Action-Position) | optional | Position of the player (optional) |
-| velocity | [Action.Velocity](#player-Action-Velocity) | optional | Velocity of the player (optional) |
-| action | [Action.ActionEntry](#player-Action-ActionEntry) | repeated | Custom actions the player can take
+| type | [PlayerAction.ActionType](#api-player-PlayerAction-ActionType) |  | Type of action |
+| position | [PlayerAction.Position](#api-player-PlayerAction-Position) | optional | Position of the player (optional) |
+| velocity | [PlayerAction.Velocity](#api-player-PlayerAction-Velocity) | optional | Velocity of the player (optional) |
+| action | [PlayerAction.ActionEntry](#api-player-PlayerAction-ActionEntry) | repeated | Custom actions the player can take
 
 Flexible data structure for custom actions |
 | timestamp | [int64](#int64) |  |  |
@@ -535,25 +1091,25 @@ Flexible data structure for custom actions |
 
 
 
-<a name="player-Action-ActionEntry"></a>
+<a name="api-player-PlayerAction-ActionEntry"></a>
 
-### Action.ActionEntry
+### PlayerAction.ActionEntry
 
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Action.PlayerAction](#player-Action-PlayerAction) |  |  |
+| value | [PlayerAction.PlayerAction](#api-player-PlayerAction-PlayerAction) |  |  |
 
 
 
 
 
 
-<a name="player-Action-PlayerAction"></a>
+<a name="api-player-PlayerAction-PlayerAction"></a>
 
-### Action.PlayerAction
+### PlayerAction.PlayerAction
 Custom actions the player can take
 
 
@@ -569,9 +1125,9 @@ Custom actions the player can take
 
 
 
-<a name="player-Action-Position"></a>
+<a name="api-player-PlayerAction-Position"></a>
 
-### Action.Position
+### PlayerAction.Position
 Position of the player
 
 
@@ -586,9 +1142,9 @@ Position of the player
 
 
 
-<a name="player-Action-Velocity"></a>
+<a name="api-player-PlayerAction-Velocity"></a>
 
-### Action.Velocity
+### PlayerAction.Velocity
 Velocity of the player
 
 
@@ -605,9 +1161,9 @@ Velocity of the player
  
 
 
-<a name="player-Action-ActionType"></a>
+<a name="api-player-PlayerAction-ActionType"></a>
 
-### Action.ActionType
+### PlayerAction.ActionType
 Type of action
 
 | Name | Number | Description |
@@ -630,14 +1186,14 @@ Type of action
 
 
 
-<a name="player_player-proto"></a>
+<a name="api_player_player-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## player/player.proto
+## api/player/player.proto
 
 
 
-<a name="player-Player"></a>
+<a name="api-player-Player"></a>
 
 ### Player
 
@@ -650,9 +1206,79 @@ Type of action
 | email | [string](#string) | optional |  |
 | team | [string](#string) | optional |  |
 | score | [int32](#int32) |  |  |
-| type | [Player.PlayerType](#player-Player-PlayerType) |  |  |
-| status | [Player.PlayerStatus](#player-Player-PlayerStatus) |  |  |
+| type | [PlayerType](#api-player-PlayerType) |  |  |
+| status | [PlayerStatus](#api-player-PlayerStatus) |  |  |
 | role | [string](#string) | optional | Role of the player in the game |
+
+
+
+
+
+
+<a name="api-player-PlayerCreate"></a>
+
+### PlayerCreate
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| username | [string](#string) |  |  |
+| email | [string](#string) | optional |  |
+| team | [string](#string) | optional |  |
+| score | [int32](#int32) |  |  |
+| type | [PlayerType](#api-player-PlayerType) |  |  |
+| status | [PlayerStatus](#api-player-PlayerStatus) |  |  |
+| role | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="api-player-PlayerGet"></a>
+
+### PlayerGet
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="api-player-PlayerUpdate"></a>
+
+### PlayerUpdate
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| team | [string](#string) | optional |  |
+| type | [PlayerType](#api-player-PlayerType) | optional |  |
+| status | [PlayerStatus](#api-player-PlayerStatus) | optional |  |
+| role | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="api-player-Players"></a>
+
+### Players
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| players | [Player](#api-player-Player) | repeated |  |
 
 
 
@@ -661,9 +1287,9 @@ Type of action
  
 
 
-<a name="player-Player-PlayerStatus"></a>
+<a name="api-player-PlayerStatus"></a>
 
-### Player.PlayerStatus
+### PlayerStatus
 
 
 | Name | Number | Description |
@@ -673,9 +1299,9 @@ Type of action
 
 
 
-<a name="player-Player-PlayerType"></a>
+<a name="api-player-PlayerType"></a>
 
-### Player.PlayerType
+### PlayerType
 
 
 | Name | Number | Description |
@@ -692,14 +1318,43 @@ Type of action
 
 
 
-<a name="player_state-proto"></a>
+<a name="api_player_player_service-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
-## player/state.proto
+## api/player/player_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="api-player-PlayerService"></a>
+
+### PlayerService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CreatePlayer | [Player](#api-player-Player) | [Player](#api-player-Player) |  |
+| GetPlayer | [PlayerGet](#api-player-PlayerGet) | [Players](#api-player-Players) |  |
+| UpdatePlayer | [PlayerUpdate](#api-player-PlayerUpdate) | [Player](#api-player-Player) |  |
+| StreamEvents | [PlayerAction](#api-player-PlayerAction) stream | [PlayerAction](#api-player-PlayerAction) stream |  |
+
+ 
 
 
 
-<a name="player-State"></a>
+<a name="api_player_state-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## api/player/state.proto
+
+
+
+<a name="api-player-State"></a>
 
 ### State
 
@@ -710,8 +1365,8 @@ Type of action
 | player_id | [string](#string) |  |  |
 | session_id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
-| state | [State.PlayerState](#player-State-PlayerState) |  |  |
-| attributes | [State.AttributesEntry](#player-State-AttributesEntry) | repeated |  |
+| state | [State.PlayerState](#api-player-State-PlayerState) |  |  |
+| attributes | [State.AttributesEntry](#api-player-State-AttributesEntry) | repeated |  |
 | timestamp | [int64](#int64) |  |  |
 
 
@@ -719,7 +1374,7 @@ Type of action
 
 
 
-<a name="player-State-AttributesEntry"></a>
+<a name="api-player-State-AttributesEntry"></a>
 
 ### State.AttributesEntry
 
@@ -728,14 +1383,14 @@ Type of action
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [State.PlayerAttribute](#player-State-PlayerAttribute) |  |  |
+| value | [State.PlayerAttribute](#api-player-State-PlayerAttribute) |  |  |
 
 
 
 
 
 
-<a name="player-State-PlayerAttribute"></a>
+<a name="api-player-State-PlayerAttribute"></a>
 
 ### State.PlayerAttribute
 
@@ -755,7 +1410,7 @@ Type of action
  
 
 
-<a name="player-State-PlayerState"></a>
+<a name="api-player-State-PlayerState"></a>
 
 ### State.PlayerState
 
@@ -766,6 +1421,105 @@ Type of action
 | PLAYING | 1 |  |
 | FINISHED | 2 |  |
 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="std_responses-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## std/responses.proto
+
+
+
+<a name="std-Error"></a>
+
+### Error
+A standard error message.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [int32](#int32) |  | Error code (e.g., HTTP status code or custom code) |
+| message | [string](#string) |  | Human-readable error message |
+| details | [string](#string) |  | Optional details about the error |
+
+
+
+
+
+
+<a name="std-PaginatedResponse"></a>
+
+### PaginatedResponse
+A paginated response wrapper.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| pagination | [PaginationMetadata](#std-PaginationMetadata) |  | Pagination metadata |
+| items | [google.protobuf.Any](#google-protobuf-Any) | repeated | List of items in this page |
+
+
+
+
+
+
+<a name="std-PaginationMetadata"></a>
+
+### PaginationMetadata
+Metadata for paginated responses.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page | [int32](#int32) |  | Current page number |
+| page_size | [int32](#int32) |  | Number of items per page |
+| total_items | [int64](#int64) |  | Total number of items |
+| total_pages | [int32](#int32) |  | Total number of pages |
+
+
+
+
+
+
+<a name="std-StandardResponse"></a>
+
+### StandardResponse
+A standardized response wrapper for any data.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| success | [Success](#std-Success) |  | Success message |
+| error | [Error](#std-Error) |  | Error message |
+
+
+
+
+
+
+<a name="std-Success"></a>
+
+### Success
+A standard success response.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| message | [string](#string) |  | Human-readable success message |
+| details | [string](#string) |  | Optional details about the success |
+
+
+
+
+
+ 
 
  
 
