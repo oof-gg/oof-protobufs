@@ -5,10 +5,23 @@ package api.game;
 
 import "api/game/session.proto";
 import "api/game/event.proto";
+import "std/responses.proto";
 
 service Game {
-  rpc CreateSession (api.game.Session) returns (api.game.Session);
-  rpc UpdateSession (api.game.Session) returns (api.game.Session);
+  rpc CreateSession (api.game.Session) returns (std.StandardResponse);
+
+  //TODO: Adjust payloads for protos
+  rpc GetSession (std.StandardRequest) returns (api.game.Session);
+  rpc UpdateSession (api.game.Session) returns (std.StandardResponse);
+  rpc DeleteSession (std.StandardRequest) returns (std.StandardResponse);
+
+  //TODO: Adjust payloads for protos
+  rpc CreateEntity (api.game.Entity) returns (std.StandardResponse);
+  rpc GetEntity (std.StandardRequest) returns (api.game.Entity);
+  rpc UpdateEntity (api.game.Entity) returns (std.StandardResponse);
+  rpc DeleteEntity (std.StandardRequest) returns (std.StandardResponse);
+
+  // Stream events from the game
   rpc StreamEvents (stream api.game.GameEvent) returns (stream api.game.GameEvent);
 }
 
