@@ -33,4 +33,18 @@ message Session {
   }
 }
 
+message SessionGet {
+  optional string id = 1;
+  optional string game_id = 2;
+}
+
+message SessionDelete {
+  string id = 1;
+  string game_id = 2;
+}
+
+message Sessions {
+  repeated Session sessions = 1;
+}
+
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";

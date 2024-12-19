@@ -9,6 +9,7 @@ package game
 import (
 	context "context"
 	api_game "github.com/oof-gg/oof-protobufs/generated/go/api.game"
+	std "github.com/oof-gg/oof-protobufs/generated/go/std"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,8 +30,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GameClient interface {
-	CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*Session, error)
-	UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*Session, error)
+	CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
 	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[api_game.GameEvent, api_game.GameEvent], error)
 }
 
@@ -42,9 +43,9 @@ func NewGameClient(cc grpc.ClientConnInterface) GameClient {
 	return &gameClient{cc}
 }
 
-func (c *gameClient) CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*Session, error) {
+func (c *gameClient) CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Session)
+	out := new(std.StandardResponse)
 	err := c.cc.Invoke(ctx, Game_CreateSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -52,9 +53,9 @@ func (c *gameClient) CreateSession(ctx context.Context, in *Session, opts ...grp
 	return out, nil
 }
 
-func (c *gameClient) UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*Session, error) {
+func (c *gameClient) UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Session)
+	out := new(std.StandardResponse)
 	err := c.cc.Invoke(ctx, Game_UpdateSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -79,8 +80,8 @@ type Game_StreamEventsClient = grpc.BidiStreamingClient[api_game.GameEvent, api_
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility.
 type GameServer interface {
-	CreateSession(context.Context, *Session) (*Session, error)
-	UpdateSession(context.Context, *Session) (*Session, error)
+	CreateSession(context.Context, *Session) (*std.StandardResponse, error)
+	UpdateSession(context.Context, *Session) (*std.StandardResponse, error)
 	StreamEvents(grpc.BidiStreamingServer[api_game.GameEvent, api_game.GameEvent]) error
 	mustEmbedUnimplementedGameServer()
 }
@@ -92,10 +93,10 @@ type GameServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGameServer struct{}
 
-func (UnimplementedGameServer) CreateSession(context.Context, *Session) (*Session, error) {
+func (UnimplementedGameServer) CreateSession(context.Context, *Session) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
-func (UnimplementedGameServer) UpdateSession(context.Context, *Session) (*Session, error) {
+func (UnimplementedGameServer) UpdateSession(context.Context, *Session) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSession not implemented")
 }
 func (UnimplementedGameServer) StreamEvents(grpc.BidiStreamingServer[api_game.GameEvent, api_game.GameEvent]) error {

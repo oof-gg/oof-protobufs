@@ -2,9 +2,9 @@ syntax = "proto3";
 
 package api.game;
 
-// Global Events, message can trigger API calls or other events
+/// Game Events, message can trigger API calls or other events
 message GameEvent {
-  string id = 1; // Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
+  string id = 1; /// Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary
   string event_name = 2;
   int64 timestamp = 3;
   optional string game_id = 4;
