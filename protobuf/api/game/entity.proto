@@ -2,6 +2,39 @@ syntax = "proto3";
 
 package api.game;
 
+/// The Entity message
+message Entity {
+  /// The name of the entity, e.g. "ball"
+  string name = 1; 
+  /// The type of the entity, e.g. "object"
+  string type = 2;
+  /// The unique identifier of the entity
+  string id = 3;
+  /// The session id of the entity
+  string session_id = 4;
+  /// The game id of the entity
+  string game_id = 5;
+  /// The attributes of the entity
+  map<string, EntityAttribute> attributes = 6;
+  /// The controller of the entity
+  ControllerStateEnum controller = 7;
+  /// The owner of the entity
+  optional string player_id = 8;
+  /// Can be any JSON data
+  optional string data = 9; 
+
+  enum ControllerStateEnum {
+    SERVER = 0;
+    PLAYER = 1;
+  }
+
+}
+/// The Entities message
+message Entities {
+  /// The entities
+  repeated Entity entities = 1;
+}
+
 /// The EntityAttribute message
 message EntityAttribute {
   //TODO: Do we need a key?
@@ -31,8 +64,6 @@ message EntityCreate {
   string name = 1; 
   /// The type of the entity, e.g. "object"
   string type = 2;
-  /// The unique identifier of the entity
-  string id = 3;
   /// The session id of the entity
   string session_id = 4;
   /// The game id of the entity
@@ -40,7 +71,7 @@ message EntityCreate {
   /// The attributes of the entity
   map<string, EntityAttribute> attributes = 6;
   /// The controller of the entity
-  ControllerStateEnum controller_state = 7;
+  ControllerStateEnum controller = 7;
   /// The owner of the entity
   optional string player_id = 8;
   /// Can be any JSON data

@@ -4,6 +4,7 @@ syntax = "proto3";
 package api.game;
 
 import "api/game/session.proto";
+import "api/game/entity.proto";
 import "api/game/event.proto";
 import "std/responses.proto";
 
@@ -15,9 +16,9 @@ service Game {
 
   //TODO: Adjust payloads for protos
   rpc CreateEntity (api.game.EntityCreate) returns (std.StandardResponse);
-  rpc GetEntity (std.game.EntityGet) returns (api.game.Entity);
+  rpc GetEntity (api.game.EntityGet) returns (api.game.Entities);
   rpc UpdateEntity (api.game.EntityUpdate) returns (std.StandardResponse);
-  rpc DeleteEntity (std.EntityDelete) returns (std.StandardResponse);
+  rpc DeleteEntity (api.game.EntityDelete) returns (std.StandardResponse);
 
   // Stream events from the game
   rpc StreamEvents (stream api.game.GameEvent) returns (stream api.game.GameEvent);
