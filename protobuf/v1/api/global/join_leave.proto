@@ -49,4 +49,4 @@ message JoinLeaveGame {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/global";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/global";

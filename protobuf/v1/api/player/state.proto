@@ -26,4 +26,4 @@ message State {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/player";
