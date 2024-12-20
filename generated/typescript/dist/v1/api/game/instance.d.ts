@@ -1,5 +1,6 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "game";
+export declare const protobufPackage = "v1.api.game";
+/** / Represents the state of the game instance that is currently running */
 export declare enum InstanceStateEnum {
     INITIALIZING = 0,
     RUNNING = 1,
@@ -12,6 +13,7 @@ export declare enum InstanceStateEnum {
 }
 export declare function instanceStateEnumFromJSON(object: any): InstanceStateEnum;
 export declare function instanceStateEnumToJSON(object: InstanceStateEnum): string;
+/** / Available commands to be sent to the game instance */
 export declare enum InstanceCommandEnum {
     START = 0,
     PAUSE = 1,
