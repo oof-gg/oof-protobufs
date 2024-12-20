@@ -39,4 +39,4 @@ message PaginatedResponse {
     repeated google.protobuf.Any items = 2; // List of items in this page
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/std";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/std";

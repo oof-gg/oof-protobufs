@@ -25,4 +25,4 @@ service Game {
 }
 
 // Go package path for the generated code
-option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game";
