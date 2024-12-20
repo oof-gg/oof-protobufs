@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.player;
+package v1.api.player;
 
 enum PlayerType {
   HUMAN = 0; // default
@@ -49,4 +49,4 @@ message Players {
   repeated Player players = 1;
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/player";

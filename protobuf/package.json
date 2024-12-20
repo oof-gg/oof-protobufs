@@ -4,9 +4,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile-ts": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto --experimental_allow_proto3_optional --ts_proto_out=../generated/typescript/src  --ts_proto_opt=outputServices=grpc-js,esModuleInterop=true --proto_path=. api/game/*.proto api/global/*.proto api/player/*.proto api/auth/*.proto std/*.proto",
-    "compile-go": "protoc --go_out=paths=source_relative:../generated/go --go-grpc_out=paths=source_relative:../generated/go --experimental_allow_proto3_optional --proto_path=.   --go_opt=Mapi/game/entity.proto=generated/go/api/game   --go_opt=Mapi/global/other.proto=generated/go/api/global   --go_opt=Mapi/player/player.proto=generated/go/api/player   --go_opt=Mapi/std/responses.proto=generated/go/std --go_opt=Mapi/std/responses.proto=generated/go/auth api/game/*.proto api/global/*.proto api/player/*.proto api/auth/*.proto std/*.proto",
-    "compile-docs": "protoc --doc_out=../generated/docs --doc_opt=markdown,docs.md --proto_path=. api/auth/*.proto api/game/*.proto api/global/*.proto api/player/*.proto std/*.proto"
+    "compile-ts": "protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts_proto --experimental_allow_proto3_optional --ts_proto_out=../generated/v1/typescript/src  --ts_proto_opt=outputServices=grpc-js,esModuleInterop=true --proto_path=. v1/api/game/*.proto v1/api/global/*.proto v1/api/player/*.proto v1/api/auth/*.proto v1/std/*.proto",
+    "compile-go": "protoc --go_out=paths=source_relative:../generated/v1/go --go-grpc_out=paths=source_relative:../generated/v1/go --experimental_allow_proto3_optional --proto_path=.   --go_opt=Mv1/api/game/entity.proto=generated/v1/go/api/game   --go_opt=Mv1/api/global/other.proto=generated/v1/go/api/global   --go_opt=Mv1/api/player/player.proto=generated/v1/go/api/player   --go_opt=Mv1/api/std/responses.proto=generated/v1/go/std --go_opt=Mv1/api/std/responses.proto=generated/v1/go/auth v1/api/game/*.proto v1/api/global/*.proto v1/api/player/*.proto v1/api/auth/*.proto v1/std/*.proto",
+    "compile-docs": "protoc --doc_out=../generated/v1/docs --doc_opt=markdown,docs.md --proto_path=. v1/api/auth/*.proto v1/api/game/*.proto v1/api/global/*.proto v1/api/player/*.proto v1/std/*.proto"
   },
   "author": "Brian <brian@oof.gg> (https://www.oof.gg/)",
   "license": "Apache-2.0",

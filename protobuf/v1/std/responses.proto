@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package std;
+package v1.std;
 
 import "google/protobuf/any.proto";
 

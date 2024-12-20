@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.player;
+package v1.api.player;
 
 message PlayerAction {
   /// Unique identifier of the player
@@ -65,4 +65,4 @@ message PlayerAction {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/player";

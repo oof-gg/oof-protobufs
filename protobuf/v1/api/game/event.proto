@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.game;
+package v1.api.game;
 
 /// Game Events, message can trigger API calls or other events
 message GameEvent {

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.global;
+package v1.api.global;
 
 // Global Events, message can trigger API calls or other events
 message GlobalEvent {

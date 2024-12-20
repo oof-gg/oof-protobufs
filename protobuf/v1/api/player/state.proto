@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.player;
+package v1.api.player;
 
 message State {
   string player_id = 1;
@@ -26,4 +26,4 @@ message State {
   }
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/player";

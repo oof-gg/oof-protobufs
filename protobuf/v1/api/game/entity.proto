@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.game;
+package v1.api.game;
 
 /// The Entity message
 message Entity {

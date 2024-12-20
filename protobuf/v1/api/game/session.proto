@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.game;
+package v1.api.game;
 
 /// Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 message Session {
