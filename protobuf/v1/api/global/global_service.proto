@@ -1,0 +1,15 @@
+
+syntax = "proto3";
+
+package v1.api.global;
+
+import "v1/api/global/join_leave.proto";
+import "v1/std/responses.proto";
+import "v1/api/global/event.proto";
+
+service GlobalService {
+  rpc JoinLeave (v1.api.global.JoinLeaveGame) returns (v1.std.StandardResponse);
+  rpc StreamEvents (stream v1.api.global.GlobalEvent) returns (stream v1.api.global.GlobalEvent);
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/global";

@@ -1,0 +1,28 @@
+
+syntax = "proto3";
+
+package v1.api.game;
+
+import "v1/api/game/session.proto";
+import "v1/api/game/entity.proto";
+import "v1/api/game/event.proto";
+import "v1/std/responses.proto";
+
+service Game {
+  rpc CreateSession (v1.api.game.Session) returns (v1.std.StandardResponse);
+  rpc GetSession (v1.api.game.SessionGet) returns (v1.api.game.Sessions);
+  rpc UpdateSession (v1.api.game.Session) returns (v1.std.StandardResponse);
+  rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
+
+  //TODO: Adjust payloads for protos
+  rpc CreateEntity (v1.api.game.EntityCreate) returns (std.StandardResponse);
+  rpc GetEntity (v1.api.game.EntityGet) returns (v1.api.game.Entities);
+  rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.std.StandardResponse);
+  rpc DeleteEntity (v1.api.game.EntityDelete) returns (v1.std.StandardResponse);
+
+  // Stream events from the game
+  rpc StreamEvents (stream v1.api.game.GameEvent) returns (stream v1.api.game.GameEvent);
+}
+
+// Go package path for the generated code
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/game";

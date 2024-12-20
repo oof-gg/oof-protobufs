@@ -1,15 +1,14 @@
-import {describe, expect, test} from '@jest/globals';
-import { Player, Player_PlayerStatus, Player_PlayerType } from '@protos/player/player';
-import { Action, Action_ActionType, Action_PlayerAction } from '@protos/player/action';
-import { State, State_PlayerAttribute, State_PlayerState } from '@protos/player/state';
+import { describe, expect, test } from '@jest/globals';
+import { Player, PlayerStatus, PlayerType } from '@protos/v1/api/player/player';
+import { PlayerAction, PlayerAction_ActionType } from '@protos/v1/api/player/action';
+import { State, State_PlayerAttribute, State_PlayerState } from '@protos/v1/api/player/state';
 
 describe('player module', () => {
   test('should encode and decode the player object', () => {
-
     expect(Player).toBeDefined();
 
-    const playerType = Player_PlayerType.HUMAN;
-    const playerStatus = Player_PlayerStatus.ACTIVE;
+    const playerType = PlayerType.HUMAN;
+    const playerStatus = PlayerStatus.ACTIVE;
 
     const samplePlayer: Player = {
       id: 'player1',
@@ -19,8 +18,8 @@ describe('player module', () => {
       score: 100,
       type: playerType,
       status: playerStatus,
-      role: 'admin'
-    }
+      role: 'admin',
+    };
 
     const encodedPlayer = Player.encode(samplePlayer).finish();
     expect(encodedPlayer).toBeInstanceOf(Uint8Array);
@@ -41,8 +40,8 @@ describe('player module', () => {
   test('should encode and decode the player state', () => {
     expect(State).toBeDefined();
 
-    const playerAttribute: State_PlayerAttribute = {
-      intValue: 100
+    const playerAttributes: { [key: string]: State_PlayerAttribute } = {
+      score: { intValue: 100 },
     };
 
     const playerState: State = {
@@ -50,11 +49,9 @@ describe('player module', () => {
       sessionId: 'session1',
       gameId: 'game1',
       state: State_PlayerState.WAITING,
-      attributes: {
-        playerAttribute
-      },
-      timestamp: new Date().getTime()
-    }
+      attributes: playerAttributes,
+      timestamp: new Date().getTime(),
+    };
 
     const encodedState = State.encode(playerState).finish();
     expect(encodedState).toBeInstanceOf(Uint8Array);
@@ -69,25 +66,25 @@ describe('player module', () => {
   });
 
   test('should encode and decode the player actions', () => {
-    const playerAction: Action_PlayerAction = {
-      stringValue: 'high'
+    const playerAction = {
+      stringValue: 'high',
     };
 
-    const action: Action = {
+    const action: PlayerAction = {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      type: Action_ActionType.CUSTOM,
+      type: PlayerAction_ActionType.CUSTOM,
       action: {
-        playerAction
+        playerAction,
       },
-      timestamp: new Date().getTime()
-    }
+      timestamp: new Date().getTime(),
+    };
 
-    const encodedAction = Action.encode(action).finish();
+    const encodedAction = PlayerAction.encode(action).finish();
     expect(encodedAction).toBeInstanceOf(Uint8Array);
 
-    const decodedAction = Action.decode(encodedAction);
+    const decodedAction = PlayerAction.decode(encodedAction);
     expect(decodedAction).toEqual(action);
 
     expect(decodedAction.playerId).toBe(action.playerId);

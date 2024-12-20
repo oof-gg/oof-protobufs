@@ -1,7 +1,8 @@
 const fs = require("fs");
 const path = require("path");
 
-const generatedDir = path.resolve(__dirname, "../../generated/typescript/src");
+const generatedDir = path.resolve(__dirname, "../../generated/typescript/src/v1");
+console.log(`Generating index.ts for ${generatedDir}`);
 const indexFilePath = path.join(generatedDir, "index.ts");
 
 const gatherExports = (dir, basePath = "") => {

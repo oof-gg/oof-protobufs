@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package v1.std;
+
+import "google/protobuf/any.proto";
+
+// A standard error message.
+message Error {
+    int32 code = 1;         // Error code (e.g., HTTP status code or custom code)
+    string message = 2;     // Human-readable error message
+    string details = 3;     // Optional details about the error
+}
+
+// A standard success response.
+message Success {
+    string message = 1;     // Human-readable success message
+    string details = 2;     // Optional details about the success
+}
+
+// A standardized response wrapper for any data.
+message StandardResponse {
+    oneof result {
+        Success success = 1; // Success message
+        Error error = 2;     // Error message
+    }
+}
+
+// Metadata for paginated responses.
+message PaginationMetadata {
+    int32 page = 1;         // Current page number
+    int32 page_size = 2;    // Number of items per page
+    int64 total_items = 3;  // Total number of items
+    int32 total_pages = 4;  // Total number of pages
+}
+
+// A paginated response wrapper.
+message PaginatedResponse {
+    PaginationMetadata pagination = 1; // Pagination metadata
+    repeated google.protobuf.Any items = 2; // List of items in this page
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/std";
