@@ -1,9 +1,9 @@
 import {describe, expect, test} from '@jest/globals';
-import { Player } from '@protos/api/player/player';
-import { GameEvent, GameEvent_EventType, GameEvent_EventAttribute } from '@protos/api/game/event';
-import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/api/global/join_leave';
-import { Session, Session_GameAttribute, Session_GameState } from '@protos/api/game/session';
-import { PlayerAction, PlayerAction_ActionType, PlayerAction_PlayerAction } from '@protos/api/player/action';
+import { Player } from '@protos/v1/api/player/player';
+import { GameEvent, GameEvent_EventType, GameEvent_EventAttribute } from '@protos/v1/api/game/event';
+import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/v1/api/global/join_leave';
+import { Session, Session_GameAttribute, Session_GameState } from '@protos/v1/api/game/session';
+import { PlayerAction, PlayerAction_ActionType, PlayerAction_PlayerAction } from '@protos/v1/api/player/action';
 
 describe("trivia scenario", () => {
   // TODO: Test Trivia Data Structures with Player, Game, Global

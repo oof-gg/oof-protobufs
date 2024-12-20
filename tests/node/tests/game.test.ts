@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { Instance, InstanceStateEnum, InstanceCommandMessage, AuthConfig, InstanceCommandEnum } from '@protos/api/game/instance';
+import { Instance, InstanceStateEnum, InstanceCommandMessage, AuthConfig, InstanceCommandEnum } from '@protos/v1/api/game/instance';
 
 describe('Instance proto', () => {
   test('should create an Instance with default values', () => {
