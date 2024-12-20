@@ -47,4 +47,4 @@ message Sessions {
   repeated Session sessions = 1;
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/game";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game";

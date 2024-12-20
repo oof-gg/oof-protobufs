@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package api.global;
+package v1.api.global;
 
 /// Message to synchronize time across clients
 message GlobalTime {
