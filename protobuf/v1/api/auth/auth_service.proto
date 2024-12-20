@@ -1,9 +1,9 @@
 syntax = "proto3";
 
-package api.auth;
+package v1.api.auth;
 
 // Go package path for the generated code
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/auth";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/auth";
 
 // Service definition for authentication
 service AuthService {
