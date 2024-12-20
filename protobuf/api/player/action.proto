@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package api.player;
+
+message PlayerAction {
+  /// Unique identifier of the player
+  string player_id = 1;
+  /// Unique identifier of the session
+  string session_id = 2;
+  /// Unique identifier of the game
+  string game_id = 3;
+  /// Type of action
+  ActionType type = 4;
+  /// Position of the player (optional)
+  optional Position position = 5;
+  /// Velocity of the player (optional)
+  optional Velocity velocity = 6;
+  /// Custom actions the player can take
+  map<string, PlayerAction> action = 7; // Flexible data structure for custom actions
+  int64 timestamp = 8;
+
+  /// Type of action
+  enum ActionType {
+    /// Custom action
+    CUSTOM = 0;
+    /// Move action
+    MOVE = 1;
+    /// Jump action
+    JUMP = 2;
+    /// Shoot action
+    SHOOT = 3;
+    /// Pickup action
+    PICKUP = 4;
+    /// Drop action
+    DROP = 5;
+    /// Use action
+    USE = 6;
+    /// Interact action
+    INTERACT = 7;
+  }
+
+  /// Position of the player
+  message Position {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+  }
+
+  /// Velocity of the player
+  message Velocity {
+    float x = 1;
+    float y = 2;
+    float z = 3;
+  }
+
+  /// Custom actions the player can take
+  message PlayerAction {
+    /// Value of the action
+    oneof value {
+      string string_value = 2;
+      int32 int_value = 3;
+      float float_value = 4;
+      bool bool_value = 5;
+    }
+  }
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";

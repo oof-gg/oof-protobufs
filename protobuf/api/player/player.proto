@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package api.player;
+
+enum PlayerType {
+  HUMAN = 0; // default
+  AI = 1;
+}
+
+enum PlayerStatus {
+  ACTIVE = 0; // default
+  INACTIVE = 1;
+}
+
+message Player {
+  string id = 1;
+  string username = 2;
+  optional string email = 3;
+  optional string team = 4;
+  int32 score = 5;
+  PlayerType type = 6;
+  PlayerStatus status = 7;
+  optional string role = 8; // Role of the player in the game
+}
+
+message PlayerCreate {
+  string username = 1;
+  optional string email = 2;
+  optional string team = 3;
+  int32 score = 4;
+  PlayerType type = 5;
+  PlayerStatus status = 6;
+  optional string role = 7;
+}
+
+message PlayerUpdate {
+  string id = 1;
+  optional string team = 4;
+  optional PlayerType type = 6;
+  optional PlayerStatus status = 7;
+  optional string role = 8;
+}
+
+message PlayerGet {
+  optional string id = 1;
+}
+
+message Players {
+  repeated Player players = 1;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/api/player";
