@@ -1,5 +1,5 @@
 import { describe, expect, test } from "@jest/globals";
-import { Entity, Entity_AttributesEntry, EntityAttribute, Entity_ControllerStateEnum } from '@protos/api/game/entity';
+import { Entity, Entity_AttributesEntry, EntityAttribute, Entity_ControllerStateEnum } from '@protos/v1/api/game/entity';
 
 describe('ballcar module', () => {
   test('should register new entities for ball and car', () => {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from '@jest/globals';
-import { Player, PlayerStatus, PlayerType } from '@protos/api/player/player';
-import { PlayerAction, PlayerAction_ActionType } from '@protos/api/player/action';
-import { State, State_PlayerAttribute, State_PlayerState } from '@protos/api/player/state';
+import { Player, PlayerStatus, PlayerType } from '@protos/v1/api/player/player';
+import { PlayerAction, PlayerAction_ActionType } from '@protos/v1/api/player/action';
+import { State, State_PlayerAttribute, State_PlayerState } from '@protos/v1/api/player/state';
 
 describe('player module', () => {
   test('should encode and decode the player object', () => {

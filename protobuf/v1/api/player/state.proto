@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package v1.api.player;
+
+message State {
+  string player_id = 1;
+  string session_id = 2;
+  string game_id = 3;
+  PlayerState state = 4;
+  map<string, PlayerAttribute> attributes = 5;
+  int64 timestamp = 6;
+
+  enum PlayerState {
+    WAITING = 0;
+    PLAYING = 1;
+    FINISHED = 2;
+  }
+
+  message PlayerAttribute {
+    oneof value {
+      string string_value = 2;
+      int32 int_value = 3;
+      float float_value = 4;
+      bool bool_value = 5;
+    }
+  }
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/v1/go/api/player";
