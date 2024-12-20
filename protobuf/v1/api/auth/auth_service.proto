@@ -2,9 +2,6 @@ syntax = "proto3";
 
 package v1.api.auth;
 
-// Go package path for the generated code
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/auth";
-
 // Service definition for authentication
 service AuthService {
     // User login RPC to generate an access token
@@ -52,3 +49,6 @@ message RefreshTokenResponse {
     string access_token = 1;  // New JWT Access Token
     int64 expires_in = 2;     // Token expiration time in seconds
 }
+
+// Go package path for the generated code
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/auth";
