@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "global";
+export declare const protobufPackage = "v1.api.global";
 export declare enum RegionEnum {
     /** REGION_UNSPECIFIED - Default unspecified region */
     REGION_UNSPECIFIED = 0,

@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "global";
+export declare const protobufPackage = "v1.api.global";
 /** Global Events, message can trigger API calls or other events */
 export interface GlobalEvent {
     /** / Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
