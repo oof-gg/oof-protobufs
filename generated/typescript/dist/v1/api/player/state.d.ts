@@ -1,33 +1,36 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "player";
-export interface Player {
-    id: string;
-    username: string;
-    email?: string | undefined;
-    team?: string | undefined;
-    score: number;
-    type: Player_PlayerType;
-    status: Player_PlayerStatus;
-    /** Role of the player in the game */
-    role?: string | undefined;
+export declare const protobufPackage = "v1.api.player";
+export interface State {
+    playerId: string;
+    sessionId: string;
+    gameId: string;
+    state: State_PlayerState;
+    attributes: {
+        [key: string]: State_PlayerAttribute;
+    };
+    timestamp: number;
 }
-export declare enum Player_PlayerType {
-    /** HUMAN - default */
-    HUMAN = 0,
-    AI = 1,
+export declare enum State_PlayerState {
+    WAITING = 0,
+    PLAYING = 1,
+    FINISHED = 2,
     UNRECOGNIZED = -1
 }
-export declare function player_PlayerTypeFromJSON(object: any): Player_PlayerType;
-export declare function player_PlayerTypeToJSON(object: Player_PlayerType): string;
-export declare enum Player_PlayerStatus {
-    /** ACTIVE - default */
-    ACTIVE = 0,
-    INACTIVE = 1,
-    UNRECOGNIZED = -1
+export declare function state_PlayerStateFromJSON(object: any): State_PlayerState;
+export declare function state_PlayerStateToJSON(object: State_PlayerState): string;
+export interface State_AttributesEntry {
+    key: string;
+    value: State_PlayerAttribute | undefined;
 }
-export declare function player_PlayerStatusFromJSON(object: any): Player_PlayerStatus;
-export declare function player_PlayerStatusToJSON(object: Player_PlayerStatus): string;
-export declare const Player: MessageFns<Player>;
+export interface State_PlayerAttribute {
+    stringValue?: string | undefined;
+    intValue?: number | undefined;
+    floatValue?: number | undefined;
+    boolValue?: boolean | undefined;
+}
+export declare const State: MessageFns<State>;
+export declare const State_AttributesEntry: MessageFns<State_AttributesEntry>;
+export declare const State_PlayerAttribute: MessageFns<State_PlayerAttribute>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {
     [K in keyof T]?: DeepPartial<T[K]>;

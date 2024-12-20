@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "game";
+export declare const protobufPackage = "v1.api.game";
 /** / Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations. */
 export interface Session {
     id: string;
@@ -36,9 +36,23 @@ export interface Session_GameAttribute {
     floatValue?: number | undefined;
     boolValue?: boolean | undefined;
 }
+export interface SessionGet {
+    id?: string | undefined;
+    gameId?: string | undefined;
+}
+export interface SessionDelete {
+    id: string;
+    gameId: string;
+}
+export interface Sessions {
+    sessions: Session[];
+}
 export declare const Session: MessageFns<Session>;
 export declare const Session_AttributesEntry: MessageFns<Session_AttributesEntry>;
 export declare const Session_GameAttribute: MessageFns<Session_GameAttribute>;
+export declare const SessionGet: MessageFns<SessionGet>;
+export declare const SessionDelete: MessageFns<SessionDelete>;
+export declare const Sessions: MessageFns<Sessions>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {
     [K in keyof T]?: DeepPartial<T[K]>;
