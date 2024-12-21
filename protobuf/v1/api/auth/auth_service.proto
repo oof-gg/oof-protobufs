@@ -7,6 +7,9 @@ service AuthService {
     // User login RPC to generate an access token
     rpc Login(LoginRequest) returns (LoginResponse);
 
+    // User registration RPC to create a new user
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+
     // RPC to validate an existing token
     rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 
@@ -37,6 +40,21 @@ message ValidateTokenResponse {
     bool is_valid = 1;       // Indicates if the token is valid
     string user_id = 2;      // ID of the authenticated user
     string role = 3;         // Role of the user (e.g., admin, user)
+}
+
+// Request for Register RPC
+message RegisterRequest {
+    string username = 1; // Username
+    string email = 2;    // Email
+    string password = 3; // User's password
+}
+
+// Response for Register RPC with the user ID, access token, refresh token, and expiration time
+message RegisterResponse {
+    string user_id = 1; // ID of the registered user
+    string access_token = 2;  // JWT Access Token
+    string refresh_token = 3; // Refresh Token
+    int64 expires_in = 4;     // Token expiration time in seconds
 }
 
 // Request for RefreshToken RPC
