@@ -65,7 +65,8 @@ message RefreshTokenRequest {
 /// Response for RefreshToken RPC
 message RefreshTokenResponse {
     string access_token = 1;  /// New JWT Access Token
-    int64 expires_in = 2;     /// Token expiration time in seconds
+    string refresh_token = 2; /// New Refresh Token
+    int64 expires_in = 3;     /// Token expiration time in seconds
 }
 
 /// Go package path for the generated code
