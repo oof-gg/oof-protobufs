@@ -9,7 +9,7 @@ import "v1/api/game/event.proto";
 import "v1/std/responses.proto";
 
 service Game {
-  rpc CreateSession (v1.api.game.SessionCraete) returns (v1.api.game.Session);
+  rpc CreateSession (v1.api.game.SessionCreate) returns (v1.api.game.Session);
   rpc GetSession (v1.api.game.SessionGet) returns (v1.api.game.Sessions);
   rpc UpdateSession (v1.api.game.SessionUpdate) returns (v1.api.game.Session);
   rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
