@@ -4,14 +4,16 @@
 ## Table of Contents
 
 - [v1/api/auth/auth_service.proto](#v1_api_auth_auth_service-proto)
-    - [LoginRequest](#api-auth-LoginRequest)
-    - [LoginResponse](#api-auth-LoginResponse)
-    - [RefreshTokenRequest](#api-auth-RefreshTokenRequest)
-    - [RefreshTokenResponse](#api-auth-RefreshTokenResponse)
-    - [ValidateTokenRequest](#api-auth-ValidateTokenRequest)
-    - [ValidateTokenResponse](#api-auth-ValidateTokenResponse)
+    - [LoginRequest](#v1-api-auth-LoginRequest)
+    - [LoginResponse](#v1-api-auth-LoginResponse)
+    - [RefreshTokenRequest](#v1-api-auth-RefreshTokenRequest)
+    - [RefreshTokenResponse](#v1-api-auth-RefreshTokenResponse)
+    - [RegisterRequest](#v1-api-auth-RegisterRequest)
+    - [RegisterResponse](#v1-api-auth-RegisterResponse)
+    - [ValidateTokenRequest](#v1-api-auth-ValidateTokenRequest)
+    - [ValidateTokenResponse](#v1-api-auth-ValidateTokenResponse)
   
-    - [AuthService](#api-auth-AuthService)
+    - [AuthService](#v1-api-auth-AuthService)
   
 - [v1/api/game/entity.proto](#v1_api_game_entity-proto)
     - [Entities](#v1-api-game-Entities)
@@ -48,14 +50,18 @@
     - [InstanceStateEnum](#v1-api-game-InstanceStateEnum)
   
 - [v1/api/game/session.proto](#v1_api_game_session-proto)
+    - [GameAttribute](#v1-api-game-GameAttribute)
     - [Session](#v1-api-game-Session)
     - [Session.AttributesEntry](#v1-api-game-Session-AttributesEntry)
-    - [Session.GameAttribute](#v1-api-game-Session-GameAttribute)
+    - [SessionCreate](#v1-api-game-SessionCreate)
+    - [SessionCreate.AttributesEntry](#v1-api-game-SessionCreate-AttributesEntry)
     - [SessionDelete](#v1-api-game-SessionDelete)
     - [SessionGet](#v1-api-game-SessionGet)
+    - [SessionUpdate](#v1-api-game-SessionUpdate)
+    - [SessionUpdate.AttributesEntry](#v1-api-game-SessionUpdate-AttributesEntry)
     - [Sessions](#v1-api-game-Sessions)
   
-    - [Session.GameState](#v1-api-game-Session-GameState)
+    - [GameState](#v1-api-game-GameState)
   
 - [v1/api/global/event.proto](#v1_api_global_event-proto)
     - [GlobalEvent](#v1-api-global-GlobalEvent)
@@ -74,7 +80,7 @@
     - [RegionEnum](#v1-api-global-RegionEnum)
   
 - [v1/api/global/time.proto](#v1_api_global_time-proto)
-    - [GlobalTime](#api-global-GlobalTime)
+    - [GlobalTime](#v1-api-global-GlobalTime)
   
 - [v1/api/player/action.proto](#v1_api_player_action-proto)
     - [PlayerAction](#v1-api-player-PlayerAction)
@@ -123,7 +129,7 @@
 
 
 
-<a name="api-auth-LoginRequest"></a>
+<a name="v1-api-auth-LoginRequest"></a>
 
 ### LoginRequest
 Request for Login RPC
@@ -139,7 +145,7 @@ Request for Login RPC
 
 
 
-<a name="api-auth-LoginResponse"></a>
+<a name="v1-api-auth-LoginResponse"></a>
 
 ### LoginResponse
 Response for Login RPC
@@ -156,7 +162,7 @@ Response for Login RPC
 
 
 
-<a name="api-auth-RefreshTokenRequest"></a>
+<a name="v1-api-auth-RefreshTokenRequest"></a>
 
 ### RefreshTokenRequest
 Request for RefreshToken RPC
@@ -171,7 +177,7 @@ Request for RefreshToken RPC
 
 
 
-<a name="api-auth-RefreshTokenResponse"></a>
+<a name="v1-api-auth-RefreshTokenResponse"></a>
 
 ### RefreshTokenResponse
 Response for RefreshToken RPC
@@ -180,6 +186,7 @@ Response for RefreshToken RPC
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | access_token | [string](#string) |  | New JWT Access Token |
+| refresh_token | [string](#string) |  | New Refresh Token |
 | expires_in | [int64](#int64) |  | Token expiration time in seconds |
 
 
@@ -187,7 +194,42 @@ Response for RefreshToken RPC
 
 
 
-<a name="api-auth-ValidateTokenRequest"></a>
+<a name="v1-api-auth-RegisterRequest"></a>
+
+### RegisterRequest
+Request for Register RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| username | [string](#string) |  | Username |
+| email | [string](#string) |  | Email |
+| password | [string](#string) |  | User&#39;s password |
+
+
+
+
+
+
+<a name="v1-api-auth-RegisterResponse"></a>
+
+### RegisterResponse
+Response for Register RPC with the user ID, access token, refresh token, and expiration time
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user_id | [string](#string) |  | ID of the registered user |
+| access_token | [string](#string) |  | JWT Access Token |
+| refresh_token | [string](#string) |  | Refresh Token |
+| expires_in | [int64](#int64) |  | Token expiration time in seconds |
+
+
+
+
+
+
+<a name="v1-api-auth-ValidateTokenRequest"></a>
 
 ### ValidateTokenRequest
 Request for ValidateToken RPC
@@ -202,7 +244,7 @@ Request for ValidateToken RPC
 
 
 
-<a name="api-auth-ValidateTokenResponse"></a>
+<a name="v1-api-auth-ValidateTokenResponse"></a>
 
 ### ValidateTokenResponse
 Response for ValidateToken RPC
@@ -225,16 +267,17 @@ Response for ValidateToken RPC
  
 
 
-<a name="api-auth-AuthService"></a>
+<a name="v1-api-auth-AuthService"></a>
 
 ### AuthService
 Service definition for authentication
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| Login | [LoginRequest](#api-auth-LoginRequest) | [LoginResponse](#api-auth-LoginResponse) | User login RPC to generate an access token |
-| ValidateToken | [ValidateTokenRequest](#api-auth-ValidateTokenRequest) | [ValidateTokenResponse](#api-auth-ValidateTokenResponse) | RPC to validate an existing token |
-| RefreshToken | [RefreshTokenRequest](#api-auth-RefreshTokenRequest) | [RefreshTokenResponse](#api-auth-RefreshTokenResponse) | RPC to refresh an access token using a refresh token |
+| Login | [LoginRequest](#v1-api-auth-LoginRequest) | [LoginResponse](#v1-api-auth-LoginResponse) | User login RPC to generate an access token |
+| Register | [RegisterRequest](#v1-api-auth-RegisterRequest) | [RegisterResponse](#v1-api-auth-RegisterResponse) | User registration RPC to create a new user |
+| ValidateToken | [ValidateTokenRequest](#v1-api-auth-ValidateTokenRequest) | [ValidateTokenResponse](#v1-api-auth-ValidateTokenResponse) | RPC to validate an existing token |
+| RefreshToken | [RefreshTokenRequest](#v1-api-auth-RefreshTokenRequest) | [RefreshTokenResponse](#v1-api-auth-RefreshTokenResponse) | RPC to refresh an access token using a refresh token |
 
  
 
@@ -546,13 +589,13 @@ CUSTOM - Custom events
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| CreateSession | [Session](#v1-api-game-Session) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| CreateSession | [SessionCreate](#v1-api-game-SessionCreate) | [Session](#v1-api-game-Session) |  |
 | GetSession | [SessionGet](#v1-api-game-SessionGet) | [Sessions](#v1-api-game-Sessions) |  |
-| UpdateSession | [Session](#v1-api-game-Session) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| UpdateSession | [SessionUpdate](#v1-api-game-SessionUpdate) | [Session](#v1-api-game-Session) |  |
 | DeleteSession | [SessionDelete](#v1-api-game-SessionDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| CreateEntity | [EntityCreate](#v1-api-game-EntityCreate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | TODO: Adjust payloads for protos |
+| CreateEntity | [EntityCreate](#v1-api-game-EntityCreate) | [Entity](#v1-api-game-Entity) | TODO: Adjust payloads for protos |
 | GetEntity | [EntityGet](#v1-api-game-EntityGet) | [Entities](#v1-api-game-Entities) |  |
-| UpdateEntity | [EntityUpdate](#v1-api-game-EntityUpdate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| UpdateEntity | [EntityUpdate](#v1-api-game-EntityUpdate) | [Entity](#v1-api-game-Entity) |  |
 | DeleteEntity | [EntityDelete](#v1-api-game-EntityDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
 | StreamEvents | [GameEvent](#v1-api-game-GameEvent) stream | [GameEvent](#v1-api-game-GameEvent) stream | Stream events from the game |
 
@@ -703,6 +746,25 @@ Represents the state of the game instance that is currently running
 
 
 
+<a name="v1-api-game-GameAttribute"></a>
+
+### GameAttribute
+TODO: Check if this is the best way to represent game attributes
+/ Represents a game attribute
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| string_value | [string](#string) |  |  |
+| int_value | [int32](#int32) |  |  |
+| float_value | [float](#float) |  |  |
+| bool_value | [bool](#bool) |  |  |
+
+
+
+
+
+
 <a name="v1-api-game-Session"></a>
 
 ### Session
@@ -714,7 +776,7 @@ Represents a game session, can be used to store game state and attributes such a
 | id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
 | player_ids | [string](#string) | repeated | Players in the session (can be used to store player state and attributes) / Optional: This can be used to store player state and attributes, but not recommended for large player counts. |
-| state | [Session.GameState](#v1-api-game-Session-GameState) |  | Game state as defined by the GameState enum |
+| state | [GameState](#v1-api-game-GameState) |  | Game state as defined by the GameState enum |
 | attributes | [Session.AttributesEntry](#v1-api-game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
 
 Game attributes |
@@ -733,25 +795,41 @@ Game attributes |
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [Session.GameAttribute](#v1-api-game-Session-GameAttribute) |  |  |
+| value | [GameAttribute](#v1-api-game-GameAttribute) |  |  |
 
 
 
 
 
 
-<a name="v1-api-game-Session-GameAttribute"></a>
+<a name="v1-api-game-SessionCreate"></a>
 
-### Session.GameAttribute
-TODO: Check if this is the best way to represent game attributes
+### SessionCreate
+Represents a game session creation request
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| string_value | [string](#string) |  |  |
-| int_value | [int32](#int32) |  |  |
-| float_value | [float](#float) |  |  |
-| bool_value | [bool](#bool) |  |  |
+| game_id | [string](#string) |  |  |
+| player_ids | [string](#string) | repeated |  |
+| state | [GameState](#v1-api-game-GameState) |  |  |
+| attributes | [SessionCreate.AttributesEntry](#v1-api-game-SessionCreate-AttributesEntry) | repeated |  |
+
+
+
+
+
+
+<a name="v1-api-game-SessionCreate-AttributesEntry"></a>
+
+### SessionCreate.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [GameAttribute](#v1-api-game-GameAttribute) |  |  |
 
 
 
@@ -761,7 +839,7 @@ TODO: Check if this is the best way to represent game attributes
 <a name="v1-api-game-SessionDelete"></a>
 
 ### SessionDelete
-
+Represents a game session deletion request
 
 
 | Field | Type | Label | Description |
@@ -777,7 +855,7 @@ TODO: Check if this is the best way to represent game attributes
 <a name="v1-api-game-SessionGet"></a>
 
 ### SessionGet
-
+Represents a game session update request
 
 
 | Field | Type | Label | Description |
@@ -790,10 +868,45 @@ TODO: Check if this is the best way to represent game attributes
 
 
 
+<a name="v1-api-game-SessionUpdate"></a>
+
+### SessionUpdate
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| game_id | [string](#string) |  |  |
+| player_ids | [string](#string) | repeated |  |
+| state | [GameState](#v1-api-game-GameState) |  |  |
+| attributes | [SessionUpdate.AttributesEntry](#v1-api-game-SessionUpdate-AttributesEntry) | repeated |  |
+
+
+
+
+
+
+<a name="v1-api-game-SessionUpdate-AttributesEntry"></a>
+
+### SessionUpdate.AttributesEntry
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| key | [string](#string) |  |  |
+| value | [GameAttribute](#v1-api-game-GameAttribute) |  |  |
+
+
+
+
+
+
 <a name="v1-api-game-Sessions"></a>
 
 ### Sessions
-
+Represents a list of game sessions
 
 
 | Field | Type | Label | Description |
@@ -807,17 +920,17 @@ TODO: Check if this is the best way to represent game attributes
  
 
 
-<a name="v1-api-game-Session-GameState"></a>
+<a name="v1-api-game-GameState"></a>
 
-### Session.GameState
-
+### GameState
+Represents the state of a game session
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CREATED | 0 |  |
-| WAITING | 1 |  |
-| STARTED | 2 |  |
-| FINISHED | 3 |  |
+| CREATED | 0 | The session has been created |
+| WAITING | 1 | The session is waiting for players to join |
+| STARTED | 2 | The session has started |
+| FINISHED | 3 | The session has finished |
 
 
  
@@ -1035,7 +1148,7 @@ Cross-region/global servers |
 
 
 
-<a name="api-global-GlobalTime"></a>
+<a name="v1-api-global-GlobalTime"></a>
 
 ### GlobalTime
 Message to synchronize time across clients
