@@ -9,15 +9,15 @@ import "v1/api/game/event.proto";
 import "v1/std/responses.proto";
 
 service Game {
-  rpc CreateSession (v1.api.game.Session) returns (v1.std.StandardResponse);
+  rpc CreateSession (v1.api.game.SessionCreate) returns (v1.api.game.Session);
   rpc GetSession (v1.api.game.SessionGet) returns (v1.api.game.Sessions);
-  rpc UpdateSession (v1.api.game.Session) returns (v1.std.StandardResponse);
+  rpc UpdateSession (v1.api.game.SessionUpdate) returns (v1.api.game.Session);
   rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
 
   //TODO: Adjust payloads for protos
-  rpc CreateEntity (v1.api.game.EntityCreate) returns (std.StandardResponse);
+  rpc CreateEntity (v1.api.game.EntityCreate) returns (v1.api.game.Entity);
   rpc GetEntity (v1.api.game.EntityGet) returns (v1.api.game.Entities);
-  rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.std.StandardResponse);
+  rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.api.game.Entity);
   rpc DeleteEntity (v1.api.game.EntityDelete) returns (v1.std.StandardResponse);
 
   // Stream events from the game

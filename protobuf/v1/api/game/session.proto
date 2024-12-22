@@ -2,6 +2,26 @@ syntax = "proto3";
 
 package v1.api.game;
 
+/// Represents the state of a game session
+enum GameState {
+  CREATED = 0; /// The session has been created
+  WAITING = 1; /// The session is waiting for players to join
+  STARTED = 2; /// The session has started
+  FINISHED = 3; /// The session has finished
+}
+
+//TODO: Check if this is the best way to represent game attributes
+/// Represents a game attribute
+message GameAttribute {
+  /// Value of the attribute
+  oneof value {
+    string string_value = 2;
+    int32 int_value = 3;
+    float float_value = 4;
+    bool bool_value = 5;
+  }
+}
+
 /// Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations.
 message Session {
   string id = 1;
@@ -13,36 +33,37 @@ message Session {
   GameState state = 4;
   /// Game attributes as a map of string to GameAttribute
   map<string, GameAttribute> attributes = 5; // Game attributes
-
-  enum GameState {
-    CREATED = 0;
-    WAITING = 1;
-    STARTED = 2;
-    FINISHED = 3;
-  }
-
-  //TODO: Check if this is the best way to represent game attributes
-  message GameAttribute {
-    /// Value of the attribute
-    oneof value {
-      string string_value = 2;
-      int32 int_value = 3;
-      float float_value = 4;
-      bool bool_value = 5;
-    }
-  }
 }
 
+/// Represents a game session creation request
+message SessionCreate {
+  string game_id = 1;
+  repeated string player_ids = 2;
+  GameState state = 3;
+  map<string, GameAttribute> attributes = 4;
+}
+
+message SessionUpdate {
+  string id = 1;
+  string game_id = 2;
+  repeated string player_ids = 3;
+  GameState state = 4;
+  map<string, GameAttribute> attributes = 5;
+}
+
+/// Represents a game session update request
 message SessionGet {
   optional string id = 1;
   optional string game_id = 2;
 }
 
+/// Represents a game session deletion request
 message SessionDelete {
   string id = 1;
   string game_id = 2;
 }
 
+/// Represents a list of game sessions
 message Sessions {
   repeated Session sessions = 1;
 }
