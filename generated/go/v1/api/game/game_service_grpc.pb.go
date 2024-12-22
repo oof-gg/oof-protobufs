@@ -35,14 +35,14 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GameClient interface {
-	CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	CreateSession(ctx context.Context, in *SessionCreate, opts ...grpc.CallOption) (*Session, error)
 	GetSession(ctx context.Context, in *SessionGet, opts ...grpc.CallOption) (*Sessions, error)
-	UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	UpdateSession(ctx context.Context, in *SessionUpdate, opts ...grpc.CallOption) (*Session, error)
 	DeleteSession(ctx context.Context, in *SessionDelete, opts ...grpc.CallOption) (*std.StandardResponse, error)
 	// TODO: Adjust payloads for protos
-	CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*Entity, error)
 	GetEntity(ctx context.Context, in *EntityGet, opts ...grpc.CallOption) (*Entities, error)
-	UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*std.StandardResponse, error)
+	UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*Entity, error)
 	DeleteEntity(ctx context.Context, in *EntityDelete, opts ...grpc.CallOption) (*std.StandardResponse, error)
 	// Stream events from the game
 	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[GameEvent, GameEvent], error)
@@ -56,9 +56,9 @@ func NewGameClient(cc grpc.ClientConnInterface) GameClient {
 	return &gameClient{cc}
 }
 
-func (c *gameClient) CreateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+func (c *gameClient) CreateSession(ctx context.Context, in *SessionCreate, opts ...grpc.CallOption) (*Session, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(std.StandardResponse)
+	out := new(Session)
 	err := c.cc.Invoke(ctx, Game_CreateSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -76,9 +76,9 @@ func (c *gameClient) GetSession(ctx context.Context, in *SessionGet, opts ...grp
 	return out, nil
 }
 
-func (c *gameClient) UpdateSession(ctx context.Context, in *Session, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+func (c *gameClient) UpdateSession(ctx context.Context, in *SessionUpdate, opts ...grpc.CallOption) (*Session, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(std.StandardResponse)
+	out := new(Session)
 	err := c.cc.Invoke(ctx, Game_UpdateSession_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -96,9 +96,9 @@ func (c *gameClient) DeleteSession(ctx context.Context, in *SessionDelete, opts 
 	return out, nil
 }
 
-func (c *gameClient) CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+func (c *gameClient) CreateEntity(ctx context.Context, in *EntityCreate, opts ...grpc.CallOption) (*Entity, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(std.StandardResponse)
+	out := new(Entity)
 	err := c.cc.Invoke(ctx, Game_CreateEntity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -116,9 +116,9 @@ func (c *gameClient) GetEntity(ctx context.Context, in *EntityGet, opts ...grpc.
 	return out, nil
 }
 
-func (c *gameClient) UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*std.StandardResponse, error) {
+func (c *gameClient) UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*Entity, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(std.StandardResponse)
+	out := new(Entity)
 	err := c.cc.Invoke(ctx, Game_UpdateEntity_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -153,14 +153,14 @@ type Game_StreamEventsClient = grpc.BidiStreamingClient[GameEvent, GameEvent]
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility.
 type GameServer interface {
-	CreateSession(context.Context, *Session) (*std.StandardResponse, error)
+	CreateSession(context.Context, *SessionCreate) (*Session, error)
 	GetSession(context.Context, *SessionGet) (*Sessions, error)
-	UpdateSession(context.Context, *Session) (*std.StandardResponse, error)
+	UpdateSession(context.Context, *SessionUpdate) (*Session, error)
 	DeleteSession(context.Context, *SessionDelete) (*std.StandardResponse, error)
 	// TODO: Adjust payloads for protos
-	CreateEntity(context.Context, *EntityCreate) (*std.StandardResponse, error)
+	CreateEntity(context.Context, *EntityCreate) (*Entity, error)
 	GetEntity(context.Context, *EntityGet) (*Entities, error)
-	UpdateEntity(context.Context, *EntityUpdate) (*std.StandardResponse, error)
+	UpdateEntity(context.Context, *EntityUpdate) (*Entity, error)
 	DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error)
 	// Stream events from the game
 	StreamEvents(grpc.BidiStreamingServer[GameEvent, GameEvent]) error
@@ -174,25 +174,25 @@ type GameServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGameServer struct{}
 
-func (UnimplementedGameServer) CreateSession(context.Context, *Session) (*std.StandardResponse, error) {
+func (UnimplementedGameServer) CreateSession(context.Context, *SessionCreate) (*Session, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateSession not implemented")
 }
 func (UnimplementedGameServer) GetSession(context.Context, *SessionGet) (*Sessions, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSession not implemented")
 }
-func (UnimplementedGameServer) UpdateSession(context.Context, *Session) (*std.StandardResponse, error) {
+func (UnimplementedGameServer) UpdateSession(context.Context, *SessionUpdate) (*Session, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSession not implemented")
 }
 func (UnimplementedGameServer) DeleteSession(context.Context, *SessionDelete) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteSession not implemented")
 }
-func (UnimplementedGameServer) CreateEntity(context.Context, *EntityCreate) (*std.StandardResponse, error) {
+func (UnimplementedGameServer) CreateEntity(context.Context, *EntityCreate) (*Entity, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateEntity not implemented")
 }
 func (UnimplementedGameServer) GetEntity(context.Context, *EntityGet) (*Entities, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetEntity not implemented")
 }
-func (UnimplementedGameServer) UpdateEntity(context.Context, *EntityUpdate) (*std.StandardResponse, error) {
+func (UnimplementedGameServer) UpdateEntity(context.Context, *EntityUpdate) (*Entity, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateEntity not implemented")
 }
 func (UnimplementedGameServer) DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error) {
@@ -223,7 +223,7 @@ func RegisterGameServer(s grpc.ServiceRegistrar, srv GameServer) {
 }
 
 func _Game_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Session)
+	in := new(SessionCreate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -235,7 +235,7 @@ func _Game_CreateSession_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Game_CreateSession_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameServer).CreateSession(ctx, req.(*Session))
+		return srv.(GameServer).CreateSession(ctx, req.(*SessionCreate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -259,7 +259,7 @@ func _Game_GetSession_Handler(srv interface{}, ctx context.Context, dec func(int
 }
 
 func _Game_UpdateSession_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Session)
+	in := new(SessionUpdate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -271,7 +271,7 @@ func _Game_UpdateSession_Handler(srv interface{}, ctx context.Context, dec func(
 		FullMethod: Game_UpdateSession_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GameServer).UpdateSession(ctx, req.(*Session))
+		return srv.(GameServer).UpdateSession(ctx, req.(*SessionUpdate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
