@@ -15,7 +15,7 @@ service Game {
   rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
 
   //TODO: Adjust payloads for protos
-  rpc CreateEntity (v1.api.game.EntityCreate) returns (std.Entity);
+  rpc CreateEntity (v1.api.game.EntityCreate) returns (v1.api.game.Entity);
   rpc GetEntity (v1.api.game.EntityGet) returns (v1.api.game.Entities);
   rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.api.game.Entity);
   rpc DeleteEntity (v1.api.game.EntityDelete) returns (v1.std.StandardResponse);
