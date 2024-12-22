@@ -43,6 +43,14 @@ message SessionCreate {
   map<string, GameAttribute> attributes = 4;
 }
 
+message SessionUpdate {
+  string id = 1;
+  string game_id = 2;
+  repeated string player_ids = 3;
+  GameState state = 4;
+  map<string, GameAttribute> attributes = 5;
+}
+
 /// Represents a game session update request
 message SessionGet {
   optional string id = 1;
