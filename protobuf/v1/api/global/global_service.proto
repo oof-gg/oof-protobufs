@@ -7,8 +7,11 @@ import "v1/api/global/join_leave.proto";
 import "v1/std/responses.proto";
 import "v1/api/global/event.proto";
 
+/// Global service for joining and leaving games
 service GlobalService {
+  /// Join or leave a game
   rpc JoinLeave (v1.api.global.JoinLeaveGame) returns (v1.std.StandardResponse);
+  /// Stream events from the global service
   rpc StreamEvents (stream v1.api.global.GlobalEvent) returns (stream v1.api.global.GlobalEvent);
 }
 
