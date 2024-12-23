@@ -2,28 +2,29 @@ syntax = "proto3";
 
 package v1.api.global;
 
+/// Enum for regions
 enum RegionEnum {
     REGION_UNSPECIFIED = 0; // Default unspecified region
 
-    // Americas
+    /// Americas
     NA_EAST = 1; // North America East
     NA_WEST = 2; // North America West
     SA = 3; // South America (all countries)
 
-    // Europe
+    /// Europe
     EU_WEST = 4; // Western Europe
     EU_CENTRAL = 5; // Central Europe
     EU_NORTH = 6; // Northern Europe
 
-    // Asia
+    /// Asia
     AS_EAST = 7; // East Asia
     AS_SE = 8; // Southeast Asia
     AS_SOUTH = 9; // South Asia
 
-    // Oceania
+    /// Oceania
     OC = 10; // Oceania (e.g., Australia, New Zealand)
 
-    // MENA (Middle East & North Africa)
+    /// MENA (Middle East & North Africa)
     MENA = 11; // Middle East and North Africa
 
     // Sub-Saharan Africa
@@ -34,7 +35,7 @@ enum RegionEnum {
 }
 
 
-// Message joining or leaving a game
+/// Message joining or leaving a game
 message JoinLeaveGame {
   string player_id = 1;
   string game_id = 2;
