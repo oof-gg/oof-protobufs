@@ -91,6 +91,11 @@ jobs:
           npm install || { echo "npm install failed"; exit 1; }
           echo "Compiling Golang protobufs..."
           npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
+      
+      - name: Build Golang code
+        run: |
+          cd generated/go/v1
+          go build ./...
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
