@@ -3,11 +3,11 @@ Protobuf messages for Global, Game and Player states for the SDK to use. This wi
 
 # Todo
 - [ ] Linter
-- [ ] Tests for Typescript protobufs
+- [x] Tests for Typescript protobufs
 - [ ] Tests for Python protobufs
-- [ ] Example usage for Typescript
+- [x] Example usage for Typescript
 - [ ] Example usage for Python
-- [ ] Resolve linking deps for typescript (@protos vs. ../../../protos)
+- [x] Resolve linking deps for typescript (@protos vs. ../../../protos)
 - [ ] Validate multiplayer scenario with server-based conflict resolution
 - [ ] Validate MMO scenario
 - [ ] Validate Player scenario
