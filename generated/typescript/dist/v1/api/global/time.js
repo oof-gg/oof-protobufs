@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GlobalTime = exports.protobufPackage = void 0;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
-exports.protobufPackage = "api.global";
+exports.protobufPackage = "v1.api.global";
 function createBaseGlobalTime() {
     return { timestamp: 0, hash: "" };
 }

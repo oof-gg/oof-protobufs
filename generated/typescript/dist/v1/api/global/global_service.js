@@ -8,20 +8,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GlobalServiceClient = exports.GlobalServiceService = exports.protobufPackage = void 0;
 /* eslint-disable */
 const grpc_js_1 = require("@grpc/grpc-js");
-const responses_1 = require("../../std/responses");
 const event_1 = require("./event");
-const join_leave_1 = require("./join_leave");
 exports.protobufPackage = "v1.api.global";
 exports.GlobalServiceService = {
-    joinLeave: {
-        path: "/v1.api.global.GlobalService/JoinLeave",
-        requestStream: false,
-        responseStream: false,
-        requestSerialize: (value) => Buffer.from(join_leave_1.JoinLeaveGame.encode(value).finish()),
-        requestDeserialize: (value) => join_leave_1.JoinLeaveGame.decode(value),
-        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
-        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
-    },
+    /** / Stream events from the global service */
     streamEvents: {
         path: "/v1.api.global.GlobalService/StreamEvents",
         requestStream: true,

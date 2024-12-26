@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-export declare const protobufPackage = "api.global";
+export declare const protobufPackage = "v1.api.global";
 /** / Message to synchronize time across clients */
 export interface GlobalTime {
     /** / Unix timestamp in milliseconds to synchronize time across clients */
