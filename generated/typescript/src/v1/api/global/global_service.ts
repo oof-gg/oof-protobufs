@@ -11,31 +11,19 @@ import {
   Client,
   ClientDuplexStream,
   type ClientOptions,
-  type ClientUnaryCall,
   handleBidiStreamingCall,
-  type handleUnaryCall,
   makeGenericClientConstructor,
   Metadata,
-  type ServiceError,
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
-import { StandardResponse } from "../../std/responses";
 import { GlobalEvent } from "./event";
-import { JoinLeaveGame } from "./join_leave";
 
 export const protobufPackage = "v1.api.global";
 
+/** / Global service for joining and leaving games */
 export type GlobalServiceService = typeof GlobalServiceService;
 export const GlobalServiceService = {
-  joinLeave: {
-    path: "/v1.api.global.GlobalService/JoinLeave",
-    requestStream: false,
-    responseStream: false,
-    requestSerialize: (value: JoinLeaveGame) => Buffer.from(JoinLeaveGame.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => JoinLeaveGame.decode(value),
-    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
-  },
+  /** / Stream events from the global service */
   streamEvents: {
     path: "/v1.api.global.GlobalService/StreamEvents",
     requestStream: true,
@@ -48,26 +36,12 @@ export const GlobalServiceService = {
 } as const;
 
 export interface GlobalServiceServer extends UntypedServiceImplementation {
-  joinLeave: handleUnaryCall<JoinLeaveGame, StandardResponse>;
+  /** / Stream events from the global service */
   streamEvents: handleBidiStreamingCall<GlobalEvent, GlobalEvent>;
 }
 
 export interface GlobalServiceClient extends Client {
-  joinLeave(
-    request: JoinLeaveGame,
-    callback: (error: ServiceError | null, response: StandardResponse) => void,
-  ): ClientUnaryCall;
-  joinLeave(
-    request: JoinLeaveGame,
-    metadata: Metadata,
-    callback: (error: ServiceError | null, response: StandardResponse) => void,
-  ): ClientUnaryCall;
-  joinLeave(
-    request: JoinLeaveGame,
-    metadata: Metadata,
-    options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: StandardResponse) => void,
-  ): ClientUnaryCall;
+  /** / Stream events from the global service */
   streamEvents(): ClientDuplexStream<GlobalEvent, GlobalEvent>;
   streamEvents(options: Partial<CallOptions>): ClientDuplexStream<GlobalEvent, GlobalEvent>;
   streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<GlobalEvent, GlobalEvent>;
