@@ -1,5 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { Instance, InstanceStateEnum, InstanceCommandMessage, AuthConfig, InstanceCommandEnum } from '@protos/v1/api/game/instance';
+import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/v1/api/game/join_leave';
 
 describe('Instance proto', () => {
   test('should create an Instance with default values', () => {
@@ -65,5 +66,29 @@ describe('Instance proto', () => {
     expect(decodeInstanceCommandMessage.data).toBe(instanceCommandMessage.data);
     expect(decodeInstanceCommandMessage.authConfig?.token).toBe(authConfig.token);
     expect(decodeInstanceCommandMessage.authConfig?.config).toEqual(authConfig.config);
+  });
+
+  test('should encode and decode the join leave game object', () => {
+    expect(JoinLeaveGame).toBeDefined();
+
+    const joinLeaveGame: JoinLeaveGame = {
+      playerId: 'player1',
+      gameId: 'game1',
+      sessionId: 'session1',
+      teamId: 'red',
+      action: JoinLeaveGame_Action.JOIN,
+    };
+
+    const encodedJoinLeaveGame = JoinLeaveGame.encode(joinLeaveGame).finish();
+    expect(encodedJoinLeaveGame).toBeInstanceOf(Uint8Array);
+
+    const decodedJoinLeaveGame = JoinLeaveGame.decode(encodedJoinLeaveGame);
+    expect(decodedJoinLeaveGame).toEqual(joinLeaveGame);
+
+    expect(decodedJoinLeaveGame.playerId).toBe(joinLeaveGame.playerId);
+    expect(decodedJoinLeaveGame.gameId).toBe(joinLeaveGame.gameId);
+    expect(decodedJoinLeaveGame.sessionId).toBe(joinLeaveGame.sessionId);
+    expect(decodedJoinLeaveGame.teamId).toBe(joinLeaveGame.teamId);
+    expect(decodedJoinLeaveGame.action).toBe(joinLeaveGame.action);
   });
 });

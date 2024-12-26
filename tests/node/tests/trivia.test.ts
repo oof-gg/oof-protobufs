@@ -1,8 +1,8 @@
 import {describe, expect, test} from '@jest/globals';
 import { Player } from '@protos/v1/api/player/player';
 import { GameEvent, GameEvent_EventType, GameEvent_EventAttribute } from '@protos/v1/api/game/event';
-import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/v1/api/global/join_leave';
-import { Session, Session_GameAttribute, Session_GameState } from '@protos/v1/api/game/session';
+import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/v1/api/game/join_leave';
+import { Session, GameAttribute, GameState } from '@protos/v1/api/game/session';
 import { PlayerAction, PlayerAction_ActionType, PlayerAction_PlayerAction } from '@protos/v1/api/player/action';
 
 describe("trivia scenario", () => {
@@ -38,7 +38,7 @@ describe("trivia scenario", () => {
 
     const players = ['player1', 'player2', 'player3'];
 
-    const difficulty: Session_GameAttribute = {
+    const difficulty: GameAttribute = {
       intValue: 1,
     };
 
@@ -46,7 +46,7 @@ describe("trivia scenario", () => {
       id: 'session1',
       gameId: 'game1',
       playerIds: players,
-      state: Session_GameState.CREATED,
+      state: GameState.CREATED,
       attributes: {
         difficulty
       },

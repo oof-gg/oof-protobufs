@@ -9,6 +9,67 @@ import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
 export const protobufPackage = "v1.api.game";
 
+/** / Represents the state of a game session */
+export enum GameState {
+  /** CREATED - / The session has been created */
+  CREATED = 0,
+  /** WAITING - / The session is waiting for players to join */
+  WAITING = 1,
+  /** STARTED - / The session has started */
+  STARTED = 2,
+  /** FINISHED - / The session has finished */
+  FINISHED = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function gameStateFromJSON(object: any): GameState {
+  switch (object) {
+    case 0:
+    case "CREATED":
+      return GameState.CREATED;
+    case 1:
+    case "WAITING":
+      return GameState.WAITING;
+    case 2:
+    case "STARTED":
+      return GameState.STARTED;
+    case 3:
+    case "FINISHED":
+      return GameState.FINISHED;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return GameState.UNRECOGNIZED;
+  }
+}
+
+export function gameStateToJSON(object: GameState): string {
+  switch (object) {
+    case GameState.CREATED:
+      return "CREATED";
+    case GameState.WAITING:
+      return "WAITING";
+    case GameState.STARTED:
+      return "STARTED";
+    case GameState.FINISHED:
+      return "FINISHED";
+    case GameState.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+/**
+ * TODO: Check if this is the best way to represent game attributes
+ * / Represents a game attribute
+ */
+export interface GameAttribute {
+  stringValue?: string | undefined;
+  intValue?: number | undefined;
+  floatValue?: number | undefined;
+  boolValue?: boolean | undefined;
+}
+
 /** / Represents a game session, can be used to store game state and attributes such as scores, times, players, and active in-game configurations. */
 export interface Session {
   id: string;
@@ -19,82 +80,166 @@ export interface Session {
    */
   playerIds: string[];
   /** / Game state as defined by the GameState enum */
-  state: Session_GameState;
+  state: GameState;
   /** / Game attributes as a map of string to GameAttribute */
-  attributes: { [key: string]: Session_GameAttribute };
-}
-
-export enum Session_GameState {
-  CREATED = 0,
-  WAITING = 1,
-  STARTED = 2,
-  FINISHED = 3,
-  UNRECOGNIZED = -1,
-}
-
-export function session_GameStateFromJSON(object: any): Session_GameState {
-  switch (object) {
-    case 0:
-    case "CREATED":
-      return Session_GameState.CREATED;
-    case 1:
-    case "WAITING":
-      return Session_GameState.WAITING;
-    case 2:
-    case "STARTED":
-      return Session_GameState.STARTED;
-    case 3:
-    case "FINISHED":
-      return Session_GameState.FINISHED;
-    case -1:
-    case "UNRECOGNIZED":
-    default:
-      return Session_GameState.UNRECOGNIZED;
-  }
-}
-
-export function session_GameStateToJSON(object: Session_GameState): string {
-  switch (object) {
-    case Session_GameState.CREATED:
-      return "CREATED";
-    case Session_GameState.WAITING:
-      return "WAITING";
-    case Session_GameState.STARTED:
-      return "STARTED";
-    case Session_GameState.FINISHED:
-      return "FINISHED";
-    case Session_GameState.UNRECOGNIZED:
-    default:
-      return "UNRECOGNIZED";
-  }
+  attributes: { [key: string]: GameAttribute };
 }
 
 export interface Session_AttributesEntry {
   key: string;
-  value: Session_GameAttribute | undefined;
+  value: GameAttribute | undefined;
 }
 
-/** TODO: Check if this is the best way to represent game attributes */
-export interface Session_GameAttribute {
-  stringValue?: string | undefined;
-  intValue?: number | undefined;
-  floatValue?: number | undefined;
-  boolValue?: boolean | undefined;
+/** / Represents a game session creation request */
+export interface SessionCreate {
+  gameId: string;
+  playerIds: string[];
+  state: GameState;
+  attributes: { [key: string]: GameAttribute };
 }
 
+export interface SessionCreate_AttributesEntry {
+  key: string;
+  value: GameAttribute | undefined;
+}
+
+export interface SessionUpdate {
+  id: string;
+  gameId: string;
+  playerIds: string[];
+  state: GameState;
+  attributes: { [key: string]: GameAttribute };
+}
+
+export interface SessionUpdate_AttributesEntry {
+  key: string;
+  value: GameAttribute | undefined;
+}
+
+/** / Represents a game session update request */
 export interface SessionGet {
   id?: string | undefined;
   gameId?: string | undefined;
 }
 
+/** / Represents a game session deletion request */
 export interface SessionDelete {
   id: string;
   gameId: string;
 }
 
+/** / Represents a list of game sessions */
 export interface Sessions {
   sessions: Session[];
 }
+
+function createBaseGameAttribute(): GameAttribute {
+  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+}
+
+export const GameAttribute: MessageFns<GameAttribute> = {
+  encode(message: GameAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.stringValue !== undefined) {
+      writer.uint32(18).string(message.stringValue);
+    }
+    if (message.intValue !== undefined) {
+      writer.uint32(24).int32(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      writer.uint32(37).float(message.floatValue);
+    }
+    if (message.boolValue !== undefined) {
+      writer.uint32(40).bool(message.boolValue);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): GameAttribute {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGameAttribute();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.stringValue = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
+            break;
+          }
+
+          message.intValue = reader.int32();
+          continue;
+        }
+        case 4: {
+          if (tag !== 37) {
+            break;
+          }
+
+          message.floatValue = reader.float();
+          continue;
+        }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.boolValue = reader.bool();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): GameAttribute {
+    return {
+      stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
+      intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
+      floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
+      boolValue: isSet(object.boolValue) ? globalThis.Boolean(object.boolValue) : undefined,
+    };
+  },
+
+  toJSON(message: GameAttribute): unknown {
+    const obj: any = {};
+    if (message.stringValue !== undefined) {
+      obj.stringValue = message.stringValue;
+    }
+    if (message.intValue !== undefined) {
+      obj.intValue = Math.round(message.intValue);
+    }
+    if (message.floatValue !== undefined) {
+      obj.floatValue = message.floatValue;
+    }
+    if (message.boolValue !== undefined) {
+      obj.boolValue = message.boolValue;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<GameAttribute>, I>>(base?: I): GameAttribute {
+    return GameAttribute.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<GameAttribute>, I>>(object: I): GameAttribute {
+    const message = createBaseGameAttribute();
+    message.stringValue = object.stringValue ?? undefined;
+    message.intValue = object.intValue ?? undefined;
+    message.floatValue = object.floatValue ?? undefined;
+    message.boolValue = object.boolValue ?? undefined;
+    return message;
+  },
+};
 
 function createBaseSession(): Session {
   return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
@@ -186,10 +331,10 @@ export const Session: MessageFns<Session> = {
       playerIds: globalThis.Array.isArray(object?.playerIds)
         ? object.playerIds.map((e: any) => globalThis.String(e))
         : [],
-      state: isSet(object.state) ? session_GameStateFromJSON(object.state) : 0,
+      state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
       attributes: isObject(object.attributes)
-        ? Object.entries(object.attributes).reduce<{ [key: string]: Session_GameAttribute }>((acc, [key, value]) => {
-          acc[key] = Session_GameAttribute.fromJSON(value);
+        ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
+          acc[key] = GameAttribute.fromJSON(value);
           return acc;
         }, {})
         : {},
@@ -208,14 +353,14 @@ export const Session: MessageFns<Session> = {
       obj.playerIds = message.playerIds;
     }
     if (message.state !== 0) {
-      obj.state = session_GameStateToJSON(message.state);
+      obj.state = gameStateToJSON(message.state);
     }
     if (message.attributes) {
       const entries = Object.entries(message.attributes);
       if (entries.length > 0) {
         obj.attributes = {};
         entries.forEach(([k, v]) => {
-          obj.attributes[k] = Session_GameAttribute.toJSON(v);
+          obj.attributes[k] = GameAttribute.toJSON(v);
         });
       }
     }
@@ -231,10 +376,10 @@ export const Session: MessageFns<Session> = {
     message.gameId = object.gameId ?? "";
     message.playerIds = object.playerIds?.map((e) => e) || [];
     message.state = object.state ?? 0;
-    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: Session_GameAttribute }>(
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
       (acc, [key, value]) => {
         if (value !== undefined) {
-          acc[key] = Session_GameAttribute.fromPartial(value);
+          acc[key] = GameAttribute.fromPartial(value);
         }
         return acc;
       },
@@ -254,7 +399,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
       writer.uint32(10).string(message.key);
     }
     if (message.value !== undefined) {
-      Session_GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+      GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
     }
     return writer;
   },
@@ -279,7 +424,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
             break;
           }
 
-          message.value = Session_GameAttribute.decode(reader, reader.uint32());
+          message.value = GameAttribute.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -294,7 +439,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
   fromJSON(object: any): Session_AttributesEntry {
     return {
       key: isSet(object.key) ? globalThis.String(object.key) : "",
-      value: isSet(object.value) ? Session_GameAttribute.fromJSON(object.value) : undefined,
+      value: isSet(object.value) ? GameAttribute.fromJSON(object.value) : undefined,
     };
   },
 
@@ -304,7 +449,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
       obj.key = message.key;
     }
     if (message.value !== undefined) {
-      obj.value = Session_GameAttribute.toJSON(message.value);
+      obj.value = GameAttribute.toJSON(message.value);
     }
     return obj;
   },
@@ -316,46 +461,54 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
     const message = createBaseSession_AttributesEntry();
     message.key = object.key ?? "";
     message.value = (object.value !== undefined && object.value !== null)
-      ? Session_GameAttribute.fromPartial(object.value)
+      ? GameAttribute.fromPartial(object.value)
       : undefined;
     return message;
   },
 };
 
-function createBaseSession_GameAttribute(): Session_GameAttribute {
-  return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
+function createBaseSessionCreate(): SessionCreate {
+  return { gameId: "", playerIds: [], state: 0, attributes: {} };
 }
 
-export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
-  encode(message: Session_GameAttribute, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.stringValue !== undefined) {
-      writer.uint32(18).string(message.stringValue);
+export const SessionCreate: MessageFns<SessionCreate> = {
+  encode(message: SessionCreate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.gameId !== "") {
+      writer.uint32(10).string(message.gameId);
     }
-    if (message.intValue !== undefined) {
-      writer.uint32(24).int32(message.intValue);
+    for (const v of message.playerIds) {
+      writer.uint32(18).string(v!);
     }
-    if (message.floatValue !== undefined) {
-      writer.uint32(37).float(message.floatValue);
+    if (message.state !== 0) {
+      writer.uint32(24).int32(message.state);
     }
-    if (message.boolValue !== undefined) {
-      writer.uint32(40).bool(message.boolValue);
-    }
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      SessionCreate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(34).fork()).join();
+    });
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): Session_GameAttribute {
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionCreate {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseSession_GameAttribute();
+    const message = createBaseSessionCreate();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
         case 2: {
           if (tag !== 18) {
             break;
           }
 
-          message.stringValue = reader.string();
+          message.playerIds.push(reader.string());
           continue;
         }
         case 3: {
@@ -363,23 +516,18 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
             break;
           }
 
-          message.intValue = reader.int32();
+          message.state = reader.int32() as any;
           continue;
         }
         case 4: {
-          if (tag !== 37) {
+          if (tag !== 34) {
             break;
           }
 
-          message.floatValue = reader.float();
-          continue;
-        }
-        case 5: {
-          if (tag !== 40) {
-            break;
+          const entry4 = SessionCreate_AttributesEntry.decode(reader, reader.uint32());
+          if (entry4.value !== undefined) {
+            message.attributes[entry4.key] = entry4.value;
           }
-
-          message.boolValue = reader.bool();
           continue;
         }
       }
@@ -391,41 +539,370 @@ export const Session_GameAttribute: MessageFns<Session_GameAttribute> = {
     return message;
   },
 
-  fromJSON(object: any): Session_GameAttribute {
+  fromJSON(object: any): SessionCreate {
     return {
-      stringValue: isSet(object.stringValue) ? globalThis.String(object.stringValue) : undefined,
-      intValue: isSet(object.intValue) ? globalThis.Number(object.intValue) : undefined,
-      floatValue: isSet(object.floatValue) ? globalThis.Number(object.floatValue) : undefined,
-      boolValue: isSet(object.boolValue) ? globalThis.Boolean(object.boolValue) : undefined,
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+      playerIds: globalThis.Array.isArray(object?.playerIds)
+        ? object.playerIds.map((e: any) => globalThis.String(e))
+        : [],
+      state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
+          acc[key] = GameAttribute.fromJSON(value);
+          return acc;
+        }, {})
+        : {},
     };
   },
 
-  toJSON(message: Session_GameAttribute): unknown {
+  toJSON(message: SessionCreate): unknown {
     const obj: any = {};
-    if (message.stringValue !== undefined) {
-      obj.stringValue = message.stringValue;
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
     }
-    if (message.intValue !== undefined) {
-      obj.intValue = Math.round(message.intValue);
+    if (message.playerIds?.length) {
+      obj.playerIds = message.playerIds;
     }
-    if (message.floatValue !== undefined) {
-      obj.floatValue = message.floatValue;
+    if (message.state !== 0) {
+      obj.state = gameStateToJSON(message.state);
     }
-    if (message.boolValue !== undefined) {
-      obj.boolValue = message.boolValue;
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = GameAttribute.toJSON(v);
+        });
+      }
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Session_GameAttribute>, I>>(base?: I): Session_GameAttribute {
-    return Session_GameAttribute.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<SessionCreate>, I>>(base?: I): SessionCreate {
+    return SessionCreate.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<Session_GameAttribute>, I>>(object: I): Session_GameAttribute {
-    const message = createBaseSession_GameAttribute();
-    message.stringValue = object.stringValue ?? undefined;
-    message.intValue = object.intValue ?? undefined;
-    message.floatValue = object.floatValue ?? undefined;
-    message.boolValue = object.boolValue ?? undefined;
+  fromPartial<I extends Exact<DeepPartial<SessionCreate>, I>>(object: I): SessionCreate {
+    const message = createBaseSessionCreate();
+    message.gameId = object.gameId ?? "";
+    message.playerIds = object.playerIds?.map((e) => e) || [];
+    message.state = object.state ?? 0;
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = GameAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    return message;
+  },
+};
+
+function createBaseSessionCreate_AttributesEntry(): SessionCreate_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const SessionCreate_AttributesEntry: MessageFns<SessionCreate_AttributesEntry> = {
+  encode(message: SessionCreate_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionCreate_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessionCreate_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = GameAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SessionCreate_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? GameAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: SessionCreate_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = GameAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SessionCreate_AttributesEntry>, I>>(base?: I): SessionCreate_AttributesEntry {
+    return SessionCreate_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SessionCreate_AttributesEntry>, I>>(
+    object: I,
+  ): SessionCreate_AttributesEntry {
+    const message = createBaseSessionCreate_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? GameAttribute.fromPartial(object.value)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseSessionUpdate(): SessionUpdate {
+  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
+}
+
+export const SessionUpdate: MessageFns<SessionUpdate> = {
+  encode(message: SessionUpdate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(18).string(message.gameId);
+    }
+    for (const v of message.playerIds) {
+      writer.uint32(26).string(v!);
+    }
+    if (message.state !== 0) {
+      writer.uint32(32).int32(message.state);
+    }
+    Object.entries(message.attributes).forEach(([key, value]) => {
+      SessionUpdate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(42).fork()).join();
+    });
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionUpdate {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessionUpdate();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.playerIds.push(reader.string());
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.state = reader.int32() as any;
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          const entry5 = SessionUpdate_AttributesEntry.decode(reader, reader.uint32());
+          if (entry5.value !== undefined) {
+            message.attributes[entry5.key] = entry5.value;
+          }
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SessionUpdate {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+      playerIds: globalThis.Array.isArray(object?.playerIds)
+        ? object.playerIds.map((e: any) => globalThis.String(e))
+        : [],
+      state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
+      attributes: isObject(object.attributes)
+        ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
+          acc[key] = GameAttribute.fromJSON(value);
+          return acc;
+        }, {})
+        : {},
+    };
+  },
+
+  toJSON(message: SessionUpdate): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    if (message.playerIds?.length) {
+      obj.playerIds = message.playerIds;
+    }
+    if (message.state !== 0) {
+      obj.state = gameStateToJSON(message.state);
+    }
+    if (message.attributes) {
+      const entries = Object.entries(message.attributes);
+      if (entries.length > 0) {
+        obj.attributes = {};
+        entries.forEach(([k, v]) => {
+          obj.attributes[k] = GameAttribute.toJSON(v);
+        });
+      }
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SessionUpdate>, I>>(base?: I): SessionUpdate {
+    return SessionUpdate.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SessionUpdate>, I>>(object: I): SessionUpdate {
+    const message = createBaseSessionUpdate();
+    message.id = object.id ?? "";
+    message.gameId = object.gameId ?? "";
+    message.playerIds = object.playerIds?.map((e) => e) || [];
+    message.state = object.state ?? 0;
+    message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = GameAttribute.fromPartial(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    return message;
+  },
+};
+
+function createBaseSessionUpdate_AttributesEntry(): SessionUpdate_AttributesEntry {
+  return { key: "", value: undefined };
+}
+
+export const SessionUpdate_AttributesEntry: MessageFns<SessionUpdate_AttributesEntry> = {
+  encode(message: SessionUpdate_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== undefined) {
+      GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): SessionUpdate_AttributesEntry {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseSessionUpdate_AttributesEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.key = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.value = GameAttribute.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): SessionUpdate_AttributesEntry {
+    return {
+      key: isSet(object.key) ? globalThis.String(object.key) : "",
+      value: isSet(object.value) ? GameAttribute.fromJSON(object.value) : undefined,
+    };
+  },
+
+  toJSON(message: SessionUpdate_AttributesEntry): unknown {
+    const obj: any = {};
+    if (message.key !== "") {
+      obj.key = message.key;
+    }
+    if (message.value !== undefined) {
+      obj.value = GameAttribute.toJSON(message.value);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<SessionUpdate_AttributesEntry>, I>>(base?: I): SessionUpdate_AttributesEntry {
+    return SessionUpdate_AttributesEntry.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<SessionUpdate_AttributesEntry>, I>>(
+    object: I,
+  ): SessionUpdate_AttributesEntry {
+    const message = createBaseSessionUpdate_AttributesEntry();
+    message.key = object.key ?? "";
+    message.value = (object.value !== undefined && object.value !== null)
+      ? GameAttribute.fromPartial(object.value)
+      : undefined;
     return message;
   },
 };

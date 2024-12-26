@@ -7,7 +7,7 @@
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 
-export const protobufPackage = "api.global";
+export const protobufPackage = "v1.api.global";
 
 /** / Message to synchronize time across clients */
 export interface GlobalTime {

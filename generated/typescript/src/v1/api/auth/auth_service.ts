@@ -19,53 +19,77 @@ import {
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
 
-export const protobufPackage = "api.auth";
+export const protobufPackage = "v1.api.auth";
 
-/** Request for Login RPC */
+/** / Request for Login RPC */
 export interface LoginRequest {
-  /** Username or email */
+  /** / Username or email */
   username: string;
-  /** User's password */
+  /** / User's password */
   password: string;
 }
 
-/** Response for Login RPC */
+/** / Response for Login RPC */
 export interface LoginResponse {
-  /** JWT Access Token */
+  /** / JWT Access Token */
   accessToken: string;
-  /** Refresh Token */
+  /** / Refresh Token */
   refreshToken: string;
-  /** Token expiration time in seconds */
+  /** / Token expiration time in seconds */
   expiresIn: number;
 }
 
-/** Request for ValidateToken RPC */
+/** / Request for ValidateToken RPC */
 export interface ValidateTokenRequest {
-  /** JWT to validate */
+  /** / JWT to validate */
   accessToken: string;
 }
 
-/** Response for ValidateToken RPC */
+/** / Response for ValidateToken RPC */
 export interface ValidateTokenResponse {
-  /** Indicates if the token is valid */
+  /** / Indicates if the token is valid */
   isValid: boolean;
-  /** ID of the authenticated user */
+  /** / ID of the authenticated user */
   userId: string;
-  /** Role of the user (e.g., admin, user) */
+  /** / Role of the user (e.g., admin, user) */
   role: string;
 }
 
-/** Request for RefreshToken RPC */
+/** / Request for Register RPC */
+export interface RegisterRequest {
+  /** / Username */
+  username: string;
+  /** / Email */
+  email: string;
+  /** / User's password */
+  password: string;
+}
+
+/** / Response for Register RPC with the user ID, access token, refresh token, and expiration time */
+export interface RegisterResponse {
+  /** / ID of the registered user */
+  userId: string;
+  /** / JWT Access Token */
+  accessToken: string;
+  /** / Refresh Token */
+  refreshToken: string;
+  /** / Token expiration time in seconds */
+  expiresIn: number;
+}
+
+/** / Request for RefreshToken RPC */
 export interface RefreshTokenRequest {
-  /** Refresh Token */
+  /** / Refresh Token */
   refreshToken: string;
 }
 
-/** Response for RefreshToken RPC */
+/** / Response for RefreshToken RPC */
 export interface RefreshTokenResponse {
-  /** New JWT Access Token */
+  /** / New JWT Access Token */
   accessToken: string;
-  /** Token expiration time in seconds */
+  /** / New Refresh Token */
+  refreshToken: string;
+  /** / Token expiration time in seconds */
   expiresIn: number;
 }
 
@@ -387,6 +411,206 @@ export const ValidateTokenResponse: MessageFns<ValidateTokenResponse> = {
   },
 };
 
+function createBaseRegisterRequest(): RegisterRequest {
+  return { username: "", email: "", password: "" };
+}
+
+export const RegisterRequest: MessageFns<RegisterRequest> = {
+  encode(message: RegisterRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.username !== "") {
+      writer.uint32(10).string(message.username);
+    }
+    if (message.email !== "") {
+      writer.uint32(18).string(message.email);
+    }
+    if (message.password !== "") {
+      writer.uint32(26).string(message.password);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RegisterRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRegisterRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.username = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.password = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RegisterRequest {
+    return {
+      username: isSet(object.username) ? globalThis.String(object.username) : "",
+      email: isSet(object.email) ? globalThis.String(object.email) : "",
+      password: isSet(object.password) ? globalThis.String(object.password) : "",
+    };
+  },
+
+  toJSON(message: RegisterRequest): unknown {
+    const obj: any = {};
+    if (message.username !== "") {
+      obj.username = message.username;
+    }
+    if (message.email !== "") {
+      obj.email = message.email;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<RegisterRequest>, I>>(base?: I): RegisterRequest {
+    return RegisterRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<RegisterRequest>, I>>(object: I): RegisterRequest {
+    const message = createBaseRegisterRequest();
+    message.username = object.username ?? "";
+    message.email = object.email ?? "";
+    message.password = object.password ?? "";
+    return message;
+  },
+};
+
+function createBaseRegisterResponse(): RegisterResponse {
+  return { userId: "", accessToken: "", refreshToken: "", expiresIn: 0 };
+}
+
+export const RegisterResponse: MessageFns<RegisterResponse> = {
+  encode(message: RegisterResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
+    }
+    if (message.accessToken !== "") {
+      writer.uint32(18).string(message.accessToken);
+    }
+    if (message.refreshToken !== "") {
+      writer.uint32(26).string(message.refreshToken);
+    }
+    if (message.expiresIn !== 0) {
+      writer.uint32(32).int64(message.expiresIn);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): RegisterResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseRegisterResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.userId = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.accessToken = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.refreshToken = reader.string();
+          continue;
+        }
+        case 4: {
+          if (tag !== 32) {
+            break;
+          }
+
+          message.expiresIn = longToNumber(reader.int64());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): RegisterResponse {
+    return {
+      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
+      accessToken: isSet(object.accessToken) ? globalThis.String(object.accessToken) : "",
+      refreshToken: isSet(object.refreshToken) ? globalThis.String(object.refreshToken) : "",
+      expiresIn: isSet(object.expiresIn) ? globalThis.Number(object.expiresIn) : 0,
+    };
+  },
+
+  toJSON(message: RegisterResponse): unknown {
+    const obj: any = {};
+    if (message.userId !== "") {
+      obj.userId = message.userId;
+    }
+    if (message.accessToken !== "") {
+      obj.accessToken = message.accessToken;
+    }
+    if (message.refreshToken !== "") {
+      obj.refreshToken = message.refreshToken;
+    }
+    if (message.expiresIn !== 0) {
+      obj.expiresIn = Math.round(message.expiresIn);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<RegisterResponse>, I>>(base?: I): RegisterResponse {
+    return RegisterResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<RegisterResponse>, I>>(object: I): RegisterResponse {
+    const message = createBaseRegisterResponse();
+    message.userId = object.userId ?? "";
+    message.accessToken = object.accessToken ?? "";
+    message.refreshToken = object.refreshToken ?? "";
+    message.expiresIn = object.expiresIn ?? 0;
+    return message;
+  },
+};
+
 function createBaseRefreshTokenRequest(): RefreshTokenRequest {
   return { refreshToken: "" };
 }
@@ -446,7 +670,7 @@ export const RefreshTokenRequest: MessageFns<RefreshTokenRequest> = {
 };
 
 function createBaseRefreshTokenResponse(): RefreshTokenResponse {
-  return { accessToken: "", expiresIn: 0 };
+  return { accessToken: "", refreshToken: "", expiresIn: 0 };
 }
 
 export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
@@ -454,8 +678,11 @@ export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
     if (message.accessToken !== "") {
       writer.uint32(10).string(message.accessToken);
     }
+    if (message.refreshToken !== "") {
+      writer.uint32(18).string(message.refreshToken);
+    }
     if (message.expiresIn !== 0) {
-      writer.uint32(16).int64(message.expiresIn);
+      writer.uint32(24).int64(message.expiresIn);
     }
     return writer;
   },
@@ -476,7 +703,15 @@ export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
           continue;
         }
         case 2: {
-          if (tag !== 16) {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.refreshToken = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 24) {
             break;
           }
 
@@ -495,6 +730,7 @@ export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
   fromJSON(object: any): RefreshTokenResponse {
     return {
       accessToken: isSet(object.accessToken) ? globalThis.String(object.accessToken) : "",
+      refreshToken: isSet(object.refreshToken) ? globalThis.String(object.refreshToken) : "",
       expiresIn: isSet(object.expiresIn) ? globalThis.Number(object.expiresIn) : 0,
     };
   },
@@ -503,6 +739,9 @@ export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
     const obj: any = {};
     if (message.accessToken !== "") {
       obj.accessToken = message.accessToken;
+    }
+    if (message.refreshToken !== "") {
+      obj.refreshToken = message.refreshToken;
     }
     if (message.expiresIn !== 0) {
       obj.expiresIn = Math.round(message.expiresIn);
@@ -516,17 +755,18 @@ export const RefreshTokenResponse: MessageFns<RefreshTokenResponse> = {
   fromPartial<I extends Exact<DeepPartial<RefreshTokenResponse>, I>>(object: I): RefreshTokenResponse {
     const message = createBaseRefreshTokenResponse();
     message.accessToken = object.accessToken ?? "";
+    message.refreshToken = object.refreshToken ?? "";
     message.expiresIn = object.expiresIn ?? 0;
     return message;
   },
 };
 
-/** Service definition for authentication */
+/** / Service definition for authentication */
 export type AuthServiceService = typeof AuthServiceService;
 export const AuthServiceService = {
-  /** User login RPC to generate an access token */
+  /** / User login RPC to generate an access token */
   login: {
-    path: "/api.auth.AuthService/Login",
+    path: "/v1.api.auth.AuthService/Login",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: LoginRequest) => Buffer.from(LoginRequest.encode(value).finish()),
@@ -534,9 +774,19 @@ export const AuthServiceService = {
     responseSerialize: (value: LoginResponse) => Buffer.from(LoginResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => LoginResponse.decode(value),
   },
-  /** RPC to validate an existing token */
+  /** / User registration RPC to create a new user */
+  register: {
+    path: "/v1.api.auth.AuthService/Register",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: RegisterRequest) => Buffer.from(RegisterRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => RegisterRequest.decode(value),
+    responseSerialize: (value: RegisterResponse) => Buffer.from(RegisterResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => RegisterResponse.decode(value),
+  },
+  /** / RPC to validate an existing token */
   validateToken: {
-    path: "/api.auth.AuthService/ValidateToken",
+    path: "/v1.api.auth.AuthService/ValidateToken",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: ValidateTokenRequest) => Buffer.from(ValidateTokenRequest.encode(value).finish()),
@@ -544,9 +794,9 @@ export const AuthServiceService = {
     responseSerialize: (value: ValidateTokenResponse) => Buffer.from(ValidateTokenResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ValidateTokenResponse.decode(value),
   },
-  /** RPC to refresh an access token using a refresh token */
+  /** / RPC to refresh an access token using a refresh token */
   refreshToken: {
-    path: "/api.auth.AuthService/RefreshToken",
+    path: "/v1.api.auth.AuthService/RefreshToken",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: RefreshTokenRequest) => Buffer.from(RefreshTokenRequest.encode(value).finish()),
@@ -557,16 +807,18 @@ export const AuthServiceService = {
 } as const;
 
 export interface AuthServiceServer extends UntypedServiceImplementation {
-  /** User login RPC to generate an access token */
+  /** / User login RPC to generate an access token */
   login: handleUnaryCall<LoginRequest, LoginResponse>;
-  /** RPC to validate an existing token */
+  /** / User registration RPC to create a new user */
+  register: handleUnaryCall<RegisterRequest, RegisterResponse>;
+  /** / RPC to validate an existing token */
   validateToken: handleUnaryCall<ValidateTokenRequest, ValidateTokenResponse>;
-  /** RPC to refresh an access token using a refresh token */
+  /** / RPC to refresh an access token using a refresh token */
   refreshToken: handleUnaryCall<RefreshTokenRequest, RefreshTokenResponse>;
 }
 
 export interface AuthServiceClient extends Client {
-  /** User login RPC to generate an access token */
+  /** / User login RPC to generate an access token */
   login(
     request: LoginRequest,
     callback: (error: ServiceError | null, response: LoginResponse) => void,
@@ -582,7 +834,23 @@ export interface AuthServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: LoginResponse) => void,
   ): ClientUnaryCall;
-  /** RPC to validate an existing token */
+  /** / User registration RPC to create a new user */
+  register(
+    request: RegisterRequest,
+    callback: (error: ServiceError | null, response: RegisterResponse) => void,
+  ): ClientUnaryCall;
+  register(
+    request: RegisterRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: RegisterResponse) => void,
+  ): ClientUnaryCall;
+  register(
+    request: RegisterRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: RegisterResponse) => void,
+  ): ClientUnaryCall;
+  /** / RPC to validate an existing token */
   validateToken(
     request: ValidateTokenRequest,
     callback: (error: ServiceError | null, response: ValidateTokenResponse) => void,
@@ -598,7 +866,7 @@ export interface AuthServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ValidateTokenResponse) => void,
   ): ClientUnaryCall;
-  /** RPC to refresh an access token using a refresh token */
+  /** / RPC to refresh an access token using a refresh token */
   refreshToken(
     request: RefreshTokenRequest,
     callback: (error: ServiceError | null, response: RefreshTokenResponse) => void,
@@ -618,7 +886,7 @@ export interface AuthServiceClient extends Client {
 
 export const AuthServiceClient = makeGenericClientConstructor(
   AuthServiceService,
-  "api.auth.AuthService",
+  "v1.api.auth.AuthService",
 ) as unknown as {
   new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): AuthServiceClient;
   service: typeof AuthServiceService;
