@@ -46,7 +46,7 @@ describe("trivia scenario", () => {
       id: 'session1',
       gameId: 'game1',
       playerIds: players,
-      state: GameState.CREATED,
+      state: GameState.STATE_CREATED,
       attributes: {
         difficulty
       },
@@ -93,7 +93,7 @@ describe("trivia scenario", () => {
         question,
         possibleAnswers
       },
-      type: GameEvent_EventType.CUSTOM
+      type: GameEvent_EventType.TYPE_UNSPECIFIED
     }
 
     // encode

@@ -21,19 +21,36 @@ export interface GameEvent {
   teamId?: string | undefined;
   attributes: { [key: string]: GameEvent_EventAttribute };
   type: GameEvent_EventType;
+  data?: string | undefined;
 }
 
 /** CUSTOM - Custom events */
 export enum GameEvent_EventType {
-  CUSTOM = 0,
+  TYPE_UNSPECIFIED = 0,
+  TYPE_ACTION = 1,
+  TYPE_GAME_EVENT = 2,
+  TYPE_SYSTEM = 3,
+  TYPE_COMPLETION = 4,
   UNRECOGNIZED = -1,
 }
 
 export function gameEvent_EventTypeFromJSON(object: any): GameEvent_EventType {
   switch (object) {
     case 0:
-    case "CUSTOM":
-      return GameEvent_EventType.CUSTOM;
+    case "TYPE_UNSPECIFIED":
+      return GameEvent_EventType.TYPE_UNSPECIFIED;
+    case 1:
+    case "TYPE_ACTION":
+      return GameEvent_EventType.TYPE_ACTION;
+    case 2:
+    case "TYPE_GAME_EVENT":
+      return GameEvent_EventType.TYPE_GAME_EVENT;
+    case 3:
+    case "TYPE_SYSTEM":
+      return GameEvent_EventType.TYPE_SYSTEM;
+    case 4:
+    case "TYPE_COMPLETION":
+      return GameEvent_EventType.TYPE_COMPLETION;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -43,8 +60,16 @@ export function gameEvent_EventTypeFromJSON(object: any): GameEvent_EventType {
 
 export function gameEvent_EventTypeToJSON(object: GameEvent_EventType): string {
   switch (object) {
-    case GameEvent_EventType.CUSTOM:
-      return "CUSTOM";
+    case GameEvent_EventType.TYPE_UNSPECIFIED:
+      return "TYPE_UNSPECIFIED";
+    case GameEvent_EventType.TYPE_ACTION:
+      return "TYPE_ACTION";
+    case GameEvent_EventType.TYPE_GAME_EVENT:
+      return "TYPE_GAME_EVENT";
+    case GameEvent_EventType.TYPE_SYSTEM:
+      return "TYPE_SYSTEM";
+    case GameEvent_EventType.TYPE_COMPLETION:
+      return "TYPE_COMPLETION";
     case GameEvent_EventType.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -74,6 +99,7 @@ function createBaseGameEvent(): GameEvent {
     teamId: undefined,
     attributes: {},
     type: 0,
+    data: undefined,
   };
 }
 
@@ -105,6 +131,9 @@ export const GameEvent: MessageFns<GameEvent> = {
     });
     if (message.type !== 0) {
       writer.uint32(80).int32(message.type);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(90).string(message.data);
     }
     return writer;
   },
@@ -191,6 +220,14 @@ export const GameEvent: MessageFns<GameEvent> = {
           message.type = reader.int32() as any;
           continue;
         }
+        case 11: {
+          if (tag !== 90) {
+            break;
+          }
+
+          message.data = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -216,6 +253,7 @@ export const GameEvent: MessageFns<GameEvent> = {
         }, {})
         : {},
       type: isSet(object.type) ? gameEvent_EventTypeFromJSON(object.type) : 0,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -254,6 +292,9 @@ export const GameEvent: MessageFns<GameEvent> = {
     if (message.type !== 0) {
       obj.type = gameEvent_EventTypeToJSON(message.type);
     }
+    if (message.data !== undefined) {
+      obj.data = message.data;
+    }
     return obj;
   },
 
@@ -279,6 +320,7 @@ export const GameEvent: MessageFns<GameEvent> = {
       {},
     );
     message.type = object.type ?? 0;
+    message.data = object.data ?? undefined;
     return message;
   },
 };

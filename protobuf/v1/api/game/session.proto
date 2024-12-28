@@ -2,12 +2,17 @@ syntax = "proto3";
 
 package v1.api.game;
 
+import "v1/std/regions.proto";
+
 /// Represents the state of a game session
 enum GameState {
-  CREATED = 0; /// The session has been created
-  WAITING = 1; /// The session is waiting for players to join
-  STARTED = 2; /// The session has started
-  FINISHED = 3; /// The session has finished
+  STATE_CREATED = 0; /// The session has been created
+  STATE_WAITING = 1; /// The session is waiting for players to join
+  STATE_STARTED = 2; /// The session has started
+  STATE_FINISHED = 3; /// The session has finished
+  STATE_DELETED = 4; /// The session has been deleted
+  STATE_PAUSED = 5; /// The session is paused
+  STATE_QUEUED = 6; /// The session is queued
 }
 
 //TODO: Check if this is the best way to represent game attributes
@@ -33,6 +38,8 @@ message Session {
   GameState state = 4;
   /// Game attributes as a map of string to GameAttribute
   map<string, GameAttribute> attributes = 5; // Game attributes
+  optional v1.std.RegionEnum region = 6;
+  optional string data = 7;
 }
 
 /// Represents a game session creation request
@@ -41,6 +48,8 @@ message SessionCreate {
   repeated string player_ids = 2;
   GameState state = 3;
   map<string, GameAttribute> attributes = 4;
+  optional v1.std.RegionEnum region = 5;
+  optional string data = 6;
 }
 
 message SessionUpdate {
@@ -49,6 +58,8 @@ message SessionUpdate {
   repeated string player_ids = 3;
   GameState state = 4;
   map<string, GameAttribute> attributes = 5;
+  optional v1.std.RegionEnum region = 6;
+  optional string data = 7;
 }
 
 /// Represents a game session update request
