@@ -1,15 +1,22 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { RegionEnum } from "../../std/regions";
 export declare const protobufPackage = "v1.api.game";
 /** / Represents the state of a game session */
 export declare enum GameState {
-    /** CREATED - / The session has been created */
-    CREATED = 0,
-    /** WAITING - / The session is waiting for players to join */
-    WAITING = 1,
-    /** STARTED - / The session has started */
-    STARTED = 2,
-    /** FINISHED - / The session has finished */
-    FINISHED = 3,
+    /** STATE_CREATED - / The session has been created */
+    STATE_CREATED = 0,
+    /** STATE_WAITING - / The session is waiting for players to join */
+    STATE_WAITING = 1,
+    /** STATE_STARTED - / The session has started */
+    STATE_STARTED = 2,
+    /** STATE_FINISHED - / The session has finished */
+    STATE_FINISHED = 3,
+    /** STATE_DELETED - / The session has been deleted */
+    STATE_DELETED = 4,
+    /** STATE_PAUSED - / The session is paused */
+    STATE_PAUSED = 5,
+    /** STATE_QUEUED - / The session is queued */
+    STATE_QUEUED = 6,
     UNRECOGNIZED = -1
 }
 export declare function gameStateFromJSON(object: any): GameState;
@@ -39,6 +46,8 @@ export interface Session {
     attributes: {
         [key: string]: GameAttribute;
     };
+    region?: RegionEnum | undefined;
+    data?: string | undefined;
 }
 export interface Session_AttributesEntry {
     key: string;
@@ -52,6 +61,8 @@ export interface SessionCreate {
     attributes: {
         [key: string]: GameAttribute;
     };
+    region?: RegionEnum | undefined;
+    data?: string | undefined;
 }
 export interface SessionCreate_AttributesEntry {
     key: string;
@@ -65,6 +76,8 @@ export interface SessionUpdate {
     attributes: {
         [key: string]: GameAttribute;
     };
+    region?: RegionEnum | undefined;
+    data?: string | undefined;
 }
 export interface SessionUpdate_AttributesEntry {
     key: string;

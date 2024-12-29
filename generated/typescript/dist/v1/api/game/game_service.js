@@ -15,7 +15,7 @@ const join_leave_1 = require("./join_leave");
 const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
 exports.GameService = {
-    /** / Join or leave a game */
+    /** / Join or leave a game, returns the queued session if not joined */
     joinLeave: {
         path: "/v1.api.game.Game/JoinLeave",
         requestStream: false,
@@ -98,15 +98,25 @@ exports.GameService = {
         responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
         responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
-    /** Stream events from the game */
+    /** / Wait for queue updates */
     streamEvents: {
         path: "/v1.api.game.Game/StreamEvents",
         requestStream: true,
-        responseStream: true,
+        responseStream: false,
         requestSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),
         requestDeserialize: (value) => event_1.GameEvent.decode(value),
         responseSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),
         responseDeserialize: (value) => event_1.GameEvent.decode(value),
+    },
+    /** / Stream events from the game */
+    watchQueue: {
+        path: "/v1.api.game.Game/WatchQueue",
+        requestStream: false,
+        responseStream: true,
+        requestSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        requestDeserialize: (value) => session_1.Session.decode(value),
+        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        responseDeserialize: (value) => session_1.Session.decode(value),
     },
 };
 exports.GameClient = (0, grpc_js_1.makeGenericClientConstructor)(exports.GameService, "v1.api.game.Game");

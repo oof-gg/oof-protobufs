@@ -10,34 +10,50 @@ exports.gameStateFromJSON = gameStateFromJSON;
 exports.gameStateToJSON = gameStateToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
+const regions_1 = require("../../std/regions");
 exports.protobufPackage = "v1.api.game";
 /** / Represents the state of a game session */
 var GameState;
 (function (GameState) {
-    /** CREATED - / The session has been created */
-    GameState[GameState["CREATED"] = 0] = "CREATED";
-    /** WAITING - / The session is waiting for players to join */
-    GameState[GameState["WAITING"] = 1] = "WAITING";
-    /** STARTED - / The session has started */
-    GameState[GameState["STARTED"] = 2] = "STARTED";
-    /** FINISHED - / The session has finished */
-    GameState[GameState["FINISHED"] = 3] = "FINISHED";
+    /** STATE_CREATED - / The session has been created */
+    GameState[GameState["STATE_CREATED"] = 0] = "STATE_CREATED";
+    /** STATE_WAITING - / The session is waiting for players to join */
+    GameState[GameState["STATE_WAITING"] = 1] = "STATE_WAITING";
+    /** STATE_STARTED - / The session has started */
+    GameState[GameState["STATE_STARTED"] = 2] = "STATE_STARTED";
+    /** STATE_FINISHED - / The session has finished */
+    GameState[GameState["STATE_FINISHED"] = 3] = "STATE_FINISHED";
+    /** STATE_DELETED - / The session has been deleted */
+    GameState[GameState["STATE_DELETED"] = 4] = "STATE_DELETED";
+    /** STATE_PAUSED - / The session is paused */
+    GameState[GameState["STATE_PAUSED"] = 5] = "STATE_PAUSED";
+    /** STATE_QUEUED - / The session is queued */
+    GameState[GameState["STATE_QUEUED"] = 6] = "STATE_QUEUED";
     GameState[GameState["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(GameState || (exports.GameState = GameState = {}));
 function gameStateFromJSON(object) {
     switch (object) {
         case 0:
-        case "CREATED":
-            return GameState.CREATED;
+        case "STATE_CREATED":
+            return GameState.STATE_CREATED;
         case 1:
-        case "WAITING":
-            return GameState.WAITING;
+        case "STATE_WAITING":
+            return GameState.STATE_WAITING;
         case 2:
-        case "STARTED":
-            return GameState.STARTED;
+        case "STATE_STARTED":
+            return GameState.STATE_STARTED;
         case 3:
-        case "FINISHED":
-            return GameState.FINISHED;
+        case "STATE_FINISHED":
+            return GameState.STATE_FINISHED;
+        case 4:
+        case "STATE_DELETED":
+            return GameState.STATE_DELETED;
+        case 5:
+        case "STATE_PAUSED":
+            return GameState.STATE_PAUSED;
+        case 6:
+        case "STATE_QUEUED":
+            return GameState.STATE_QUEUED;
         case -1:
         case "UNRECOGNIZED":
         default:
@@ -46,14 +62,20 @@ function gameStateFromJSON(object) {
 }
 function gameStateToJSON(object) {
     switch (object) {
-        case GameState.CREATED:
-            return "CREATED";
-        case GameState.WAITING:
-            return "WAITING";
-        case GameState.STARTED:
-            return "STARTED";
-        case GameState.FINISHED:
-            return "FINISHED";
+        case GameState.STATE_CREATED:
+            return "STATE_CREATED";
+        case GameState.STATE_WAITING:
+            return "STATE_WAITING";
+        case GameState.STATE_STARTED:
+            return "STATE_STARTED";
+        case GameState.STATE_FINISHED:
+            return "STATE_FINISHED";
+        case GameState.STATE_DELETED:
+            return "STATE_DELETED";
+        case GameState.STATE_PAUSED:
+            return "STATE_PAUSED";
+        case GameState.STATE_QUEUED:
+            return "STATE_QUEUED";
         case GameState.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
@@ -158,7 +180,7 @@ exports.GameAttribute = {
     },
 };
 function createBaseSession() {
-    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
+    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.Session = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -177,6 +199,12 @@ exports.Session = {
         Object.entries(message.attributes).forEach(([key, value]) => {
             exports.Session_AttributesEntry.encode({ key: key, value }, writer.uint32(42).fork()).join();
         });
+        if (message.region !== undefined) {
+            writer.uint32(48).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(58).string(message.data);
+        }
         return writer;
     },
     decode(input, length) {
@@ -224,6 +252,20 @@ exports.Session = {
                     }
                     continue;
                 }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -246,6 +288,8 @@ exports.Session = {
                     return acc;
                 }, {})
                 : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -271,6 +315,12 @@ exports.Session = {
                 });
             }
         }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
         return obj;
     },
     create(base) {
@@ -288,6 +338,8 @@ exports.Session = {
             }
             return acc;
         }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -362,7 +414,7 @@ exports.Session_AttributesEntry = {
     },
 };
 function createBaseSessionCreate() {
-    return { gameId: "", playerIds: [], state: 0, attributes: {} };
+    return { gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.SessionCreate = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -378,6 +430,12 @@ exports.SessionCreate = {
         Object.entries(message.attributes).forEach(([key, value]) => {
             exports.SessionCreate_AttributesEntry.encode({ key: key, value }, writer.uint32(34).fork()).join();
         });
+        if (message.region !== undefined) {
+            writer.uint32(40).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(50).string(message.data);
+        }
         return writer;
     },
     decode(input, length) {
@@ -418,6 +476,20 @@ exports.SessionCreate = {
                     }
                     continue;
                 }
+                case 5: {
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -439,6 +511,8 @@ exports.SessionCreate = {
                     return acc;
                 }, {})
                 : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -461,6 +535,12 @@ exports.SessionCreate = {
                 });
             }
         }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
         return obj;
     },
     create(base) {
@@ -477,6 +557,8 @@ exports.SessionCreate = {
             }
             return acc;
         }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -551,7 +633,7 @@ exports.SessionCreate_AttributesEntry = {
     },
 };
 function createBaseSessionUpdate() {
-    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
+    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.SessionUpdate = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -570,6 +652,12 @@ exports.SessionUpdate = {
         Object.entries(message.attributes).forEach(([key, value]) => {
             exports.SessionUpdate_AttributesEntry.encode({ key: key, value }, writer.uint32(42).fork()).join();
         });
+        if (message.region !== undefined) {
+            writer.uint32(48).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(58).string(message.data);
+        }
         return writer;
     },
     decode(input, length) {
@@ -617,6 +705,20 @@ exports.SessionUpdate = {
                     }
                     continue;
                 }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -639,6 +741,8 @@ exports.SessionUpdate = {
                     return acc;
                 }, {})
                 : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -664,6 +768,12 @@ exports.SessionUpdate = {
                 });
             }
         }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
         return obj;
     },
     create(base) {
@@ -681,6 +791,8 @@ exports.SessionUpdate = {
             }
             return acc;
         }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
         return message;
     },
 };
