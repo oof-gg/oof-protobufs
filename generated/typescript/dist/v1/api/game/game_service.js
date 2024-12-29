@@ -11,17 +11,28 @@ const grpc_js_1 = require("@grpc/grpc-js");
 const responses_1 = require("../../std/responses");
 const entity_1 = require("./entity");
 const event_1 = require("./event");
+const join_leave_1 = require("./join_leave");
 const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
 exports.GameService = {
+    /** / Join or leave a game, returns the queued session if not joined */
+    joinLeave: {
+        path: "/v1.api.game.Game/JoinLeave",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(join_leave_1.JoinLeaveGame.encode(value).finish()),
+        requestDeserialize: (value) => join_leave_1.JoinLeaveGame.decode(value),
+        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        responseDeserialize: (value) => session_1.Session.decode(value),
+    },
     createSession: {
         path: "/v1.api.game.Game/CreateSession",
         requestStream: false,
         responseStream: false,
-        requestSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
-        requestDeserialize: (value) => session_1.Session.decode(value),
-        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
-        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+        requestSerialize: (value) => Buffer.from(session_1.SessionCreate.encode(value).finish()),
+        requestDeserialize: (value) => session_1.SessionCreate.decode(value),
+        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        responseDeserialize: (value) => session_1.Session.decode(value),
     },
     getSession: {
         path: "/v1.api.game.Game/GetSession",
@@ -36,10 +47,10 @@ exports.GameService = {
         path: "/v1.api.game.Game/UpdateSession",
         requestStream: false,
         responseStream: false,
-        requestSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
-        requestDeserialize: (value) => session_1.Session.decode(value),
-        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
-        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+        requestSerialize: (value) => Buffer.from(session_1.SessionUpdate.encode(value).finish()),
+        requestDeserialize: (value) => session_1.SessionUpdate.decode(value),
+        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        responseDeserialize: (value) => session_1.Session.decode(value),
     },
     deleteSession: {
         path: "/v1.api.game.Game/DeleteSession",
@@ -57,8 +68,8 @@ exports.GameService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityCreate.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityCreate.decode(value),
-        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
-        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(entity_1.Entity.encode(value).finish()),
+        responseDeserialize: (value) => entity_1.Entity.decode(value),
     },
     getEntity: {
         path: "/v1.api.game.Game/GetEntity",
@@ -75,8 +86,8 @@ exports.GameService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityUpdate.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityUpdate.decode(value),
-        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
-        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(entity_1.Entity.encode(value).finish()),
+        responseDeserialize: (value) => entity_1.Entity.decode(value),
     },
     deleteEntity: {
         path: "/v1.api.game.Game/DeleteEntity",
@@ -87,15 +98,25 @@ exports.GameService = {
         responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
         responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
-    /** Stream events from the game */
+    /** / Wait for queue updates */
     streamEvents: {
         path: "/v1.api.game.Game/StreamEvents",
         requestStream: true,
-        responseStream: true,
+        responseStream: false,
         requestSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),
         requestDeserialize: (value) => event_1.GameEvent.decode(value),
         responseSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),
         responseDeserialize: (value) => event_1.GameEvent.decode(value),
+    },
+    /** / Stream events from the game */
+    watchQueue: {
+        path: "/v1.api.game.Game/WatchQueue",
+        requestStream: false,
+        responseStream: true,
+        requestSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        requestDeserialize: (value) => session_1.Session.decode(value),
+        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
+        responseDeserialize: (value) => session_1.Session.decode(value),
     },
 };
 exports.GameClient = (0, grpc_js_1.makeGenericClientConstructor)(exports.GameService, "v1.api.game.Game");

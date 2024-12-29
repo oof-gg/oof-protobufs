@@ -2,37 +2,7 @@ syntax = "proto3";
 
 package v1.api.game;
 
-/// Enum for regions
-enum RegionEnum {
-    REGION_UNSPECIFIED = 0; // Default unspecified region
-
-    /// Americas
-    NA_EAST = 1; // North America East
-    NA_WEST = 2; // North America West
-    SA = 3; // South America (all countries)
-
-    /// Europe
-    EU_WEST = 4; // Western Europe
-    EU_CENTRAL = 5; // Central Europe
-    EU_NORTH = 6; // Northern Europe
-
-    /// Asia
-    AS_EAST = 7; // East Asia
-    AS_SE = 8; // Southeast Asia
-    AS_SOUTH = 9; // South Asia
-
-    /// Oceania
-    OC = 10; // Oceania (e.g., Australia, New Zealand)
-
-    /// MENA (Middle East & North Africa)
-    MENA = 11; // Middle East and North Africa
-
-    // Sub-Saharan Africa
-    AFRICA = 12; // Sub-Saharan Africa
-
-    // Global
-    GLOBAL = 13; // Cross-region/global servers
-}
+import "v1/std/regions.proto";
 
 
 /// Message joining or leaving a game
@@ -42,7 +12,7 @@ message JoinLeaveGame {
   Action action = 3;
   optional string team_id = 4;
   optional string session_id = 5;
-  optional RegionEnum region = 6;
+  optional v1.std.RegionEnum region = 6;
 
   enum Action {
     JOIN = 0;

@@ -14,10 +14,15 @@ export interface GameEvent {
         [key: string]: GameEvent_EventAttribute;
     };
     type: GameEvent_EventType;
+    data?: string | undefined;
 }
 /** CUSTOM - Custom events */
 export declare enum GameEvent_EventType {
-    CUSTOM = 0,
+    TYPE_UNSPECIFIED = 0,
+    TYPE_ACTION = 1,
+    TYPE_GAME_EVENT = 2,
+    TYPE_SYSTEM = 3,
+    TYPE_COMPLETION = 4,
     UNRECOGNIZED = -1
 }
 export declare function gameEvent_EventTypeFromJSON(object: any): GameEvent_EventType;

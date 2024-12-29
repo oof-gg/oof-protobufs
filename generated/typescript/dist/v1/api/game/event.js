@@ -14,14 +14,30 @@ exports.protobufPackage = "v1.api.game";
 /** CUSTOM - Custom events */
 var GameEvent_EventType;
 (function (GameEvent_EventType) {
-    GameEvent_EventType[GameEvent_EventType["CUSTOM"] = 0] = "CUSTOM";
+    GameEvent_EventType[GameEvent_EventType["TYPE_UNSPECIFIED"] = 0] = "TYPE_UNSPECIFIED";
+    GameEvent_EventType[GameEvent_EventType["TYPE_ACTION"] = 1] = "TYPE_ACTION";
+    GameEvent_EventType[GameEvent_EventType["TYPE_GAME_EVENT"] = 2] = "TYPE_GAME_EVENT";
+    GameEvent_EventType[GameEvent_EventType["TYPE_SYSTEM"] = 3] = "TYPE_SYSTEM";
+    GameEvent_EventType[GameEvent_EventType["TYPE_COMPLETION"] = 4] = "TYPE_COMPLETION";
     GameEvent_EventType[GameEvent_EventType["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(GameEvent_EventType || (exports.GameEvent_EventType = GameEvent_EventType = {}));
 function gameEvent_EventTypeFromJSON(object) {
     switch (object) {
         case 0:
-        case "CUSTOM":
-            return GameEvent_EventType.CUSTOM;
+        case "TYPE_UNSPECIFIED":
+            return GameEvent_EventType.TYPE_UNSPECIFIED;
+        case 1:
+        case "TYPE_ACTION":
+            return GameEvent_EventType.TYPE_ACTION;
+        case 2:
+        case "TYPE_GAME_EVENT":
+            return GameEvent_EventType.TYPE_GAME_EVENT;
+        case 3:
+        case "TYPE_SYSTEM":
+            return GameEvent_EventType.TYPE_SYSTEM;
+        case 4:
+        case "TYPE_COMPLETION":
+            return GameEvent_EventType.TYPE_COMPLETION;
         case -1:
         case "UNRECOGNIZED":
         default:
@@ -30,8 +46,16 @@ function gameEvent_EventTypeFromJSON(object) {
 }
 function gameEvent_EventTypeToJSON(object) {
     switch (object) {
-        case GameEvent_EventType.CUSTOM:
-            return "CUSTOM";
+        case GameEvent_EventType.TYPE_UNSPECIFIED:
+            return "TYPE_UNSPECIFIED";
+        case GameEvent_EventType.TYPE_ACTION:
+            return "TYPE_ACTION";
+        case GameEvent_EventType.TYPE_GAME_EVENT:
+            return "TYPE_GAME_EVENT";
+        case GameEvent_EventType.TYPE_SYSTEM:
+            return "TYPE_SYSTEM";
+        case GameEvent_EventType.TYPE_COMPLETION:
+            return "TYPE_COMPLETION";
         case GameEvent_EventType.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
@@ -48,6 +72,7 @@ function createBaseGameEvent() {
         teamId: undefined,
         attributes: {},
         type: 0,
+        data: undefined,
     };
 }
 exports.GameEvent = {
@@ -78,6 +103,9 @@ exports.GameEvent = {
         });
         if (message.type !== 0) {
             writer.uint32(80).int32(message.type);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(90).string(message.data);
         }
         return writer;
     },
@@ -154,6 +182,13 @@ exports.GameEvent = {
                     message.type = reader.int32();
                     continue;
                 }
+                case 11: {
+                    if (tag !== 90) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -178,6 +213,7 @@ exports.GameEvent = {
                 }, {})
                 : {},
             type: isSet(object.type) ? gameEvent_EventTypeFromJSON(object.type) : 0,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -215,6 +251,9 @@ exports.GameEvent = {
         if (message.type !== 0) {
             obj.type = gameEvent_EventTypeToJSON(message.type);
         }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
         return obj;
     },
     create(base) {
@@ -236,6 +275,7 @@ exports.GameEvent = {
             return acc;
         }, {});
         message.type = object.type ?? 0;
+        message.data = object.data ?? undefined;
         return message;
     },
 };

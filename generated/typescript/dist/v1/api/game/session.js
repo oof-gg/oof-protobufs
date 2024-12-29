@@ -5,263 +5,86 @@
 //   protoc               v5.28.3
 // source: v1/api/game/session.proto
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sessions = exports.SessionDelete = exports.SessionGet = exports.Session_GameAttribute = exports.Session_AttributesEntry = exports.Session = exports.Session_GameState = exports.protobufPackage = void 0;
-exports.session_GameStateFromJSON = session_GameStateFromJSON;
-exports.session_GameStateToJSON = session_GameStateToJSON;
+exports.Sessions = exports.SessionDelete = exports.SessionGet = exports.SessionUpdate_AttributesEntry = exports.SessionUpdate = exports.SessionCreate_AttributesEntry = exports.SessionCreate = exports.Session_AttributesEntry = exports.Session = exports.GameAttribute = exports.GameState = exports.protobufPackage = void 0;
+exports.gameStateFromJSON = gameStateFromJSON;
+exports.gameStateToJSON = gameStateToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
+const regions_1 = require("../../std/regions");
 exports.protobufPackage = "v1.api.game";
-var Session_GameState;
-(function (Session_GameState) {
-    Session_GameState[Session_GameState["CREATED"] = 0] = "CREATED";
-    Session_GameState[Session_GameState["WAITING"] = 1] = "WAITING";
-    Session_GameState[Session_GameState["STARTED"] = 2] = "STARTED";
-    Session_GameState[Session_GameState["FINISHED"] = 3] = "FINISHED";
-    Session_GameState[Session_GameState["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
-})(Session_GameState || (exports.Session_GameState = Session_GameState = {}));
-function session_GameStateFromJSON(object) {
+/** / Represents the state of a game session */
+var GameState;
+(function (GameState) {
+    /** STATE_CREATED - / The session has been created */
+    GameState[GameState["STATE_CREATED"] = 0] = "STATE_CREATED";
+    /** STATE_WAITING - / The session is waiting for players to join */
+    GameState[GameState["STATE_WAITING"] = 1] = "STATE_WAITING";
+    /** STATE_STARTED - / The session has started */
+    GameState[GameState["STATE_STARTED"] = 2] = "STATE_STARTED";
+    /** STATE_FINISHED - / The session has finished */
+    GameState[GameState["STATE_FINISHED"] = 3] = "STATE_FINISHED";
+    /** STATE_DELETED - / The session has been deleted */
+    GameState[GameState["STATE_DELETED"] = 4] = "STATE_DELETED";
+    /** STATE_PAUSED - / The session is paused */
+    GameState[GameState["STATE_PAUSED"] = 5] = "STATE_PAUSED";
+    /** STATE_QUEUED - / The session is queued */
+    GameState[GameState["STATE_QUEUED"] = 6] = "STATE_QUEUED";
+    GameState[GameState["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(GameState || (exports.GameState = GameState = {}));
+function gameStateFromJSON(object) {
     switch (object) {
         case 0:
-        case "CREATED":
-            return Session_GameState.CREATED;
+        case "STATE_CREATED":
+            return GameState.STATE_CREATED;
         case 1:
-        case "WAITING":
-            return Session_GameState.WAITING;
+        case "STATE_WAITING":
+            return GameState.STATE_WAITING;
         case 2:
-        case "STARTED":
-            return Session_GameState.STARTED;
+        case "STATE_STARTED":
+            return GameState.STATE_STARTED;
         case 3:
-        case "FINISHED":
-            return Session_GameState.FINISHED;
+        case "STATE_FINISHED":
+            return GameState.STATE_FINISHED;
+        case 4:
+        case "STATE_DELETED":
+            return GameState.STATE_DELETED;
+        case 5:
+        case "STATE_PAUSED":
+            return GameState.STATE_PAUSED;
+        case 6:
+        case "STATE_QUEUED":
+            return GameState.STATE_QUEUED;
         case -1:
         case "UNRECOGNIZED":
         default:
-            return Session_GameState.UNRECOGNIZED;
+            return GameState.UNRECOGNIZED;
     }
 }
-function session_GameStateToJSON(object) {
+function gameStateToJSON(object) {
     switch (object) {
-        case Session_GameState.CREATED:
-            return "CREATED";
-        case Session_GameState.WAITING:
-            return "WAITING";
-        case Session_GameState.STARTED:
-            return "STARTED";
-        case Session_GameState.FINISHED:
-            return "FINISHED";
-        case Session_GameState.UNRECOGNIZED:
+        case GameState.STATE_CREATED:
+            return "STATE_CREATED";
+        case GameState.STATE_WAITING:
+            return "STATE_WAITING";
+        case GameState.STATE_STARTED:
+            return "STATE_STARTED";
+        case GameState.STATE_FINISHED:
+            return "STATE_FINISHED";
+        case GameState.STATE_DELETED:
+            return "STATE_DELETED";
+        case GameState.STATE_PAUSED:
+            return "STATE_PAUSED";
+        case GameState.STATE_QUEUED:
+            return "STATE_QUEUED";
+        case GameState.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
     }
 }
-function createBaseSession() {
-    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
-}
-exports.Session = {
-    encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.id !== "") {
-            writer.uint32(10).string(message.id);
-        }
-        if (message.gameId !== "") {
-            writer.uint32(18).string(message.gameId);
-        }
-        for (const v of message.playerIds) {
-            writer.uint32(26).string(v);
-        }
-        if (message.state !== 0) {
-            writer.uint32(32).int32(message.state);
-        }
-        Object.entries(message.attributes).forEach(([key, value]) => {
-            exports.Session_AttributesEntry.encode({ key: key, value }, writer.uint32(42).fork()).join();
-        });
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseSession();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 10) {
-                        break;
-                    }
-                    message.id = reader.string();
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 18) {
-                        break;
-                    }
-                    message.gameId = reader.string();
-                    continue;
-                }
-                case 3: {
-                    if (tag !== 26) {
-                        break;
-                    }
-                    message.playerIds.push(reader.string());
-                    continue;
-                }
-                case 4: {
-                    if (tag !== 32) {
-                        break;
-                    }
-                    message.state = reader.int32();
-                    continue;
-                }
-                case 5: {
-                    if (tag !== 42) {
-                        break;
-                    }
-                    const entry5 = exports.Session_AttributesEntry.decode(reader, reader.uint32());
-                    if (entry5.value !== undefined) {
-                        message.attributes[entry5.key] = entry5.value;
-                    }
-                    continue;
-                }
-            }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
-            }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            id: isSet(object.id) ? globalThis.String(object.id) : "",
-            gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-            playerIds: globalThis.Array.isArray(object?.playerIds)
-                ? object.playerIds.map((e) => globalThis.String(e))
-                : [],
-            state: isSet(object.state) ? session_GameStateFromJSON(object.state) : 0,
-            attributes: isObject(object.attributes)
-                ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
-                    acc[key] = exports.Session_GameAttribute.fromJSON(value);
-                    return acc;
-                }, {})
-                : {},
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        if (message.id !== "") {
-            obj.id = message.id;
-        }
-        if (message.gameId !== "") {
-            obj.gameId = message.gameId;
-        }
-        if (message.playerIds?.length) {
-            obj.playerIds = message.playerIds;
-        }
-        if (message.state !== 0) {
-            obj.state = session_GameStateToJSON(message.state);
-        }
-        if (message.attributes) {
-            const entries = Object.entries(message.attributes);
-            if (entries.length > 0) {
-                obj.attributes = {};
-                entries.forEach(([k, v]) => {
-                    obj.attributes[k] = exports.Session_GameAttribute.toJSON(v);
-                });
-            }
-        }
-        return obj;
-    },
-    create(base) {
-        return exports.Session.fromPartial(base ?? {});
-    },
-    fromPartial(object) {
-        const message = createBaseSession();
-        message.id = object.id ?? "";
-        message.gameId = object.gameId ?? "";
-        message.playerIds = object.playerIds?.map((e) => e) || [];
-        message.state = object.state ?? 0;
-        message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
-            if (value !== undefined) {
-                acc[key] = exports.Session_GameAttribute.fromPartial(value);
-            }
-            return acc;
-        }, {});
-        return message;
-    },
-};
-function createBaseSession_AttributesEntry() {
-    return { key: "", value: undefined };
-}
-exports.Session_AttributesEntry = {
-    encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.key !== "") {
-            writer.uint32(10).string(message.key);
-        }
-        if (message.value !== undefined) {
-            exports.Session_GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseSession_AttributesEntry();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1: {
-                    if (tag !== 10) {
-                        break;
-                    }
-                    message.key = reader.string();
-                    continue;
-                }
-                case 2: {
-                    if (tag !== 18) {
-                        break;
-                    }
-                    message.value = exports.Session_GameAttribute.decode(reader, reader.uint32());
-                    continue;
-                }
-            }
-            if ((tag & 7) === 4 || tag === 0) {
-                break;
-            }
-            reader.skip(tag & 7);
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            key: isSet(object.key) ? globalThis.String(object.key) : "",
-            value: isSet(object.value) ? exports.Session_GameAttribute.fromJSON(object.value) : undefined,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        if (message.key !== "") {
-            obj.key = message.key;
-        }
-        if (message.value !== undefined) {
-            obj.value = exports.Session_GameAttribute.toJSON(message.value);
-        }
-        return obj;
-    },
-    create(base) {
-        return exports.Session_AttributesEntry.fromPartial(base ?? {});
-    },
-    fromPartial(object) {
-        const message = createBaseSession_AttributesEntry();
-        message.key = object.key ?? "";
-        message.value = (object.value !== undefined && object.value !== null)
-            ? exports.Session_GameAttribute.fromPartial(object.value)
-            : undefined;
-        return message;
-    },
-};
-function createBaseSession_GameAttribute() {
+function createBaseGameAttribute() {
     return { stringValue: undefined, intValue: undefined, floatValue: undefined, boolValue: undefined };
 }
-exports.Session_GameAttribute = {
+exports.GameAttribute = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.stringValue !== undefined) {
             writer.uint32(18).string(message.stringValue);
@@ -280,7 +103,7 @@ exports.Session_GameAttribute = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseSession_GameAttribute();
+        const message = createBaseGameAttribute();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -345,14 +168,701 @@ exports.Session_GameAttribute = {
         return obj;
     },
     create(base) {
-        return exports.Session_GameAttribute.fromPartial(base ?? {});
+        return exports.GameAttribute.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseSession_GameAttribute();
+        const message = createBaseGameAttribute();
         message.stringValue = object.stringValue ?? undefined;
         message.intValue = object.intValue ?? undefined;
         message.floatValue = object.floatValue ?? undefined;
         message.boolValue = object.boolValue ?? undefined;
+        return message;
+    },
+};
+function createBaseSession() {
+    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+}
+exports.Session = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        if (message.gameId !== "") {
+            writer.uint32(18).string(message.gameId);
+        }
+        for (const v of message.playerIds) {
+            writer.uint32(26).string(v);
+        }
+        if (message.state !== 0) {
+            writer.uint32(32).int32(message.state);
+        }
+        Object.entries(message.attributes).forEach(([key, value]) => {
+            exports.Session_AttributesEntry.encode({ key: key, value }, writer.uint32(42).fork()).join();
+        });
+        if (message.region !== undefined) {
+            writer.uint32(48).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(58).string(message.data);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSession();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.gameId = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.playerIds.push(reader.string());
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.state = reader.int32();
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    const entry5 = exports.Session_AttributesEntry.decode(reader, reader.uint32());
+                    if (entry5.value !== undefined) {
+                        message.attributes[entry5.key] = entry5.value;
+                    }
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : "",
+            gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+            playerIds: globalThis.Array.isArray(object?.playerIds)
+                ? object.playerIds.map((e) => globalThis.String(e))
+                : [],
+            state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
+            attributes: isObject(object.attributes)
+                ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
+                    acc[key] = exports.GameAttribute.fromJSON(value);
+                    return acc;
+                }, {})
+                : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        if (message.gameId !== "") {
+            obj.gameId = message.gameId;
+        }
+        if (message.playerIds?.length) {
+            obj.playerIds = message.playerIds;
+        }
+        if (message.state !== 0) {
+            obj.state = gameStateToJSON(message.state);
+        }
+        if (message.attributes) {
+            const entries = Object.entries(message.attributes);
+            if (entries.length > 0) {
+                obj.attributes = {};
+                entries.forEach(([k, v]) => {
+                    obj.attributes[k] = exports.GameAttribute.toJSON(v);
+                });
+            }
+        }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.Session.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSession();
+        message.id = object.id ?? "";
+        message.gameId = object.gameId ?? "";
+        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.state = object.state ?? 0;
+        message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = exports.GameAttribute.fromPartial(value);
+            }
+            return acc;
+        }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
+        return message;
+    },
+};
+function createBaseSession_AttributesEntry() {
+    return { key: "", value: undefined };
+}
+exports.Session_AttributesEntry = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.key !== "") {
+            writer.uint32(10).string(message.key);
+        }
+        if (message.value !== undefined) {
+            exports.GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSession_AttributesEntry();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.key = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.value = exports.GameAttribute.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            key: isSet(object.key) ? globalThis.String(object.key) : "",
+            value: isSet(object.value) ? exports.GameAttribute.fromJSON(object.value) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.key !== "") {
+            obj.key = message.key;
+        }
+        if (message.value !== undefined) {
+            obj.value = exports.GameAttribute.toJSON(message.value);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.Session_AttributesEntry.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSession_AttributesEntry();
+        message.key = object.key ?? "";
+        message.value = (object.value !== undefined && object.value !== null)
+            ? exports.GameAttribute.fromPartial(object.value)
+            : undefined;
+        return message;
+    },
+};
+function createBaseSessionCreate() {
+    return { gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+}
+exports.SessionCreate = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.gameId !== "") {
+            writer.uint32(10).string(message.gameId);
+        }
+        for (const v of message.playerIds) {
+            writer.uint32(18).string(v);
+        }
+        if (message.state !== 0) {
+            writer.uint32(24).int32(message.state);
+        }
+        Object.entries(message.attributes).forEach(([key, value]) => {
+            exports.SessionCreate_AttributesEntry.encode({ key: key, value }, writer.uint32(34).fork()).join();
+        });
+        if (message.region !== undefined) {
+            writer.uint32(40).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(50).string(message.data);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSessionCreate();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.gameId = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.playerIds.push(reader.string());
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.state = reader.int32();
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break;
+                    }
+                    const entry4 = exports.SessionCreate_AttributesEntry.decode(reader, reader.uint32());
+                    if (entry4.value !== undefined) {
+                        message.attributes[entry4.key] = entry4.value;
+                    }
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 40) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+            playerIds: globalThis.Array.isArray(object?.playerIds)
+                ? object.playerIds.map((e) => globalThis.String(e))
+                : [],
+            state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
+            attributes: isObject(object.attributes)
+                ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
+                    acc[key] = exports.GameAttribute.fromJSON(value);
+                    return acc;
+                }, {})
+                : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.gameId !== "") {
+            obj.gameId = message.gameId;
+        }
+        if (message.playerIds?.length) {
+            obj.playerIds = message.playerIds;
+        }
+        if (message.state !== 0) {
+            obj.state = gameStateToJSON(message.state);
+        }
+        if (message.attributes) {
+            const entries = Object.entries(message.attributes);
+            if (entries.length > 0) {
+                obj.attributes = {};
+                entries.forEach(([k, v]) => {
+                    obj.attributes[k] = exports.GameAttribute.toJSON(v);
+                });
+            }
+        }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.SessionCreate.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSessionCreate();
+        message.gameId = object.gameId ?? "";
+        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.state = object.state ?? 0;
+        message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = exports.GameAttribute.fromPartial(value);
+            }
+            return acc;
+        }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
+        return message;
+    },
+};
+function createBaseSessionCreate_AttributesEntry() {
+    return { key: "", value: undefined };
+}
+exports.SessionCreate_AttributesEntry = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.key !== "") {
+            writer.uint32(10).string(message.key);
+        }
+        if (message.value !== undefined) {
+            exports.GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSessionCreate_AttributesEntry();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.key = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.value = exports.GameAttribute.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            key: isSet(object.key) ? globalThis.String(object.key) : "",
+            value: isSet(object.value) ? exports.GameAttribute.fromJSON(object.value) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.key !== "") {
+            obj.key = message.key;
+        }
+        if (message.value !== undefined) {
+            obj.value = exports.GameAttribute.toJSON(message.value);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.SessionCreate_AttributesEntry.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSessionCreate_AttributesEntry();
+        message.key = object.key ?? "";
+        message.value = (object.value !== undefined && object.value !== null)
+            ? exports.GameAttribute.fromPartial(object.value)
+            : undefined;
+        return message;
+    },
+};
+function createBaseSessionUpdate() {
+    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+}
+exports.SessionUpdate = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        if (message.gameId !== "") {
+            writer.uint32(18).string(message.gameId);
+        }
+        for (const v of message.playerIds) {
+            writer.uint32(26).string(v);
+        }
+        if (message.state !== 0) {
+            writer.uint32(32).int32(message.state);
+        }
+        Object.entries(message.attributes).forEach(([key, value]) => {
+            exports.SessionUpdate_AttributesEntry.encode({ key: key, value }, writer.uint32(42).fork()).join();
+        });
+        if (message.region !== undefined) {
+            writer.uint32(48).int32(message.region);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(58).string(message.data);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSessionUpdate();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.gameId = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.playerIds.push(reader.string());
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 32) {
+                        break;
+                    }
+                    message.state = reader.int32();
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    const entry5 = exports.SessionUpdate_AttributesEntry.decode(reader, reader.uint32());
+                    if (entry5.value !== undefined) {
+                        message.attributes[entry5.key] = entry5.value;
+                    }
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 48) {
+                        break;
+                    }
+                    message.region = reader.int32();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.data = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : "",
+            gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+            playerIds: globalThis.Array.isArray(object?.playerIds)
+                ? object.playerIds.map((e) => globalThis.String(e))
+                : [],
+            state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
+            attributes: isObject(object.attributes)
+                ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
+                    acc[key] = exports.GameAttribute.fromJSON(value);
+                    return acc;
+                }, {})
+                : {},
+            region: isSet(object.region) ? (0, regions_1.regionEnumFromJSON)(object.region) : undefined,
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        if (message.gameId !== "") {
+            obj.gameId = message.gameId;
+        }
+        if (message.playerIds?.length) {
+            obj.playerIds = message.playerIds;
+        }
+        if (message.state !== 0) {
+            obj.state = gameStateToJSON(message.state);
+        }
+        if (message.attributes) {
+            const entries = Object.entries(message.attributes);
+            if (entries.length > 0) {
+                obj.attributes = {};
+                entries.forEach(([k, v]) => {
+                    obj.attributes[k] = exports.GameAttribute.toJSON(v);
+                });
+            }
+        }
+        if (message.region !== undefined) {
+            obj.region = (0, regions_1.regionEnumToJSON)(message.region);
+        }
+        if (message.data !== undefined) {
+            obj.data = message.data;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.SessionUpdate.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSessionUpdate();
+        message.id = object.id ?? "";
+        message.gameId = object.gameId ?? "";
+        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.state = object.state ?? 0;
+        message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
+            if (value !== undefined) {
+                acc[key] = exports.GameAttribute.fromPartial(value);
+            }
+            return acc;
+        }, {});
+        message.region = object.region ?? undefined;
+        message.data = object.data ?? undefined;
+        return message;
+    },
+};
+function createBaseSessionUpdate_AttributesEntry() {
+    return { key: "", value: undefined };
+}
+exports.SessionUpdate_AttributesEntry = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.key !== "") {
+            writer.uint32(10).string(message.key);
+        }
+        if (message.value !== undefined) {
+            exports.GameAttribute.encode(message.value, writer.uint32(18).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSessionUpdate_AttributesEntry();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.key = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.value = exports.GameAttribute.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            key: isSet(object.key) ? globalThis.String(object.key) : "",
+            value: isSet(object.value) ? exports.GameAttribute.fromJSON(object.value) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.key !== "") {
+            obj.key = message.key;
+        }
+        if (message.value !== undefined) {
+            obj.value = exports.GameAttribute.toJSON(message.value);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.SessionUpdate_AttributesEntry.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseSessionUpdate_AttributesEntry();
+        message.key = object.key ?? "";
+        message.value = (object.value !== undefined && object.value !== null)
+            ? exports.GameAttribute.fromPartial(object.value)
+            : undefined;
         return message;
     },
 };
