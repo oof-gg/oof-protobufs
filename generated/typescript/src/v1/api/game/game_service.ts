@@ -9,10 +9,12 @@ import {
   type CallOptions,
   ChannelCredentials,
   Client,
-  ClientDuplexStream,
   type ClientOptions,
+  ClientReadableStream,
   type ClientUnaryCall,
-  handleBidiStreamingCall,
+  ClientWritableStream,
+  handleClientStreamingCall,
+  handleServerStreamingCall,
   type handleUnaryCall,
   makeGenericClientConstructor,
   Metadata,
@@ -29,7 +31,7 @@ export const protobufPackage = "v1.api.game";
 
 export type GameService = typeof GameService;
 export const GameService = {
-  /** / Join or leave a game */
+  /** / Join or leave a game, returns the queued session if not joined */
   joinLeave: {
     path: "/v1.api.game.Game/JoinLeave",
     requestStream: false,
@@ -112,20 +114,30 @@ export const GameService = {
     responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
-  /** Stream events from the game */
+  /** / Wait for queue updates */
   streamEvents: {
     path: "/v1.api.game.Game/StreamEvents",
     requestStream: true,
-    responseStream: true,
+    responseStream: false,
     requestSerialize: (value: GameEvent) => Buffer.from(GameEvent.encode(value).finish()),
     requestDeserialize: (value: Buffer) => GameEvent.decode(value),
     responseSerialize: (value: GameEvent) => Buffer.from(GameEvent.encode(value).finish()),
     responseDeserialize: (value: Buffer) => GameEvent.decode(value),
   },
+  /** / Stream events from the game */
+  watchQueue: {
+    path: "/v1.api.game.Game/WatchQueue",
+    requestStream: false,
+    responseStream: true,
+    requestSerialize: (value: Session) => Buffer.from(Session.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => Session.decode(value),
+    responseSerialize: (value: Session) => Buffer.from(Session.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => Session.decode(value),
+  },
 } as const;
 
 export interface GameServer extends UntypedServiceImplementation {
-  /** / Join or leave a game */
+  /** / Join or leave a game, returns the queued session if not joined */
   joinLeave: handleUnaryCall<JoinLeaveGame, Session>;
   createSession: handleUnaryCall<SessionCreate, Session>;
   getSession: handleUnaryCall<SessionGet, Sessions>;
@@ -136,12 +148,14 @@ export interface GameServer extends UntypedServiceImplementation {
   getEntity: handleUnaryCall<EntityGet, Entities>;
   updateEntity: handleUnaryCall<EntityUpdate, Entity>;
   deleteEntity: handleUnaryCall<EntityDelete, StandardResponse>;
-  /** Stream events from the game */
-  streamEvents: handleBidiStreamingCall<GameEvent, GameEvent>;
+  /** / Wait for queue updates */
+  streamEvents: handleClientStreamingCall<GameEvent, GameEvent>;
+  /** / Stream events from the game */
+  watchQueue: handleServerStreamingCall<Session, Session>;
 }
 
 export interface GameClient extends Client {
-  /** / Join or leave a game */
+  /** / Join or leave a game, returns the queued session if not joined */
   joinLeave(request: JoinLeaveGame, callback: (error: ServiceError | null, response: Session) => void): ClientUnaryCall;
   joinLeave(
     request: JoinLeaveGame,
@@ -269,10 +283,24 @@ export interface GameClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
-  /** Stream events from the game */
-  streamEvents(): ClientDuplexStream<GameEvent, GameEvent>;
-  streamEvents(options: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
-  streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
+  /** / Wait for queue updates */
+  streamEvents(callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
+  streamEvents(
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: GameEvent) => void,
+  ): ClientWritableStream<GameEvent>;
+  streamEvents(
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: GameEvent) => void,
+  ): ClientWritableStream<GameEvent>;
+  streamEvents(
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: GameEvent) => void,
+  ): ClientWritableStream<GameEvent>;
+  /** / Stream events from the game */
+  watchQueue(request: Session, options?: Partial<CallOptions>): ClientReadableStream<Session>;
+  watchQueue(request: Session, metadata?: Metadata, options?: Partial<CallOptions>): ClientReadableStream<Session>;
 }
 
 export const GameClient = makeGenericClientConstructor(GameService, "v1.api.game.Game") as unknown as {

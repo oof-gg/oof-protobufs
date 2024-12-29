@@ -30,13 +30,14 @@ const (
 	Game_UpdateEntity_FullMethodName  = "/v1.api.game.Game/UpdateEntity"
 	Game_DeleteEntity_FullMethodName  = "/v1.api.game.Game/DeleteEntity"
 	Game_StreamEvents_FullMethodName  = "/v1.api.game.Game/StreamEvents"
+	Game_WatchQueue_FullMethodName    = "/v1.api.game.Game/WatchQueue"
 )
 
 // GameClient is the client API for Game service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GameClient interface {
-	// / Join or leave a game
+	// / Join or leave a game, returns the queued session if not joined
 	JoinLeave(ctx context.Context, in *JoinLeaveGame, opts ...grpc.CallOption) (*Session, error)
 	CreateSession(ctx context.Context, in *SessionCreate, opts ...grpc.CallOption) (*Session, error)
 	GetSession(ctx context.Context, in *SessionGet, opts ...grpc.CallOption) (*Sessions, error)
@@ -47,8 +48,10 @@ type GameClient interface {
 	GetEntity(ctx context.Context, in *EntityGet, opts ...grpc.CallOption) (*Entities, error)
 	UpdateEntity(ctx context.Context, in *EntityUpdate, opts ...grpc.CallOption) (*Entity, error)
 	DeleteEntity(ctx context.Context, in *EntityDelete, opts ...grpc.CallOption) (*std.StandardResponse, error)
-	// Stream events from the game
-	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[GameEvent, GameEvent], error)
+	// / Wait for queue updates
+	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[GameEvent, GameEvent], error)
+	// / Stream events from the game
+	WatchQueue(ctx context.Context, in *Session, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Session], error)
 }
 
 type gameClient struct {
@@ -149,7 +152,7 @@ func (c *gameClient) DeleteEntity(ctx context.Context, in *EntityDelete, opts ..
 	return out, nil
 }
 
-func (c *gameClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[GameEvent, GameEvent], error) {
+func (c *gameClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.ClientStreamingClient[GameEvent, GameEvent], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &Game_ServiceDesc.Streams[0], Game_StreamEvents_FullMethodName, cOpts...)
 	if err != nil {
@@ -160,13 +163,32 @@ func (c *gameClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) 
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Game_StreamEventsClient = grpc.BidiStreamingClient[GameEvent, GameEvent]
+type Game_StreamEventsClient = grpc.ClientStreamingClient[GameEvent, GameEvent]
+
+func (c *gameClient) WatchQueue(ctx context.Context, in *Session, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Session], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &Game_ServiceDesc.Streams[1], Game_WatchQueue_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Session, Session]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Game_WatchQueueClient = grpc.ServerStreamingClient[Session]
 
 // GameServer is the server API for Game service.
 // All implementations must embed UnimplementedGameServer
 // for forward compatibility.
 type GameServer interface {
-	// / Join or leave a game
+	// / Join or leave a game, returns the queued session if not joined
 	JoinLeave(context.Context, *JoinLeaveGame) (*Session, error)
 	CreateSession(context.Context, *SessionCreate) (*Session, error)
 	GetSession(context.Context, *SessionGet) (*Sessions, error)
@@ -177,8 +199,10 @@ type GameServer interface {
 	GetEntity(context.Context, *EntityGet) (*Entities, error)
 	UpdateEntity(context.Context, *EntityUpdate) (*Entity, error)
 	DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error)
-	// Stream events from the game
-	StreamEvents(grpc.BidiStreamingServer[GameEvent, GameEvent]) error
+	// / Wait for queue updates
+	StreamEvents(grpc.ClientStreamingServer[GameEvent, GameEvent]) error
+	// / Stream events from the game
+	WatchQueue(*Session, grpc.ServerStreamingServer[Session]) error
 	mustEmbedUnimplementedGameServer()
 }
 
@@ -216,8 +240,11 @@ func (UnimplementedGameServer) UpdateEntity(context.Context, *EntityUpdate) (*En
 func (UnimplementedGameServer) DeleteEntity(context.Context, *EntityDelete) (*std.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteEntity not implemented")
 }
-func (UnimplementedGameServer) StreamEvents(grpc.BidiStreamingServer[GameEvent, GameEvent]) error {
+func (UnimplementedGameServer) StreamEvents(grpc.ClientStreamingServer[GameEvent, GameEvent]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamEvents not implemented")
+}
+func (UnimplementedGameServer) WatchQueue(*Session, grpc.ServerStreamingServer[Session]) error {
+	return status.Errorf(codes.Unimplemented, "method WatchQueue not implemented")
 }
 func (UnimplementedGameServer) mustEmbedUnimplementedGameServer() {}
 func (UnimplementedGameServer) testEmbeddedByValue()              {}
@@ -407,7 +434,18 @@ func _Game_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream) error
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type Game_StreamEventsServer = grpc.BidiStreamingServer[GameEvent, GameEvent]
+type Game_StreamEventsServer = grpc.ClientStreamingServer[GameEvent, GameEvent]
+
+func _Game_WatchQueue_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Session)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(GameServer).WatchQueue(m, &grpc.GenericServerStream[Session, Session]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type Game_WatchQueueServer = grpc.ServerStreamingServer[Session]
 
 // Game_ServiceDesc is the grpc.ServiceDesc for Game service.
 // It's only intended for direct use with grpc.RegisterService,
@@ -457,8 +495,12 @@ var Game_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamEvents",
 			Handler:       _Game_StreamEvents_Handler,
-			ServerStreams: true,
 			ClientStreams: true,
+		},
+		{
+			StreamName:    "WatchQueue",
+			Handler:       _Game_WatchQueue_Handler,
+			ServerStreams: true,
 		},
 	},
 	Metadata: "v1/api/game/game_service.proto",
