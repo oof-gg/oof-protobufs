@@ -10,7 +10,7 @@ import "v1/api/game/join_leave.proto";
 import "v1/std/responses.proto";
 
 service Game {
-  /// Join or leave a game
+  /// Join or leave a game, returns the queued session if not joined
   rpc JoinLeave (v1.api.game.JoinLeaveGame) returns (v1.api.game.Session);
   rpc CreateSession (v1.api.game.SessionCreate) returns (v1.api.game.Session);
   rpc GetSession (v1.api.game.SessionGet) returns (v1.api.game.Sessions);
@@ -23,8 +23,10 @@ service Game {
   rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.api.game.Entity);
   rpc DeleteEntity (v1.api.game.EntityDelete) returns (v1.std.StandardResponse);
 
-  // Stream events from the game
-  rpc StreamEvents (stream v1.api.game.GameEvent) returns (stream v1.api.game.GameEvent);
+  /// Wait for queue updates
+  rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
+  /// Stream events from the game
+  rpc WatchQueue (v1.api.game.Session) returns (stream v1.api.game.Session);
 }
 
 // Go package path for the generated code

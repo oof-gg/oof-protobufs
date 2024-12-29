@@ -6,36 +6,52 @@
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { RegionEnum, regionEnumFromJSON, regionEnumToJSON } from "../../std/regions";
 
 export const protobufPackage = "v1.api.game";
 
 /** / Represents the state of a game session */
 export enum GameState {
-  /** CREATED - / The session has been created */
-  CREATED = 0,
-  /** WAITING - / The session is waiting for players to join */
-  WAITING = 1,
-  /** STARTED - / The session has started */
-  STARTED = 2,
-  /** FINISHED - / The session has finished */
-  FINISHED = 3,
+  /** STATE_CREATED - / The session has been created */
+  STATE_CREATED = 0,
+  /** STATE_WAITING - / The session is waiting for players to join */
+  STATE_WAITING = 1,
+  /** STATE_STARTED - / The session has started */
+  STATE_STARTED = 2,
+  /** STATE_FINISHED - / The session has finished */
+  STATE_FINISHED = 3,
+  /** STATE_DELETED - / The session has been deleted */
+  STATE_DELETED = 4,
+  /** STATE_PAUSED - / The session is paused */
+  STATE_PAUSED = 5,
+  /** STATE_QUEUED - / The session is queued */
+  STATE_QUEUED = 6,
   UNRECOGNIZED = -1,
 }
 
 export function gameStateFromJSON(object: any): GameState {
   switch (object) {
     case 0:
-    case "CREATED":
-      return GameState.CREATED;
+    case "STATE_CREATED":
+      return GameState.STATE_CREATED;
     case 1:
-    case "WAITING":
-      return GameState.WAITING;
+    case "STATE_WAITING":
+      return GameState.STATE_WAITING;
     case 2:
-    case "STARTED":
-      return GameState.STARTED;
+    case "STATE_STARTED":
+      return GameState.STATE_STARTED;
     case 3:
-    case "FINISHED":
-      return GameState.FINISHED;
+    case "STATE_FINISHED":
+      return GameState.STATE_FINISHED;
+    case 4:
+    case "STATE_DELETED":
+      return GameState.STATE_DELETED;
+    case 5:
+    case "STATE_PAUSED":
+      return GameState.STATE_PAUSED;
+    case 6:
+    case "STATE_QUEUED":
+      return GameState.STATE_QUEUED;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -45,14 +61,20 @@ export function gameStateFromJSON(object: any): GameState {
 
 export function gameStateToJSON(object: GameState): string {
   switch (object) {
-    case GameState.CREATED:
-      return "CREATED";
-    case GameState.WAITING:
-      return "WAITING";
-    case GameState.STARTED:
-      return "STARTED";
-    case GameState.FINISHED:
-      return "FINISHED";
+    case GameState.STATE_CREATED:
+      return "STATE_CREATED";
+    case GameState.STATE_WAITING:
+      return "STATE_WAITING";
+    case GameState.STATE_STARTED:
+      return "STATE_STARTED";
+    case GameState.STATE_FINISHED:
+      return "STATE_FINISHED";
+    case GameState.STATE_DELETED:
+      return "STATE_DELETED";
+    case GameState.STATE_PAUSED:
+      return "STATE_PAUSED";
+    case GameState.STATE_QUEUED:
+      return "STATE_QUEUED";
     case GameState.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -83,6 +105,8 @@ export interface Session {
   state: GameState;
   /** / Game attributes as a map of string to GameAttribute */
   attributes: { [key: string]: GameAttribute };
+  region?: RegionEnum | undefined;
+  data?: string | undefined;
 }
 
 export interface Session_AttributesEntry {
@@ -96,6 +120,8 @@ export interface SessionCreate {
   playerIds: string[];
   state: GameState;
   attributes: { [key: string]: GameAttribute };
+  region?: RegionEnum | undefined;
+  data?: string | undefined;
 }
 
 export interface SessionCreate_AttributesEntry {
@@ -109,6 +135,8 @@ export interface SessionUpdate {
   playerIds: string[];
   state: GameState;
   attributes: { [key: string]: GameAttribute };
+  region?: RegionEnum | undefined;
+  data?: string | undefined;
 }
 
 export interface SessionUpdate_AttributesEntry {
@@ -242,7 +270,7 @@ export const GameAttribute: MessageFns<GameAttribute> = {
 };
 
 function createBaseSession(): Session {
-  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
+  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const Session: MessageFns<Session> = {
@@ -262,6 +290,12 @@ export const Session: MessageFns<Session> = {
     Object.entries(message.attributes).forEach(([key, value]) => {
       Session_AttributesEntry.encode({ key: key as any, value }, writer.uint32(42).fork()).join();
     });
+    if (message.region !== undefined) {
+      writer.uint32(48).int32(message.region);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(58).string(message.data);
+    }
     return writer;
   },
 
@@ -315,6 +349,22 @@ export const Session: MessageFns<Session> = {
           }
           continue;
         }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.region = reader.int32() as any;
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.data = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -338,6 +388,8 @@ export const Session: MessageFns<Session> = {
           return acc;
         }, {})
         : {},
+      region: isSet(object.region) ? regionEnumFromJSON(object.region) : undefined,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -364,6 +416,12 @@ export const Session: MessageFns<Session> = {
         });
       }
     }
+    if (message.region !== undefined) {
+      obj.region = regionEnumToJSON(message.region);
+    }
+    if (message.data !== undefined) {
+      obj.data = message.data;
+    }
     return obj;
   },
 
@@ -385,6 +443,8 @@ export const Session: MessageFns<Session> = {
       },
       {},
     );
+    message.region = object.region ?? undefined;
+    message.data = object.data ?? undefined;
     return message;
   },
 };
@@ -468,7 +528,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
 };
 
 function createBaseSessionCreate(): SessionCreate {
-  return { gameId: "", playerIds: [], state: 0, attributes: {} };
+  return { gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const SessionCreate: MessageFns<SessionCreate> = {
@@ -485,6 +545,12 @@ export const SessionCreate: MessageFns<SessionCreate> = {
     Object.entries(message.attributes).forEach(([key, value]) => {
       SessionCreate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(34).fork()).join();
     });
+    if (message.region !== undefined) {
+      writer.uint32(40).int32(message.region);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(50).string(message.data);
+    }
     return writer;
   },
 
@@ -530,6 +596,22 @@ export const SessionCreate: MessageFns<SessionCreate> = {
           }
           continue;
         }
+        case 5: {
+          if (tag !== 40) {
+            break;
+          }
+
+          message.region = reader.int32() as any;
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.data = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -552,6 +634,8 @@ export const SessionCreate: MessageFns<SessionCreate> = {
           return acc;
         }, {})
         : {},
+      region: isSet(object.region) ? regionEnumFromJSON(object.region) : undefined,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -575,6 +659,12 @@ export const SessionCreate: MessageFns<SessionCreate> = {
         });
       }
     }
+    if (message.region !== undefined) {
+      obj.region = regionEnumToJSON(message.region);
+    }
+    if (message.data !== undefined) {
+      obj.data = message.data;
+    }
     return obj;
   },
 
@@ -595,6 +685,8 @@ export const SessionCreate: MessageFns<SessionCreate> = {
       },
       {},
     );
+    message.region = object.region ?? undefined;
+    message.data = object.data ?? undefined;
     return message;
   },
 };
@@ -680,7 +772,7 @@ export const SessionCreate_AttributesEntry: MessageFns<SessionCreate_AttributesE
 };
 
 function createBaseSessionUpdate(): SessionUpdate {
-  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {} };
+  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const SessionUpdate: MessageFns<SessionUpdate> = {
@@ -700,6 +792,12 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
     Object.entries(message.attributes).forEach(([key, value]) => {
       SessionUpdate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(42).fork()).join();
     });
+    if (message.region !== undefined) {
+      writer.uint32(48).int32(message.region);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(58).string(message.data);
+    }
     return writer;
   },
 
@@ -753,6 +851,22 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
           }
           continue;
         }
+        case 6: {
+          if (tag !== 48) {
+            break;
+          }
+
+          message.region = reader.int32() as any;
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.data = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -776,6 +890,8 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
           return acc;
         }, {})
         : {},
+      region: isSet(object.region) ? regionEnumFromJSON(object.region) : undefined,
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -802,6 +918,12 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
         });
       }
     }
+    if (message.region !== undefined) {
+      obj.region = regionEnumToJSON(message.region);
+    }
+    if (message.data !== undefined) {
+      obj.data = message.data;
+    }
     return obj;
   },
 
@@ -823,6 +945,8 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
       },
       {},
     );
+    message.region = object.region ?? undefined;
+    message.data = object.data ?? undefined;
     return message;
   },
 };

@@ -13,6 +13,7 @@ message GameEvent {
   optional string team_id = 8;
   map <string, EventAttribute> attributes = 9;
   EventType type = 10;
+  optional string data = 11;
 
   //TODO: Modifier for Entity/Player/Team/Session to update any of the attributes
 
@@ -29,7 +30,11 @@ message GameEvent {
     CUSTOM - Custom events
   **/
   enum EventType {
-    CUSTOM = 0;
+    TYPE_UNSPECIFIED = 0;
+    TYPE_ACTION = 1;
+    TYPE_GAME_EVENT = 2;
+    TYPE_SYSTEM = 3;
+    TYPE_COMPLETION = 4;
   }
 }
 
