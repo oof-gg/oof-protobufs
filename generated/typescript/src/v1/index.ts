@@ -12,6 +12,7 @@ import * as api_player_action from './api/player/action';
 import * as api_player_player from './api/player/player';
 import * as api_player_player_service from './api/player/player_service';
 import * as api_player_state from './api/player/state';
+import * as std_regions from './std/regions';
 import * as std_responses from './std/responses';
 
 export { api_auth_auth_service };
@@ -28,4 +29,5 @@ export { api_player_action };
 export { api_player_player };
 export { api_player_player_service };
 export { api_player_state };
+export { std_regions };
 export { std_responses };
