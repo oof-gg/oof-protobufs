@@ -1,5 +1,4 @@
-module github.com/oof-gg/oof-protobufs/generated/go/v1
-
+module github.com/oof-gg/oof-protobufs
 go 1.22
 
 require (
