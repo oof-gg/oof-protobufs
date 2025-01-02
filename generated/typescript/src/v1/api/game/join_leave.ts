@@ -12,7 +12,7 @@ export const protobufPackage = "v1.api.game";
 
 /** / Message joining or leaving a game */
 export interface JoinLeaveGame {
-  playerId: string;
+  userId: string;
   gameId: string;
   action: JoinLeaveGame_Action;
   teamId?: string | undefined;
@@ -54,13 +54,13 @@ export function joinLeaveGame_ActionToJSON(object: JoinLeaveGame_Action): string
 }
 
 function createBaseJoinLeaveGame(): JoinLeaveGame {
-  return { playerId: "", gameId: "", action: 0, teamId: undefined, sessionId: undefined, region: undefined };
+  return { userId: "", gameId: "", action: 0, teamId: undefined, sessionId: undefined, region: undefined };
 }
 
 export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
   encode(message: JoinLeaveGame, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.playerId !== "") {
-      writer.uint32(10).string(message.playerId);
+    if (message.userId !== "") {
+      writer.uint32(10).string(message.userId);
     }
     if (message.gameId !== "") {
       writer.uint32(18).string(message.gameId);
@@ -92,7 +92,7 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
             break;
           }
 
-          message.playerId = reader.string();
+          message.userId = reader.string();
           continue;
         }
         case 2: {
@@ -146,7 +146,7 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
 
   fromJSON(object: any): JoinLeaveGame {
     return {
-      playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : "",
+      userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
       action: isSet(object.action) ? joinLeaveGame_ActionFromJSON(object.action) : 0,
       teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
@@ -157,8 +157,8 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
 
   toJSON(message: JoinLeaveGame): unknown {
     const obj: any = {};
-    if (message.playerId !== "") {
-      obj.playerId = message.playerId;
+    if (message.userId !== "") {
+      obj.userId = message.userId;
     }
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
@@ -183,7 +183,7 @@ export const JoinLeaveGame: MessageFns<JoinLeaveGame> = {
   },
   fromPartial<I extends Exact<DeepPartial<JoinLeaveGame>, I>>(object: I): JoinLeaveGame {
     const message = createBaseJoinLeaveGame();
-    message.playerId = object.playerId ?? "";
+    message.userId = object.userId ?? "";
     message.gameId = object.gameId ?? "";
     message.action = object.action ?? 0;
     message.teamId = object.teamId ?? undefined;
