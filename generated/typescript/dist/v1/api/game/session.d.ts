@@ -39,7 +39,7 @@ export interface Session {
      * / Players in the session (can be used to store player state and attributes)
      * / Optional: This can be used to store player state and attributes, but not recommended for large player counts.
      */
-    playerIds: string[];
+    userIds: string[];
     /** / Game state as defined by the GameState enum */
     state: GameState;
     /** / Game attributes as a map of string to GameAttribute */
@@ -56,7 +56,7 @@ export interface Session_AttributesEntry {
 /** / Represents a game session creation request */
 export interface SessionCreate {
     gameId: string;
-    playerIds: string[];
+    userIds: string[];
     state: GameState;
     attributes: {
         [key: string]: GameAttribute;
@@ -71,7 +71,7 @@ export interface SessionCreate_AttributesEntry {
 export interface SessionUpdate {
     id: string;
     gameId: string;
-    playerIds: string[];
+    userIds: string[];
     state: GameState;
     attributes: {
         [key: string]: GameAttribute;

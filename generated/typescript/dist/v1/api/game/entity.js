@@ -5,11 +5,11 @@
 //   protoc               v5.28.3
 // source: v1/api/game/entity.proto
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EntityDelete = exports.EntityUpdate = exports.EntityCreate_AttributesEntry = exports.EntityCreate = exports.EntityGet = exports.EntityAttribute = exports.Entities = exports.Entity_AttributesEntry = exports.Entity = exports.EntityCreate_ControllerStateEnum = exports.Entity_ControllerStateEnum = exports.protobufPackage = void 0;
+exports.EntityDeleteResponse = exports.EntityDeleteRequest = exports.EntityUpdateResponse = exports.EntityUpdateRequest = exports.EntityCreateResponse = exports.EntityCreateRequest_AttributesEntry = exports.EntityCreateRequest = exports.EntityGetResponse = exports.EntityGetRequest = exports.EntityAttribute = exports.Entities = exports.Entity_AttributesEntry = exports.Entity = exports.EntityCreateRequest_ControllerStateEnum = exports.Entity_ControllerStateEnum = exports.protobufPackage = void 0;
 exports.entity_ControllerStateEnumFromJSON = entity_ControllerStateEnumFromJSON;
 exports.entity_ControllerStateEnumToJSON = entity_ControllerStateEnumToJSON;
-exports.entityCreate_ControllerStateEnumFromJSON = entityCreate_ControllerStateEnumFromJSON;
-exports.entityCreate_ControllerStateEnumToJSON = entityCreate_ControllerStateEnumToJSON;
+exports.entityCreateRequest_ControllerStateEnumFromJSON = entityCreateRequest_ControllerStateEnumFromJSON;
+exports.entityCreateRequest_ControllerStateEnumToJSON = entityCreateRequest_ControllerStateEnumToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
 exports.protobufPackage = "v1.api.game";
@@ -44,33 +44,33 @@ function entity_ControllerStateEnumToJSON(object) {
             return "UNRECOGNIZED";
     }
 }
-var EntityCreate_ControllerStateEnum;
-(function (EntityCreate_ControllerStateEnum) {
-    EntityCreate_ControllerStateEnum[EntityCreate_ControllerStateEnum["SERVER"] = 0] = "SERVER";
-    EntityCreate_ControllerStateEnum[EntityCreate_ControllerStateEnum["PLAYER"] = 1] = "PLAYER";
-    EntityCreate_ControllerStateEnum[EntityCreate_ControllerStateEnum["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
-})(EntityCreate_ControllerStateEnum || (exports.EntityCreate_ControllerStateEnum = EntityCreate_ControllerStateEnum = {}));
-function entityCreate_ControllerStateEnumFromJSON(object) {
+var EntityCreateRequest_ControllerStateEnum;
+(function (EntityCreateRequest_ControllerStateEnum) {
+    EntityCreateRequest_ControllerStateEnum[EntityCreateRequest_ControllerStateEnum["SERVER"] = 0] = "SERVER";
+    EntityCreateRequest_ControllerStateEnum[EntityCreateRequest_ControllerStateEnum["PLAYER"] = 1] = "PLAYER";
+    EntityCreateRequest_ControllerStateEnum[EntityCreateRequest_ControllerStateEnum["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(EntityCreateRequest_ControllerStateEnum || (exports.EntityCreateRequest_ControllerStateEnum = EntityCreateRequest_ControllerStateEnum = {}));
+function entityCreateRequest_ControllerStateEnumFromJSON(object) {
     switch (object) {
         case 0:
         case "SERVER":
-            return EntityCreate_ControllerStateEnum.SERVER;
+            return EntityCreateRequest_ControllerStateEnum.SERVER;
         case 1:
         case "PLAYER":
-            return EntityCreate_ControllerStateEnum.PLAYER;
+            return EntityCreateRequest_ControllerStateEnum.PLAYER;
         case -1:
         case "UNRECOGNIZED":
         default:
-            return EntityCreate_ControllerStateEnum.UNRECOGNIZED;
+            return EntityCreateRequest_ControllerStateEnum.UNRECOGNIZED;
     }
 }
-function entityCreate_ControllerStateEnumToJSON(object) {
+function entityCreateRequest_ControllerStateEnumToJSON(object) {
     switch (object) {
-        case EntityCreate_ControllerStateEnum.SERVER:
+        case EntityCreateRequest_ControllerStateEnum.SERVER:
             return "SERVER";
-        case EntityCreate_ControllerStateEnum.PLAYER:
+        case EntityCreateRequest_ControllerStateEnum.PLAYER:
             return "PLAYER";
-        case EntityCreate_ControllerStateEnum.UNRECOGNIZED:
+        case EntityCreateRequest_ControllerStateEnum.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
     }
@@ -498,10 +498,10 @@ exports.EntityAttribute = {
         return message;
     },
 };
-function createBaseEntityGet() {
+function createBaseEntityGetRequest() {
     return { id: "", sessionId: "", gameId: "" };
 }
-exports.EntityGet = {
+exports.EntityGetRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.id !== "") {
             writer.uint32(10).string(message.id);
@@ -517,7 +517,7 @@ exports.EntityGet = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseEntityGet();
+        const message = createBaseEntityGetRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -571,17 +571,70 @@ exports.EntityGet = {
         return obj;
     },
     create(base) {
-        return exports.EntityGet.fromPartial(base ?? {});
+        return exports.EntityGetRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseEntityGet();
+        const message = createBaseEntityGetRequest();
         message.id = object.id ?? "";
         message.sessionId = object.sessionId ?? "";
         message.gameId = object.gameId ?? "";
         return message;
     },
 };
-function createBaseEntityCreate() {
+function createBaseEntityGetResponse() {
+    return { entity: undefined };
+}
+exports.EntityGetResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.entity !== undefined) {
+            exports.Entity.encode(message.entity, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseEntityGetResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.entity = exports.Entity.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { entity: isSet(object.entity) ? exports.Entity.fromJSON(object.entity) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.entity !== undefined) {
+            obj.entity = exports.Entity.toJSON(message.entity);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.EntityGetResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseEntityGetResponse();
+        message.entity = (object.entity !== undefined && object.entity !== null)
+            ? exports.Entity.fromPartial(object.entity)
+            : undefined;
+        return message;
+    },
+};
+function createBaseEntityCreateRequest() {
     return {
         name: "",
         type: "",
@@ -593,7 +646,7 @@ function createBaseEntityCreate() {
         data: undefined,
     };
 }
-exports.EntityCreate = {
+exports.EntityCreateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.name !== "") {
             writer.uint32(10).string(message.name);
@@ -608,7 +661,7 @@ exports.EntityCreate = {
             writer.uint32(42).string(message.gameId);
         }
         Object.entries(message.attributes).forEach(([key, value]) => {
-            exports.EntityCreate_AttributesEntry.encode({ key: key, value }, writer.uint32(50).fork()).join();
+            exports.EntityCreateRequest_AttributesEntry.encode({ key: key, value }, writer.uint32(50).fork()).join();
         });
         if (message.controller !== 0) {
             writer.uint32(56).int32(message.controller);
@@ -624,7 +677,7 @@ exports.EntityCreate = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseEntityCreate();
+        const message = createBaseEntityCreateRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -660,7 +713,7 @@ exports.EntityCreate = {
                     if (tag !== 50) {
                         break;
                     }
-                    const entry6 = exports.EntityCreate_AttributesEntry.decode(reader, reader.uint32());
+                    const entry6 = exports.EntityCreateRequest_AttributesEntry.decode(reader, reader.uint32());
                     if (entry6.value !== undefined) {
                         message.attributes[entry6.key] = entry6.value;
                     }
@@ -707,7 +760,7 @@ exports.EntityCreate = {
                     return acc;
                 }, {})
                 : {},
-            controller: isSet(object.controller) ? entityCreate_ControllerStateEnumFromJSON(object.controller) : 0,
+            controller: isSet(object.controller) ? entityCreateRequest_ControllerStateEnumFromJSON(object.controller) : 0,
             playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
             data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
@@ -736,7 +789,7 @@ exports.EntityCreate = {
             }
         }
         if (message.controller !== 0) {
-            obj.controller = entityCreate_ControllerStateEnumToJSON(message.controller);
+            obj.controller = entityCreateRequest_ControllerStateEnumToJSON(message.controller);
         }
         if (message.playerId !== undefined) {
             obj.playerId = message.playerId;
@@ -747,10 +800,10 @@ exports.EntityCreate = {
         return obj;
     },
     create(base) {
-        return exports.EntityCreate.fromPartial(base ?? {});
+        return exports.EntityCreateRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseEntityCreate();
+        const message = createBaseEntityCreateRequest();
         message.name = object.name ?? "";
         message.type = object.type ?? "";
         message.sessionId = object.sessionId ?? "";
@@ -767,10 +820,10 @@ exports.EntityCreate = {
         return message;
     },
 };
-function createBaseEntityCreate_AttributesEntry() {
+function createBaseEntityCreateRequest_AttributesEntry() {
     return { key: "", value: undefined };
 }
-exports.EntityCreate_AttributesEntry = {
+exports.EntityCreateRequest_AttributesEntry = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.key !== "") {
             writer.uint32(10).string(message.key);
@@ -783,7 +836,7 @@ exports.EntityCreate_AttributesEntry = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseEntityCreate_AttributesEntry();
+        const message = createBaseEntityCreateRequest_AttributesEntry();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -826,10 +879,10 @@ exports.EntityCreate_AttributesEntry = {
         return obj;
     },
     create(base) {
-        return exports.EntityCreate_AttributesEntry.fromPartial(base ?? {});
+        return exports.EntityCreateRequest_AttributesEntry.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseEntityCreate_AttributesEntry();
+        const message = createBaseEntityCreateRequest_AttributesEntry();
         message.key = object.key ?? "";
         message.value = (object.value !== undefined && object.value !== null)
             ? exports.EntityAttribute.fromPartial(object.value)
@@ -837,10 +890,63 @@ exports.EntityCreate_AttributesEntry = {
         return message;
     },
 };
-function createBaseEntityUpdate() {
+function createBaseEntityCreateResponse() {
+    return { entity: undefined };
+}
+exports.EntityCreateResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.entity !== undefined) {
+            exports.Entity.encode(message.entity, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseEntityCreateResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.entity = exports.Entity.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { entity: isSet(object.entity) ? exports.Entity.fromJSON(object.entity) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.entity !== undefined) {
+            obj.entity = exports.Entity.toJSON(message.entity);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.EntityCreateResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseEntityCreateResponse();
+        message.entity = (object.entity !== undefined && object.entity !== null)
+            ? exports.Entity.fromPartial(object.entity)
+            : undefined;
+        return message;
+    },
+};
+function createBaseEntityUpdateRequest() {
     return { id: "", sessionId: "", gameId: "", attributes: [] };
 }
-exports.EntityUpdate = {
+exports.EntityUpdateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.id !== "") {
             writer.uint32(10).string(message.id);
@@ -859,7 +965,7 @@ exports.EntityUpdate = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseEntityUpdate();
+        const message = createBaseEntityUpdateRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -926,10 +1032,10 @@ exports.EntityUpdate = {
         return obj;
     },
     create(base) {
-        return exports.EntityUpdate.fromPartial(base ?? {});
+        return exports.EntityUpdateRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseEntityUpdate();
+        const message = createBaseEntityUpdateRequest();
         message.id = object.id ?? "";
         message.sessionId = object.sessionId ?? "";
         message.gameId = object.gameId ?? "";
@@ -937,10 +1043,63 @@ exports.EntityUpdate = {
         return message;
     },
 };
-function createBaseEntityDelete() {
+function createBaseEntityUpdateResponse() {
+    return { entity: undefined };
+}
+exports.EntityUpdateResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.entity !== undefined) {
+            exports.Entity.encode(message.entity, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseEntityUpdateResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.entity = exports.Entity.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { entity: isSet(object.entity) ? exports.Entity.fromJSON(object.entity) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.entity !== undefined) {
+            obj.entity = exports.Entity.toJSON(message.entity);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.EntityUpdateResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseEntityUpdateResponse();
+        message.entity = (object.entity !== undefined && object.entity !== null)
+            ? exports.Entity.fromPartial(object.entity)
+            : undefined;
+        return message;
+    },
+};
+function createBaseEntityDeleteRequest() {
     return { id: "", sessionId: "", gameId: "" };
 }
-exports.EntityDelete = {
+exports.EntityDeleteRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.id !== "") {
             writer.uint32(10).string(message.id);
@@ -956,7 +1115,7 @@ exports.EntityDelete = {
     decode(input, length) {
         const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
         let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseEntityDelete();
+        const message = createBaseEntityDeleteRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -1010,10 +1169,93 @@ exports.EntityDelete = {
         return obj;
     },
     create(base) {
-        return exports.EntityDelete.fromPartial(base ?? {});
+        return exports.EntityDeleteRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
-        const message = createBaseEntityDelete();
+        const message = createBaseEntityDeleteRequest();
+        message.id = object.id ?? "";
+        message.sessionId = object.sessionId ?? "";
+        message.gameId = object.gameId ?? "";
+        return message;
+    },
+};
+function createBaseEntityDeleteResponse() {
+    return { id: "", sessionId: "", gameId: "" };
+}
+exports.EntityDeleteResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.id !== "") {
+            writer.uint32(10).string(message.id);
+        }
+        if (message.sessionId !== "") {
+            writer.uint32(18).string(message.sessionId);
+        }
+        if (message.gameId !== "") {
+            writer.uint32(26).string(message.gameId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseEntityDeleteResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.id = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.sessionId = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.gameId = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : "",
+            sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
+            gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.id !== "") {
+            obj.id = message.id;
+        }
+        if (message.sessionId !== "") {
+            obj.sessionId = message.sessionId;
+        }
+        if (message.gameId !== "") {
+            obj.gameId = message.gameId;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.EntityDeleteResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseEntityDeleteResponse();
         message.id = object.id ?? "";
         message.sessionId = object.sessionId ?? "";
         message.gameId = object.gameId ?? "";

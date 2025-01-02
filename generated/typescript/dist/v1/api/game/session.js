@@ -180,7 +180,7 @@ exports.GameAttribute = {
     },
 };
 function createBaseSession() {
-    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+    return { id: "", gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.Session = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -190,7 +190,7 @@ exports.Session = {
         if (message.gameId !== "") {
             writer.uint32(18).string(message.gameId);
         }
-        for (const v of message.playerIds) {
+        for (const v of message.userIds) {
             writer.uint32(26).string(v);
         }
         if (message.state !== 0) {
@@ -232,7 +232,7 @@ exports.Session = {
                     if (tag !== 26) {
                         break;
                     }
-                    message.playerIds.push(reader.string());
+                    message.userIds.push(reader.string());
                     continue;
                 }
                 case 4: {
@@ -278,9 +278,7 @@ exports.Session = {
         return {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-            playerIds: globalThis.Array.isArray(object?.playerIds)
-                ? object.playerIds.map((e) => globalThis.String(e))
-                : [],
+            userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e) => globalThis.String(e)) : [],
             state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
             attributes: isObject(object.attributes)
                 ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
@@ -300,8 +298,8 @@ exports.Session = {
         if (message.gameId !== "") {
             obj.gameId = message.gameId;
         }
-        if (message.playerIds?.length) {
-            obj.playerIds = message.playerIds;
+        if (message.userIds?.length) {
+            obj.userIds = message.userIds;
         }
         if (message.state !== 0) {
             obj.state = gameStateToJSON(message.state);
@@ -330,7 +328,7 @@ exports.Session = {
         const message = createBaseSession();
         message.id = object.id ?? "";
         message.gameId = object.gameId ?? "";
-        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.userIds = object.userIds?.map((e) => e) || [];
         message.state = object.state ?? 0;
         message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
             if (value !== undefined) {
@@ -414,14 +412,14 @@ exports.Session_AttributesEntry = {
     },
 };
 function createBaseSessionCreate() {
-    return { gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+    return { gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.SessionCreate = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.gameId !== "") {
             writer.uint32(10).string(message.gameId);
         }
-        for (const v of message.playerIds) {
+        for (const v of message.userIds) {
             writer.uint32(18).string(v);
         }
         if (message.state !== 0) {
@@ -456,7 +454,7 @@ exports.SessionCreate = {
                     if (tag !== 18) {
                         break;
                     }
-                    message.playerIds.push(reader.string());
+                    message.userIds.push(reader.string());
                     continue;
                 }
                 case 3: {
@@ -501,9 +499,7 @@ exports.SessionCreate = {
     fromJSON(object) {
         return {
             gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-            playerIds: globalThis.Array.isArray(object?.playerIds)
-                ? object.playerIds.map((e) => globalThis.String(e))
-                : [],
+            userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e) => globalThis.String(e)) : [],
             state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
             attributes: isObject(object.attributes)
                 ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
@@ -520,8 +516,8 @@ exports.SessionCreate = {
         if (message.gameId !== "") {
             obj.gameId = message.gameId;
         }
-        if (message.playerIds?.length) {
-            obj.playerIds = message.playerIds;
+        if (message.userIds?.length) {
+            obj.userIds = message.userIds;
         }
         if (message.state !== 0) {
             obj.state = gameStateToJSON(message.state);
@@ -549,7 +545,7 @@ exports.SessionCreate = {
     fromPartial(object) {
         const message = createBaseSessionCreate();
         message.gameId = object.gameId ?? "";
-        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.userIds = object.userIds?.map((e) => e) || [];
         message.state = object.state ?? 0;
         message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
             if (value !== undefined) {
@@ -633,7 +629,7 @@ exports.SessionCreate_AttributesEntry = {
     },
 };
 function createBaseSessionUpdate() {
-    return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+    return { id: "", gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 exports.SessionUpdate = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -643,7 +639,7 @@ exports.SessionUpdate = {
         if (message.gameId !== "") {
             writer.uint32(18).string(message.gameId);
         }
-        for (const v of message.playerIds) {
+        for (const v of message.userIds) {
             writer.uint32(26).string(v);
         }
         if (message.state !== 0) {
@@ -685,7 +681,7 @@ exports.SessionUpdate = {
                     if (tag !== 26) {
                         break;
                     }
-                    message.playerIds.push(reader.string());
+                    message.userIds.push(reader.string());
                     continue;
                 }
                 case 4: {
@@ -731,9 +727,7 @@ exports.SessionUpdate = {
         return {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-            playerIds: globalThis.Array.isArray(object?.playerIds)
-                ? object.playerIds.map((e) => globalThis.String(e))
-                : [],
+            userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e) => globalThis.String(e)) : [],
             state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
             attributes: isObject(object.attributes)
                 ? Object.entries(object.attributes).reduce((acc, [key, value]) => {
@@ -753,8 +747,8 @@ exports.SessionUpdate = {
         if (message.gameId !== "") {
             obj.gameId = message.gameId;
         }
-        if (message.playerIds?.length) {
-            obj.playerIds = message.playerIds;
+        if (message.userIds?.length) {
+            obj.userIds = message.userIds;
         }
         if (message.state !== 0) {
             obj.state = gameStateToJSON(message.state);
@@ -783,7 +777,7 @@ exports.SessionUpdate = {
         const message = createBaseSessionUpdate();
         message.id = object.id ?? "";
         message.gameId = object.gameId ?? "";
-        message.playerIds = object.playerIds?.map((e) => e) || [];
+        message.userIds = object.userIds?.map((e) => e) || [];
         message.state = object.state ?? 0;
         message.attributes = Object.entries(object.attributes ?? {}).reduce((acc, [key, value]) => {
             if (value !== undefined) {
