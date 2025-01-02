@@ -10,7 +10,7 @@ describe("trivia scenario", () => {
   test("should have the ability to join a game", () => {
     expect(JoinLeaveGame).toBeDefined();
     const joinLeaveGame: JoinLeaveGame = {
-      playerId: 'player1',
+      userId: 'player1',
       gameId: 'game1',
       sessionId: 'session1',
       teamId: 'red',
@@ -26,7 +26,7 @@ describe("trivia scenario", () => {
     expect(decodedJoinLeaveGame).toEqual(joinLeaveGame);
 
     expect(joinLeaveGame).toBeDefined();
-    expect(joinLeaveGame.playerId).toBe(decodedJoinLeaveGame.playerId);
+    expect(joinLeaveGame.userId).toBe(decodedJoinLeaveGame.userId);
     expect(joinLeaveGame.gameId).toBe(decodedJoinLeaveGame.gameId);
     expect(joinLeaveGame.sessionId).toBe(decodedJoinLeaveGame.sessionId);
     expect(joinLeaveGame.teamId).toBe(decodedJoinLeaveGame.teamId);
@@ -157,7 +157,7 @@ describe("trivia scenario", () => {
 
     expect(JoinLeaveGame).toBeDefined();
     const joinLeaveGame: JoinLeaveGame = {
-      playerId: 'player1',
+      userId: 'player1',
       gameId: 'game1',
       action: JoinLeaveGame_Action.LEAVE
     }
@@ -171,7 +171,7 @@ describe("trivia scenario", () => {
     expect(decodedJoinLeaveGame).toEqual(joinLeaveGame);
 
     expect(joinLeaveGame).toBeDefined();
-    expect(joinLeaveGame.playerId).toBe(decodedJoinLeaveGame.playerId);
+    expect(joinLeaveGame.userId).toBe(decodedJoinLeaveGame.userId);
     expect(joinLeaveGame.gameId).toBe(decodedJoinLeaveGame.gameId);
     expect(joinLeaveGame.sessionId).toBe(decodedJoinLeaveGame.sessionId);
     expect(joinLeaveGame.teamId).toBe(decodedJoinLeaveGame.teamId);

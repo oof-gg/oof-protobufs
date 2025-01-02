@@ -72,7 +72,7 @@ describe('Instance proto', () => {
     expect(JoinLeaveGame).toBeDefined();
 
     const joinLeaveGame: JoinLeaveGame = {
-      playerId: 'player1',
+      userId: 'player1',
       gameId: 'game1',
       sessionId: 'session1',
       teamId: 'red',
@@ -85,7 +85,7 @@ describe('Instance proto', () => {
     const decodedJoinLeaveGame = JoinLeaveGame.decode(encodedJoinLeaveGame);
     expect(decodedJoinLeaveGame).toEqual(joinLeaveGame);
 
-    expect(decodedJoinLeaveGame.playerId).toBe(joinLeaveGame.playerId);
+    expect(decodedJoinLeaveGame.userId).toBe(joinLeaveGame.userId);
     expect(decodedJoinLeaveGame.gameId).toBe(joinLeaveGame.gameId);
     expect(decodedJoinLeaveGame.sessionId).toBe(joinLeaveGame.sessionId);
     expect(decodedJoinLeaveGame.teamId).toBe(joinLeaveGame.teamId);
