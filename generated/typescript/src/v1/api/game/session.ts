@@ -100,7 +100,7 @@ export interface Session {
    * / Players in the session (can be used to store player state and attributes)
    * / Optional: This can be used to store player state and attributes, but not recommended for large player counts.
    */
-  playerIds: string[];
+  userIds: string[];
   /** / Game state as defined by the GameState enum */
   state: GameState;
   /** / Game attributes as a map of string to GameAttribute */
@@ -117,7 +117,7 @@ export interface Session_AttributesEntry {
 /** / Represents a game session creation request */
 export interface SessionCreate {
   gameId: string;
-  playerIds: string[];
+  userIds: string[];
   state: GameState;
   attributes: { [key: string]: GameAttribute };
   region?: RegionEnum | undefined;
@@ -132,7 +132,7 @@ export interface SessionCreate_AttributesEntry {
 export interface SessionUpdate {
   id: string;
   gameId: string;
-  playerIds: string[];
+  userIds: string[];
   state: GameState;
   attributes: { [key: string]: GameAttribute };
   region?: RegionEnum | undefined;
@@ -270,7 +270,7 @@ export const GameAttribute: MessageFns<GameAttribute> = {
 };
 
 function createBaseSession(): Session {
-  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+  return { id: "", gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const Session: MessageFns<Session> = {
@@ -281,7 +281,7 @@ export const Session: MessageFns<Session> = {
     if (message.gameId !== "") {
       writer.uint32(18).string(message.gameId);
     }
-    for (const v of message.playerIds) {
+    for (const v of message.userIds) {
       writer.uint32(26).string(v!);
     }
     if (message.state !== 0) {
@@ -327,7 +327,7 @@ export const Session: MessageFns<Session> = {
             break;
           }
 
-          message.playerIds.push(reader.string());
+          message.userIds.push(reader.string());
           continue;
         }
         case 4: {
@@ -378,9 +378,7 @@ export const Session: MessageFns<Session> = {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-      playerIds: globalThis.Array.isArray(object?.playerIds)
-        ? object.playerIds.map((e: any) => globalThis.String(e))
-        : [],
+      userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e: any) => globalThis.String(e)) : [],
       state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
       attributes: isObject(object.attributes)
         ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
@@ -401,8 +399,8 @@ export const Session: MessageFns<Session> = {
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
     }
-    if (message.playerIds?.length) {
-      obj.playerIds = message.playerIds;
+    if (message.userIds?.length) {
+      obj.userIds = message.userIds;
     }
     if (message.state !== 0) {
       obj.state = gameStateToJSON(message.state);
@@ -432,7 +430,7 @@ export const Session: MessageFns<Session> = {
     const message = createBaseSession();
     message.id = object.id ?? "";
     message.gameId = object.gameId ?? "";
-    message.playerIds = object.playerIds?.map((e) => e) || [];
+    message.userIds = object.userIds?.map((e) => e) || [];
     message.state = object.state ?? 0;
     message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
       (acc, [key, value]) => {
@@ -528,7 +526,7 @@ export const Session_AttributesEntry: MessageFns<Session_AttributesEntry> = {
 };
 
 function createBaseSessionCreate(): SessionCreate {
-  return { gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+  return { gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const SessionCreate: MessageFns<SessionCreate> = {
@@ -536,7 +534,7 @@ export const SessionCreate: MessageFns<SessionCreate> = {
     if (message.gameId !== "") {
       writer.uint32(10).string(message.gameId);
     }
-    for (const v of message.playerIds) {
+    for (const v of message.userIds) {
       writer.uint32(18).string(v!);
     }
     if (message.state !== 0) {
@@ -574,7 +572,7 @@ export const SessionCreate: MessageFns<SessionCreate> = {
             break;
           }
 
-          message.playerIds.push(reader.string());
+          message.userIds.push(reader.string());
           continue;
         }
         case 3: {
@@ -624,9 +622,7 @@ export const SessionCreate: MessageFns<SessionCreate> = {
   fromJSON(object: any): SessionCreate {
     return {
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-      playerIds: globalThis.Array.isArray(object?.playerIds)
-        ? object.playerIds.map((e: any) => globalThis.String(e))
-        : [],
+      userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e: any) => globalThis.String(e)) : [],
       state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
       attributes: isObject(object.attributes)
         ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
@@ -644,8 +640,8 @@ export const SessionCreate: MessageFns<SessionCreate> = {
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
     }
-    if (message.playerIds?.length) {
-      obj.playerIds = message.playerIds;
+    if (message.userIds?.length) {
+      obj.userIds = message.userIds;
     }
     if (message.state !== 0) {
       obj.state = gameStateToJSON(message.state);
@@ -674,7 +670,7 @@ export const SessionCreate: MessageFns<SessionCreate> = {
   fromPartial<I extends Exact<DeepPartial<SessionCreate>, I>>(object: I): SessionCreate {
     const message = createBaseSessionCreate();
     message.gameId = object.gameId ?? "";
-    message.playerIds = object.playerIds?.map((e) => e) || [];
+    message.userIds = object.userIds?.map((e) => e) || [];
     message.state = object.state ?? 0;
     message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
       (acc, [key, value]) => {
@@ -772,7 +768,7 @@ export const SessionCreate_AttributesEntry: MessageFns<SessionCreate_AttributesE
 };
 
 function createBaseSessionUpdate(): SessionUpdate {
-  return { id: "", gameId: "", playerIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
+  return { id: "", gameId: "", userIds: [], state: 0, attributes: {}, region: undefined, data: undefined };
 }
 
 export const SessionUpdate: MessageFns<SessionUpdate> = {
@@ -783,7 +779,7 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
     if (message.gameId !== "") {
       writer.uint32(18).string(message.gameId);
     }
-    for (const v of message.playerIds) {
+    for (const v of message.userIds) {
       writer.uint32(26).string(v!);
     }
     if (message.state !== 0) {
@@ -829,7 +825,7 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
             break;
           }
 
-          message.playerIds.push(reader.string());
+          message.userIds.push(reader.string());
           continue;
         }
         case 4: {
@@ -880,9 +876,7 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
-      playerIds: globalThis.Array.isArray(object?.playerIds)
-        ? object.playerIds.map((e: any) => globalThis.String(e))
-        : [],
+      userIds: globalThis.Array.isArray(object?.userIds) ? object.userIds.map((e: any) => globalThis.String(e)) : [],
       state: isSet(object.state) ? gameStateFromJSON(object.state) : 0,
       attributes: isObject(object.attributes)
         ? Object.entries(object.attributes).reduce<{ [key: string]: GameAttribute }>((acc, [key, value]) => {
@@ -903,8 +897,8 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
     if (message.gameId !== "") {
       obj.gameId = message.gameId;
     }
-    if (message.playerIds?.length) {
-      obj.playerIds = message.playerIds;
+    if (message.userIds?.length) {
+      obj.userIds = message.userIds;
     }
     if (message.state !== 0) {
       obj.state = gameStateToJSON(message.state);
@@ -934,7 +928,7 @@ export const SessionUpdate: MessageFns<SessionUpdate> = {
     const message = createBaseSessionUpdate();
     message.id = object.id ?? "";
     message.gameId = object.gameId ?? "";
-    message.playerIds = object.playerIds?.map((e) => e) || [];
+    message.userIds = object.userIds?.map((e) => e) || [];
     message.state = object.state ?? 0;
     message.attributes = Object.entries(object.attributes ?? {}).reduce<{ [key: string]: GameAttribute }>(
       (acc, [key, value]) => {

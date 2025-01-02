@@ -1,0 +1,42 @@
+
+syntax = "proto3";
+
+package v1.api.game;
+
+message Game {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string data = 4;
+}
+
+message GameCreateRequest {
+  string name = 1;
+  string description = 2;
+  string data = 3;
+}
+
+message GameCreateResponse {
+  Game game = 1;
+}
+
+message GameGetRequest {
+  string id = 1;
+}
+
+message GameGetResponse {
+  Game game = 1;
+}
+
+message GameUpdateRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string data = 4;
+}
+
+message GameUpdateResponse {
+  Game game = 1;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game";

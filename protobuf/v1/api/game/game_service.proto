@@ -9,7 +9,7 @@ import "v1/api/game/event.proto";
 import "v1/api/game/join_leave.proto";
 import "v1/std/responses.proto";
 
-service Game {
+service GameService {
   /// Join or leave a game, returns the queued session if not joined
   rpc JoinLeave (v1.api.game.JoinLeaveGame) returns (v1.api.game.Session);
   rpc CreateSession (v1.api.game.SessionCreate) returns (v1.api.game.Session);
@@ -18,10 +18,10 @@ service Game {
   rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
 
   //TODO: Adjust payloads for protos
-  rpc CreateEntity (v1.api.game.EntityCreate) returns (v1.api.game.Entity);
-  rpc GetEntity (v1.api.game.EntityGet) returns (v1.api.game.Entities);
-  rpc UpdateEntity (v1.api.game.EntityUpdate) returns (v1.api.game.Entity);
-  rpc DeleteEntity (v1.api.game.EntityDelete) returns (v1.std.StandardResponse);
+  rpc CreateEntity (v1.api.game.EntityCreateRequest) returns (v1.api.game.EntityCreateResponse);
+  rpc GetEntity (v1.api.game.EntityGetRequest) returns (v1.api.game.EntityGetResponse);
+  rpc UpdateEntity (v1.api.game.EntityUpdateRequest) returns (v1.api.game.EntityUpdateResponse);
+  rpc DeleteEntity (v1.api.game.EntityDeleteRequest) returns (v1.api.game.EntityDeleteResponse);
 
   /// Wait for queue updates
   rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);

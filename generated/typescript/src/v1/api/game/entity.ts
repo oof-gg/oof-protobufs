@@ -86,7 +86,7 @@ export interface EntityAttribute {
 }
 
 /** / The EntityCreate message */
-export interface EntityGet {
+export interface EntityGetRequest {
   /** / The unique identifier of the entity */
   id: string;
   /** / The session id of the entity */
@@ -95,8 +95,14 @@ export interface EntityGet {
   gameId: string;
 }
 
+/** / The EntityGetResponse message */
+export interface EntityGetResponse {
+  /** / The entity */
+  entity: Entity | undefined;
+}
+
 /** / The RegisterEntity message */
-export interface EntityCreate {
+export interface EntityCreateRequest {
   /** / The name of the entity, e.g. "ball" */
   name: string;
   /** / The type of the entity, e.g. "object" */
@@ -108,7 +114,7 @@ export interface EntityCreate {
   /** / The attributes of the entity */
   attributes: { [key: string]: EntityAttribute };
   /** / The controller of the entity */
-  controller: EntityCreate_ControllerStateEnum;
+  controller: EntityCreateRequest_ControllerStateEnum;
   /** / The owner of the entity */
   playerId?:
     | string
@@ -117,46 +123,50 @@ export interface EntityCreate {
   data?: string | undefined;
 }
 
-export enum EntityCreate_ControllerStateEnum {
+export enum EntityCreateRequest_ControllerStateEnum {
   SERVER = 0,
   PLAYER = 1,
   UNRECOGNIZED = -1,
 }
 
-export function entityCreate_ControllerStateEnumFromJSON(object: any): EntityCreate_ControllerStateEnum {
+export function entityCreateRequest_ControllerStateEnumFromJSON(object: any): EntityCreateRequest_ControllerStateEnum {
   switch (object) {
     case 0:
     case "SERVER":
-      return EntityCreate_ControllerStateEnum.SERVER;
+      return EntityCreateRequest_ControllerStateEnum.SERVER;
     case 1:
     case "PLAYER":
-      return EntityCreate_ControllerStateEnum.PLAYER;
+      return EntityCreateRequest_ControllerStateEnum.PLAYER;
     case -1:
     case "UNRECOGNIZED":
     default:
-      return EntityCreate_ControllerStateEnum.UNRECOGNIZED;
+      return EntityCreateRequest_ControllerStateEnum.UNRECOGNIZED;
   }
 }
 
-export function entityCreate_ControllerStateEnumToJSON(object: EntityCreate_ControllerStateEnum): string {
+export function entityCreateRequest_ControllerStateEnumToJSON(object: EntityCreateRequest_ControllerStateEnum): string {
   switch (object) {
-    case EntityCreate_ControllerStateEnum.SERVER:
+    case EntityCreateRequest_ControllerStateEnum.SERVER:
       return "SERVER";
-    case EntityCreate_ControllerStateEnum.PLAYER:
+    case EntityCreateRequest_ControllerStateEnum.PLAYER:
       return "PLAYER";
-    case EntityCreate_ControllerStateEnum.UNRECOGNIZED:
+    case EntityCreateRequest_ControllerStateEnum.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
   }
 }
 
-export interface EntityCreate_AttributesEntry {
+export interface EntityCreateRequest_AttributesEntry {
   key: string;
   value: EntityAttribute | undefined;
 }
 
+export interface EntityCreateResponse {
+  entity: Entity | undefined;
+}
+
 /** / The EntityUpdate message */
-export interface EntityUpdate {
+export interface EntityUpdateRequest {
   /** / The unique identifier of the entity */
   id: string;
   /** / The session id of the entity */
@@ -167,8 +177,23 @@ export interface EntityUpdate {
   attributes: EntityAttribute[];
 }
 
+/** / The EntityUpdateResponse message */
+export interface EntityUpdateResponse {
+  entity: Entity | undefined;
+}
+
 /** / The EntityDelete message */
-export interface EntityDelete {
+export interface EntityDeleteRequest {
+  /** / The unique identifier of the entity */
+  id: string;
+  /** / The session id of the entity */
+  sessionId: string;
+  /** / The game id of the entity */
+  gameId: string;
+}
+
+/** / The EntityDeleteResponse message */
+export interface EntityDeleteResponse {
   /** / The unique identifier of the entity */
   id: string;
   /** / The session id of the entity */
@@ -643,12 +668,12 @@ export const EntityAttribute: MessageFns<EntityAttribute> = {
   },
 };
 
-function createBaseEntityGet(): EntityGet {
+function createBaseEntityGetRequest(): EntityGetRequest {
   return { id: "", sessionId: "", gameId: "" };
 }
 
-export const EntityGet: MessageFns<EntityGet> = {
-  encode(message: EntityGet, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityGetRequest: MessageFns<EntityGetRequest> = {
+  encode(message: EntityGetRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -661,10 +686,10 @@ export const EntityGet: MessageFns<EntityGet> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): EntityGet {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityGetRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseEntityGet();
+    const message = createBaseEntityGetRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -701,7 +726,7 @@ export const EntityGet: MessageFns<EntityGet> = {
     return message;
   },
 
-  fromJSON(object: any): EntityGet {
+  fromJSON(object: any): EntityGetRequest {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
@@ -709,7 +734,7 @@ export const EntityGet: MessageFns<EntityGet> = {
     };
   },
 
-  toJSON(message: EntityGet): unknown {
+  toJSON(message: EntityGetRequest): unknown {
     const obj: any = {};
     if (message.id !== "") {
       obj.id = message.id;
@@ -723,11 +748,11 @@ export const EntityGet: MessageFns<EntityGet> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<EntityGet>, I>>(base?: I): EntityGet {
-    return EntityGet.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityGetRequest>, I>>(base?: I): EntityGetRequest {
+    return EntityGetRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<EntityGet>, I>>(object: I): EntityGet {
-    const message = createBaseEntityGet();
+  fromPartial<I extends Exact<DeepPartial<EntityGetRequest>, I>>(object: I): EntityGetRequest {
+    const message = createBaseEntityGetRequest();
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
@@ -735,7 +760,67 @@ export const EntityGet: MessageFns<EntityGet> = {
   },
 };
 
-function createBaseEntityCreate(): EntityCreate {
+function createBaseEntityGetResponse(): EntityGetResponse {
+  return { entity: undefined };
+}
+
+export const EntityGetResponse: MessageFns<EntityGetResponse> = {
+  encode(message: EntityGetResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.entity !== undefined) {
+      Entity.encode(message.entity, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityGetResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityGetResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.entity = Entity.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityGetResponse {
+    return { entity: isSet(object.entity) ? Entity.fromJSON(object.entity) : undefined };
+  },
+
+  toJSON(message: EntityGetResponse): unknown {
+    const obj: any = {};
+    if (message.entity !== undefined) {
+      obj.entity = Entity.toJSON(message.entity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityGetResponse>, I>>(base?: I): EntityGetResponse {
+    return EntityGetResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityGetResponse>, I>>(object: I): EntityGetResponse {
+    const message = createBaseEntityGetResponse();
+    message.entity = (object.entity !== undefined && object.entity !== null)
+      ? Entity.fromPartial(object.entity)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseEntityCreateRequest(): EntityCreateRequest {
   return {
     name: "",
     type: "",
@@ -748,8 +833,8 @@ function createBaseEntityCreate(): EntityCreate {
   };
 }
 
-export const EntityCreate: MessageFns<EntityCreate> = {
-  encode(message: EntityCreate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityCreateRequest: MessageFns<EntityCreateRequest> = {
+  encode(message: EntityCreateRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.name !== "") {
       writer.uint32(10).string(message.name);
     }
@@ -763,7 +848,7 @@ export const EntityCreate: MessageFns<EntityCreate> = {
       writer.uint32(42).string(message.gameId);
     }
     Object.entries(message.attributes).forEach(([key, value]) => {
-      EntityCreate_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
+      EntityCreateRequest_AttributesEntry.encode({ key: key as any, value }, writer.uint32(50).fork()).join();
     });
     if (message.controller !== 0) {
       writer.uint32(56).int32(message.controller);
@@ -777,10 +862,10 @@ export const EntityCreate: MessageFns<EntityCreate> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreate {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreateRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseEntityCreate();
+    const message = createBaseEntityCreateRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -821,7 +906,7 @@ export const EntityCreate: MessageFns<EntityCreate> = {
             break;
           }
 
-          const entry6 = EntityCreate_AttributesEntry.decode(reader, reader.uint32());
+          const entry6 = EntityCreateRequest_AttributesEntry.decode(reader, reader.uint32());
           if (entry6.value !== undefined) {
             message.attributes[entry6.key] = entry6.value;
           }
@@ -860,7 +945,7 @@ export const EntityCreate: MessageFns<EntityCreate> = {
     return message;
   },
 
-  fromJSON(object: any): EntityCreate {
+  fromJSON(object: any): EntityCreateRequest {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       type: isSet(object.type) ? globalThis.String(object.type) : "",
@@ -872,13 +957,13 @@ export const EntityCreate: MessageFns<EntityCreate> = {
           return acc;
         }, {})
         : {},
-      controller: isSet(object.controller) ? entityCreate_ControllerStateEnumFromJSON(object.controller) : 0,
+      controller: isSet(object.controller) ? entityCreateRequest_ControllerStateEnumFromJSON(object.controller) : 0,
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
-  toJSON(message: EntityCreate): unknown {
+  toJSON(message: EntityCreateRequest): unknown {
     const obj: any = {};
     if (message.name !== "") {
       obj.name = message.name;
@@ -902,7 +987,7 @@ export const EntityCreate: MessageFns<EntityCreate> = {
       }
     }
     if (message.controller !== 0) {
-      obj.controller = entityCreate_ControllerStateEnumToJSON(message.controller);
+      obj.controller = entityCreateRequest_ControllerStateEnumToJSON(message.controller);
     }
     if (message.playerId !== undefined) {
       obj.playerId = message.playerId;
@@ -913,11 +998,11 @@ export const EntityCreate: MessageFns<EntityCreate> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<EntityCreate>, I>>(base?: I): EntityCreate {
-    return EntityCreate.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityCreateRequest>, I>>(base?: I): EntityCreateRequest {
+    return EntityCreateRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<EntityCreate>, I>>(object: I): EntityCreate {
-    const message = createBaseEntityCreate();
+  fromPartial<I extends Exact<DeepPartial<EntityCreateRequest>, I>>(object: I): EntityCreateRequest {
+    const message = createBaseEntityCreateRequest();
     message.name = object.name ?? "";
     message.type = object.type ?? "";
     message.sessionId = object.sessionId ?? "";
@@ -938,12 +1023,12 @@ export const EntityCreate: MessageFns<EntityCreate> = {
   },
 };
 
-function createBaseEntityCreate_AttributesEntry(): EntityCreate_AttributesEntry {
+function createBaseEntityCreateRequest_AttributesEntry(): EntityCreateRequest_AttributesEntry {
   return { key: "", value: undefined };
 }
 
-export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEntry> = {
-  encode(message: EntityCreate_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityCreateRequest_AttributesEntry: MessageFns<EntityCreateRequest_AttributesEntry> = {
+  encode(message: EntityCreateRequest_AttributesEntry, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.key !== "") {
       writer.uint32(10).string(message.key);
     }
@@ -953,10 +1038,10 @@ export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEnt
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreate_AttributesEntry {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreateRequest_AttributesEntry {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseEntityCreate_AttributesEntry();
+    const message = createBaseEntityCreateRequest_AttributesEntry();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -985,14 +1070,14 @@ export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEnt
     return message;
   },
 
-  fromJSON(object: any): EntityCreate_AttributesEntry {
+  fromJSON(object: any): EntityCreateRequest_AttributesEntry {
     return {
       key: isSet(object.key) ? globalThis.String(object.key) : "",
       value: isSet(object.value) ? EntityAttribute.fromJSON(object.value) : undefined,
     };
   },
 
-  toJSON(message: EntityCreate_AttributesEntry): unknown {
+  toJSON(message: EntityCreateRequest_AttributesEntry): unknown {
     const obj: any = {};
     if (message.key !== "") {
       obj.key = message.key;
@@ -1003,11 +1088,15 @@ export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEnt
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<EntityCreate_AttributesEntry>, I>>(base?: I): EntityCreate_AttributesEntry {
-    return EntityCreate_AttributesEntry.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityCreateRequest_AttributesEntry>, I>>(
+    base?: I,
+  ): EntityCreateRequest_AttributesEntry {
+    return EntityCreateRequest_AttributesEntry.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<EntityCreate_AttributesEntry>, I>>(object: I): EntityCreate_AttributesEntry {
-    const message = createBaseEntityCreate_AttributesEntry();
+  fromPartial<I extends Exact<DeepPartial<EntityCreateRequest_AttributesEntry>, I>>(
+    object: I,
+  ): EntityCreateRequest_AttributesEntry {
+    const message = createBaseEntityCreateRequest_AttributesEntry();
     message.key = object.key ?? "";
     message.value = (object.value !== undefined && object.value !== null)
       ? EntityAttribute.fromPartial(object.value)
@@ -1016,12 +1105,72 @@ export const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEnt
   },
 };
 
-function createBaseEntityUpdate(): EntityUpdate {
+function createBaseEntityCreateResponse(): EntityCreateResponse {
+  return { entity: undefined };
+}
+
+export const EntityCreateResponse: MessageFns<EntityCreateResponse> = {
+  encode(message: EntityCreateResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.entity !== undefined) {
+      Entity.encode(message.entity, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityCreateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityCreateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.entity = Entity.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityCreateResponse {
+    return { entity: isSet(object.entity) ? Entity.fromJSON(object.entity) : undefined };
+  },
+
+  toJSON(message: EntityCreateResponse): unknown {
+    const obj: any = {};
+    if (message.entity !== undefined) {
+      obj.entity = Entity.toJSON(message.entity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityCreateResponse>, I>>(base?: I): EntityCreateResponse {
+    return EntityCreateResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityCreateResponse>, I>>(object: I): EntityCreateResponse {
+    const message = createBaseEntityCreateResponse();
+    message.entity = (object.entity !== undefined && object.entity !== null)
+      ? Entity.fromPartial(object.entity)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseEntityUpdateRequest(): EntityUpdateRequest {
   return { id: "", sessionId: "", gameId: "", attributes: [] };
 }
 
-export const EntityUpdate: MessageFns<EntityUpdate> = {
-  encode(message: EntityUpdate, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityUpdateRequest: MessageFns<EntityUpdateRequest> = {
+  encode(message: EntityUpdateRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -1037,10 +1186,10 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): EntityUpdate {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityUpdateRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseEntityUpdate();
+    const message = createBaseEntityUpdateRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1085,7 +1234,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
     return message;
   },
 
-  fromJSON(object: any): EntityUpdate {
+  fromJSON(object: any): EntityUpdateRequest {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
@@ -1096,7 +1245,7 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
     };
   },
 
-  toJSON(message: EntityUpdate): unknown {
+  toJSON(message: EntityUpdateRequest): unknown {
     const obj: any = {};
     if (message.id !== "") {
       obj.id = message.id;
@@ -1113,11 +1262,11 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<EntityUpdate>, I>>(base?: I): EntityUpdate {
-    return EntityUpdate.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityUpdateRequest>, I>>(base?: I): EntityUpdateRequest {
+    return EntityUpdateRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<EntityUpdate>, I>>(object: I): EntityUpdate {
-    const message = createBaseEntityUpdate();
+  fromPartial<I extends Exact<DeepPartial<EntityUpdateRequest>, I>>(object: I): EntityUpdateRequest {
+    const message = createBaseEntityUpdateRequest();
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";
@@ -1126,12 +1275,72 @@ export const EntityUpdate: MessageFns<EntityUpdate> = {
   },
 };
 
-function createBaseEntityDelete(): EntityDelete {
+function createBaseEntityUpdateResponse(): EntityUpdateResponse {
+  return { entity: undefined };
+}
+
+export const EntityUpdateResponse: MessageFns<EntityUpdateResponse> = {
+  encode(message: EntityUpdateResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.entity !== undefined) {
+      Entity.encode(message.entity, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityUpdateResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityUpdateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.entity = Entity.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityUpdateResponse {
+    return { entity: isSet(object.entity) ? Entity.fromJSON(object.entity) : undefined };
+  },
+
+  toJSON(message: EntityUpdateResponse): unknown {
+    const obj: any = {};
+    if (message.entity !== undefined) {
+      obj.entity = Entity.toJSON(message.entity);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityUpdateResponse>, I>>(base?: I): EntityUpdateResponse {
+    return EntityUpdateResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityUpdateResponse>, I>>(object: I): EntityUpdateResponse {
+    const message = createBaseEntityUpdateResponse();
+    message.entity = (object.entity !== undefined && object.entity !== null)
+      ? Entity.fromPartial(object.entity)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseEntityDeleteRequest(): EntityDeleteRequest {
   return { id: "", sessionId: "", gameId: "" };
 }
 
-export const EntityDelete: MessageFns<EntityDelete> = {
-  encode(message: EntityDelete, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const EntityDeleteRequest: MessageFns<EntityDeleteRequest> = {
+  encode(message: EntityDeleteRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== "") {
       writer.uint32(10).string(message.id);
     }
@@ -1144,10 +1353,10 @@ export const EntityDelete: MessageFns<EntityDelete> = {
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): EntityDelete {
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityDeleteRequest {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseEntityDelete();
+    const message = createBaseEntityDeleteRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -1184,7 +1393,7 @@ export const EntityDelete: MessageFns<EntityDelete> = {
     return message;
   },
 
-  fromJSON(object: any): EntityDelete {
+  fromJSON(object: any): EntityDeleteRequest {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
@@ -1192,7 +1401,7 @@ export const EntityDelete: MessageFns<EntityDelete> = {
     };
   },
 
-  toJSON(message: EntityDelete): unknown {
+  toJSON(message: EntityDeleteRequest): unknown {
     const obj: any = {};
     if (message.id !== "") {
       obj.id = message.id;
@@ -1206,11 +1415,103 @@ export const EntityDelete: MessageFns<EntityDelete> = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<EntityDelete>, I>>(base?: I): EntityDelete {
-    return EntityDelete.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<EntityDeleteRequest>, I>>(base?: I): EntityDeleteRequest {
+    return EntityDeleteRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<EntityDelete>, I>>(object: I): EntityDelete {
-    const message = createBaseEntityDelete();
+  fromPartial<I extends Exact<DeepPartial<EntityDeleteRequest>, I>>(object: I): EntityDeleteRequest {
+    const message = createBaseEntityDeleteRequest();
+    message.id = object.id ?? "";
+    message.sessionId = object.sessionId ?? "";
+    message.gameId = object.gameId ?? "";
+    return message;
+  },
+};
+
+function createBaseEntityDeleteResponse(): EntityDeleteResponse {
+  return { id: "", sessionId: "", gameId: "" };
+}
+
+export const EntityDeleteResponse: MessageFns<EntityDeleteResponse> = {
+  encode(message: EntityDeleteResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.id !== "") {
+      writer.uint32(10).string(message.id);
+    }
+    if (message.sessionId !== "") {
+      writer.uint32(18).string(message.sessionId);
+    }
+    if (message.gameId !== "") {
+      writer.uint32(26).string(message.gameId);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): EntityDeleteResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEntityDeleteResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.id = reader.string();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.sessionId = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.gameId = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EntityDeleteResponse {
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : "",
+      sessionId: isSet(object.sessionId) ? globalThis.String(object.sessionId) : "",
+      gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
+    };
+  },
+
+  toJSON(message: EntityDeleteResponse): unknown {
+    const obj: any = {};
+    if (message.id !== "") {
+      obj.id = message.id;
+    }
+    if (message.sessionId !== "") {
+      obj.sessionId = message.sessionId;
+    }
+    if (message.gameId !== "") {
+      obj.gameId = message.gameId;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<EntityDeleteResponse>, I>>(base?: I): EntityDeleteResponse {
+    return EntityDeleteResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<EntityDeleteResponse>, I>>(object: I): EntityDeleteResponse {
+    const message = createBaseEntityDeleteResponse();
     message.id = object.id ?? "";
     message.sessionId = object.sessionId ?? "";
     message.gameId = object.gameId ?? "";

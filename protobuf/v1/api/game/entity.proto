@@ -49,7 +49,7 @@ message EntityAttribute {
 }
 
 /// The EntityCreate message
-message EntityGet {
+message EntityGetRequest {
   /// The unique identifier of the entity
   string id = 1;
   /// The session id of the entity
@@ -58,8 +58,14 @@ message EntityGet {
   string game_id = 3;
 }
 
+/// The EntityGetResponse message
+message EntityGetResponse {
+  /// The entity
+  Entity entity = 1;
+}
+
 /// The RegisterEntity message
-message EntityCreate {
+message EntityCreateRequest {
   /// The name of the entity, e.g. "ball"
   string name = 1; 
   /// The type of the entity, e.g. "object"
@@ -84,8 +90,12 @@ message EntityCreate {
 
 }
 
+message EntityCreateResponse {
+  Entity entity = 1;
+}
+
 /// The EntityUpdate message
-message EntityUpdate {
+message EntityUpdateRequest {
   /// The unique identifier of the entity
   string id = 1;
   /// The session id of the entity
@@ -96,8 +106,23 @@ message EntityUpdate {
   repeated EntityAttribute attributes = 4;
 }
 
+/// The EntityUpdateResponse message
+message EntityUpdateResponse {
+  Entity entity = 1;
+}
+
 /// The EntityDelete message
-message EntityDelete {
+message EntityDeleteRequest {
+  /// The unique identifier of the entity
+  string id = 1;
+  /// The session id of the entity
+  string session_id = 2;
+  /// The game id of the entity
+  string game_id = 3;
+}
+
+/// The EntityDeleteResponse message
+message EntityDeleteResponse {
   /// The unique identifier of the entity
   string id = 1;
   /// The session id of the entity
