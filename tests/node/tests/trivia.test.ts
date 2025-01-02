@@ -45,7 +45,7 @@ describe("trivia scenario", () => {
     const session: Session = {
       id: 'session1',
       gameId: 'game1',
-      playerIds: players,
+      userIds: players,
       state: GameState.STATE_CREATED,
       attributes: {
         difficulty
@@ -63,7 +63,7 @@ describe("trivia scenario", () => {
     expect(session).toBeDefined();
     expect(session.id).toBe(decodedSession.id);
     expect(session.gameId).toBe(decodedSession.gameId);
-    expect(session.playerIds).toEqual(decodedSession.playerIds);
+    expect(session.userIds).toEqual(decodedSession.userIds);
     expect(session.state).toBe(decodedSession.state);
     expect(session.attributes).toEqual(decodedSession.attributes);
 
