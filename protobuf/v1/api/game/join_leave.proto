@@ -7,7 +7,7 @@ import "v1/std/regions.proto";
 
 /// Message joining or leaving a game
 message JoinLeaveGame {
-  string player_id = 1;
+  string user_id = 1;
   string game_id = 2;
   Action action = 3;
   optional string team_id = 4;
