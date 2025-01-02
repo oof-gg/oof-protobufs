@@ -13,6 +13,7 @@ message JoinLeaveGame {
   optional string team_id = 4;
   optional string session_id = 5;
   optional v1.std.RegionEnum region = 6;
+  string session_id = 7;
 
   enum Action {
     JOIN = 0;
