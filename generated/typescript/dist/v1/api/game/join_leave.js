@@ -44,12 +44,12 @@ function joinLeaveGame_ActionToJSON(object) {
     }
 }
 function createBaseJoinLeaveGame() {
-    return { playerId: "", gameId: "", action: 0, teamId: undefined, sessionId: undefined, region: undefined };
+    return { userId: "", gameId: "", action: 0, teamId: undefined, sessionId: undefined, region: undefined };
 }
 exports.JoinLeaveGame = {
     encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.playerId !== "") {
-            writer.uint32(10).string(message.playerId);
+        if (message.userId !== "") {
+            writer.uint32(10).string(message.userId);
         }
         if (message.gameId !== "") {
             writer.uint32(18).string(message.gameId);
@@ -79,7 +79,7 @@ exports.JoinLeaveGame = {
                     if (tag !== 10) {
                         break;
                     }
-                    message.playerId = reader.string();
+                    message.userId = reader.string();
                     continue;
                 }
                 case 2: {
@@ -127,7 +127,7 @@ exports.JoinLeaveGame = {
     },
     fromJSON(object) {
         return {
-            playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : "",
+            userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
             gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
             action: isSet(object.action) ? joinLeaveGame_ActionFromJSON(object.action) : 0,
             teamId: isSet(object.teamId) ? globalThis.String(object.teamId) : undefined,
@@ -137,8 +137,8 @@ exports.JoinLeaveGame = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.playerId !== "") {
-            obj.playerId = message.playerId;
+        if (message.userId !== "") {
+            obj.userId = message.userId;
         }
         if (message.gameId !== "") {
             obj.gameId = message.gameId;
@@ -162,7 +162,7 @@ exports.JoinLeaveGame = {
     },
     fromPartial(object) {
         const message = createBaseJoinLeaveGame();
-        message.playerId = object.playerId ?? "";
+        message.userId = object.userId ?? "";
         message.gameId = object.gameId ?? "";
         message.action = object.action ?? 0;
         message.teamId = object.teamId ?? undefined;

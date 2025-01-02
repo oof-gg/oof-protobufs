@@ -3,7 +3,7 @@ import { RegionEnum } from "../../std/regions";
 export declare const protobufPackage = "v1.api.game";
 /** / Message joining or leaving a game */
 export interface JoinLeaveGame {
-    playerId: string;
+    userId: string;
     gameId: string;
     action: JoinLeaveGame_Action;
     teamId?: string | undefined;
