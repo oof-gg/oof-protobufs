@@ -33,7 +33,7 @@ message Session {
   string game_id = 2;
   /// Players in the session (can be used to store player state and attributes)
   /// Optional: This can be used to store player state and attributes, but not recommended for large player counts.
-  repeated string player_ids = 3;
+  repeated string user_ids = 3;
   /// Game state as defined by the GameState enum
   GameState state = 4;
   /// Game attributes as a map of string to GameAttribute
@@ -45,7 +45,7 @@ message Session {
 /// Represents a game session creation request
 message SessionCreate {
   string game_id = 1;
-  repeated string player_ids = 2;
+  repeated string user_ids = 2;
   GameState state = 3;
   map<string, GameAttribute> attributes = 4;
   optional v1.std.RegionEnum region = 5;
@@ -55,7 +55,7 @@ message SessionCreate {
 message SessionUpdate {
   string id = 1;
   string game_id = 2;
-  repeated string player_ids = 3;
+  repeated string user_ids = 3;
   GameState state = 4;
   map<string, GameAttribute> attributes = 5;
   optional v1.std.RegionEnum region = 6;
