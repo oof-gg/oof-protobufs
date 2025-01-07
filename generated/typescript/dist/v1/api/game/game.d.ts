@@ -1,23 +1,41 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { RegionEnum } from "../../std/regions";
 export declare const protobufPackage = "v1.api.game";
-/** / Message joining or leaving a game */
-export interface JoinLeaveGame {
-    userId: string;
-    gameId: string;
-    action: JoinLeaveGame_Action;
-    teamId?: string | undefined;
-    sessionId?: string | undefined;
-    region?: RegionEnum | undefined;
+export interface Game {
+    id: string;
+    name: string;
+    description: string;
+    data: string;
 }
-export declare enum JoinLeaveGame_Action {
-    JOIN = 0,
-    LEAVE = 1,
-    UNRECOGNIZED = -1
+export interface GameCreateRequest {
+    name: string;
+    description: string;
+    data: string;
 }
-export declare function joinLeaveGame_ActionFromJSON(object: any): JoinLeaveGame_Action;
-export declare function joinLeaveGame_ActionToJSON(object: JoinLeaveGame_Action): string;
-export declare const JoinLeaveGame: MessageFns<JoinLeaveGame>;
+export interface GameCreateResponse {
+    game: Game | undefined;
+}
+export interface GameGetRequest {
+    id: string;
+}
+export interface GameGetResponse {
+    game: Game | undefined;
+}
+export interface GameUpdateRequest {
+    id: string;
+    name: string;
+    description: string;
+    data: string;
+}
+export interface GameUpdateResponse {
+    game: Game | undefined;
+}
+export declare const Game: MessageFns<Game>;
+export declare const GameCreateRequest: MessageFns<GameCreateRequest>;
+export declare const GameCreateResponse: MessageFns<GameCreateResponse>;
+export declare const GameGetRequest: MessageFns<GameGetRequest>;
+export declare const GameGetResponse: MessageFns<GameGetResponse>;
+export declare const GameUpdateRequest: MessageFns<GameUpdateRequest>;
+export declare const GameUpdateResponse: MessageFns<GameUpdateResponse>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {
     [K in keyof T]?: DeepPartial<T[K]>;

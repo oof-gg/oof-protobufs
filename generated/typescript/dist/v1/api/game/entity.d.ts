@@ -47,7 +47,7 @@ export interface EntityAttribute {
     boolValue?: boolean | undefined;
 }
 /** / The EntityCreate message */
-export interface EntityGet {
+export interface EntityGetRequest {
     /** / The unique identifier of the entity */
     id: string;
     /** / The session id of the entity */
@@ -55,8 +55,13 @@ export interface EntityGet {
     /** / The game id of the entity */
     gameId: string;
 }
+/** / The EntityGetResponse message */
+export interface EntityGetResponse {
+    /** / The entity */
+    entity: Entity | undefined;
+}
 /** / The RegisterEntity message */
-export interface EntityCreate {
+export interface EntityCreateRequest {
     /** / The name of the entity, e.g. "ball" */
     name: string;
     /** / The type of the entity, e.g. "object" */
@@ -70,25 +75,28 @@ export interface EntityCreate {
         [key: string]: EntityAttribute;
     };
     /** / The controller of the entity */
-    controller: EntityCreate_ControllerStateEnum;
+    controller: EntityCreateRequest_ControllerStateEnum;
     /** / The owner of the entity */
     playerId?: string | undefined;
     /** / Can be any JSON data */
     data?: string | undefined;
 }
-export declare enum EntityCreate_ControllerStateEnum {
+export declare enum EntityCreateRequest_ControllerStateEnum {
     SERVER = 0,
     PLAYER = 1,
     UNRECOGNIZED = -1
 }
-export declare function entityCreate_ControllerStateEnumFromJSON(object: any): EntityCreate_ControllerStateEnum;
-export declare function entityCreate_ControllerStateEnumToJSON(object: EntityCreate_ControllerStateEnum): string;
-export interface EntityCreate_AttributesEntry {
+export declare function entityCreateRequest_ControllerStateEnumFromJSON(object: any): EntityCreateRequest_ControllerStateEnum;
+export declare function entityCreateRequest_ControllerStateEnumToJSON(object: EntityCreateRequest_ControllerStateEnum): string;
+export interface EntityCreateRequest_AttributesEntry {
     key: string;
     value: EntityAttribute | undefined;
 }
+export interface EntityCreateResponse {
+    entity: Entity | undefined;
+}
 /** / The EntityUpdate message */
-export interface EntityUpdate {
+export interface EntityUpdateRequest {
     /** / The unique identifier of the entity */
     id: string;
     /** / The session id of the entity */
@@ -98,8 +106,21 @@ export interface EntityUpdate {
     /** / The attributes of the entity */
     attributes: EntityAttribute[];
 }
+/** / The EntityUpdateResponse message */
+export interface EntityUpdateResponse {
+    entity: Entity | undefined;
+}
 /** / The EntityDelete message */
-export interface EntityDelete {
+export interface EntityDeleteRequest {
+    /** / The unique identifier of the entity */
+    id: string;
+    /** / The session id of the entity */
+    sessionId: string;
+    /** / The game id of the entity */
+    gameId: string;
+}
+/** / The EntityDeleteResponse message */
+export interface EntityDeleteResponse {
     /** / The unique identifier of the entity */
     id: string;
     /** / The session id of the entity */
@@ -111,11 +132,15 @@ export declare const Entity: MessageFns<Entity>;
 export declare const Entity_AttributesEntry: MessageFns<Entity_AttributesEntry>;
 export declare const Entities: MessageFns<Entities>;
 export declare const EntityAttribute: MessageFns<EntityAttribute>;
-export declare const EntityGet: MessageFns<EntityGet>;
-export declare const EntityCreate: MessageFns<EntityCreate>;
-export declare const EntityCreate_AttributesEntry: MessageFns<EntityCreate_AttributesEntry>;
-export declare const EntityUpdate: MessageFns<EntityUpdate>;
-export declare const EntityDelete: MessageFns<EntityDelete>;
+export declare const EntityGetRequest: MessageFns<EntityGetRequest>;
+export declare const EntityGetResponse: MessageFns<EntityGetResponse>;
+export declare const EntityCreateRequest: MessageFns<EntityCreateRequest>;
+export declare const EntityCreateRequest_AttributesEntry: MessageFns<EntityCreateRequest_AttributesEntry>;
+export declare const EntityCreateResponse: MessageFns<EntityCreateResponse>;
+export declare const EntityUpdateRequest: MessageFns<EntityUpdateRequest>;
+export declare const EntityUpdateResponse: MessageFns<EntityUpdateResponse>;
+export declare const EntityDeleteRequest: MessageFns<EntityDeleteRequest>;
+export declare const EntityDeleteResponse: MessageFns<EntityDeleteResponse>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {
     [K in keyof T]?: DeepPartial<T[K]>;
