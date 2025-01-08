@@ -199,6 +199,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          git pull
           cd generated/typescript
           echo "Installing npm dependencies..."
           npm ci
@@ -242,6 +243,7 @@ jobs:
           
       - name: Install dependencies
         run: |
+          git pull
           cd generated/typescript_web
           echo "Installing npm dependencies..."
           npm ci
