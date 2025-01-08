@@ -35,6 +35,19 @@ jobs:
         run: |
           sudo apt-get install -y protobuf-compiler
 
+      - name: Install protoc-gen-js
+        run: |
+          npm install -g protoc-gen-js
+
+      - name: Install protoc-gen-grpc-web
+        run: |
+          npm install -g protoc-gen-grpc-web
+
+      - name: Add node_modules/.bin to PATH
+        run: |
+          echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
+
+
       - name: Build TypeScript protobufs
         run: |
           cd protobuf
@@ -42,6 +55,7 @@ jobs:
           npm install || { echo "npm install failed"; exit 1; }
           echo "Compiling TypeScript protobufs..."
           npm run compile-ts || { echo "npm run compile-ts failed"; exit 1; }
+          npm run compile-ts-web || { echo "npm run compile-ts failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
@@ -210,6 +224,39 @@ jobs:
           npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  build_npm_web:
+  # This job builds the npm package
+    runs-on: ubuntu-latest
+    needs: [build_protos_ts]
+    if: github.ref == 'refs/heads/main'  # Only run on the main branch
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: |
+          cd generated/typescript_web
+          echo "Installing npm dependencies..."
+          npm ci
+          npm install --save
+          npm run build
+          npm install protoc-gen-grpc-web
+          git config user.email "brian@oof.gg"
+          git config user.name "Brian S."
+          echo "Bumping the version (choose one of patch, minor, or major)"
+          NEW_VERSION=$(npm version patch -m "ci: bump version to %s")
+          
+          echo "Committing the new version and pushing to GitHub..."
+          git add dist package.json package-lock.json
+          git commit -m "ci: bump version to $NEW_VERSION"
+          git push --follow-tags
 
   auto_tag_release:
     runs-on: ubuntu-latest
