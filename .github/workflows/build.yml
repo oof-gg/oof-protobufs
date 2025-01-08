@@ -234,6 +234,7 @@ jobs:
           npm ci
           npm install --save
           npm run build
+          npm install protoc-gen-grpc-web
           git config user.email "brian@oof.gg"
           git config user.name "Brian S."
           echo "Bumping the version (choose one of patch, minor, or major)"
