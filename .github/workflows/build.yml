@@ -35,6 +35,15 @@ jobs:
         run: |
           sudo apt-get install -y protobuf-compiler
 
+      - name: Install protoc-gen-js
+        run: |
+          npm install -g protoc-gen-js
+
+      - name: Add node_modules/.bin to PATH
+        run: |
+          echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
+
+
       - name: Build TypeScript protobufs
         run: |
           cd protobuf
@@ -226,7 +235,7 @@ jobs:
         with:
           node-version: '22.x'
           registry-url: 'https://registry.npmjs.org'
-
+          
       - name: Install dependencies
         run: |
           cd generated/typescript_web
