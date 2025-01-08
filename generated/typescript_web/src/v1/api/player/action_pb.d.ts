@@ -1,5 +1,4 @@
 import * as jspb from 'google-protobuf'
-import { v1_api_player_action_pb } from 'index'
 
 
 
@@ -45,10 +44,10 @@ export namespace PlayerAction {
     playerId: string,
     sessionId: string,
     gameId: string,
-    type: v1_api_player_action_pb.PlayerAction.ActionType,
-    position?: v1_api_player_action_pb.PlayerAction.Position.AsObject,
-    velocity?: v1_api_player_action_pb.PlayerAction.Velocity.AsObject,
-    actionMap: Array<[string, v1_api_player_action_pb.PlayerAction.PlayerAction.AsObject]>,
+    type: PlayerAction.ActionType,
+    position?: PlayerAction.Position.AsObject,
+    velocity?: PlayerAction.Velocity.AsObject,
+    actionMap: Array<[string, PlayerAction.PlayerAction.AsObject]>,
     timestamp: number,
   }
 
