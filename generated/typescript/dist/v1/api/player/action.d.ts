@@ -1,26 +1,7 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 export declare const protobufPackage = "v1.api.player";
-export interface PlayerAction {
-    /** / Unique identifier of the player */
-    playerId: string;
-    /** / Unique identifier of the session */
-    sessionId: string;
-    /** / Unique identifier of the game */
-    gameId: string;
-    /** / Type of action */
-    type: PlayerAction_ActionType;
-    /** / Position of the player (optional) */
-    position?: PlayerAction_Position | undefined;
-    /** / Velocity of the player (optional) */
-    velocity?: PlayerAction_Velocity | undefined;
-    /** / Custom actions the player can take */
-    action: {
-        [key: string]: PlayerAction_PlayerAction;
-    };
-    timestamp: number;
-}
 /** / Type of action */
-export declare enum PlayerAction_ActionType {
+export declare enum ActionType {
     /** CUSTOM - / Custom action */
     CUSTOM = 0,
     /** MOVE - / Move action */
@@ -39,26 +20,45 @@ export declare enum PlayerAction_ActionType {
     INTERACT = 7,
     UNRECOGNIZED = -1
 }
-export declare function playerAction_ActionTypeFromJSON(object: any): PlayerAction_ActionType;
-export declare function playerAction_ActionTypeToJSON(object: PlayerAction_ActionType): string;
+export declare function actionTypeFromJSON(object: any): ActionType;
+export declare function actionTypeToJSON(object: ActionType): string;
+export interface PlayerAction {
+    /** / Unique identifier of the player */
+    playerId: string;
+    /** / Unique identifier of the session */
+    sessionId: string;
+    /** / Unique identifier of the game */
+    gameId: string;
+    /** / Type of action */
+    type: ActionType;
+    /** / Position of the player (optional) */
+    position?: Position | undefined;
+    /** / Velocity of the player (optional) */
+    velocity?: Velocity | undefined;
+    /** / Custom actions the player can take */
+    action: {
+        [key: string]: PlayerActionAttribute;
+    };
+    timestamp: number;
+}
 export interface PlayerAction_ActionEntry {
     key: string;
-    value: PlayerAction_PlayerAction | undefined;
+    value: PlayerActionAttribute | undefined;
 }
 /** / Position of the player */
-export interface PlayerAction_Position {
+export interface Position {
     x: number;
     y: number;
     z: number;
 }
 /** / Velocity of the player */
-export interface PlayerAction_Velocity {
+export interface Velocity {
     x: number;
     y: number;
     z: number;
 }
 /** / Custom actions the player can take */
-export interface PlayerAction_PlayerAction {
+export interface PlayerActionAttribute {
     stringValue?: string | undefined;
     intValue?: number | undefined;
     floatValue?: number | undefined;
@@ -66,9 +66,9 @@ export interface PlayerAction_PlayerAction {
 }
 export declare const PlayerAction: MessageFns<PlayerAction>;
 export declare const PlayerAction_ActionEntry: MessageFns<PlayerAction_ActionEntry>;
-export declare const PlayerAction_Position: MessageFns<PlayerAction_Position>;
-export declare const PlayerAction_Velocity: MessageFns<PlayerAction_Velocity>;
-export declare const PlayerAction_PlayerAction: MessageFns<PlayerAction_PlayerAction>;
+export declare const Position: MessageFns<Position>;
+export declare const Velocity: MessageFns<Velocity>;
+export declare const PlayerActionAttribute: MessageFns<PlayerActionAttribute>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {
     [K in keyof T]?: DeepPartial<T[K]>;
