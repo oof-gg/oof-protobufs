@@ -3,7 +3,7 @@ import { Player } from '@protos/v1/api/player/player';
 import { GameEvent, GameEvent_EventType, GameEvent_EventAttribute } from '@protos/v1/api/game/event';
 import { JoinLeaveGame, JoinLeaveGame_Action } from '@protos/v1/api/game/join_leave';
 import { Session, GameAttribute, GameState } from '@protos/v1/api/game/session';
-import { PlayerAction, PlayerAction_ActionType, PlayerAction_PlayerAction } from '@protos/v1/api/player/action';
+import { PlayerAction, ActionType, PlayerActionAttribute } from '@protos/v1/api/player/action';
 
 describe("trivia scenario", () => {
   // TODO: Test Trivia Data Structures with Player, Game, Global
@@ -121,7 +121,7 @@ describe("trivia scenario", () => {
   test("should have the ability to send a game action", () => {
     expect(PlayerAction).toBeDefined();
 
-    const playerAction: PlayerAction_PlayerAction = {
+    const playerAction: PlayerActionAttribute = {
       stringValue: 'The answer is 42',
     };
 
@@ -129,7 +129,7 @@ describe("trivia scenario", () => {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      type: PlayerAction_ActionType.CUSTOM,
+      type: ActionType.CUSTOM,
       action: {
         playerAction
       },
