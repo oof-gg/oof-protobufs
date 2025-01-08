@@ -1,6 +1,6 @@
 import { describe, expect, test } from '@jest/globals';
 import { Player, PlayerStatus, PlayerType } from '@protos/v1/api/player/player';
-import { PlayerAction, PlayerAction_ActionType } from '@protos/v1/api/player/action';
+import { PlayerAction, ActionType } from '@protos/v1/api/player/action';
 import { State, State_PlayerAttribute, State_PlayerState } from '@protos/v1/api/player/state';
 
 describe('player module', () => {
@@ -74,7 +74,7 @@ describe('player module', () => {
       playerId: 'player1',
       sessionId: 'session1',
       gameId: 'game1',
-      type: PlayerAction_ActionType.CUSTOM,
+      type: ActionType.CUSTOM,
       action: {
         playerAction,
       },
