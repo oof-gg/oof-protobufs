@@ -39,6 +39,10 @@ jobs:
         run: |
           npm install -g protoc-gen-js
 
+      - name: Install protoc-gen-grpc-web
+        run: |
+          npm install -g protoc-gen-grpc-web
+
       - name: Add node_modules/.bin to PATH
         run: |
           echo "$HOME/.npm-global/bin" >> $GITHUB_PATH
