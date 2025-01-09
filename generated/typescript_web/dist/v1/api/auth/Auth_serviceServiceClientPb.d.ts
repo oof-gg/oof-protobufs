@@ -19,16 +19,16 @@ export declare class AuthServiceClient {
     }, options?: null | {
         [index: string]: any;
     });
-    methodDescriptorLogin: any;
+    methodDescriptorLogin: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.LoginRequest, v1_api_auth_auth_service_pb.LoginResponse>;
     login(request: v1_api_auth_auth_service_pb.LoginRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.LoginResponse>;
     login(request: v1_api_auth_auth_service_pb.LoginRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.LoginResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.LoginResponse>;
-    methodDescriptorRegister: any;
+    methodDescriptorRegister: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.RegisterRequest, v1_api_auth_auth_service_pb.RegisterResponse>;
     register(request: v1_api_auth_auth_service_pb.RegisterRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.RegisterResponse>;
     register(request: v1_api_auth_auth_service_pb.RegisterRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.RegisterResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.RegisterResponse>;
-    methodDescriptorValidateToken: any;
+    methodDescriptorValidateToken: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.ValidateTokenRequest, v1_api_auth_auth_service_pb.ValidateTokenResponse>;
     validateToken(request: v1_api_auth_auth_service_pb.ValidateTokenRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.ValidateTokenResponse>;
     validateToken(request: v1_api_auth_auth_service_pb.ValidateTokenRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.ValidateTokenResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.ValidateTokenResponse>;
-    methodDescriptorRefreshToken: any;
+    methodDescriptorRefreshToken: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.RefreshTokenRequest, v1_api_auth_auth_service_pb.RefreshTokenResponse>;
     refreshToken(request: v1_api_auth_auth_service_pb.RefreshTokenRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.RefreshTokenResponse>;
     refreshToken(request: v1_api_auth_auth_service_pb.RefreshTokenRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.RefreshTokenResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.RefreshTokenResponse>;
 }
