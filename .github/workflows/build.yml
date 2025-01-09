@@ -199,6 +199,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          git pull
           cd generated/typescript
           echo "Installing npm dependencies..."
           npm ci
@@ -228,7 +229,7 @@ jobs:
   build_npm_web:
   # This job builds the npm package
     runs-on: ubuntu-latest
-    needs: [build_protos_ts]
+    needs: [build_protos_ts, run_tests_ts]
     if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Checkout code
@@ -242,6 +243,7 @@ jobs:
           
       - name: Install dependencies
         run: |
+          git pull
           cd generated/typescript_web
           echo "Installing npm dependencies..."
           npm ci
@@ -257,6 +259,15 @@ jobs:
           git add dist package.json package-lock.json
           git commit -m "ci: bump version to $NEW_VERSION"
           git push --follow-tags
+
+      - name: Publish to npm
+        run: |
+          cd generated/typescript_web
+          ls -l
+          echo "Publishing to npm..."
+          npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
 
   auto_tag_release:
     runs-on: ubuntu-latest
