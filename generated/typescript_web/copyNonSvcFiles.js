@@ -16,7 +16,7 @@ const copyFiles = (src, dest) => {
         fs.mkdirSync(destPath);
       }
       copyFiles(srcPath, destPath);
-    } else if (!entry.name.includes("_service") && entry.name !== "index.ts") {
+    } else if (!entry.name.includes("_serviceService") && entry.name !== "index.ts") {
       fs.copyFileSync(srcPath, destPath);
     }
   });
