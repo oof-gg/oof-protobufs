@@ -20,20 +20,20 @@ service GameService {
 
   //TODO: Adjust payloads for protos
   /// Create a new entity
-  rpc CreateEntity (v1.api.game.EntityCreateRequest) returns (v1.astd.StandardResponse);
+  rpc CreateEntity (v1.api.game.EntityCreateRequest) returns (v1.std.StandardResponse);
   /// Get an entity by ID
-  rpc GetEntity (v1.api.game.EntityGetRequest) returns (v1.std.StandardResponse);
+  rpc GetEntity (v1.api.game.EntityGetRequest) returns (v1.std.PaginatedResponse);
   /// Update an entity by ID
-  rpc UpdateEntity (v1.api.game.EntityUpdateRequest) returns (v1.api.game.EntityUpdateResponse);
+  rpc UpdateEntity (v1.api.game.EntityUpdateRequest) returns (v1.std.StandardResponse);
   /// Delete an entity by ID
-  rpc DeleteEntity (v1.api.game.EntityDeleteRequest) returns (v1.api.game.EntityDeleteResponse);
+  rpc DeleteEntity (v1.api.game.EntityDeleteRequest) returns (v1.std.StandardResponse);
 
   /// Create a new game
-  rpc CreateGame (v1.api.game.GameCreateRequest) returns (v1.api.game.GameCreateResponse);
+  rpc CreateGame (v1.api.game.GameCreateRequest) returns (v1.std.StandardResponse);
   /// Get a game by ID
-  rpc GetGame (v1.api.game.GameGetRequest) returns (v1.api.game.GameGetResponse);
+  rpc GetGame (v1.api.game.GameGetRequest) returns (v1.std.PaginatedResponse);
   /// Update a game by ID
-  rpc UpdateGame (v1.api.game.GameUpdateRequest) returns (v1.api.game.GameUpdateResponse);
+  rpc UpdateGame (v1.api.game.GameUpdateRequest) returns (v1.std.StandardResponse);
 
   /// Wait for queue updates
   rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
