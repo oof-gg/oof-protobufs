@@ -3,9 +3,22 @@ syntax = "proto3";
 package v1.std;
 
 import "google/protobuf/any.proto";
-import "google/rpc/status.proto";
 
-/// Unify everything into one response.
+message Status {
+  // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  // user-facing error message should be localized and sent in the
+  // [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+  string message = 2;
+
+  // A list of messages that carry the error details.  There will be a
+  // common set of message types for APIs to use.
+  repeated google.protobuf.Any details = 3;
+}
+
+// Unify everything into one response.
 message StandardResponse {
   // Status code (e.g., HTTP or custom).
   int32 code = 1;
@@ -14,7 +27,7 @@ message StandardResponse {
   string message = 2;
 
   // If there's an error, you could store it here or just use google.rpc.Status directly.
-  optional google.rpc.Status error = 3;
+  Status error = 3;
 
   // The actual payload.
   google.protobuf.Any data = 4;
@@ -36,7 +49,7 @@ message PaginatedResponse {
     string message = 2;
 
     // If there's an error, you could store it here or just use google.rpc.Status directly.
-    google.rpc.Status error = 3;
+    Status error = 3;
     PaginationMetadata pagination = 4; // Pagination metadata
     google.protobuf.Any data = 5; // List of items in this page
 }
