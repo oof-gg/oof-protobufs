@@ -21,6 +21,8 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
+var v1_api_game_game_pb = require('../../../v1/api/game/game_pb.js');
+goog.object.extend(proto, v1_api_game_game_pb);
 var v1_api_game_session_pb = require('../../../v1/api/game/session_pb.js');
 goog.object.extend(proto, v1_api_game_session_pb);
 var v1_api_game_entity_pb = require('../../../v1/api/game/entity_pb.js');
