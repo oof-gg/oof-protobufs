@@ -5,6 +5,7 @@
  */
 import * as grpcWeb from 'grpc-web';
 import * as v1_api_game_entity_pb from '../../../v1/api/game/entity_pb';
+import * as v1_api_game_game_pb from '../../../v1/api/game/game_pb';
 import * as v1_api_game_join_leave_pb from '../../../v1/api/game/join_leave_pb';
 import * as v1_api_game_session_pb from '../../../v1/api/game/session_pb';
 import * as v1_std_responses_pb from '../../../v1/std/responses_pb';
@@ -49,6 +50,15 @@ export declare class GameServiceClient {
     methodDescriptorDeleteEntity: grpcWeb.MethodDescriptor<v1_api_game_entity_pb.EntityDeleteRequest, v1_api_game_entity_pb.EntityDeleteResponse>;
     deleteEntity(request: v1_api_game_entity_pb.EntityDeleteRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_entity_pb.EntityDeleteResponse>;
     deleteEntity(request: v1_api_game_entity_pb.EntityDeleteRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_entity_pb.EntityDeleteResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_entity_pb.EntityDeleteResponse>;
+    methodDescriptorCreateGame: grpcWeb.MethodDescriptor<v1_api_game_game_pb.GameCreateRequest, v1_api_game_game_pb.GameCreateResponse>;
+    createGame(request: v1_api_game_game_pb.GameCreateRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameCreateResponse>;
+    createGame(request: v1_api_game_game_pb.GameCreateRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_game_pb.GameCreateResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameCreateResponse>;
+    methodDescriptorGetGame: grpcWeb.MethodDescriptor<v1_api_game_game_pb.GameGetRequest, v1_api_game_game_pb.GameGetResponse>;
+    getGame(request: v1_api_game_game_pb.GameGetRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameGetResponse>;
+    getGame(request: v1_api_game_game_pb.GameGetRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_game_pb.GameGetResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameGetResponse>;
+    methodDescriptorUpdateGame: grpcWeb.MethodDescriptor<v1_api_game_game_pb.GameUpdateRequest, v1_api_game_game_pb.GameUpdateResponse>;
+    updateGame(request: v1_api_game_game_pb.GameUpdateRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameUpdateResponse>;
+    updateGame(request: v1_api_game_game_pb.GameUpdateRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_game_pb.GameUpdateResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameUpdateResponse>;
     methodDescriptorWatchQueue: grpcWeb.MethodDescriptor<v1_api_game_session_pb.Session, v1_api_game_session_pb.Session>;
     watchQueue(request: v1_api_game_session_pb.Session, metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<v1_api_game_session_pb.Session>;
 }

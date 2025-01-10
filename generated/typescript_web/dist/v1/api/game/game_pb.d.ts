@@ -81,6 +81,8 @@ export namespace GameCreateResponse {
 export class GameGetRequest extends jspb.Message {
   getId(): string;
   setId(value: string): GameGetRequest;
+  hasId(): boolean;
+  clearId(): GameGetRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GameGetRequest.AsObject;
@@ -92,7 +94,12 @@ export class GameGetRequest extends jspb.Message {
 
 export namespace GameGetRequest {
   export type AsObject = {
-    id: string,
+    id?: string,
+  }
+
+  export enum IdCase { 
+    _ID_NOT_SET = 0,
+    ID = 1,
   }
 }
 
