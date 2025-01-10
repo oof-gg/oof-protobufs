@@ -15,7 +15,7 @@ export interface GameCreateResponse {
     game: Game | undefined;
 }
 export interface GameGetRequest {
-    id: string;
+    id?: string | undefined;
 }
 export interface GameGetResponse {
     game: Game | undefined;

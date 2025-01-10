@@ -242,11 +242,11 @@ exports.GameCreateResponse = {
     },
 };
 function createBaseGameGetRequest() {
-    return { id: "" };
+    return { id: undefined };
 }
 exports.GameGetRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.id !== "") {
+        if (message.id !== undefined) {
             writer.uint32(10).string(message.id);
         }
         return writer;
@@ -274,11 +274,11 @@ exports.GameGetRequest = {
         return message;
     },
     fromJSON(object) {
-        return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+        return { id: isSet(object.id) ? globalThis.String(object.id) : undefined };
     },
     toJSON(message) {
         const obj = {};
-        if (message.id !== "") {
+        if (message.id !== undefined) {
             obj.id = message.id;
         }
         return obj;
@@ -288,7 +288,7 @@ exports.GameGetRequest = {
     },
     fromPartial(object) {
         const message = createBaseGameGetRequest();
-        message.id = object.id ?? "";
+        message.id = object.id ?? undefined;
         return message;
     },
 };

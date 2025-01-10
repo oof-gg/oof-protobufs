@@ -11,6 +11,7 @@ const grpc_js_1 = require("@grpc/grpc-js");
 const responses_1 = require("../../std/responses");
 const entity_1 = require("./entity");
 const event_1 = require("./event");
+const game_1 = require("./game");
 const join_leave_1 = require("./join_leave");
 const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
@@ -61,7 +62,10 @@ exports.GameServiceService = {
         responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
         responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
-    /** TODO: Adjust payloads for protos */
+    /**
+     * TODO: Adjust payloads for protos
+     * / Create a new entity
+     */
     createEntity: {
         path: "/v1.api.game.GameService/CreateEntity",
         requestStream: false,
@@ -71,6 +75,7 @@ exports.GameServiceService = {
         responseSerialize: (value) => Buffer.from(entity_1.EntityCreateResponse.encode(value).finish()),
         responseDeserialize: (value) => entity_1.EntityCreateResponse.decode(value),
     },
+    /** / Get an entity by ID */
     getEntity: {
         path: "/v1.api.game.GameService/GetEntity",
         requestStream: false,
@@ -80,6 +85,7 @@ exports.GameServiceService = {
         responseSerialize: (value) => Buffer.from(entity_1.EntityGetResponse.encode(value).finish()),
         responseDeserialize: (value) => entity_1.EntityGetResponse.decode(value),
     },
+    /** / Update an entity by ID */
     updateEntity: {
         path: "/v1.api.game.GameService/UpdateEntity",
         requestStream: false,
@@ -89,6 +95,7 @@ exports.GameServiceService = {
         responseSerialize: (value) => Buffer.from(entity_1.EntityUpdateResponse.encode(value).finish()),
         responseDeserialize: (value) => entity_1.EntityUpdateResponse.decode(value),
     },
+    /** / Delete an entity by ID */
     deleteEntity: {
         path: "/v1.api.game.GameService/DeleteEntity",
         requestStream: false,
@@ -97,6 +104,36 @@ exports.GameServiceService = {
         requestDeserialize: (value) => entity_1.EntityDeleteRequest.decode(value),
         responseSerialize: (value) => Buffer.from(entity_1.EntityDeleteResponse.encode(value).finish()),
         responseDeserialize: (value) => entity_1.EntityDeleteResponse.decode(value),
+    },
+    /** / Create a new game */
+    createGame: {
+        path: "/v1.api.game.GameService/CreateGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameCreateRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameCreateRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(game_1.GameCreateResponse.encode(value).finish()),
+        responseDeserialize: (value) => game_1.GameCreateResponse.decode(value),
+    },
+    /** / Get a game by ID */
+    getGame: {
+        path: "/v1.api.game.GameService/GetGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameGetRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameGetRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(game_1.GameGetResponse.encode(value).finish()),
+        responseDeserialize: (value) => game_1.GameGetResponse.decode(value),
+    },
+    /** / Update a game by ID */
+    updateGame: {
+        path: "/v1.api.game.GameService/UpdateGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameUpdateRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameUpdateRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(game_1.GameUpdateResponse.encode(value).finish()),
+        responseDeserialize: (value) => game_1.GameUpdateResponse.decode(value),
     },
     /** / Wait for queue updates */
     streamEvents: {
