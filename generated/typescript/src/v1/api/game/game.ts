@@ -27,7 +27,7 @@ export interface GameCreateResponse {
 }
 
 export interface GameGetRequest {
-  id: string;
+  id?: string | undefined;
 }
 
 export interface GameGetResponse {
@@ -304,12 +304,12 @@ export const GameCreateResponse: MessageFns<GameCreateResponse> = {
 };
 
 function createBaseGameGetRequest(): GameGetRequest {
-  return { id: "" };
+  return { id: undefined };
 }
 
 export const GameGetRequest: MessageFns<GameGetRequest> = {
   encode(message: GameGetRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== undefined) {
       writer.uint32(10).string(message.id);
     }
     return writer;
@@ -340,12 +340,12 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
   },
 
   fromJSON(object: any): GameGetRequest {
-    return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+    return { id: isSet(object.id) ? globalThis.String(object.id) : undefined };
   },
 
   toJSON(message: GameGetRequest): unknown {
     const obj: any = {};
-    if (message.id !== "") {
+    if (message.id !== undefined) {
       obj.id = message.id;
     }
     return obj;
@@ -356,7 +356,7 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
   },
   fromPartial<I extends Exact<DeepPartial<GameGetRequest>, I>>(object: I): GameGetRequest {
     const message = createBaseGameGetRequest();
-    message.id = object.id ?? "";
+    message.id = object.id ?? undefined;
     return message;
   },
 };

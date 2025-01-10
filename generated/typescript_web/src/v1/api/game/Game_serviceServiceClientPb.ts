@@ -18,6 +18,7 @@
 import * as grpcWeb from 'grpc-web';
 
 import * as v1_api_game_entity_pb from '../../../v1/api/game/entity_pb'; // proto import: "v1/api/game/entity.proto"
+import * as v1_api_game_game_pb from '../../../v1/api/game/game_pb'; // proto import: "v1/api/game/game.proto"
 import * as v1_api_game_event_pb from '../../../v1/api/game/event_pb'; // proto import: "v1/api/game/event.proto"
 import * as v1_api_game_join_leave_pb from '../../../v1/api/game/join_leave_pb'; // proto import: "v1/api/game/join_leave.proto"
 import * as v1_api_game_session_pb from '../../../v1/api/game/session_pb'; // proto import: "v1/api/game/session.proto"
@@ -428,6 +429,135 @@ export class GameServiceClient {
     request,
     metadata || {},
     this.methodDescriptorDeleteEntity);
+  }
+
+  methodDescriptorCreateGame = new grpcWeb.MethodDescriptor(
+    '/v1.api.game.GameService/CreateGame',
+    grpcWeb.MethodType.UNARY,
+    v1_api_game_game_pb.GameCreateRequest,
+    v1_api_game_game_pb.GameCreateResponse,
+    (request: v1_api_game_game_pb.GameCreateRequest) => {
+      return request.serializeBinary();
+    },
+    v1_api_game_game_pb.GameCreateResponse.deserializeBinary
+  );
+
+  createGame(
+    request: v1_api_game_game_pb.GameCreateRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameCreateResponse>;
+
+  createGame(
+    request: v1_api_game_game_pb.GameCreateRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameCreateResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameCreateResponse>;
+
+  createGame(
+    request: v1_api_game_game_pb.GameCreateRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameCreateResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/v1.api.game.GameService/CreateGame',
+        request,
+        metadata || {},
+        this.methodDescriptorCreateGame,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/v1.api.game.GameService/CreateGame',
+    request,
+    metadata || {},
+    this.methodDescriptorCreateGame);
+  }
+
+  methodDescriptorGetGame = new grpcWeb.MethodDescriptor(
+    '/v1.api.game.GameService/GetGame',
+    grpcWeb.MethodType.UNARY,
+    v1_api_game_game_pb.GameGetRequest,
+    v1_api_game_game_pb.GameGetResponse,
+    (request: v1_api_game_game_pb.GameGetRequest) => {
+      return request.serializeBinary();
+    },
+    v1_api_game_game_pb.GameGetResponse.deserializeBinary
+  );
+
+  getGame(
+    request: v1_api_game_game_pb.GameGetRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameGetResponse>;
+
+  getGame(
+    request: v1_api_game_game_pb.GameGetRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameGetResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameGetResponse>;
+
+  getGame(
+    request: v1_api_game_game_pb.GameGetRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameGetResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/v1.api.game.GameService/GetGame',
+        request,
+        metadata || {},
+        this.methodDescriptorGetGame,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/v1.api.game.GameService/GetGame',
+    request,
+    metadata || {},
+    this.methodDescriptorGetGame);
+  }
+
+  methodDescriptorUpdateGame = new grpcWeb.MethodDescriptor(
+    '/v1.api.game.GameService/UpdateGame',
+    grpcWeb.MethodType.UNARY,
+    v1_api_game_game_pb.GameUpdateRequest,
+    v1_api_game_game_pb.GameUpdateResponse,
+    (request: v1_api_game_game_pb.GameUpdateRequest) => {
+      return request.serializeBinary();
+    },
+    v1_api_game_game_pb.GameUpdateResponse.deserializeBinary
+  );
+
+  updateGame(
+    request: v1_api_game_game_pb.GameUpdateRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.GameUpdateResponse>;
+
+  updateGame(
+    request: v1_api_game_game_pb.GameUpdateRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameUpdateResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.GameUpdateResponse>;
+
+  updateGame(
+    request: v1_api_game_game_pb.GameUpdateRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: v1_api_game_game_pb.GameUpdateResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/v1.api.game.GameService/UpdateGame',
+        request,
+        metadata || {},
+        this.methodDescriptorUpdateGame,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/v1.api.game.GameService/UpdateGame',
+    request,
+    metadata || {},
+    this.methodDescriptorUpdateGame);
   }
 
   methodDescriptorWatchQueue = new grpcWeb.MethodDescriptor(

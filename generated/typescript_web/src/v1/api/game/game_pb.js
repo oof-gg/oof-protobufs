@@ -768,7 +768,7 @@ proto.v1.api.game.GameGetRequest.prototype.toObject = function(opt_includeInstan
  */
 proto.v1.api.game.GameGetRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, "")
+id: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -838,8 +838,8 @@ proto.v1.api.game.GameGetRequest.prototype.serializeBinary = function() {
  */
 proto.v1.api.game.GameGetRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getId();
-  if (f.length > 0) {
+  f = /** @type {string} */ (jspb.Message.getField(message, 1));
+  if (f != null) {
     writer.writeString(
       1,
       f
@@ -862,7 +862,25 @@ proto.v1.api.game.GameGetRequest.prototype.getId = function() {
  * @return {!proto.v1.api.game.GameGetRequest} returns this
  */
 proto.v1.api.game.GameGetRequest.prototype.setId = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.GameGetRequest} returns this
+ */
+proto.v1.api.game.GameGetRequest.prototype.clearId = function() {
+  return jspb.Message.setField(this, 1, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.GameGetRequest.prototype.hasId = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 

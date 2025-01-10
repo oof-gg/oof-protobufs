@@ -21,7 +21,7 @@ message GameCreateResponse {
 }
 
 message GameGetRequest {
-  string id = 1;
+  optional string id = 1;
 }
 
 message GameGetResponse {
