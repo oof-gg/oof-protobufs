@@ -33,6 +33,14 @@ import {
   EntityUpdateResponse,
 } from "./entity";
 import { GameEvent } from "./event";
+import {
+  GameCreateRequest,
+  GameCreateResponse,
+  GameGetRequest,
+  GameGetResponse,
+  GameUpdateRequest,
+  GameUpdateResponse,
+} from "./game";
 import { JoinLeaveGame } from "./join_leave";
 import { Session, SessionCreate, SessionDelete, SessionGet, Sessions, SessionUpdate } from "./session";
 
@@ -86,7 +94,10 @@ export const GameServiceService = {
     responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
-  /** TODO: Adjust payloads for protos */
+  /**
+   * TODO: Adjust payloads for protos
+   * / Create a new entity
+   */
   createEntity: {
     path: "/v1.api.game.GameService/CreateEntity",
     requestStream: false,
@@ -96,6 +107,7 @@ export const GameServiceService = {
     responseSerialize: (value: EntityCreateResponse) => Buffer.from(EntityCreateResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => EntityCreateResponse.decode(value),
   },
+  /** / Get an entity by ID */
   getEntity: {
     path: "/v1.api.game.GameService/GetEntity",
     requestStream: false,
@@ -105,6 +117,7 @@ export const GameServiceService = {
     responseSerialize: (value: EntityGetResponse) => Buffer.from(EntityGetResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => EntityGetResponse.decode(value),
   },
+  /** / Update an entity by ID */
   updateEntity: {
     path: "/v1.api.game.GameService/UpdateEntity",
     requestStream: false,
@@ -114,6 +127,7 @@ export const GameServiceService = {
     responseSerialize: (value: EntityUpdateResponse) => Buffer.from(EntityUpdateResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => EntityUpdateResponse.decode(value),
   },
+  /** / Delete an entity by ID */
   deleteEntity: {
     path: "/v1.api.game.GameService/DeleteEntity",
     requestStream: false,
@@ -122,6 +136,36 @@ export const GameServiceService = {
     requestDeserialize: (value: Buffer) => EntityDeleteRequest.decode(value),
     responseSerialize: (value: EntityDeleteResponse) => Buffer.from(EntityDeleteResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => EntityDeleteResponse.decode(value),
+  },
+  /** / Create a new game */
+  createGame: {
+    path: "/v1.api.game.GameService/CreateGame",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GameCreateRequest) => Buffer.from(GameCreateRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => GameCreateRequest.decode(value),
+    responseSerialize: (value: GameCreateResponse) => Buffer.from(GameCreateResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => GameCreateResponse.decode(value),
+  },
+  /** / Get a game by ID */
+  getGame: {
+    path: "/v1.api.game.GameService/GetGame",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GameGetRequest) => Buffer.from(GameGetRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => GameGetRequest.decode(value),
+    responseSerialize: (value: GameGetResponse) => Buffer.from(GameGetResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => GameGetResponse.decode(value),
+  },
+  /** / Update a game by ID */
+  updateGame: {
+    path: "/v1.api.game.GameService/UpdateGame",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: GameUpdateRequest) => Buffer.from(GameUpdateRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => GameUpdateRequest.decode(value),
+    responseSerialize: (value: GameUpdateResponse) => Buffer.from(GameUpdateResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => GameUpdateResponse.decode(value),
   },
   /** / Wait for queue updates */
   streamEvents: {
@@ -152,11 +196,23 @@ export interface GameServiceServer extends UntypedServiceImplementation {
   getSession: handleUnaryCall<SessionGet, Sessions>;
   updateSession: handleUnaryCall<SessionUpdate, Session>;
   deleteSession: handleUnaryCall<SessionDelete, StandardResponse>;
-  /** TODO: Adjust payloads for protos */
+  /**
+   * TODO: Adjust payloads for protos
+   * / Create a new entity
+   */
   createEntity: handleUnaryCall<EntityCreateRequest, EntityCreateResponse>;
+  /** / Get an entity by ID */
   getEntity: handleUnaryCall<EntityGetRequest, EntityGetResponse>;
+  /** / Update an entity by ID */
   updateEntity: handleUnaryCall<EntityUpdateRequest, EntityUpdateResponse>;
+  /** / Delete an entity by ID */
   deleteEntity: handleUnaryCall<EntityDeleteRequest, EntityDeleteResponse>;
+  /** / Create a new game */
+  createGame: handleUnaryCall<GameCreateRequest, GameCreateResponse>;
+  /** / Get a game by ID */
+  getGame: handleUnaryCall<GameGetRequest, GameGetResponse>;
+  /** / Update a game by ID */
+  updateGame: handleUnaryCall<GameUpdateRequest, GameUpdateResponse>;
   /** / Wait for queue updates */
   streamEvents: handleClientStreamingCall<GameEvent, GameEvent>;
   /** / Stream events from the game */
@@ -234,7 +290,10 @@ export interface GameServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
-  /** TODO: Adjust payloads for protos */
+  /**
+   * TODO: Adjust payloads for protos
+   * / Create a new entity
+   */
   createEntity(
     request: EntityCreateRequest,
     callback: (error: ServiceError | null, response: EntityCreateResponse) => void,
@@ -250,6 +309,7 @@ export interface GameServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: EntityCreateResponse) => void,
   ): ClientUnaryCall;
+  /** / Get an entity by ID */
   getEntity(
     request: EntityGetRequest,
     callback: (error: ServiceError | null, response: EntityGetResponse) => void,
@@ -265,6 +325,7 @@ export interface GameServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: EntityGetResponse) => void,
   ): ClientUnaryCall;
+  /** / Update an entity by ID */
   updateEntity(
     request: EntityUpdateRequest,
     callback: (error: ServiceError | null, response: EntityUpdateResponse) => void,
@@ -280,6 +341,7 @@ export interface GameServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: EntityUpdateResponse) => void,
   ): ClientUnaryCall;
+  /** / Delete an entity by ID */
   deleteEntity(
     request: EntityDeleteRequest,
     callback: (error: ServiceError | null, response: EntityDeleteResponse) => void,
@@ -294,6 +356,54 @@ export interface GameServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: EntityDeleteResponse) => void,
+  ): ClientUnaryCall;
+  /** / Create a new game */
+  createGame(
+    request: GameCreateRequest,
+    callback: (error: ServiceError | null, response: GameCreateResponse) => void,
+  ): ClientUnaryCall;
+  createGame(
+    request: GameCreateRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: GameCreateResponse) => void,
+  ): ClientUnaryCall;
+  createGame(
+    request: GameCreateRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: GameCreateResponse) => void,
+  ): ClientUnaryCall;
+  /** / Get a game by ID */
+  getGame(
+    request: GameGetRequest,
+    callback: (error: ServiceError | null, response: GameGetResponse) => void,
+  ): ClientUnaryCall;
+  getGame(
+    request: GameGetRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: GameGetResponse) => void,
+  ): ClientUnaryCall;
+  getGame(
+    request: GameGetRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: GameGetResponse) => void,
+  ): ClientUnaryCall;
+  /** / Update a game by ID */
+  updateGame(
+    request: GameUpdateRequest,
+    callback: (error: ServiceError | null, response: GameUpdateResponse) => void,
+  ): ClientUnaryCall;
+  updateGame(
+    request: GameUpdateRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: GameUpdateResponse) => void,
+  ): ClientUnaryCall;
+  updateGame(
+    request: GameUpdateRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: GameUpdateResponse) => void,
   ): ClientUnaryCall;
   /** / Wait for queue updates */
   streamEvents(callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;

@@ -3,6 +3,7 @@ syntax = "proto3";
 
 package v1.api.game;
 
+import "v1/api/game/game.proto";
 import "v1/api/game/session.proto";
 import "v1/api/game/entity.proto";
 import "v1/api/game/event.proto";
@@ -18,10 +19,21 @@ service GameService {
   rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.std.StandardResponse);
 
   //TODO: Adjust payloads for protos
+  /// Create a new entity
   rpc CreateEntity (v1.api.game.EntityCreateRequest) returns (v1.api.game.EntityCreateResponse);
+  /// Get an entity by ID
   rpc GetEntity (v1.api.game.EntityGetRequest) returns (v1.api.game.EntityGetResponse);
+  /// Update an entity by ID
   rpc UpdateEntity (v1.api.game.EntityUpdateRequest) returns (v1.api.game.EntityUpdateResponse);
+  /// Delete an entity by ID
   rpc DeleteEntity (v1.api.game.EntityDeleteRequest) returns (v1.api.game.EntityDeleteResponse);
+
+  /// Create a new game
+  rpc CreateGame (v1.api.game.GameCreateRequest) returns (v1.api.game.GameCreateResponse);
+  /// Get a game by ID
+  rpc GetGame (v1.api.game.GameGetRequest) returns (v1.api.game.GameGetResponse);
+  /// Update a game by ID
+  rpc UpdateGame (v1.api.game.GameUpdateRequest) returns (v1.api.game.GameUpdateResponse);
 
   /// Wait for queue updates
   rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
