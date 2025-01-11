@@ -11,4 +11,4 @@ service GlobalService {
   rpc StreamEvents (stream v1.api.global.GlobalEvent) returns (stream v1.api.global.GlobalEvent);
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/global";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";
