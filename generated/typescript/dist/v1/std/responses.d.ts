@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { Game, Games } from "../api/game/game";
+import { Any } from "../../google/protobuf/any";
 export declare const protobufPackage = "v1.std";
 export interface Status {
     /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
@@ -24,9 +24,8 @@ export interface StandardResponse {
     message: string;
     /** If there's an error, you could store it here or just use google.rpc.Status directly. */
     error: Status | undefined;
-    /** For single items. */
-    singleGame?: Game | undefined;
-    games?: Games | undefined;
+    /** The actual payload. */
+    data: Any | undefined;
 }
 /** / Metadata for paginated responses. */
 export interface PaginationMetadata {
@@ -47,9 +46,8 @@ export interface PaginatedResponse {
     error: Status | undefined;
     /** Pagination metadata */
     pagination: PaginationMetadata | undefined;
-    /** For single items. */
-    singleGame?: Game | undefined;
-    games?: Games | undefined;
+    /** The actual payload. */
+    data: Any | undefined;
 }
 export declare const Status: MessageFns<Status>;
 export declare const StandardResponse: MessageFns<StandardResponse>;
