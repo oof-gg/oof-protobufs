@@ -3,6 +3,7 @@ package generated
 
 import (
 	_ "github.com/oof-gg/oof-protobufs/generated/go/v1/api/auth"
+	- "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common"
 	_ "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game"
 	_ "github.com/oof-gg/oof-protobufs/generated/go/v1/api/global"
 	_ "github.com/oof-gg/oof-protobufs/generated/go/v1/api/player"
