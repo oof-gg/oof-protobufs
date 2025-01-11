@@ -84,8 +84,8 @@ export class GameGetRequest extends jspb.Message {
   hasId(): boolean;
   clearId(): GameGetRequest;
 
-  getLimit(): string;
-  setLimit(value: string): GameGetRequest;
+  getLimit(): number;
+  setLimit(value: number): GameGetRequest;
   hasLimit(): boolean;
   clearLimit(): GameGetRequest;
 
@@ -105,7 +105,7 @@ export class GameGetRequest extends jspb.Message {
 export namespace GameGetRequest {
   export type AsObject = {
     id?: string,
-    limit?: string,
+    limit?: number,
     cursor?: string,
   }
 
