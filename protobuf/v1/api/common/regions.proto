@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package v1.std;
+package v1.api.common;
 
 /// Enum for regions
 enum RegionEnum {

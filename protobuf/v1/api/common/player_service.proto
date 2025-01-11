@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package v1.api.player;
+package v1.api.common;
 
 import "v1/api/player/player.proto";
 import "v1/api/player/action.proto";
