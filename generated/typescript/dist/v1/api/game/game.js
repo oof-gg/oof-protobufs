@@ -250,7 +250,7 @@ exports.GameGetRequest = {
             writer.uint32(10).string(message.id);
         }
         if (message.limit !== undefined) {
-            writer.uint32(18).string(message.limit);
+            writer.uint32(16).int32(message.limit);
         }
         if (message.cursor !== undefined) {
             writer.uint32(26).string(message.cursor);
@@ -272,10 +272,10 @@ exports.GameGetRequest = {
                     continue;
                 }
                 case 2: {
-                    if (tag !== 18) {
+                    if (tag !== 16) {
                         break;
                     }
-                    message.limit = reader.string();
+                    message.limit = reader.int32();
                     continue;
                 }
                 case 3: {
@@ -296,7 +296,7 @@ exports.GameGetRequest = {
     fromJSON(object) {
         return {
             id: isSet(object.id) ? globalThis.String(object.id) : undefined,
-            limit: isSet(object.limit) ? globalThis.String(object.limit) : undefined,
+            limit: isSet(object.limit) ? globalThis.Number(object.limit) : undefined,
             cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : undefined,
         };
     },
@@ -306,7 +306,7 @@ exports.GameGetRequest = {
             obj.id = message.id;
         }
         if (message.limit !== undefined) {
-            obj.limit = message.limit;
+            obj.limit = Math.round(message.limit);
         }
         if (message.cursor !== undefined) {
             obj.cursor = message.cursor;
