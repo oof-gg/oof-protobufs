@@ -34,4 +34,4 @@ enum RegionEnum {
     GLOBAL = 13; // Cross-region/global servers
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/common";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";
