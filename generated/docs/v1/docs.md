@@ -50,9 +50,6 @@
     - [GameUpdateResponse](#v1-api-game-GameUpdateResponse)
     - [Games](#v1-api-game-Games)
   
-- [v1/api/game/game_service.proto](#v1_api_game_game_service-proto)
-    - [GameService](#v1-api-game-GameService)
-  
 - [v1/api/game/instance.proto](#v1_api_game_instance-proto)
     - [AuthConfig](#v1-api-game-AuthConfig)
     - [AuthConfig.ConfigEntry](#v1-api-game-AuthConfig-ConfigEntry)
@@ -82,15 +79,21 @@
   
     - [GameState](#v1-api-game-GameState)
   
+- [v1/api/common/game_service.proto](#v1_api_common_game_service-proto)
+    - [GameService](#v1-api-common-GameService)
+  
+- [v1/api/common/global_service.proto](#v1_api_common_global_service-proto)
+    - [GlobalService](#v1-api-global-GlobalService)
+  
+- [v1/api/common/player_service.proto](#v1_api_common_player_service-proto)
+    - [PlayerService](#v1-api-player-PlayerService)
+  
 - [v1/api/global/event.proto](#v1_api_global_event-proto)
     - [GlobalEvent](#v1-api-global-GlobalEvent)
     - [GlobalEvent.AttributesEntry](#v1-api-global-GlobalEvent-AttributesEntry)
     - [GlobalEvent.EventAttribute](#v1-api-global-GlobalEvent-EventAttribute)
   
     - [GlobalEvent.EventType](#v1-api-global-GlobalEvent-EventType)
-  
-- [v1/api/global/global_service.proto](#v1_api_global_global_service-proto)
-    - [GlobalService](#v1-api-global-GlobalService)
   
 - [v1/api/global/time.proto](#v1_api_global_time-proto)
     - [GlobalTime](#v1-api-global-GlobalTime)
@@ -113,9 +116,6 @@
   
     - [PlayerStatus](#v1-api-player-PlayerStatus)
     - [PlayerType](#v1-api-player-PlayerType)
-  
-- [v1/api/player/player_service.proto](#v1_api_player_player_service-proto)
-    - [PlayerService](#v1-api-player-PlayerService)
   
 - [v1/api/player/state.proto](#v1_api_player_state-proto)
     - [State](#v1-api-player-State)
@@ -801,45 +801,6 @@ CUSTOM - Custom events
 
 
 
-<a name="v1_api_game_game_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## v1/api/game/game_service.proto
-
-
- 
-
- 
-
- 
-
-
-<a name="v1-api-game-GameService"></a>
-
-### GameService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| JoinLeave | [JoinLeaveGame](#v1-api-game-JoinLeaveGame) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Join or leave a game, returns the queued session if not joined |
-| CreateSession | [SessionCreate](#v1-api-game-SessionCreate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| GetSession | [SessionGet](#v1-api-game-SessionGet) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| UpdateSession | [SessionUpdate](#v1-api-game-SessionUpdate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| DeleteSession | [SessionDelete](#v1-api-game-SessionDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| CreateEntity | [EntityCreateRequest](#v1-api-game-EntityCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | TODO: Adjust payloads for protos / Create a new entity |
-| GetEntity | [EntityGetRequest](#v1-api-game-EntityGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get an entity by ID |
-| UpdateEntity | [EntityUpdateRequest](#v1-api-game-EntityUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update an entity by ID |
-| DeleteEntity | [EntityDeleteRequest](#v1-api-game-EntityDeleteRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Delete an entity by ID |
-| CreateGame | [GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Create a new game |
-| GetGame | [GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get a game by ID |
-| UpdateGame | [GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update a game by ID |
-| StreamEvents | [GameEvent](#v1-api-game-GameEvent) stream | [GameEvent](#v1-api-game-GameEvent) | Wait for queue updates |
-| WatchQueue | [Session](#v1-api-game-Session) | [Session](#v1-api-game-Session) stream | Stream events from the game |
-
- 
-
-
-
 <a name="v1_api_game_instance-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -1235,6 +1196,100 @@ Represents the state of a game session
 
 
 
+<a name="v1_api_common_game_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/api/common/game_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="v1-api-common-GameService"></a>
+
+### GameService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| JoinLeave | [.v1.api.game.JoinLeaveGame](#v1-api-game-JoinLeaveGame) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Join or leave a game, returns the queued session if not joined |
+| CreateSession | [.v1.api.game.SessionCreate](#v1-api-game-SessionCreate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| GetSession | [.v1.api.game.SessionGet](#v1-api-game-SessionGet) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| UpdateSession | [.v1.api.game.SessionUpdate](#v1-api-game-SessionUpdate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| DeleteSession | [.v1.api.game.SessionDelete](#v1-api-game-SessionDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| CreateEntity | [.v1.api.game.EntityCreateRequest](#v1-api-game-EntityCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | TODO: Adjust payloads for protos / Create a new entity |
+| GetEntity | [.v1.api.game.EntityGetRequest](#v1-api-game-EntityGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get an entity by ID |
+| UpdateEntity | [.v1.api.game.EntityUpdateRequest](#v1-api-game-EntityUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update an entity by ID |
+| DeleteEntity | [.v1.api.game.EntityDeleteRequest](#v1-api-game-EntityDeleteRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Delete an entity by ID |
+| CreateGame | [.v1.api.game.GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Create a new game |
+| GetGame | [.v1.api.game.GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get a game by ID |
+| UpdateGame | [.v1.api.game.GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update a game by ID |
+| StreamEvents | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) stream | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) | Wait for queue updates |
+| WatchQueue | [.v1.api.game.Session](#v1-api-game-Session) | [.v1.api.game.Session](#v1-api-game-Session) stream | Stream events from the game |
+
+ 
+
+
+
+<a name="v1_api_common_global_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/api/common/global_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="v1-api-global-GlobalService"></a>
+
+### GlobalService
+Global service for joining and leaving games
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| StreamEvents | [GlobalEvent](#v1-api-global-GlobalEvent) stream | [GlobalEvent](#v1-api-global-GlobalEvent) stream | Stream events from the global service |
+
+ 
+
+
+
+<a name="v1_api_common_player_service-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/api/common/player_service.proto
+
+
+ 
+
+ 
+
+ 
+
+
+<a name="v1-api-player-PlayerService"></a>
+
+### PlayerService
+
+
+| Method Name | Request Type | Response Type | Description |
+| ----------- | ------------ | ------------- | ------------|
+| CreatePlayer | [Player](#v1-api-player-Player) | [Player](#v1-api-player-Player) |  |
+| GetPlayer | [PlayerGet](#v1-api-player-PlayerGet) | [Players](#v1-api-player-Players) |  |
+| UpdatePlayer | [PlayerUpdate](#v1-api-player-PlayerUpdate) | [Player](#v1-api-player-Player) |  |
+| StreamEvents | [PlayerAction](#v1-api-player-PlayerAction) stream | [PlayerAction](#v1-api-player-PlayerAction) stream |  |
+
+ 
+
+
+
 <a name="v1_api_global_event-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -1317,32 +1372,6 @@ Enum for event types
  
 
  
-
- 
-
-
-
-<a name="v1_api_global_global_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## v1/api/global/global_service.proto
-
-
- 
-
- 
-
- 
-
-
-<a name="v1-api-global-GlobalService"></a>
-
-### GlobalService
-Global service for joining and leaving games
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| StreamEvents | [GlobalEvent](#v1-api-global-GlobalEvent) stream | [GlobalEvent](#v1-api-global-GlobalEvent) stream | Stream events from the global service |
 
  
 
@@ -1633,35 +1662,6 @@ Type of action
  
 
  
-
- 
-
-
-
-<a name="v1_api_player_player_service-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## v1/api/player/player_service.proto
-
-
- 
-
- 
-
- 
-
-
-<a name="v1-api-player-PlayerService"></a>
-
-### PlayerService
-
-
-| Method Name | Request Type | Response Type | Description |
-| ----------- | ------------ | ------------- | ------------|
-| CreatePlayer | [Player](#v1-api-player-Player) | [Player](#v1-api-player-Player) |  |
-| GetPlayer | [PlayerGet](#v1-api-player-PlayerGet) | [Players](#v1-api-player-Players) |  |
-| UpdatePlayer | [PlayerUpdate](#v1-api-player-PlayerUpdate) | [Player](#v1-api-player-Player) |  |
-| StreamEvents | [PlayerAction](#v1-api-player-PlayerAction) stream | [PlayerAction](#v1-api-player-PlayerAction) stream |  |
 
  
 
