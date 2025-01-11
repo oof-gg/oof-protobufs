@@ -20,14 +20,18 @@
     - [Entity](#v1-api-game-Entity)
     - [Entity.AttributesEntry](#v1-api-game-Entity-AttributesEntry)
     - [EntityAttribute](#v1-api-game-EntityAttribute)
-    - [EntityCreate](#v1-api-game-EntityCreate)
-    - [EntityCreate.AttributesEntry](#v1-api-game-EntityCreate-AttributesEntry)
-    - [EntityDelete](#v1-api-game-EntityDelete)
-    - [EntityGet](#v1-api-game-EntityGet)
-    - [EntityUpdate](#v1-api-game-EntityUpdate)
+    - [EntityCreateRequest](#v1-api-game-EntityCreateRequest)
+    - [EntityCreateRequest.AttributesEntry](#v1-api-game-EntityCreateRequest-AttributesEntry)
+    - [EntityCreateResponse](#v1-api-game-EntityCreateResponse)
+    - [EntityDeleteRequest](#v1-api-game-EntityDeleteRequest)
+    - [EntityDeleteResponse](#v1-api-game-EntityDeleteResponse)
+    - [EntityGetRequest](#v1-api-game-EntityGetRequest)
+    - [EntityGetResponse](#v1-api-game-EntityGetResponse)
+    - [EntityUpdateRequest](#v1-api-game-EntityUpdateRequest)
+    - [EntityUpdateResponse](#v1-api-game-EntityUpdateResponse)
   
     - [Entity.ControllerStateEnum](#v1-api-game-Entity-ControllerStateEnum)
-    - [EntityCreate.ControllerStateEnum](#v1-api-game-EntityCreate-ControllerStateEnum)
+    - [EntityCreateRequest.ControllerStateEnum](#v1-api-game-EntityCreateRequest-ControllerStateEnum)
   
 - [v1/api/game/event.proto](#v1_api_game_event-proto)
     - [GameEvent](#v1-api-game-GameEvent)
@@ -36,8 +40,17 @@
   
     - [GameEvent.EventType](#v1-api-game-GameEvent-EventType)
   
-- [v1/api/game/game_service.proto](#v1_api_game_game_service-proto)
+- [v1/api/game/game.proto](#v1_api_game_game-proto)
     - [Game](#v1-api-game-Game)
+    - [GameCreateRequest](#v1-api-game-GameCreateRequest)
+    - [GameCreateResponse](#v1-api-game-GameCreateResponse)
+    - [GameGetRequest](#v1-api-game-GameGetRequest)
+    - [GameGetResponse](#v1-api-game-GameGetResponse)
+    - [GameUpdateRequest](#v1-api-game-GameUpdateRequest)
+    - [GameUpdateResponse](#v1-api-game-GameUpdateResponse)
+  
+- [v1/api/game/game_service.proto](#v1_api_game_game_service-proto)
+    - [GameService](#v1-api-game-GameService)
   
 - [v1/api/game/instance.proto](#v1_api_game_instance-proto)
     - [AuthConfig](#v1-api-game-AuthConfig)
@@ -48,6 +61,11 @@
   
     - [InstanceCommandEnum](#v1-api-game-InstanceCommandEnum)
     - [InstanceStateEnum](#v1-api-game-InstanceStateEnum)
+  
+- [v1/api/game/join_leave.proto](#v1_api_game_join_leave-proto)
+    - [JoinLeaveGame](#v1-api-game-JoinLeaveGame)
+  
+    - [JoinLeaveGame.Action](#v1-api-game-JoinLeaveGame-Action)
   
 - [v1/api/game/session.proto](#v1_api_game_session-proto)
     - [GameAttribute](#v1-api-game-GameAttribute)
@@ -73,23 +91,17 @@
 - [v1/api/global/global_service.proto](#v1_api_global_global_service-proto)
     - [GlobalService](#v1-api-global-GlobalService)
   
-- [v1/api/global/join_leave.proto](#v1_api_global_join_leave-proto)
-    - [JoinLeaveGame](#v1-api-global-JoinLeaveGame)
-  
-    - [JoinLeaveGame.Action](#v1-api-global-JoinLeaveGame-Action)
-    - [RegionEnum](#v1-api-global-RegionEnum)
-  
 - [v1/api/global/time.proto](#v1_api_global_time-proto)
     - [GlobalTime](#v1-api-global-GlobalTime)
   
 - [v1/api/player/action.proto](#v1_api_player_action-proto)
     - [PlayerAction](#v1-api-player-PlayerAction)
     - [PlayerAction.ActionEntry](#v1-api-player-PlayerAction-ActionEntry)
-    - [PlayerAction.PlayerAction](#v1-api-player-PlayerAction-PlayerAction)
-    - [PlayerAction.Position](#v1-api-player-PlayerAction-Position)
-    - [PlayerAction.Velocity](#v1-api-player-PlayerAction-Velocity)
+    - [PlayerActionAttribute](#v1-api-player-PlayerActionAttribute)
+    - [Position](#v1-api-player-Position)
+    - [Velocity](#v1-api-player-Velocity)
   
-    - [PlayerAction.ActionType](#v1-api-player-PlayerAction-ActionType)
+    - [ActionType](#v1-api-player-ActionType)
   
 - [v1/api/player/player.proto](#v1_api_player_player-proto)
     - [Player](#v1-api-player-Player)
@@ -111,12 +123,14 @@
   
     - [State.PlayerState](#v1-api-player-State-PlayerState)
   
+- [v1/std/regions.proto](#v1_std_regions-proto)
+    - [RegionEnum](#v1-std-RegionEnum)
+  
 - [v1/std/responses.proto](#v1_std_responses-proto)
-    - [Error](#v1-std-Error)
     - [PaginatedResponse](#v1-std-PaginatedResponse)
     - [PaginationMetadata](#v1-std-PaginationMetadata)
     - [StandardResponse](#v1-std-StandardResponse)
-    - [Success](#v1-std-Success)
+    - [Status](#v1-std-Status)
   
 - [Scalar Value Types](#scalar-value-types)
 
@@ -362,9 +376,9 @@ The EntityAttribute message
 
 
 
-<a name="v1-api-game-EntityCreate"></a>
+<a name="v1-api-game-EntityCreateRequest"></a>
 
-### EntityCreate
+### EntityCreateRequest
 The RegisterEntity message
 
 
@@ -374,8 +388,8 @@ The RegisterEntity message
 | type | [string](#string) |  | The type of the entity, e.g. &#34;object&#34; |
 | session_id | [string](#string) |  | The session id of the entity |
 | game_id | [string](#string) |  | The game id of the entity |
-| attributes | [EntityCreate.AttributesEntry](#v1-api-game-EntityCreate-AttributesEntry) | repeated | The attributes of the entity |
-| controller | [EntityCreate.ControllerStateEnum](#v1-api-game-EntityCreate-ControllerStateEnum) |  | The controller of the entity |
+| attributes | [EntityCreateRequest.AttributesEntry](#v1-api-game-EntityCreateRequest-AttributesEntry) | repeated | The attributes of the entity |
+| controller | [EntityCreateRequest.ControllerStateEnum](#v1-api-game-EntityCreateRequest-ControllerStateEnum) |  | The controller of the entity |
 | player_id | [string](#string) | optional | The owner of the entity |
 | data | [string](#string) | optional | Can be any JSON data |
 
@@ -384,9 +398,9 @@ The RegisterEntity message
 
 
 
-<a name="v1-api-game-EntityCreate-AttributesEntry"></a>
+<a name="v1-api-game-EntityCreateRequest-AttributesEntry"></a>
 
-### EntityCreate.AttributesEntry
+### EntityCreateRequest.AttributesEntry
 
 
 
@@ -400,9 +414,24 @@ The RegisterEntity message
 
 
 
-<a name="v1-api-game-EntityDelete"></a>
+<a name="v1-api-game-EntityCreateResponse"></a>
 
-### EntityDelete
+### EntityCreateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| entity | [Entity](#v1-api-game-Entity) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-EntityDeleteRequest"></a>
+
+### EntityDeleteRequest
 The EntityDelete message
 
 
@@ -417,9 +446,26 @@ The EntityDelete message
 
 
 
-<a name="v1-api-game-EntityGet"></a>
+<a name="v1-api-game-EntityDeleteResponse"></a>
 
-### EntityGet
+### EntityDeleteResponse
+The EntityDeleteResponse message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  | The unique identifier of the entity |
+| session_id | [string](#string) |  | The session id of the entity |
+| game_id | [string](#string) |  | The game id of the entity |
+
+
+
+
+
+
+<a name="v1-api-game-EntityGetRequest"></a>
+
+### EntityGetRequest
 The EntityCreate message
 
 
@@ -434,9 +480,24 @@ The EntityCreate message
 
 
 
-<a name="v1-api-game-EntityUpdate"></a>
+<a name="v1-api-game-EntityGetResponse"></a>
 
-### EntityUpdate
+### EntityGetResponse
+The EntityGetResponse message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| entity | [Entity](#v1-api-game-Entity) |  | The entity |
+
+
+
+
+
+
+<a name="v1-api-game-EntityUpdateRequest"></a>
+
+### EntityUpdateRequest
 The EntityUpdate message
 
 
@@ -446,6 +507,21 @@ The EntityUpdate message
 | session_id | [string](#string) |  | The session id of the entity |
 | game_id | [string](#string) |  | The game id of the entity |
 | attributes | [EntityAttribute](#v1-api-game-EntityAttribute) | repeated | The attributes of the entity |
+
+
+
+
+
+
+<a name="v1-api-game-EntityUpdateResponse"></a>
+
+### EntityUpdateResponse
+The EntityUpdateResponse message
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| entity | [Entity](#v1-api-game-Entity) |  |  |
 
 
 
@@ -466,9 +542,9 @@ The EntityUpdate message
 
 
 
-<a name="v1-api-game-EntityCreate-ControllerStateEnum"></a>
+<a name="v1-api-game-EntityCreateRequest-ControllerStateEnum"></a>
 
-### EntityCreate.ControllerStateEnum
+### EntityCreateRequest.ControllerStateEnum
 
 
 | Name | Number | Description |
@@ -509,6 +585,7 @@ Game Events, message can trigger API calls or other events
 | team_id | [string](#string) | optional |  |
 | attributes | [GameEvent.AttributesEntry](#v1-api-game-GameEvent-AttributesEntry) | repeated |  |
 | type | [GameEvent.EventType](#v1-api-game-GameEvent-EventType) |  |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -558,8 +635,141 @@ CUSTOM - Custom events
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CUSTOM | 0 |  |
+| TYPE_UNSPECIFIED | 0 |  |
+| TYPE_ACTION | 1 |  |
+| TYPE_GAME_EVENT | 2 |  |
+| TYPE_SYSTEM | 3 |  |
+| TYPE_COMPLETION | 4 |  |
 
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="v1_api_game_game-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/api/game/game.proto
+
+
+
+<a name="v1-api-game-Game"></a>
+
+### Game
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| data | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameCreateRequest"></a>
+
+### GameCreateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| data | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameCreateResponse"></a>
+
+### GameCreateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| game | [Game](#v1-api-game-Game) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameGetRequest"></a>
+
+### GameGetRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) | optional |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameGetResponse"></a>
+
+### GameGetResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| game | [Game](#v1-api-game-Game) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameUpdateRequest"></a>
+
+### GameUpdateRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| id | [string](#string) |  |  |
+| name | [string](#string) |  |  |
+| description | [string](#string) |  |  |
+| data | [string](#string) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-GameUpdateResponse"></a>
+
+### GameUpdateResponse
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| game | [Game](#v1-api-game-Game) |  |  |
+
+
+
+
+
+ 
 
  
 
@@ -582,22 +792,27 @@ CUSTOM - Custom events
  
 
 
-<a name="v1-api-game-Game"></a>
+<a name="v1-api-game-GameService"></a>
 
-### Game
+### GameService
 
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| CreateSession | [SessionCreate](#v1-api-game-SessionCreate) | [Session](#v1-api-game-Session) |  |
-| GetSession | [SessionGet](#v1-api-game-SessionGet) | [Sessions](#v1-api-game-Sessions) |  |
-| UpdateSession | [SessionUpdate](#v1-api-game-SessionUpdate) | [Session](#v1-api-game-Session) |  |
+| JoinLeave | [JoinLeaveGame](#v1-api-game-JoinLeaveGame) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Join or leave a game, returns the queued session if not joined |
+| CreateSession | [SessionCreate](#v1-api-game-SessionCreate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| GetSession | [SessionGet](#v1-api-game-SessionGet) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
+| UpdateSession | [SessionUpdate](#v1-api-game-SessionUpdate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
 | DeleteSession | [SessionDelete](#v1-api-game-SessionDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| CreateEntity | [EntityCreate](#v1-api-game-EntityCreate) | [Entity](#v1-api-game-Entity) | TODO: Adjust payloads for protos |
-| GetEntity | [EntityGet](#v1-api-game-EntityGet) | [Entities](#v1-api-game-Entities) |  |
-| UpdateEntity | [EntityUpdate](#v1-api-game-EntityUpdate) | [Entity](#v1-api-game-Entity) |  |
-| DeleteEntity | [EntityDelete](#v1-api-game-EntityDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| StreamEvents | [GameEvent](#v1-api-game-GameEvent) stream | [GameEvent](#v1-api-game-GameEvent) stream | Stream events from the game |
+| CreateEntity | [EntityCreateRequest](#v1-api-game-EntityCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | TODO: Adjust payloads for protos / Create a new entity |
+| GetEntity | [EntityGetRequest](#v1-api-game-EntityGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get an entity by ID |
+| UpdateEntity | [EntityUpdateRequest](#v1-api-game-EntityUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update an entity by ID |
+| DeleteEntity | [EntityDeleteRequest](#v1-api-game-EntityDeleteRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Delete an entity by ID |
+| CreateGame | [GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Create a new game |
+| GetGame | [GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get a game by ID |
+| UpdateGame | [GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update a game by ID |
+| StreamEvents | [GameEvent](#v1-api-game-GameEvent) stream | [GameEvent](#v1-api-game-GameEvent) | Wait for queue updates |
+| WatchQueue | [Session](#v1-api-game-Session) | [Session](#v1-api-game-Session) stream | Stream events from the game |
 
  
 
@@ -739,6 +954,54 @@ Represents the state of the game instance that is currently running
 
 
 
+<a name="v1_api_game_join_leave-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/api/game/join_leave.proto
+
+
+
+<a name="v1-api-game-JoinLeaveGame"></a>
+
+### JoinLeaveGame
+Message joining or leaving a game
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| user_id | [string](#string) |  |  |
+| game_id | [string](#string) |  |  |
+| action | [JoinLeaveGame.Action](#v1-api-game-JoinLeaveGame-Action) |  |  |
+| team_id | [string](#string) | optional |  |
+| session_id | [string](#string) | optional |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
+
+
+
+
+
+ 
+
+
+<a name="v1-api-game-JoinLeaveGame-Action"></a>
+
+### JoinLeaveGame.Action
+
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| JOIN | 0 |  |
+| LEAVE | 1 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="v1_api_game_session-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
@@ -775,11 +1038,13 @@ Represents a game session, can be used to store game state and attributes such a
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
-| player_ids | [string](#string) | repeated | Players in the session (can be used to store player state and attributes) / Optional: This can be used to store player state and attributes, but not recommended for large player counts. |
+| user_ids | [string](#string) | repeated | Players in the session (can be used to store player state and attributes) / Optional: This can be used to store player state and attributes, but not recommended for large player counts. |
 | state | [GameState](#v1-api-game-GameState) |  | Game state as defined by the GameState enum |
 | attributes | [Session.AttributesEntry](#v1-api-game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
 
 Game attributes |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -811,9 +1076,11 @@ Represents a game session creation request
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | game_id | [string](#string) |  |  |
-| player_ids | [string](#string) | repeated |  |
+| user_ids | [string](#string) | repeated |  |
 | state | [GameState](#v1-api-game-GameState) |  |  |
 | attributes | [SessionCreate.AttributesEntry](#v1-api-game-SessionCreate-AttributesEntry) | repeated |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -878,9 +1145,11 @@ Represents a game session update request
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | game_id | [string](#string) |  |  |
-| player_ids | [string](#string) | repeated |  |
+| user_ids | [string](#string) | repeated |  |
 | state | [GameState](#v1-api-game-GameState) |  |  |
 | attributes | [SessionUpdate.AttributesEntry](#v1-api-game-SessionUpdate-AttributesEntry) | repeated |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -927,10 +1196,13 @@ Represents the state of a game session
 
 | Name | Number | Description |
 | ---- | ------ | ----------- |
-| CREATED | 0 | The session has been created |
-| WAITING | 1 | The session is waiting for players to join |
-| STARTED | 2 | The session has started |
-| FINISHED | 3 | The session has finished |
+| STATE_CREATED | 0 | The session has been created |
+| STATE_WAITING | 1 | The session is waiting for players to join |
+| STATE_STARTED | 2 | The session has started |
+| STATE_FINISHED | 3 | The session has finished |
+| STATE_DELETED | 4 | The session has been deleted |
+| STATE_PAUSED | 5 | The session is paused |
+| STATE_QUEUED | 6 | The session is queued |
 
 
  
@@ -1044,98 +1316,11 @@ Enum for event types
 <a name="v1-api-global-GlobalService"></a>
 
 ### GlobalService
-
+Global service for joining and leaving games
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| JoinLeave | [JoinLeaveGame](#v1-api-global-JoinLeaveGame) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| StreamEvents | [GlobalEvent](#v1-api-global-GlobalEvent) stream | [GlobalEvent](#v1-api-global-GlobalEvent) stream |  |
-
- 
-
-
-
-<a name="v1_api_global_join_leave-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## v1/api/global/join_leave.proto
-
-
-
-<a name="v1-api-global-JoinLeaveGame"></a>
-
-### JoinLeaveGame
-Message joining or leaving a game
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| player_id | [string](#string) |  |  |
-| game_id | [string](#string) |  |  |
-| action | [JoinLeaveGame.Action](#v1-api-global-JoinLeaveGame-Action) |  |  |
-| team_id | [string](#string) | optional |  |
-| session_id | [string](#string) | optional |  |
-| region | [RegionEnum](#v1-api-global-RegionEnum) | optional |  |
-
-
-
-
-
- 
-
-
-<a name="v1-api-global-JoinLeaveGame-Action"></a>
-
-### JoinLeaveGame.Action
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| JOIN | 0 |  |
-| LEAVE | 1 |  |
-
-
-
-<a name="v1-api-global-RegionEnum"></a>
-
-### RegionEnum
-
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| REGION_UNSPECIFIED | 0 | Default unspecified region |
-| NA_EAST | 1 | Americas
-
-North America East |
-| NA_WEST | 2 | North America West |
-| SA | 3 | South America (all countries) |
-| EU_WEST | 4 | Europe
-
-Western Europe |
-| EU_CENTRAL | 5 | Central Europe |
-| EU_NORTH | 6 | Northern Europe |
-| AS_EAST | 7 | Asia
-
-East Asia |
-| AS_SE | 8 | Southeast Asia |
-| AS_SOUTH | 9 | South Asia |
-| OC | 10 | Oceania
-
-Oceania (e.g., Australia, New Zealand) |
-| MENA | 11 | MENA (Middle East &amp; North Africa)
-
-Middle East and North Africa |
-| AFRICA | 12 | Sub-Saharan Africa
-
-Sub-Saharan Africa |
-| GLOBAL | 13 | Global
-
-Cross-region/global servers |
-
-
- 
-
- 
+| StreamEvents | [GlobalEvent](#v1-api-global-GlobalEvent) stream | [GlobalEvent](#v1-api-global-GlobalEvent) stream | Stream events from the global service |
 
  
 
@@ -1191,9 +1376,9 @@ Message to synchronize time across clients
 | player_id | [string](#string) |  | Unique identifier of the player |
 | session_id | [string](#string) |  | Unique identifier of the session |
 | game_id | [string](#string) |  | Unique identifier of the game |
-| type | [PlayerAction.ActionType](#v1-api-player-PlayerAction-ActionType) |  | Type of action |
-| position | [PlayerAction.Position](#v1-api-player-PlayerAction-Position) | optional | Position of the player (optional) |
-| velocity | [PlayerAction.Velocity](#v1-api-player-PlayerAction-Velocity) | optional | Velocity of the player (optional) |
+| type | [ActionType](#v1-api-player-ActionType) |  | Type of action |
+| position | [Position](#v1-api-player-Position) | optional | Position of the player (optional) |
+| velocity | [Velocity](#v1-api-player-Velocity) | optional | Velocity of the player (optional) |
 | action | [PlayerAction.ActionEntry](#v1-api-player-PlayerAction-ActionEntry) | repeated | Custom actions the player can take
 
 Flexible data structure for custom actions |
@@ -1213,16 +1398,16 @@ Flexible data structure for custom actions |
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | key | [string](#string) |  |  |
-| value | [PlayerAction.PlayerAction](#v1-api-player-PlayerAction-PlayerAction) |  |  |
+| value | [PlayerActionAttribute](#v1-api-player-PlayerActionAttribute) |  |  |
 
 
 
 
 
 
-<a name="v1-api-player-PlayerAction-PlayerAction"></a>
+<a name="v1-api-player-PlayerActionAttribute"></a>
 
-### PlayerAction.PlayerAction
+### PlayerActionAttribute
 Custom actions the player can take
 
 
@@ -1238,9 +1423,9 @@ Custom actions the player can take
 
 
 
-<a name="v1-api-player-PlayerAction-Position"></a>
+<a name="v1-api-player-Position"></a>
 
-### PlayerAction.Position
+### Position
 Position of the player
 
 
@@ -1255,9 +1440,9 @@ Position of the player
 
 
 
-<a name="v1-api-player-PlayerAction-Velocity"></a>
+<a name="v1-api-player-Velocity"></a>
 
-### PlayerAction.Velocity
+### Velocity
 Velocity of the player
 
 
@@ -1274,9 +1459,9 @@ Velocity of the player
  
 
 
-<a name="v1-api-player-PlayerAction-ActionType"></a>
+<a name="v1-api-player-ActionType"></a>
 
-### PlayerAction.ActionType
+### ActionType
 Type of action
 
 | Name | Number | Description |
@@ -1543,27 +1728,64 @@ Type of action
 
 
 
+<a name="v1_std_regions-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/std/regions.proto
+
+
+ 
+
+
+<a name="v1-std-RegionEnum"></a>
+
+### RegionEnum
+Enum for regions
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| REGION_UNSPECIFIED | 0 | Default unspecified region |
+| NA_EAST | 1 | Americas
+
+North America East |
+| NA_WEST | 2 | North America West |
+| SA | 3 | South America (all countries) |
+| EU_WEST | 4 | Europe
+
+Western Europe |
+| EU_CENTRAL | 5 | Central Europe |
+| EU_NORTH | 6 | Northern Europe |
+| AS_EAST | 7 | Asia
+
+East Asia |
+| AS_SE | 8 | Southeast Asia |
+| AS_SOUTH | 9 | South Asia |
+| OC | 10 | Oceania
+
+Oceania (e.g., Australia, New Zealand) |
+| MENA | 11 | MENA (Middle East &amp; North Africa)
+
+Middle East and North Africa |
+| AFRICA | 12 | Sub-Saharan Africa
+
+Sub-Saharan Africa |
+| GLOBAL | 13 | Global
+
+Cross-region/global servers |
+
+
+ 
+
+ 
+
+ 
+
+
+
 <a name="v1_std_responses-proto"></a>
 <p align="right"><a href="#top">Top</a></p>
 
 ## v1/std/responses.proto
-
-
-
-<a name="v1-std-Error"></a>
-
-### Error
-A standard error message.
-
-
-| Field | Type | Label | Description |
-| ----- | ---- | ----- | ----------- |
-| code | [int32](#int32) |  | Error code (e.g., HTTP status code or custom code) |
-| message | [string](#string) |  | Human-readable error message |
-| details | [string](#string) |  | Optional details about the error |
-
-
-
 
 
 
@@ -1575,8 +1797,11 @@ A paginated response wrapper.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
+| code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
+| message | [string](#string) |  | This could be your success or error message. |
+| error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
 | pagination | [PaginationMetadata](#v1-std-PaginationMetadata) |  | Pagination metadata |
-| items | [google.protobuf.Any](#google-protobuf-Any) | repeated | List of items in this page |
+| data | [google.protobuf.Any](#google-protobuf-Any) |  | List of items in this page |
 
 
 
@@ -1591,10 +1816,9 @@ Metadata for paginated responses.
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| page | [int32](#int32) |  | Current page number |
-| page_size | [int32](#int32) |  | Number of items per page |
-| total_items | [int64](#int64) |  | Total number of items |
-| total_pages | [int32](#int32) |  | Total number of pages |
+| page_size | [int32](#int32) | optional | Number of items per page |
+| prev_page_token | [string](#string) | optional | Token for the previous page |
+| next_page_token | [string](#string) | optional | Token for the next page |
 
 
 
@@ -1604,29 +1828,32 @@ Metadata for paginated responses.
 <a name="v1-std-StandardResponse"></a>
 
 ### StandardResponse
-A standardized response wrapper for any data.
+Unify everything into one response.
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| success | [Success](#v1-std-Success) |  | Success message |
-| error | [Error](#v1-std-Error) |  | Error message |
+| code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
+| message | [string](#string) |  | This could be your success or error message. |
+| error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
+| data | [google.protobuf.Any](#google-protobuf-Any) |  | The actual payload. |
 
 
 
 
 
 
-<a name="v1-std-Success"></a>
+<a name="v1-std-Status"></a>
 
-### Success
-A standard success response.
+### Status
+
 
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| message | [string](#string) |  | Human-readable success message |
-| details | [string](#string) |  | Optional details about the success |
+| code | [int32](#int32) |  | The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. |
+| message | [string](#string) |  | A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client. |
+| details | [google.protobuf.Any](#google-protobuf-Any) | repeated | A list of messages that carry the error details. There will be a common set of message types for APIs to use. |
 
 
 

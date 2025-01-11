@@ -10,78 +10,90 @@ import { Any } from "../../google/protobuf/any";
 
 export const protobufPackage = "v1.std";
 
-/** A standard error message. */
-export interface Error {
-  /** Error code (e.g., HTTP status code or custom code) */
+export interface Status {
+  /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
   code: number;
-  /** Human-readable error message */
+  /**
+   * A developer-facing error message, which should be in English. Any
+   * user-facing error message should be localized and sent in the
+   * [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+   */
   message: string;
-  /** Optional details about the error */
-  details: string;
+  /**
+   * A list of messages that carry the error details.  There will be a
+   * common set of message types for APIs to use.
+   */
+  details: Any[];
 }
 
-/** A standard success response. */
-export interface Success {
-  /** Human-readable success message */
-  message: string;
-  /** Optional details about the success */
-  details: string;
-}
-
-/** A standardized response wrapper for any data. */
+/** Unify everything into one response. */
 export interface StandardResponse {
-  /** Success message */
-  success?:
-    | Success
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
     | undefined;
-  /** Error message */
-  error?: Error | undefined;
+  /** The actual payload. */
+  data: Any | undefined;
 }
 
-/** Metadata for paginated responses. */
+/** / Metadata for paginated responses. */
 export interface PaginationMetadata {
-  /** Current page number */
-  page: number;
   /** Number of items per page */
-  pageSize: number;
-  /** Total number of items */
-  totalItems: number;
-  /** Total number of pages */
-  totalPages: number;
+  pageSize?:
+    | number
+    | undefined;
+  /** Token for the previous page */
+  prevPageToken?:
+    | string
+    | undefined;
+  /** Token for the next page */
+  nextPageToken?: string | undefined;
 }
 
-/** A paginated response wrapper. */
+/** / A paginated response wrapper. */
 export interface PaginatedResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
   /** Pagination metadata */
   pagination:
     | PaginationMetadata
     | undefined;
   /** List of items in this page */
-  items: Any[];
+  data: Any | undefined;
 }
 
-function createBaseError(): Error {
-  return { code: 0, message: "", details: "" };
+function createBaseStatus(): Status {
+  return { code: 0, message: "", details: [] };
 }
 
-export const Error: MessageFns<Error> = {
-  encode(message: Error, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+export const Status: MessageFns<Status> = {
+  encode(message: Status, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.code !== 0) {
       writer.uint32(8).int32(message.code);
     }
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    if (message.details !== "") {
-      writer.uint32(26).string(message.details);
+    for (const v of message.details) {
+      Any.encode(v!, writer.uint32(26).fork()).join();
     }
     return writer;
   },
 
-  decode(input: BinaryReader | Uint8Array, length?: number): Error {
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
     const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseError();
+    const message = createBaseStatus();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -106,7 +118,7 @@ export const Error: MessageFns<Error> = {
             break;
           }
 
-          message.details = reader.string();
+          message.details.push(Any.decode(reader, reader.uint32()));
           continue;
         }
       }
@@ -118,15 +130,15 @@ export const Error: MessageFns<Error> = {
     return message;
   },
 
-  fromJSON(object: any): Error {
+  fromJSON(object: any): Status {
     return {
       code: isSet(object.code) ? globalThis.Number(object.code) : 0,
       message: isSet(object.message) ? globalThis.String(object.message) : "",
-      details: isSet(object.details) ? globalThis.String(object.details) : "",
+      details: globalThis.Array.isArray(object?.details) ? object.details.map((e: any) => Any.fromJSON(e)) : [],
     };
   },
 
-  toJSON(message: Error): unknown {
+  toJSON(message: Status): unknown {
     const obj: any = {};
     if (message.code !== 0) {
       obj.code = Math.round(message.code);
@@ -134,111 +146,41 @@ export const Error: MessageFns<Error> = {
     if (message.message !== "") {
       obj.message = message.message;
     }
-    if (message.details !== "") {
-      obj.details = message.details;
+    if (message.details?.length) {
+      obj.details = message.details.map((e) => Any.toJSON(e));
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Error>, I>>(base?: I): Error {
-    return Error.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<Status>, I>>(base?: I): Status {
+    return Status.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<Error>, I>>(object: I): Error {
-    const message = createBaseError();
+  fromPartial<I extends Exact<DeepPartial<Status>, I>>(object: I): Status {
+    const message = createBaseStatus();
     message.code = object.code ?? 0;
     message.message = object.message ?? "";
-    message.details = object.details ?? "";
-    return message;
-  },
-};
-
-function createBaseSuccess(): Success {
-  return { message: "", details: "" };
-}
-
-export const Success: MessageFns<Success> = {
-  encode(message: Success, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.message !== "") {
-      writer.uint32(10).string(message.message);
-    }
-    if (message.details !== "") {
-      writer.uint32(18).string(message.details);
-    }
-    return writer;
-  },
-
-  decode(input: BinaryReader | Uint8Array, length?: number): Success {
-    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseSuccess();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1: {
-          if (tag !== 10) {
-            break;
-          }
-
-          message.message = reader.string();
-          continue;
-        }
-        case 2: {
-          if (tag !== 18) {
-            break;
-          }
-
-          message.details = reader.string();
-          continue;
-        }
-      }
-      if ((tag & 7) === 4 || tag === 0) {
-        break;
-      }
-      reader.skip(tag & 7);
-    }
-    return message;
-  },
-
-  fromJSON(object: any): Success {
-    return {
-      message: isSet(object.message) ? globalThis.String(object.message) : "",
-      details: isSet(object.details) ? globalThis.String(object.details) : "",
-    };
-  },
-
-  toJSON(message: Success): unknown {
-    const obj: any = {};
-    if (message.message !== "") {
-      obj.message = message.message;
-    }
-    if (message.details !== "") {
-      obj.details = message.details;
-    }
-    return obj;
-  },
-
-  create<I extends Exact<DeepPartial<Success>, I>>(base?: I): Success {
-    return Success.fromPartial(base ?? ({} as any));
-  },
-  fromPartial<I extends Exact<DeepPartial<Success>, I>>(object: I): Success {
-    const message = createBaseSuccess();
-    message.message = object.message ?? "";
-    message.details = object.details ?? "";
+    message.details = object.details?.map((e) => Any.fromPartial(e)) || [];
     return message;
   },
 };
 
 function createBaseStandardResponse(): StandardResponse {
-  return { success: undefined, error: undefined };
+  return { code: 0, message: "", error: undefined, data: undefined };
 }
 
 export const StandardResponse: MessageFns<StandardResponse> = {
   encode(message: StandardResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.success !== undefined) {
-      Success.encode(message.success, writer.uint32(10).fork()).join();
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
     }
     if (message.error !== undefined) {
-      Error.encode(message.error, writer.uint32(18).fork()).join();
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.data !== undefined) {
+      Any.encode(message.data, writer.uint32(34).fork()).join();
     }
     return writer;
   },
@@ -251,11 +193,11 @@ export const StandardResponse: MessageFns<StandardResponse> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 10) {
+          if (tag !== 8) {
             break;
           }
 
-          message.success = Success.decode(reader, reader.uint32());
+          message.code = reader.int32();
           continue;
         }
         case 2: {
@@ -263,7 +205,23 @@ export const StandardResponse: MessageFns<StandardResponse> = {
             break;
           }
 
-          message.error = Error.decode(reader, reader.uint32());
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.data = Any.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -277,18 +235,26 @@ export const StandardResponse: MessageFns<StandardResponse> = {
 
   fromJSON(object: any): StandardResponse {
     return {
-      success: isSet(object.success) ? Success.fromJSON(object.success) : undefined,
-      error: isSet(object.error) ? Error.fromJSON(object.error) : undefined,
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      data: isSet(object.data) ? Any.fromJSON(object.data) : undefined,
     };
   },
 
   toJSON(message: StandardResponse): unknown {
     const obj: any = {};
-    if (message.success !== undefined) {
-      obj.success = Success.toJSON(message.success);
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
     }
     if (message.error !== undefined) {
-      obj.error = Error.toJSON(message.error);
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.data !== undefined) {
+      obj.data = Any.toJSON(message.data);
     }
     return obj;
   },
@@ -298,31 +264,30 @@ export const StandardResponse: MessageFns<StandardResponse> = {
   },
   fromPartial<I extends Exact<DeepPartial<StandardResponse>, I>>(object: I): StandardResponse {
     const message = createBaseStandardResponse();
-    message.success = (object.success !== undefined && object.success !== null)
-      ? Success.fromPartial(object.success)
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
       : undefined;
-    message.error = (object.error !== undefined && object.error !== null) ? Error.fromPartial(object.error) : undefined;
+    message.data = (object.data !== undefined && object.data !== null) ? Any.fromPartial(object.data) : undefined;
     return message;
   },
 };
 
 function createBasePaginationMetadata(): PaginationMetadata {
-  return { page: 0, pageSize: 0, totalItems: 0, totalPages: 0 };
+  return { pageSize: undefined, prevPageToken: undefined, nextPageToken: undefined };
 }
 
 export const PaginationMetadata: MessageFns<PaginationMetadata> = {
   encode(message: PaginationMetadata, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.page !== 0) {
-      writer.uint32(8).int32(message.page);
+    if (message.pageSize !== undefined) {
+      writer.uint32(8).int32(message.pageSize);
     }
-    if (message.pageSize !== 0) {
-      writer.uint32(16).int32(message.pageSize);
+    if (message.prevPageToken !== undefined) {
+      writer.uint32(18).string(message.prevPageToken);
     }
-    if (message.totalItems !== 0) {
-      writer.uint32(24).int64(message.totalItems);
-    }
-    if (message.totalPages !== 0) {
-      writer.uint32(32).int32(message.totalPages);
+    if (message.nextPageToken !== undefined) {
+      writer.uint32(26).string(message.nextPageToken);
     }
     return writer;
   },
@@ -339,31 +304,23 @@ export const PaginationMetadata: MessageFns<PaginationMetadata> = {
             break;
           }
 
-          message.page = reader.int32();
-          continue;
-        }
-        case 2: {
-          if (tag !== 16) {
-            break;
-          }
-
           message.pageSize = reader.int32();
           continue;
         }
-        case 3: {
-          if (tag !== 24) {
+        case 2: {
+          if (tag !== 18) {
             break;
           }
 
-          message.totalItems = longToNumber(reader.int64());
+          message.prevPageToken = reader.string();
           continue;
         }
-        case 4: {
-          if (tag !== 32) {
+        case 3: {
+          if (tag !== 26) {
             break;
           }
 
-          message.totalPages = reader.int32();
+          message.nextPageToken = reader.string();
           continue;
         }
       }
@@ -377,26 +334,22 @@ export const PaginationMetadata: MessageFns<PaginationMetadata> = {
 
   fromJSON(object: any): PaginationMetadata {
     return {
-      page: isSet(object.page) ? globalThis.Number(object.page) : 0,
-      pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : 0,
-      totalItems: isSet(object.totalItems) ? globalThis.Number(object.totalItems) : 0,
-      totalPages: isSet(object.totalPages) ? globalThis.Number(object.totalPages) : 0,
+      pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : undefined,
+      prevPageToken: isSet(object.prevPageToken) ? globalThis.String(object.prevPageToken) : undefined,
+      nextPageToken: isSet(object.nextPageToken) ? globalThis.String(object.nextPageToken) : undefined,
     };
   },
 
   toJSON(message: PaginationMetadata): unknown {
     const obj: any = {};
-    if (message.page !== 0) {
-      obj.page = Math.round(message.page);
-    }
-    if (message.pageSize !== 0) {
+    if (message.pageSize !== undefined) {
       obj.pageSize = Math.round(message.pageSize);
     }
-    if (message.totalItems !== 0) {
-      obj.totalItems = Math.round(message.totalItems);
+    if (message.prevPageToken !== undefined) {
+      obj.prevPageToken = message.prevPageToken;
     }
-    if (message.totalPages !== 0) {
-      obj.totalPages = Math.round(message.totalPages);
+    if (message.nextPageToken !== undefined) {
+      obj.nextPageToken = message.nextPageToken;
     }
     return obj;
   },
@@ -406,25 +359,33 @@ export const PaginationMetadata: MessageFns<PaginationMetadata> = {
   },
   fromPartial<I extends Exact<DeepPartial<PaginationMetadata>, I>>(object: I): PaginationMetadata {
     const message = createBasePaginationMetadata();
-    message.page = object.page ?? 0;
-    message.pageSize = object.pageSize ?? 0;
-    message.totalItems = object.totalItems ?? 0;
-    message.totalPages = object.totalPages ?? 0;
+    message.pageSize = object.pageSize ?? undefined;
+    message.prevPageToken = object.prevPageToken ?? undefined;
+    message.nextPageToken = object.nextPageToken ?? undefined;
     return message;
   },
 };
 
 function createBasePaginatedResponse(): PaginatedResponse {
-  return { pagination: undefined, items: [] };
+  return { code: 0, message: "", error: undefined, pagination: undefined, data: undefined };
 }
 
 export const PaginatedResponse: MessageFns<PaginatedResponse> = {
   encode(message: PaginatedResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.pagination !== undefined) {
-      PaginationMetadata.encode(message.pagination, writer.uint32(10).fork()).join();
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
     }
-    for (const v of message.items) {
-      Any.encode(v!, writer.uint32(18).fork()).join();
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
+    }
+    if (message.data !== undefined) {
+      Any.encode(message.data, writer.uint32(42).fork()).join();
     }
     return writer;
   },
@@ -437,11 +398,11 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1: {
-          if (tag !== 10) {
+          if (tag !== 8) {
             break;
           }
 
-          message.pagination = PaginationMetadata.decode(reader, reader.uint32());
+          message.code = reader.int32();
           continue;
         }
         case 2: {
@@ -449,7 +410,31 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
             break;
           }
 
-          message.items.push(Any.decode(reader, reader.uint32()));
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.pagination = PaginationMetadata.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.data = Any.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -463,18 +448,30 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
 
   fromJSON(object: any): PaginatedResponse {
     return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
       pagination: isSet(object.pagination) ? PaginationMetadata.fromJSON(object.pagination) : undefined,
-      items: globalThis.Array.isArray(object?.items) ? object.items.map((e: any) => Any.fromJSON(e)) : [],
+      data: isSet(object.data) ? Any.fromJSON(object.data) : undefined,
     };
   },
 
   toJSON(message: PaginatedResponse): unknown {
     const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
     if (message.pagination !== undefined) {
       obj.pagination = PaginationMetadata.toJSON(message.pagination);
     }
-    if (message.items?.length) {
-      obj.items = message.items.map((e) => Any.toJSON(e));
+    if (message.data !== undefined) {
+      obj.data = Any.toJSON(message.data);
     }
     return obj;
   },
@@ -484,10 +481,15 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
   },
   fromPartial<I extends Exact<DeepPartial<PaginatedResponse>, I>>(object: I): PaginatedResponse {
     const message = createBasePaginatedResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
     message.pagination = (object.pagination !== undefined && object.pagination !== null)
       ? PaginationMetadata.fromPartial(object.pagination)
       : undefined;
-    message.items = object.items?.map((e) => Any.fromPartial(e)) || [];
+    message.data = (object.data !== undefined && object.data !== null) ? Any.fromPartial(object.data) : undefined;
     return message;
   },
 };
@@ -503,17 +505,6 @@ export type DeepPartial<T> = T extends Builtin ? T
 type KeysOfUnion<T> = T extends T ? keyof T : never;
 export type Exact<P, I extends P> = P extends Builtin ? P
   : P & { [K in keyof P]: Exact<P[K], I[K]> } & { [K in Exclude<keyof I, KeysOfUnion<P>>]: never };
-
-function longToNumber(int64: { toString(): string }): number {
-  const num = globalThis.Number(int64.toString());
-  if (num > globalThis.Number.MAX_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
-  }
-  if (num < globalThis.Number.MIN_SAFE_INTEGER) {
-    throw new globalThis.Error("Value is smaller than Number.MIN_SAFE_INTEGER");
-  }
-  return num;
-}
 
 function isSet(value: any): boolean {
   return value !== null && value !== undefined;
