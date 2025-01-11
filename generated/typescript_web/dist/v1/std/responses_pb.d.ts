@@ -1,6 +1,6 @@
 import * as jspb from 'google-protobuf'
 
-import * as v1_api_game_game_pb from '../../v1/api/game/game_pb'; // proto import: "v1/api/game/game.proto"
+import * as google_protobuf_any_pb from 'google-protobuf/google/protobuf/any_pb'; // proto import: "google/protobuf/any.proto"
 
 
 export class Status extends jspb.Message {
@@ -43,17 +43,10 @@ export class StandardResponse extends jspb.Message {
   hasError(): boolean;
   clearError(): StandardResponse;
 
-  getSingleGame(): v1_api_game_game_pb.Game | undefined;
-  setSingleGame(value?: v1_api_game_game_pb.Game): StandardResponse;
-  hasSingleGame(): boolean;
-  clearSingleGame(): StandardResponse;
-
-  getGames(): v1_api_game_game_pb.Games | undefined;
-  setGames(value?: v1_api_game_game_pb.Games): StandardResponse;
-  hasGames(): boolean;
-  clearGames(): StandardResponse;
-
-  getDataCase(): StandardResponse.DataCase;
+  getData(): google_protobuf_any_pb.Any | undefined;
+  setData(value?: google_protobuf_any_pb.Any): StandardResponse;
+  hasData(): boolean;
+  clearData(): StandardResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StandardResponse.AsObject;
@@ -68,14 +61,7 @@ export namespace StandardResponse {
     code: number,
     message: string,
     error?: Status.AsObject,
-    singleGame?: v1_api_game_game_pb.Game.AsObject,
-    games?: v1_api_game_game_pb.Games.AsObject,
-  }
-
-  export enum DataCase { 
-    DATA_NOT_SET = 0,
-    SINGLE_GAME = 4,
-    GAMES = 5,
+    data?: google_protobuf_any_pb.Any.AsObject,
   }
 }
 
@@ -143,17 +129,10 @@ export class PaginatedResponse extends jspb.Message {
   hasPagination(): boolean;
   clearPagination(): PaginatedResponse;
 
-  getSingleGame(): v1_api_game_game_pb.Game | undefined;
-  setSingleGame(value?: v1_api_game_game_pb.Game): PaginatedResponse;
-  hasSingleGame(): boolean;
-  clearSingleGame(): PaginatedResponse;
-
-  getGames(): v1_api_game_game_pb.Games | undefined;
-  setGames(value?: v1_api_game_game_pb.Games): PaginatedResponse;
-  hasGames(): boolean;
-  clearGames(): PaginatedResponse;
-
-  getDataCase(): PaginatedResponse.DataCase;
+  getData(): google_protobuf_any_pb.Any | undefined;
+  setData(value?: google_protobuf_any_pb.Any): PaginatedResponse;
+  hasData(): boolean;
+  clearData(): PaginatedResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PaginatedResponse.AsObject;
@@ -169,14 +148,7 @@ export namespace PaginatedResponse {
     message: string,
     error?: Status.AsObject,
     pagination?: PaginationMetadata.AsObject,
-    singleGame?: v1_api_game_game_pb.Game.AsObject,
-    games?: v1_api_game_game_pb.Games.AsObject,
-  }
-
-  export enum DataCase { 
-    DATA_NOT_SET = 0,
-    SINGLE_GAME = 5,
-    GAMES = 6,
+    data?: google_protobuf_any_pb.Any.AsObject,
   }
 }
 
