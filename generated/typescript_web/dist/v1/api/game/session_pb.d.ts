@@ -1,6 +1,6 @@
 import * as jspb from 'google-protobuf'
 
-import * as v1_std_regions_pb from '../../../v1/std/regions_pb'; // proto import: "v1/std/regions.proto"
+import * as v1_api_common_regions_pb from '../../../v1/api/common/regions_pb'; // proto import: "v1/api/common/regions.proto"
 
 
 export class GameAttribute extends jspb.Message {
@@ -61,8 +61,8 @@ export class Session extends jspb.Message {
   getAttributesMap(): jspb.Map<string, GameAttribute>;
   clearAttributesMap(): Session;
 
-  getRegion(): v1_std_regions_pb.RegionEnum;
-  setRegion(value: v1_std_regions_pb.RegionEnum): Session;
+  getRegion(): v1_api_common_regions_pb.RegionEnum;
+  setRegion(value: v1_api_common_regions_pb.RegionEnum): Session;
   hasRegion(): boolean;
   clearRegion(): Session;
 
@@ -86,7 +86,7 @@ export namespace Session {
     userIdsList: Array<string>,
     state: GameState,
     attributesMap: Array<[string, GameAttribute.AsObject]>,
-    region?: v1_std_regions_pb.RegionEnum,
+    region?: v1_api_common_regions_pb.RegionEnum,
     data?: string,
   }
 
@@ -116,8 +116,8 @@ export class SessionCreate extends jspb.Message {
   getAttributesMap(): jspb.Map<string, GameAttribute>;
   clearAttributesMap(): SessionCreate;
 
-  getRegion(): v1_std_regions_pb.RegionEnum;
-  setRegion(value: v1_std_regions_pb.RegionEnum): SessionCreate;
+  getRegion(): v1_api_common_regions_pb.RegionEnum;
+  setRegion(value: v1_api_common_regions_pb.RegionEnum): SessionCreate;
   hasRegion(): boolean;
   clearRegion(): SessionCreate;
 
@@ -140,7 +140,7 @@ export namespace SessionCreate {
     userIdsList: Array<string>,
     state: GameState,
     attributesMap: Array<[string, GameAttribute.AsObject]>,
-    region?: v1_std_regions_pb.RegionEnum,
+    region?: v1_api_common_regions_pb.RegionEnum,
     data?: string,
   }
 
@@ -173,8 +173,8 @@ export class SessionUpdate extends jspb.Message {
   getAttributesMap(): jspb.Map<string, GameAttribute>;
   clearAttributesMap(): SessionUpdate;
 
-  getRegion(): v1_std_regions_pb.RegionEnum;
-  setRegion(value: v1_std_regions_pb.RegionEnum): SessionUpdate;
+  getRegion(): v1_api_common_regions_pb.RegionEnum;
+  setRegion(value: v1_api_common_regions_pb.RegionEnum): SessionUpdate;
   hasRegion(): boolean;
   clearRegion(): SessionUpdate;
 
@@ -198,7 +198,7 @@ export namespace SessionUpdate {
     userIdsList: Array<string>,
     state: GameState,
     attributesMap: Array<[string, GameAttribute.AsObject]>,
-    region?: v1_std_regions_pb.RegionEnum,
+    region?: v1_api_common_regions_pb.RegionEnum,
     data?: string,
   }
 

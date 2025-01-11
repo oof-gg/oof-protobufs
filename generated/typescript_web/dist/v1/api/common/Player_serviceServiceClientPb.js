@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @fileoverview gRPC-Web generated client stub for v1.api.player
+ * @fileoverview gRPC-Web generated client stub for v1.api.common
  * @enhanceable
  * @public
  */
@@ -17,13 +17,13 @@ const grpcWeb = require("grpc-web");
 const v1_api_player_player_pb = require("../../../v1/api/player/player_pb"); // proto import: "v1/api/player/player.proto"
 class PlayerServiceClient {
     constructor(hostname, credentials, options) {
-        this.methodDescriptorCreatePlayer = new grpcWeb.MethodDescriptor('/v1.api.player.PlayerService/CreatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.Player, v1_api_player_player_pb.Player, (request) => {
+        this.methodDescriptorCreatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/CreatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.Player, v1_api_player_player_pb.Player, (request) => {
             return request.serializeBinary();
         }, v1_api_player_player_pb.Player.deserializeBinary);
-        this.methodDescriptorGetPlayer = new grpcWeb.MethodDescriptor('/v1.api.player.PlayerService/GetPlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerGet, v1_api_player_player_pb.Players, (request) => {
+        this.methodDescriptorGetPlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/GetPlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerGet, v1_api_player_player_pb.Players, (request) => {
             return request.serializeBinary();
         }, v1_api_player_player_pb.Players.deserializeBinary);
-        this.methodDescriptorUpdatePlayer = new grpcWeb.MethodDescriptor('/v1.api.player.PlayerService/UpdatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerUpdate, v1_api_player_player_pb.Player, (request) => {
+        this.methodDescriptorUpdatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/UpdatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerUpdate, v1_api_player_player_pb.Player, (request) => {
             return request.serializeBinary();
         }, v1_api_player_player_pb.Player.deserializeBinary);
         if (!options)
@@ -39,26 +39,26 @@ class PlayerServiceClient {
     createPlayer(request, metadata, callback) {
         if (callback !== undefined) {
             return this.client_.rpcCall(this.hostname_ +
-                '/v1.api.player.PlayerService/CreatePlayer', request, metadata || {}, this.methodDescriptorCreatePlayer, callback);
+                '/v1.api.common.PlayerService/CreatePlayer', request, metadata || {}, this.methodDescriptorCreatePlayer, callback);
         }
         return this.client_.unaryCall(this.hostname_ +
-            '/v1.api.player.PlayerService/CreatePlayer', request, metadata || {}, this.methodDescriptorCreatePlayer);
+            '/v1.api.common.PlayerService/CreatePlayer', request, metadata || {}, this.methodDescriptorCreatePlayer);
     }
     getPlayer(request, metadata, callback) {
         if (callback !== undefined) {
             return this.client_.rpcCall(this.hostname_ +
-                '/v1.api.player.PlayerService/GetPlayer', request, metadata || {}, this.methodDescriptorGetPlayer, callback);
+                '/v1.api.common.PlayerService/GetPlayer', request, metadata || {}, this.methodDescriptorGetPlayer, callback);
         }
         return this.client_.unaryCall(this.hostname_ +
-            '/v1.api.player.PlayerService/GetPlayer', request, metadata || {}, this.methodDescriptorGetPlayer);
+            '/v1.api.common.PlayerService/GetPlayer', request, metadata || {}, this.methodDescriptorGetPlayer);
     }
     updatePlayer(request, metadata, callback) {
         if (callback !== undefined) {
             return this.client_.rpcCall(this.hostname_ +
-                '/v1.api.player.PlayerService/UpdatePlayer', request, metadata || {}, this.methodDescriptorUpdatePlayer, callback);
+                '/v1.api.common.PlayerService/UpdatePlayer', request, metadata || {}, this.methodDescriptorUpdatePlayer, callback);
         }
         return this.client_.unaryCall(this.hostname_ +
-            '/v1.api.player.PlayerService/UpdatePlayer', request, metadata || {}, this.methodDescriptorUpdatePlayer);
+            '/v1.api.common.PlayerService/UpdatePlayer', request, metadata || {}, this.methodDescriptorUpdatePlayer);
     }
 }
 exports.PlayerServiceClient = PlayerServiceClient;

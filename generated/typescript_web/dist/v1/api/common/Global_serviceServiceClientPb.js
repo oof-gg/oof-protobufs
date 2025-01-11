@@ -1,6 +1,6 @@
 "use strict";
 /**
- * @fileoverview gRPC-Web generated client stub for v1.api.global
+ * @fileoverview gRPC-Web generated client stub for v1.api.common
  * @enhanceable
  * @public
  */

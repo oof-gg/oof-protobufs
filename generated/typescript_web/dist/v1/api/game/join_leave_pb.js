@@ -21,8 +21,8 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-var v1_std_regions_pb = require('../../../v1/std/regions_pb.js');
-goog.object.extend(proto, v1_std_regions_pb);
+var v1_api_common_regions_pb = require('../../../v1/api/common/regions_pb.js');
+goog.object.extend(proto, v1_api_common_regions_pb);
 goog.exportSymbol('proto.v1.api.game.JoinLeaveGame', null, global);
 goog.exportSymbol('proto.v1.api.game.JoinLeaveGame.Action', null, global);
 /**
@@ -141,7 +141,7 @@ proto.v1.api.game.JoinLeaveGame.deserializeBinaryFromReader = function(msg, read
       msg.setSessionId(value);
       break;
     case 6:
-      var value = /** @type {!proto.v1.std.RegionEnum} */ (reader.readEnum());
+      var value = /** @type {!proto.v1.api.common.RegionEnum} */ (reader.readEnum());
       msg.setRegion(value);
       break;
     default:
@@ -208,7 +208,7 @@ proto.v1.api.game.JoinLeaveGame.serializeBinaryToWriter = function(message, writ
       f
     );
   }
-  f = /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getField(message, 6));
+  f = /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getField(message, 6));
   if (f != null) {
     writer.writeEnum(
       6,
@@ -353,16 +353,16 @@ proto.v1.api.game.JoinLeaveGame.prototype.hasSessionId = function() {
 
 
 /**
- * optional v1.std.RegionEnum region = 6;
- * @return {!proto.v1.std.RegionEnum}
+ * optional v1.api.common.RegionEnum region = 6;
+ * @return {!proto.v1.api.common.RegionEnum}
  */
 proto.v1.api.game.JoinLeaveGame.prototype.getRegion = function() {
-  return /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {!proto.v1.std.RegionEnum} value
+ * @param {!proto.v1.api.common.RegionEnum} value
  * @return {!proto.v1.api.game.JoinLeaveGame} returns this
  */
 proto.v1.api.game.JoinLeaveGame.prototype.setRegion = function(value) {
