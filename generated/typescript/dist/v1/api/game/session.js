@@ -10,7 +10,7 @@ exports.gameStateFromJSON = gameStateFromJSON;
 exports.gameStateToJSON = gameStateToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
-const regions_1 = require("../../std/regions");
+const regions_1 = require("../common/regions");
 exports.protobufPackage = "v1.api.game";
 /** / Represents the state of a game session */
 var GameState;

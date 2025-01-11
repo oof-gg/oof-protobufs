@@ -1,5 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { RegionEnum } from "../../std/regions";
+import { RegionEnum } from "../common/regions";
 export declare const protobufPackage = "v1.api.game";
 /** / Message joining or leaving a game */
 export interface JoinLeaveGame {

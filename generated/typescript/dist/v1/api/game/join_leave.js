@@ -10,7 +10,7 @@ exports.joinLeaveGame_ActionFromJSON = joinLeaveGame_ActionFromJSON;
 exports.joinLeaveGame_ActionToJSON = joinLeaveGame_ActionToJSON;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
-const regions_1 = require("../../std/regions");
+const regions_1 = require("../common/regions");
 exports.protobufPackage = "v1.api.game";
 var JoinLeaveGame_Action;
 (function (JoinLeaveGame_Action) {
