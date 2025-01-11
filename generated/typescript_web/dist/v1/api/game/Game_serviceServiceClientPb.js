@@ -21,42 +21,42 @@ const v1_api_game_session_pb = require("../../../v1/api/game/session_pb"); // pr
 const v1_std_responses_pb = require("../../../v1/std/responses_pb"); // proto import: "v1/std/responses.proto"
 class GameServiceClient {
     constructor(hostname, credentials, options) {
-        this.methodDescriptorJoinLeave = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/JoinLeave', grpcWeb.MethodType.UNARY, v1_api_game_join_leave_pb.JoinLeaveGame, v1_api_game_session_pb.Session, (request) => {
+        this.methodDescriptorJoinLeave = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/JoinLeave', grpcWeb.MethodType.UNARY, v1_api_game_join_leave_pb.JoinLeaveGame, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_session_pb.Session.deserializeBinary);
-        this.methodDescriptorCreateSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionCreate, v1_api_game_session_pb.Session, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorCreateSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionCreate, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_session_pb.Session.deserializeBinary);
-        this.methodDescriptorGetSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionGet, v1_api_game_session_pb.Sessions, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionGet, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_session_pb.Sessions.deserializeBinary);
-        this.methodDescriptorUpdateSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionUpdate, v1_api_game_session_pb.Session, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorUpdateSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionUpdate, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_session_pb.Session.deserializeBinary);
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
         this.methodDescriptorDeleteSession = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/DeleteSession', grpcWeb.MethodType.UNARY, v1_api_game_session_pb.SessionDelete, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
         }, v1_std_responses_pb.StandardResponse.deserializeBinary);
-        this.methodDescriptorCreateEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityCreateRequest, v1_api_game_entity_pb.EntityCreateResponse, (request) => {
+        this.methodDescriptorCreateEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityCreateRequest, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_entity_pb.EntityCreateResponse.deserializeBinary);
-        this.methodDescriptorGetEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityGetRequest, v1_api_game_entity_pb.EntityGetResponse, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityGetRequest, v1_std_responses_pb.PaginatedResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_entity_pb.EntityGetResponse.deserializeBinary);
-        this.methodDescriptorUpdateEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityUpdateRequest, v1_api_game_entity_pb.EntityUpdateResponse, (request) => {
+        }, v1_std_responses_pb.PaginatedResponse.deserializeBinary);
+        this.methodDescriptorUpdateEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityUpdateRequest, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_entity_pb.EntityUpdateResponse.deserializeBinary);
-        this.methodDescriptorDeleteEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/DeleteEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityDeleteRequest, v1_api_game_entity_pb.EntityDeleteResponse, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorDeleteEntity = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/DeleteEntity', grpcWeb.MethodType.UNARY, v1_api_game_entity_pb.EntityDeleteRequest, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_entity_pb.EntityDeleteResponse.deserializeBinary);
-        this.methodDescriptorCreateGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameCreateRequest, v1_api_game_game_pb.GameCreateResponse, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorCreateGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/CreateGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameCreateRequest, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_game_pb.GameCreateResponse.deserializeBinary);
-        this.methodDescriptorGetGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameGetRequest, v1_api_game_game_pb.GameGetResponse, (request) => {
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/GetGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameGetRequest, v1_std_responses_pb.PaginatedResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_game_pb.GameGetResponse.deserializeBinary);
-        this.methodDescriptorUpdateGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameUpdateRequest, v1_api_game_game_pb.GameUpdateResponse, (request) => {
+        }, v1_std_responses_pb.PaginatedResponse.deserializeBinary);
+        this.methodDescriptorUpdateGame = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/UpdateGame', grpcWeb.MethodType.UNARY, v1_api_game_game_pb.GameUpdateRequest, v1_std_responses_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_game_game_pb.GameUpdateResponse.deserializeBinary);
+        }, v1_std_responses_pb.StandardResponse.deserializeBinary);
         this.methodDescriptorWatchQueue = new grpcWeb.MethodDescriptor('/v1.api.game.GameService/WatchQueue', grpcWeb.MethodType.SERVER_STREAMING, v1_api_game_session_pb.Session, v1_api_game_session_pb.Session, (request) => {
             return request.serializeBinary();
         }, v1_api_game_session_pb.Session.deserializeBinary);

@@ -1,49 +1,55 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
 import { Any } from "../../google/protobuf/any";
 export declare const protobufPackage = "v1.std";
-/** A standard error message. */
-export interface Error {
-    /** Error code (e.g., HTTP status code or custom code) */
+export interface Status {
+    /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
     code: number;
-    /** Human-readable error message */
+    /**
+     * A developer-facing error message, which should be in English. Any
+     * user-facing error message should be localized and sent in the
+     * [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+     */
     message: string;
-    /** Optional details about the error */
-    details: string;
+    /**
+     * A list of messages that carry the error details.  There will be a
+     * common set of message types for APIs to use.
+     */
+    details: Any[];
 }
-/** A standard success response. */
-export interface Success {
-    /** Human-readable success message */
-    message: string;
-    /** Optional details about the success */
-    details: string;
-}
-/** A standardized response wrapper for any data. */
+/** Unify everything into one response. */
 export interface StandardResponse {
-    /** Success message */
-    success?: Success | undefined;
-    /** Error message */
-    error?: Error | undefined;
+    /** Status code (e.g., HTTP or custom). */
+    code: number;
+    /** This could be your success or error message. */
+    message: string;
+    /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+    error: Status | undefined;
+    /** The actual payload. */
+    data: Any | undefined;
 }
-/** Metadata for paginated responses. */
+/** / Metadata for paginated responses. */
 export interface PaginationMetadata {
-    /** Current page number */
-    page: number;
     /** Number of items per page */
-    pageSize: number;
-    /** Total number of items */
-    totalItems: number;
-    /** Total number of pages */
-    totalPages: number;
+    pageSize?: number | undefined;
+    /** Token for the previous page */
+    prevPageToken?: string | undefined;
+    /** Token for the next page */
+    nextPageToken?: string | undefined;
 }
-/** A paginated response wrapper. */
+/** / A paginated response wrapper. */
 export interface PaginatedResponse {
+    /** Status code (e.g., HTTP or custom). */
+    code: number;
+    /** This could be your success or error message. */
+    message: string;
+    /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+    error: Status | undefined;
     /** Pagination metadata */
     pagination: PaginationMetadata | undefined;
     /** List of items in this page */
-    items: Any[];
+    data: Any | undefined;
 }
-export declare const Error: MessageFns<Error>;
-export declare const Success: MessageFns<Success>;
+export declare const Status: MessageFns<Status>;
 export declare const StandardResponse: MessageFns<StandardResponse>;
 export declare const PaginationMetadata: MessageFns<PaginationMetadata>;
 export declare const PaginatedResponse: MessageFns<PaginatedResponse>;
