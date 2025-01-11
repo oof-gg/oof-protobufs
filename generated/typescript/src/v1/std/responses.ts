@@ -23,7 +23,7 @@ export interface Status {
    * A list of messages that carry the error details.  There will be a
    * common set of message types for APIs to use.
    */
-  details: Any[];
+  details: string[];
 }
 
 /** Unify everything into one response. */
@@ -85,7 +85,7 @@ export const Status: MessageFns<Status> = {
       writer.uint32(18).string(message.message);
     }
     for (const v of message.details) {
-      Any.encode(v!, writer.uint32(26).fork()).join();
+      writer.uint32(26).string(v!);
     }
     return writer;
   },
@@ -118,7 +118,7 @@ export const Status: MessageFns<Status> = {
             break;
           }
 
-          message.details.push(Any.decode(reader, reader.uint32()));
+          message.details.push(reader.string());
           continue;
         }
       }
@@ -134,7 +134,7 @@ export const Status: MessageFns<Status> = {
     return {
       code: isSet(object.code) ? globalThis.Number(object.code) : 0,
       message: isSet(object.message) ? globalThis.String(object.message) : "",
-      details: globalThis.Array.isArray(object?.details) ? object.details.map((e: any) => Any.fromJSON(e)) : [],
+      details: globalThis.Array.isArray(object?.details) ? object.details.map((e: any) => globalThis.String(e)) : [],
     };
   },
 
@@ -147,7 +147,7 @@ export const Status: MessageFns<Status> = {
       obj.message = message.message;
     }
     if (message.details?.length) {
-      obj.details = message.details.map((e) => Any.toJSON(e));
+      obj.details = message.details;
     }
     return obj;
   },
@@ -159,7 +159,7 @@ export const Status: MessageFns<Status> = {
     const message = createBaseStatus();
     message.code = object.code ?? 0;
     message.message = object.message ?? "";
-    message.details = object.details?.map((e) => Any.fromPartial(e)) || [];
+    message.details = object.details?.map((e) => e) || [];
     return message;
   },
 };

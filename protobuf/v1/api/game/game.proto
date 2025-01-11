@@ -22,6 +22,8 @@ message GameCreateResponse {
 
 message GameGetRequest {
   optional string id = 1;
+  optional string limit = 2;
+  optional string cursor = 3;
 }
 
 message GameGetResponse {

@@ -84,6 +84,16 @@ export class GameGetRequest extends jspb.Message {
   hasId(): boolean;
   clearId(): GameGetRequest;
 
+  getLimit(): string;
+  setLimit(value: string): GameGetRequest;
+  hasLimit(): boolean;
+  clearLimit(): GameGetRequest;
+
+  getCursor(): string;
+  setCursor(value: string): GameGetRequest;
+  hasCursor(): boolean;
+  clearCursor(): GameGetRequest;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GameGetRequest.AsObject;
   static toObject(includeInstance: boolean, msg: GameGetRequest): GameGetRequest.AsObject;
@@ -95,11 +105,23 @@ export class GameGetRequest extends jspb.Message {
 export namespace GameGetRequest {
   export type AsObject = {
     id?: string,
+    limit?: string,
+    cursor?: string,
   }
 
   export enum IdCase { 
     _ID_NOT_SET = 0,
     ID = 1,
+  }
+
+  export enum LimitCase { 
+    _LIMIT_NOT_SET = 0,
+    LIMIT = 2,
+  }
+
+  export enum CursorCase { 
+    _CURSOR_NOT_SET = 0,
+    CURSOR = 3,
   }
 }
 
