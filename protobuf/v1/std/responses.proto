@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package v1.std;
 
-import "google/protobuf/any.proto";
+import "v1/api/game/game.proto";
 
 message Status {
   // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
@@ -30,7 +30,11 @@ message StandardResponse {
   Status error = 3;
 
   // The actual payload.
-  google.protobuf.Any data = 4;
+  oneof data {
+    // For single items.
+    v1.api.game.Game single_game = 4;
+    v1.api.game.Games games = 5;
+  }
 }
 
 /// Metadata for paginated responses.
@@ -51,7 +55,12 @@ message PaginatedResponse {
     // If there's an error, you could store it here or just use google.rpc.Status directly.
     Status error = 3;
     PaginationMetadata pagination = 4; // Pagination metadata
-    google.protobuf.Any data = 5; // List of items in this page
+      // The actual payload.
+    oneof data {
+        // For single items.
+        v1.api.game.Game single_game = 5;
+        v1.api.game.Games games = 6;
+    }
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/std";
