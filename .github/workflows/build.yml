@@ -98,19 +98,6 @@ jobs:
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
           export PATH=$PATH:$(go env GOPATH)/bin
 
-      - name: Build Golang protobufs
-        run: |
-          cd protobuf
-          echo "Installing npm dependencies..."
-          npm install || { echo "npm install failed"; exit 1; }
-          echo "Compiling Golang protobufs..."
-          npm run compile-go || { echo "npm run compile-go failed"; exit 1; }
-      
-      - name: Build Golang code
-        run: |
-          cd generated/go/v1
-          go build ./...
-
       - name: Upload Protobuf Artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -1,6 +1,6 @@
 import * as jspb from 'google-protobuf'
 
-import * as v1_std_regions_pb from '../../../v1/std/regions_pb'; // proto import: "v1/std/regions.proto"
+import * as v1_api_common_regions_pb from '../../../v1/api/common/regions_pb'; // proto import: "v1/api/common/regions.proto"
 
 
 export class JoinLeaveGame extends jspb.Message {
@@ -23,8 +23,8 @@ export class JoinLeaveGame extends jspb.Message {
   hasSessionId(): boolean;
   clearSessionId(): JoinLeaveGame;
 
-  getRegion(): v1_std_regions_pb.RegionEnum;
-  setRegion(value: v1_std_regions_pb.RegionEnum): JoinLeaveGame;
+  getRegion(): v1_api_common_regions_pb.RegionEnum;
+  setRegion(value: v1_api_common_regions_pb.RegionEnum): JoinLeaveGame;
   hasRegion(): boolean;
   clearRegion(): JoinLeaveGame;
 
@@ -43,7 +43,7 @@ export namespace JoinLeaveGame {
     action: JoinLeaveGame.Action,
     teamId?: string,
     sessionId?: string,
-    region?: v1_std_regions_pb.RegionEnum,
+    region?: v1_api_common_regions_pb.RegionEnum,
   }
 
   export enum Action { 

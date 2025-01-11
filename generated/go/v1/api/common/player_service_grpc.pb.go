@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	PlayerService_CreatePlayer_FullMethodName = "/v1.api.player.PlayerService/CreatePlayer"
-	PlayerService_GetPlayer_FullMethodName    = "/v1.api.player.PlayerService/GetPlayer"
-	PlayerService_UpdatePlayer_FullMethodName = "/v1.api.player.PlayerService/UpdatePlayer"
-	PlayerService_StreamEvents_FullMethodName = "/v1.api.player.PlayerService/StreamEvents"
+	PlayerService_CreatePlayer_FullMethodName = "/v1.api.common.PlayerService/CreatePlayer"
+	PlayerService_GetPlayer_FullMethodName    = "/v1.api.common.PlayerService/GetPlayer"
+	PlayerService_UpdatePlayer_FullMethodName = "/v1.api.common.PlayerService/UpdatePlayer"
+	PlayerService_StreamEvents_FullMethodName = "/v1.api.common.PlayerService/StreamEvents"
 )
 
 // PlayerServiceClient is the client API for PlayerService service.
@@ -202,7 +202,7 @@ type PlayerService_StreamEventsServer = grpc.BidiStreamingServer[PlayerAction, P
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PlayerService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "v1.api.player.PlayerService",
+	ServiceName: "v1.api.common.PlayerService",
 	HandlerType: (*PlayerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

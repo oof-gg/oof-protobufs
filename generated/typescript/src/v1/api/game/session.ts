@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { RegionEnum, regionEnumFromJSON, regionEnumToJSON } from "../../std/regions";
+import { RegionEnum, regionEnumFromJSON, regionEnumToJSON } from "../common/regions";
 
 export const protobufPackage = "v1.api.game";
 

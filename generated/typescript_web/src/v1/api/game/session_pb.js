@@ -21,8 +21,8 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
-var v1_std_regions_pb = require('../../../v1/std/regions_pb.js');
-goog.object.extend(proto, v1_std_regions_pb);
+var v1_api_common_regions_pb = require('../../../v1/api/common/regions_pb.js');
+goog.object.extend(proto, v1_api_common_regions_pb);
 goog.exportSymbol('proto.v1.api.game.GameAttribute', null, global);
 goog.exportSymbol('proto.v1.api.game.GameAttribute.ValueCase', null, global);
 goog.exportSymbol('proto.v1.api.game.GameState', null, global);
@@ -604,7 +604,7 @@ proto.v1.api.game.Session.deserializeBinaryFromReader = function(msg, reader) {
          });
       break;
     case 6:
-      var value = /** @type {!proto.v1.std.RegionEnum} */ (reader.readEnum());
+      var value = /** @type {!proto.v1.api.common.RegionEnum} */ (reader.readEnum());
       msg.setRegion(value);
       break;
     case 7:
@@ -672,7 +672,7 @@ proto.v1.api.game.Session.serializeBinaryToWriter = function(message, writer) {
   if (f && f.getLength() > 0) {
     f.serializeBinary(5, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.v1.api.game.GameAttribute.serializeBinaryToWriter);
   }
-  f = /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getField(message, 6));
+  f = /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getField(message, 6));
   if (f != null) {
     writer.writeEnum(
       6,
@@ -804,16 +804,16 @@ proto.v1.api.game.Session.prototype.clearAttributesMap = function() {
 
 
 /**
- * optional v1.std.RegionEnum region = 6;
- * @return {!proto.v1.std.RegionEnum}
+ * optional v1.api.common.RegionEnum region = 6;
+ * @return {!proto.v1.api.common.RegionEnum}
  */
 proto.v1.api.game.Session.prototype.getRegion = function() {
-  return /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {!proto.v1.std.RegionEnum} value
+ * @param {!proto.v1.api.common.RegionEnum} value
  * @return {!proto.v1.api.game.Session} returns this
  */
 proto.v1.api.game.Session.prototype.setRegion = function(value) {
@@ -975,7 +975,7 @@ proto.v1.api.game.SessionCreate.deserializeBinaryFromReader = function(msg, read
          });
       break;
     case 5:
-      var value = /** @type {!proto.v1.std.RegionEnum} */ (reader.readEnum());
+      var value = /** @type {!proto.v1.api.common.RegionEnum} */ (reader.readEnum());
       msg.setRegion(value);
       break;
     case 6:
@@ -1036,7 +1036,7 @@ proto.v1.api.game.SessionCreate.serializeBinaryToWriter = function(message, writ
   if (f && f.getLength() > 0) {
     f.serializeBinary(4, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.v1.api.game.GameAttribute.serializeBinaryToWriter);
   }
-  f = /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getField(message, 5));
+  f = /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getField(message, 5));
   if (f != null) {
     writer.writeEnum(
       5,
@@ -1150,16 +1150,16 @@ proto.v1.api.game.SessionCreate.prototype.clearAttributesMap = function() {
 
 
 /**
- * optional v1.std.RegionEnum region = 5;
- * @return {!proto.v1.std.RegionEnum}
+ * optional v1.api.common.RegionEnum region = 5;
+ * @return {!proto.v1.api.common.RegionEnum}
  */
 proto.v1.api.game.SessionCreate.prototype.getRegion = function() {
-  return /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
+  return /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 5, 0));
 };
 
 
 /**
- * @param {!proto.v1.std.RegionEnum} value
+ * @param {!proto.v1.api.common.RegionEnum} value
  * @return {!proto.v1.api.game.SessionCreate} returns this
  */
 proto.v1.api.game.SessionCreate.prototype.setRegion = function(value) {
@@ -1326,7 +1326,7 @@ proto.v1.api.game.SessionUpdate.deserializeBinaryFromReader = function(msg, read
          });
       break;
     case 6:
-      var value = /** @type {!proto.v1.std.RegionEnum} */ (reader.readEnum());
+      var value = /** @type {!proto.v1.api.common.RegionEnum} */ (reader.readEnum());
       msg.setRegion(value);
       break;
     case 7:
@@ -1394,7 +1394,7 @@ proto.v1.api.game.SessionUpdate.serializeBinaryToWriter = function(message, writ
   if (f && f.getLength() > 0) {
     f.serializeBinary(5, writer, jspb.BinaryWriter.prototype.writeString, jspb.BinaryWriter.prototype.writeMessage, proto.v1.api.game.GameAttribute.serializeBinaryToWriter);
   }
-  f = /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getField(message, 6));
+  f = /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getField(message, 6));
   if (f != null) {
     writer.writeEnum(
       6,
@@ -1526,16 +1526,16 @@ proto.v1.api.game.SessionUpdate.prototype.clearAttributesMap = function() {
 
 
 /**
- * optional v1.std.RegionEnum region = 6;
- * @return {!proto.v1.std.RegionEnum}
+ * optional v1.api.common.RegionEnum region = 6;
+ * @return {!proto.v1.api.common.RegionEnum}
  */
 proto.v1.api.game.SessionUpdate.prototype.getRegion = function() {
-  return /** @type {!proto.v1.std.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
+  return /** @type {!proto.v1.api.common.RegionEnum} */ (jspb.Message.getFieldWithDefault(this, 6, 0));
 };
 
 
 /**
- * @param {!proto.v1.std.RegionEnum} value
+ * @param {!proto.v1.api.common.RegionEnum} value
  * @return {!proto.v1.api.game.SessionUpdate} returns this
  */
 proto.v1.api.game.SessionUpdate.prototype.setRegion = function(value) {

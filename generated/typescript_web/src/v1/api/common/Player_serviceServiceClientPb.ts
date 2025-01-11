@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for v1.api.player
+ * @fileoverview gRPC-Web generated client stub for v1.api.common
  * @enhanceable
  * @public
  */
@@ -41,7 +41,7 @@ export class PlayerServiceClient {
   }
 
   methodDescriptorCreatePlayer = new grpcWeb.MethodDescriptor(
-    '/v1.api.player.PlayerService/CreatePlayer',
+    '/v1.api.common.PlayerService/CreatePlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.Player,
     v1_api_player_player_pb.Player,
@@ -69,7 +69,7 @@ export class PlayerServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/v1.api.player.PlayerService/CreatePlayer',
+          '/v1.api.common.PlayerService/CreatePlayer',
         request,
         metadata || {},
         this.methodDescriptorCreatePlayer,
@@ -77,14 +77,14 @@ export class PlayerServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/v1.api.player.PlayerService/CreatePlayer',
+      '/v1.api.common.PlayerService/CreatePlayer',
     request,
     metadata || {},
     this.methodDescriptorCreatePlayer);
   }
 
   methodDescriptorGetPlayer = new grpcWeb.MethodDescriptor(
-    '/v1.api.player.PlayerService/GetPlayer',
+    '/v1.api.common.PlayerService/GetPlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.PlayerGet,
     v1_api_player_player_pb.Players,
@@ -112,7 +112,7 @@ export class PlayerServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/v1.api.player.PlayerService/GetPlayer',
+          '/v1.api.common.PlayerService/GetPlayer',
         request,
         metadata || {},
         this.methodDescriptorGetPlayer,
@@ -120,14 +120,14 @@ export class PlayerServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/v1.api.player.PlayerService/GetPlayer',
+      '/v1.api.common.PlayerService/GetPlayer',
     request,
     metadata || {},
     this.methodDescriptorGetPlayer);
   }
 
   methodDescriptorUpdatePlayer = new grpcWeb.MethodDescriptor(
-    '/v1.api.player.PlayerService/UpdatePlayer',
+    '/v1.api.common.PlayerService/UpdatePlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.PlayerUpdate,
     v1_api_player_player_pb.Player,
@@ -155,7 +155,7 @@ export class PlayerServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/v1.api.player.PlayerService/UpdatePlayer',
+          '/v1.api.common.PlayerService/UpdatePlayer',
         request,
         metadata || {},
         this.methodDescriptorUpdatePlayer,
@@ -163,7 +163,7 @@ export class PlayerServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/v1.api.player.PlayerService/UpdatePlayer',
+      '/v1.api.common.PlayerService/UpdatePlayer',
     request,
     metadata || {},
     this.methodDescriptorUpdatePlayer);

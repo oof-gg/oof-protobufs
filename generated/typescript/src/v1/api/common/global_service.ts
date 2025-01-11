@@ -18,14 +18,14 @@ import {
 } from "@grpc/grpc-js";
 import { GlobalEvent } from "../global/event";
 
-export const protobufPackage = "v1.api.global";
+export const protobufPackage = "v1.api.common";
 
 /** / Global service for joining and leaving games */
 export type GlobalServiceService = typeof GlobalServiceService;
 export const GlobalServiceService = {
   /** / Stream events from the global service */
   streamEvents: {
-    path: "/v1.api.global.GlobalService/StreamEvents",
+    path: "/v1.api.common.GlobalService/StreamEvents",
     requestStream: true,
     responseStream: true,
     requestSerialize: (value: GlobalEvent) => Buffer.from(GlobalEvent.encode(value).finish()),
@@ -49,7 +49,7 @@ export interface GlobalServiceClient extends Client {
 
 export const GlobalServiceClient = makeGenericClientConstructor(
   GlobalServiceService,
-  "v1.api.global.GlobalService",
+  "v1.api.common.GlobalService",
 ) as unknown as {
   new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): GlobalServiceClient;
   service: typeof GlobalServiceService;

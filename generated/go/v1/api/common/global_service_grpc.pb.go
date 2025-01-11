@@ -19,7 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GlobalService_StreamEvents_FullMethodName = "/v1.api.global.GlobalService/StreamEvents"
+	GlobalService_StreamEvents_FullMethodName = "/v1.api.common.GlobalService/StreamEvents"
 )
 
 // GlobalServiceClient is the client API for GlobalService service.
@@ -106,7 +106,7 @@ type GlobalService_StreamEventsServer = grpc.BidiStreamingServer[GlobalEvent, Gl
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var GlobalService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "v1.api.global.GlobalService",
+	ServiceName: "v1.api.common.GlobalService",
 	HandlerType: (*GlobalServiceServer)(nil),
 	Methods:     []grpc.MethodDesc{},
 	Streams: []grpc.StreamDesc{

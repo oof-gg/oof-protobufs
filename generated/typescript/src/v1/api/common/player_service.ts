@@ -22,12 +22,12 @@ import {
 import { PlayerAction } from "../player/action";
 import { Player, PlayerGet, Players, PlayerUpdate } from "../player/player";
 
-export const protobufPackage = "v1.api.player";
+export const protobufPackage = "v1.api.common";
 
 export type PlayerServiceService = typeof PlayerServiceService;
 export const PlayerServiceService = {
   createPlayer: {
-    path: "/v1.api.player.PlayerService/CreatePlayer",
+    path: "/v1.api.common.PlayerService/CreatePlayer",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: Player) => Buffer.from(Player.encode(value).finish()),
@@ -36,7 +36,7 @@ export const PlayerServiceService = {
     responseDeserialize: (value: Buffer) => Player.decode(value),
   },
   getPlayer: {
-    path: "/v1.api.player.PlayerService/GetPlayer",
+    path: "/v1.api.common.PlayerService/GetPlayer",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: PlayerGet) => Buffer.from(PlayerGet.encode(value).finish()),
@@ -45,7 +45,7 @@ export const PlayerServiceService = {
     responseDeserialize: (value: Buffer) => Players.decode(value),
   },
   updatePlayer: {
-    path: "/v1.api.player.PlayerService/UpdatePlayer",
+    path: "/v1.api.common.PlayerService/UpdatePlayer",
     requestStream: false,
     responseStream: false,
     requestSerialize: (value: PlayerUpdate) => Buffer.from(PlayerUpdate.encode(value).finish()),
@@ -54,7 +54,7 @@ export const PlayerServiceService = {
     responseDeserialize: (value: Buffer) => Player.decode(value),
   },
   streamEvents: {
-    path: "/v1.api.player.PlayerService/StreamEvents",
+    path: "/v1.api.common.PlayerService/StreamEvents",
     requestStream: true,
     responseStream: true,
     requestSerialize: (value: PlayerAction) => Buffer.from(PlayerAction.encode(value).finish()),
@@ -118,7 +118,7 @@ export interface PlayerServiceClient extends Client {
 
 export const PlayerServiceClient = makeGenericClientConstructor(
   PlayerServiceService,
-  "v1.api.player.PlayerService",
+  "v1.api.common.PlayerService",
 ) as unknown as {
   new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): PlayerServiceClient;
   service: typeof PlayerServiceService;
