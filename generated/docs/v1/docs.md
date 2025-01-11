@@ -48,6 +48,7 @@
     - [GameGetResponse](#v1-api-game-GameGetResponse)
     - [GameUpdateRequest](#v1-api-game-GameUpdateRequest)
     - [GameUpdateResponse](#v1-api-game-GameUpdateResponse)
+    - [Games](#v1-api-game-Games)
   
 - [v1/api/game/game_service.proto](#v1_api_game_game_service-proto)
     - [GameService](#v1-api-game-GameService)
@@ -667,8 +668,12 @@ CUSTOM - Custom events
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) |  |  |
 | name | [string](#string) |  |  |
+| short_description | [string](#string) |  |  |
 | description | [string](#string) |  |  |
-| data | [string](#string) |  |  |
+| image_url | [string](#string) |  |  |
+| max_sessions | [string](#string) |  |  |
+| max_players_per_session | [string](#string) |  |  |
+| data | [string](#string) | optional | Can be any JSON data |
 
 
 
@@ -685,7 +690,7 @@ CUSTOM - Custom events
 | ----- | ---- | ----- | ----------- |
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
-| data | [string](#string) |  |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -750,7 +755,7 @@ CUSTOM - Custom events
 | id | [string](#string) |  |  |
 | name | [string](#string) |  |  |
 | description | [string](#string) |  |  |
-| data | [string](#string) |  |  |
+| data | [string](#string) | optional |  |
 
 
 
@@ -766,6 +771,21 @@ CUSTOM - Custom events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | game | [Game](#v1-api-game-Game) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-Games"></a>
+
+### Games
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| games | [Game](#v1-api-game-Game) | repeated |  |
 
 
 
@@ -1803,7 +1823,8 @@ A paginated response wrapper.
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
 | pagination | [PaginationMetadata](#v1-std-PaginationMetadata) |  | Pagination metadata |
-| data | [google.protobuf.Any](#google-protobuf-Any) |  | List of items in this page |
+| single_game | [v1.api.game.Game](#v1-api-game-Game) |  | For single items. |
+| games | [v1.api.game.Games](#v1-api-game-Games) |  |  |
 
 
 
@@ -1838,7 +1859,8 @@ Unify everything into one response.
 | code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
-| data | [google.protobuf.Any](#google-protobuf-Any) |  | The actual payload. |
+| single_game | [v1.api.game.Game](#v1-api-game-Game) |  | For single items. |
+| games | [v1.api.game.Games](#v1-api-game-Games) |  |  |
 
 
 

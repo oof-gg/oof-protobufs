@@ -6,7 +6,7 @@
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
-import { Any } from "../../google/protobuf/any";
+import { Game, Games } from "../api/game/game";
 
 export const protobufPackage = "v1.std";
 
@@ -36,8 +36,9 @@ export interface StandardResponse {
   error:
     | Status
     | undefined;
-  /** The actual payload. */
-  data: Any | undefined;
+  /** For single items. */
+  singleGame?: Game | undefined;
+  games?: Games | undefined;
 }
 
 /** / Metadata for paginated responses. */
@@ -68,8 +69,9 @@ export interface PaginatedResponse {
   pagination:
     | PaginationMetadata
     | undefined;
-  /** List of items in this page */
-  data: Any | undefined;
+  /** For single items. */
+  singleGame?: Game | undefined;
+  games?: Games | undefined;
 }
 
 function createBaseStatus(): Status {
@@ -165,7 +167,7 @@ export const Status: MessageFns<Status> = {
 };
 
 function createBaseStandardResponse(): StandardResponse {
-  return { code: 0, message: "", error: undefined, data: undefined };
+  return { code: 0, message: "", error: undefined, singleGame: undefined, games: undefined };
 }
 
 export const StandardResponse: MessageFns<StandardResponse> = {
@@ -179,8 +181,11 @@ export const StandardResponse: MessageFns<StandardResponse> = {
     if (message.error !== undefined) {
       Status.encode(message.error, writer.uint32(26).fork()).join();
     }
-    if (message.data !== undefined) {
-      Any.encode(message.data, writer.uint32(34).fork()).join();
+    if (message.singleGame !== undefined) {
+      Game.encode(message.singleGame, writer.uint32(34).fork()).join();
+    }
+    if (message.games !== undefined) {
+      Games.encode(message.games, writer.uint32(42).fork()).join();
     }
     return writer;
   },
@@ -221,7 +226,15 @@ export const StandardResponse: MessageFns<StandardResponse> = {
             break;
           }
 
-          message.data = Any.decode(reader, reader.uint32());
+          message.singleGame = Game.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.games = Games.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -238,7 +251,8 @@ export const StandardResponse: MessageFns<StandardResponse> = {
       code: isSet(object.code) ? globalThis.Number(object.code) : 0,
       message: isSet(object.message) ? globalThis.String(object.message) : "",
       error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
-      data: isSet(object.data) ? Any.fromJSON(object.data) : undefined,
+      singleGame: isSet(object.singleGame) ? Game.fromJSON(object.singleGame) : undefined,
+      games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
     };
   },
 
@@ -253,8 +267,11 @@ export const StandardResponse: MessageFns<StandardResponse> = {
     if (message.error !== undefined) {
       obj.error = Status.toJSON(message.error);
     }
-    if (message.data !== undefined) {
-      obj.data = Any.toJSON(message.data);
+    if (message.singleGame !== undefined) {
+      obj.singleGame = Game.toJSON(message.singleGame);
+    }
+    if (message.games !== undefined) {
+      obj.games = Games.toJSON(message.games);
     }
     return obj;
   },
@@ -269,7 +286,10 @@ export const StandardResponse: MessageFns<StandardResponse> = {
     message.error = (object.error !== undefined && object.error !== null)
       ? Status.fromPartial(object.error)
       : undefined;
-    message.data = (object.data !== undefined && object.data !== null) ? Any.fromPartial(object.data) : undefined;
+    message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
+      ? Game.fromPartial(object.singleGame)
+      : undefined;
+    message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
     return message;
   },
 };
@@ -367,7 +387,7 @@ export const PaginationMetadata: MessageFns<PaginationMetadata> = {
 };
 
 function createBasePaginatedResponse(): PaginatedResponse {
-  return { code: 0, message: "", error: undefined, pagination: undefined, data: undefined };
+  return { code: 0, message: "", error: undefined, pagination: undefined, singleGame: undefined, games: undefined };
 }
 
 export const PaginatedResponse: MessageFns<PaginatedResponse> = {
@@ -384,8 +404,11 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     if (message.pagination !== undefined) {
       PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
     }
-    if (message.data !== undefined) {
-      Any.encode(message.data, writer.uint32(42).fork()).join();
+    if (message.singleGame !== undefined) {
+      Game.encode(message.singleGame, writer.uint32(42).fork()).join();
+    }
+    if (message.games !== undefined) {
+      Games.encode(message.games, writer.uint32(50).fork()).join();
     }
     return writer;
   },
@@ -434,7 +457,15 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
             break;
           }
 
-          message.data = Any.decode(reader, reader.uint32());
+          message.singleGame = Game.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.games = Games.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -452,7 +483,8 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
       message: isSet(object.message) ? globalThis.String(object.message) : "",
       error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
       pagination: isSet(object.pagination) ? PaginationMetadata.fromJSON(object.pagination) : undefined,
-      data: isSet(object.data) ? Any.fromJSON(object.data) : undefined,
+      singleGame: isSet(object.singleGame) ? Game.fromJSON(object.singleGame) : undefined,
+      games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
     };
   },
 
@@ -470,8 +502,11 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     if (message.pagination !== undefined) {
       obj.pagination = PaginationMetadata.toJSON(message.pagination);
     }
-    if (message.data !== undefined) {
-      obj.data = Any.toJSON(message.data);
+    if (message.singleGame !== undefined) {
+      obj.singleGame = Game.toJSON(message.singleGame);
+    }
+    if (message.games !== undefined) {
+      obj.games = Games.toJSON(message.games);
     }
     return obj;
   },
@@ -489,7 +524,10 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     message.pagination = (object.pagination !== undefined && object.pagination !== null)
       ? PaginationMetadata.fromPartial(object.pagination)
       : undefined;
-    message.data = (object.data !== undefined && object.data !== null) ? Any.fromPartial(object.data) : undefined;
+    message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
+      ? Game.fromPartial(object.singleGame)
+      : undefined;
+    message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
     return message;
   },
 };

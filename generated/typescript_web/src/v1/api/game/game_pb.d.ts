@@ -9,11 +9,25 @@ export class Game extends jspb.Message {
   getName(): string;
   setName(value: string): Game;
 
+  getShortDescription(): string;
+  setShortDescription(value: string): Game;
+
   getDescription(): string;
   setDescription(value: string): Game;
 
+  getImageUrl(): string;
+  setImageUrl(value: string): Game;
+
+  getMaxSessions(): string;
+  setMaxSessions(value: string): Game;
+
+  getMaxPlayersPerSession(): string;
+  setMaxPlayersPerSession(value: string): Game;
+
   getData(): string;
   setData(value: string): Game;
+  hasData(): boolean;
+  clearData(): Game;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): Game.AsObject;
@@ -27,8 +41,17 @@ export namespace Game {
   export type AsObject = {
     id: string,
     name: string,
+    shortDescription: string,
     description: string,
-    data: string,
+    imageUrl: string,
+    maxSessions: string,
+    maxPlayersPerSession: string,
+    data?: string,
+  }
+
+  export enum DataCase { 
+    _DATA_NOT_SET = 0,
+    DATA = 8,
   }
 }
 
@@ -41,6 +64,8 @@ export class GameCreateRequest extends jspb.Message {
 
   getData(): string;
   setData(value: string): GameCreateRequest;
+  hasData(): boolean;
+  clearData(): GameCreateRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GameCreateRequest.AsObject;
@@ -54,7 +79,12 @@ export namespace GameCreateRequest {
   export type AsObject = {
     name: string,
     description: string,
-    data: string,
+    data?: string,
+  }
+
+  export enum DataCase { 
+    _DATA_NOT_SET = 0,
+    DATA = 3,
   }
 }
 
@@ -157,6 +187,8 @@ export class GameUpdateRequest extends jspb.Message {
 
   getData(): string;
   setData(value: string): GameUpdateRequest;
+  hasData(): boolean;
+  clearData(): GameUpdateRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): GameUpdateRequest.AsObject;
@@ -171,7 +203,12 @@ export namespace GameUpdateRequest {
     id: string,
     name: string,
     description: string,
-    data: string,
+    data?: string,
+  }
+
+  export enum DataCase { 
+    _DATA_NOT_SET = 0,
+    DATA = 4,
   }
 }
 
@@ -192,6 +229,26 @@ export class GameUpdateResponse extends jspb.Message {
 export namespace GameUpdateResponse {
   export type AsObject = {
     game?: Game.AsObject,
+  }
+}
+
+export class Games extends jspb.Message {
+  getGamesList(): Array<Game>;
+  setGamesList(value: Array<Game>): Games;
+  clearGamesList(): Games;
+  addGames(value?: Game, index?: number): Game;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Games.AsObject;
+  static toObject(includeInstance: boolean, msg: Games): Games.AsObject;
+  static serializeBinaryToWriter(message: Games, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Games;
+  static deserializeBinaryFromReader(message: Games, reader: jspb.BinaryReader): Games;
+}
+
+export namespace Games {
+  export type AsObject = {
+    gamesList: Array<Game.AsObject>,
   }
 }
 
