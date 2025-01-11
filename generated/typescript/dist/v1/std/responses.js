@@ -22,7 +22,7 @@ exports.Status = {
             writer.uint32(18).string(message.message);
         }
         for (const v of message.details) {
-            any_1.Any.encode(v, writer.uint32(26).fork()).join();
+            writer.uint32(26).string(v);
         }
         return writer;
     },
@@ -51,7 +51,7 @@ exports.Status = {
                     if (tag !== 26) {
                         break;
                     }
-                    message.details.push(any_1.Any.decode(reader, reader.uint32()));
+                    message.details.push(reader.string());
                     continue;
                 }
             }
@@ -66,7 +66,7 @@ exports.Status = {
         return {
             code: isSet(object.code) ? globalThis.Number(object.code) : 0,
             message: isSet(object.message) ? globalThis.String(object.message) : "",
-            details: globalThis.Array.isArray(object?.details) ? object.details.map((e) => any_1.Any.fromJSON(e)) : [],
+            details: globalThis.Array.isArray(object?.details) ? object.details.map((e) => globalThis.String(e)) : [],
         };
     },
     toJSON(message) {
@@ -78,7 +78,7 @@ exports.Status = {
             obj.message = message.message;
         }
         if (message.details?.length) {
-            obj.details = message.details.map((e) => any_1.Any.toJSON(e));
+            obj.details = message.details;
         }
         return obj;
     },
@@ -89,7 +89,7 @@ exports.Status = {
         const message = createBaseStatus();
         message.code = object.code ?? 0;
         message.message = object.message ?? "";
-        message.details = object.details?.map((e) => any_1.Any.fromPartial(e)) || [];
+        message.details = object.details?.map((e) => e) || [];
         return message;
     },
 };

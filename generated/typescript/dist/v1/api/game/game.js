@@ -242,12 +242,18 @@ exports.GameCreateResponse = {
     },
 };
 function createBaseGameGetRequest() {
-    return { id: undefined };
+    return { id: undefined, limit: undefined, cursor: undefined };
 }
 exports.GameGetRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
         if (message.id !== undefined) {
             writer.uint32(10).string(message.id);
+        }
+        if (message.limit !== undefined) {
+            writer.uint32(18).string(message.limit);
+        }
+        if (message.cursor !== undefined) {
+            writer.uint32(26).string(message.cursor);
         }
         return writer;
     },
@@ -265,6 +271,20 @@ exports.GameGetRequest = {
                     message.id = reader.string();
                     continue;
                 }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.limit = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.cursor = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -274,12 +294,22 @@ exports.GameGetRequest = {
         return message;
     },
     fromJSON(object) {
-        return { id: isSet(object.id) ? globalThis.String(object.id) : undefined };
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+            limit: isSet(object.limit) ? globalThis.String(object.limit) : undefined,
+            cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : undefined,
+        };
     },
     toJSON(message) {
         const obj = {};
         if (message.id !== undefined) {
             obj.id = message.id;
+        }
+        if (message.limit !== undefined) {
+            obj.limit = message.limit;
+        }
+        if (message.cursor !== undefined) {
+            obj.cursor = message.cursor;
         }
         return obj;
     },
@@ -289,6 +319,8 @@ exports.GameGetRequest = {
     fromPartial(object) {
         const message = createBaseGameGetRequest();
         message.id = object.id ?? undefined;
+        message.limit = object.limit ?? undefined;
+        message.cursor = object.cursor ?? undefined;
         return message;
     },
 };

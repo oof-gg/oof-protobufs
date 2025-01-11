@@ -152,8 +152,7 @@ proto.v1.std.Status.toObject = function(includeInstance, msg) {
   var f, obj = {
 code: jspb.Message.getFieldWithDefault(msg, 1, 0),
 message: jspb.Message.getFieldWithDefault(msg, 2, ""),
-detailsList: jspb.Message.toObjectList(msg.getDetailsList(),
-    google_protobuf_any_pb.Any.toObject, includeInstance)
+detailsList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -199,8 +198,7 @@ proto.v1.std.Status.deserializeBinaryFromReader = function(msg, reader) {
       msg.setMessage(value);
       break;
     case 3:
-      var value = new google_protobuf_any_pb.Any;
-      reader.readMessage(value,google_protobuf_any_pb.Any.deserializeBinaryFromReader);
+      var value = /** @type {string} */ (reader.readString());
       msg.addDetails(value);
       break;
     default:
@@ -248,10 +246,9 @@ proto.v1.std.Status.serializeBinaryToWriter = function(message, writer) {
   }
   f = message.getDetailsList();
   if (f.length > 0) {
-    writer.writeRepeatedMessage(
+    writer.writeRepeatedString(
       3,
-      f,
-      google_protobuf_any_pb.Any.serializeBinaryToWriter
+      f
     );
   }
 };
@@ -294,31 +291,30 @@ proto.v1.std.Status.prototype.setMessage = function(value) {
 
 
 /**
- * repeated google.protobuf.Any details = 3;
- * @return {!Array<!proto.google.protobuf.Any>}
+ * repeated string details = 3;
+ * @return {!Array<string>}
  */
 proto.v1.std.Status.prototype.getDetailsList = function() {
-  return /** @type{!Array<!proto.google.protobuf.Any>} */ (
-    jspb.Message.getRepeatedWrapperField(this, google_protobuf_any_pb.Any, 3));
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 3));
 };
 
 
 /**
- * @param {!Array<!proto.google.protobuf.Any>} value
+ * @param {!Array<string>} value
  * @return {!proto.v1.std.Status} returns this
-*/
+ */
 proto.v1.std.Status.prototype.setDetailsList = function(value) {
-  return jspb.Message.setRepeatedWrapperField(this, 3, value);
+  return jspb.Message.setField(this, 3, value || []);
 };
 
 
 /**
- * @param {!proto.google.protobuf.Any=} opt_value
+ * @param {string} value
  * @param {number=} opt_index
- * @return {!proto.google.protobuf.Any}
+ * @return {!proto.v1.std.Status} returns this
  */
-proto.v1.std.Status.prototype.addDetails = function(opt_value, opt_index) {
-  return jspb.Message.addToRepeatedWrapperField(this, 3, opt_value, proto.google.protobuf.Any, opt_index);
+proto.v1.std.Status.prototype.addDetails = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 3, value, opt_index);
 };
 
 
