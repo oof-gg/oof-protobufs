@@ -5,12 +5,21 @@
 //   protoc               v5.28.2
 // source: v1/api/game/game.proto
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GameUpdateResponse = exports.GameUpdateRequest = exports.GameGetResponse = exports.GameGetRequest = exports.GameCreateResponse = exports.GameCreateRequest = exports.Game = exports.protobufPackage = void 0;
+exports.Games = exports.GameUpdateResponse = exports.GameUpdateRequest = exports.GameGetResponse = exports.GameGetRequest = exports.GameCreateResponse = exports.GameCreateRequest = exports.Game = exports.protobufPackage = void 0;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
 exports.protobufPackage = "v1.api.game";
 function createBaseGame() {
-    return { id: "", name: "", description: "", data: "" };
+    return {
+        id: "",
+        name: "",
+        shortDescription: "",
+        description: "",
+        imageUrl: "",
+        maxSessions: "",
+        maxPlayersPerSession: "",
+        data: undefined,
+    };
 }
 exports.Game = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -20,11 +29,23 @@ exports.Game = {
         if (message.name !== "") {
             writer.uint32(18).string(message.name);
         }
-        if (message.description !== "") {
-            writer.uint32(26).string(message.description);
+        if (message.shortDescription !== "") {
+            writer.uint32(26).string(message.shortDescription);
         }
-        if (message.data !== "") {
-            writer.uint32(34).string(message.data);
+        if (message.description !== "") {
+            writer.uint32(34).string(message.description);
+        }
+        if (message.imageUrl !== "") {
+            writer.uint32(42).string(message.imageUrl);
+        }
+        if (message.maxSessions !== "") {
+            writer.uint32(50).string(message.maxSessions);
+        }
+        if (message.maxPlayersPerSession !== "") {
+            writer.uint32(58).string(message.maxPlayersPerSession);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(66).string(message.data);
         }
         return writer;
     },
@@ -53,11 +74,39 @@ exports.Game = {
                     if (tag !== 26) {
                         break;
                     }
-                    message.description = reader.string();
+                    message.shortDescription = reader.string();
                     continue;
                 }
                 case 4: {
                     if (tag !== 34) {
+                        break;
+                    }
+                    message.description = reader.string();
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.imageUrl = reader.string();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.maxSessions = reader.string();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.maxPlayersPerSession = reader.string();
+                    continue;
+                }
+                case 8: {
+                    if (tag !== 66) {
                         break;
                     }
                     message.data = reader.string();
@@ -75,8 +124,12 @@ exports.Game = {
         return {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             name: isSet(object.name) ? globalThis.String(object.name) : "",
+            shortDescription: isSet(object.shortDescription) ? globalThis.String(object.shortDescription) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            imageUrl: isSet(object.imageUrl) ? globalThis.String(object.imageUrl) : "",
+            maxSessions: isSet(object.maxSessions) ? globalThis.String(object.maxSessions) : "",
+            maxPlayersPerSession: isSet(object.maxPlayersPerSession) ? globalThis.String(object.maxPlayersPerSession) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -87,10 +140,22 @@ exports.Game = {
         if (message.name !== "") {
             obj.name = message.name;
         }
+        if (message.shortDescription !== "") {
+            obj.shortDescription = message.shortDescription;
+        }
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.imageUrl !== "") {
+            obj.imageUrl = message.imageUrl;
+        }
+        if (message.maxSessions !== "") {
+            obj.maxSessions = message.maxSessions;
+        }
+        if (message.maxPlayersPerSession !== "") {
+            obj.maxPlayersPerSession = message.maxPlayersPerSession;
+        }
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -102,13 +167,17 @@ exports.Game = {
         const message = createBaseGame();
         message.id = object.id ?? "";
         message.name = object.name ?? "";
+        message.shortDescription = object.shortDescription ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.imageUrl = object.imageUrl ?? "";
+        message.maxSessions = object.maxSessions ?? "";
+        message.maxPlayersPerSession = object.maxPlayersPerSession ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
 function createBaseGameCreateRequest() {
-    return { name: "", description: "", data: "" };
+    return { name: "", description: "", data: undefined };
 }
 exports.GameCreateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -118,7 +187,7 @@ exports.GameCreateRequest = {
         if (message.description !== "") {
             writer.uint32(18).string(message.description);
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             writer.uint32(26).string(message.data);
         }
         return writer;
@@ -163,7 +232,7 @@ exports.GameCreateRequest = {
         return {
             name: isSet(object.name) ? globalThis.String(object.name) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -174,7 +243,7 @@ exports.GameCreateRequest = {
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -186,7 +255,7 @@ exports.GameCreateRequest = {
         const message = createBaseGameCreateRequest();
         message.name = object.name ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -376,7 +445,7 @@ exports.GameGetResponse = {
     },
 };
 function createBaseGameUpdateRequest() {
-    return { id: "", name: "", description: "", data: "" };
+    return { id: "", name: "", description: "", data: undefined };
 }
 exports.GameUpdateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -389,7 +458,7 @@ exports.GameUpdateRequest = {
         if (message.description !== "") {
             writer.uint32(26).string(message.description);
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             writer.uint32(34).string(message.data);
         }
         return writer;
@@ -442,7 +511,7 @@ exports.GameUpdateRequest = {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             name: isSet(object.name) ? globalThis.String(object.name) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -456,7 +525,7 @@ exports.GameUpdateRequest = {
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -469,7 +538,7 @@ exports.GameUpdateRequest = {
         message.id = object.id ?? "";
         message.name = object.name ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -521,6 +590,57 @@ exports.GameUpdateResponse = {
     fromPartial(object) {
         const message = createBaseGameUpdateResponse();
         message.game = (object.game !== undefined && object.game !== null) ? exports.Game.fromPartial(object.game) : undefined;
+        return message;
+    },
+};
+function createBaseGames() {
+    return { games: [] };
+}
+exports.Games = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        for (const v of message.games) {
+            exports.Game.encode(v, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseGames();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.games.push(exports.Game.decode(reader, reader.uint32()));
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { games: globalThis.Array.isArray(object?.games) ? object.games.map((e) => exports.Game.fromJSON(e)) : [] };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.games?.length) {
+            obj.games = message.games.map((e) => exports.Game.toJSON(e));
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.Games.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseGames();
+        message.games = object.games?.map((e) => exports.Game.fromPartial(e)) || [];
         return message;
     },
 };
