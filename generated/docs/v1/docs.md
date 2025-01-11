@@ -49,6 +49,10 @@
     - [GameUpdateRequest](#v1-api-game-GameUpdateRequest)
     - [GameUpdateResponse](#v1-api-game-GameUpdateResponse)
     - [Games](#v1-api-game-Games)
+    - [PaginatedResponse](#v1-api-game-PaginatedResponse)
+    - [PaginationMetadata](#v1-api-game-PaginationMetadata)
+    - [StandardResponse](#v1-api-game-StandardResponse)
+    - [Status](#v1-api-game-Status)
   
 - [v1/api/game/instance.proto](#v1_api_game_instance-proto)
     - [AuthConfig](#v1-api-game-AuthConfig)
@@ -786,6 +790,79 @@ CUSTOM - Custom events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | games | [Game](#v1-api-game-Game) | repeated |  |
+
+
+
+
+
+
+<a name="v1-api-game-PaginatedResponse"></a>
+
+### PaginatedResponse
+A paginated response wrapper.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
+| message | [string](#string) |  | This could be your success or error message. |
+| error | [Status](#v1-api-game-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
+| pagination | [PaginationMetadata](#v1-api-game-PaginationMetadata) |  | Pagination metadata |
+| single_game | [Game](#v1-api-game-Game) |  | For single items. |
+| games | [Games](#v1-api-game-Games) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-PaginationMetadata"></a>
+
+### PaginationMetadata
+Metadata for paginated responses.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| page_size | [int32](#int32) | optional | Number of items per page |
+| prev_page_token | [string](#string) | optional | Token for the previous page |
+| next_page_token | [string](#string) | optional | Token for the next page |
+
+
+
+
+
+
+<a name="v1-api-game-StandardResponse"></a>
+
+### StandardResponse
+Unify everything into one response.
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
+| message | [string](#string) |  | This could be your success or error message. |
+| error | [Status](#v1-api-game-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
+| single_game | [Game](#v1-api-game-Game) |  | For single items. |
+| games | [Games](#v1-api-game-Games) |  |  |
+
+
+
+
+
+
+<a name="v1-api-game-Status"></a>
+
+### Status
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| code | [int32](#int32) |  | The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. |
+| message | [string](#string) |  | A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client. |
+| details | [string](#string) | repeated | A list of messages that carry the error details. There will be a common set of message types for APIs to use. |
 
 
 
@@ -1823,8 +1900,7 @@ A paginated response wrapper.
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
 | pagination | [PaginationMetadata](#v1-std-PaginationMetadata) |  | Pagination metadata |
-| single_game | [v1.api.game.Game](#v1-api-game-Game) |  | For single items. |
-| games | [v1.api.game.Games](#v1-api-game-Games) |  |  |
+| data | [google.protobuf.Any](#google-protobuf-Any) |  | The actual payload. |
 
 
 
@@ -1859,8 +1935,7 @@ Unify everything into one response.
 | code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-std-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
-| single_game | [v1.api.game.Game](#v1-api-game-Game) |  | For single items. |
-| games | [v1.api.game.Games](#v1-api-game-Games) |  |  |
+| data | [google.protobuf.Any](#google-protobuf-Any) |  | The actual payload. |
 
 
 

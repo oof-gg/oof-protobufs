@@ -49,4 +49,63 @@ message Games {
   repeated Game games = 1;
 }
 
+message Status {
+  // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  // user-facing error message should be localized and sent in the
+  // [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+  string message = 2;
+
+  // A list of messages that carry the error details.  There will be a
+  // common set of message types for APIs to use.
+  repeated string details = 3;
+}
+
+// Unify everything into one response.
+message StandardResponse {
+  // Status code (e.g., HTTP or custom).
+  int32 code = 1;
+
+  // This could be your success or error message.
+  string message = 2;
+
+  // If there's an error, you could store it here or just use google.rpc.Status directly.
+  Status error = 3;
+
+  // The actual payload.
+  oneof data {
+    // For single items.
+    v1.api.game.Game single_game = 4;
+    v1.api.game.Games games = 5;
+  }
+}
+
+/// Metadata for paginated responses.
+message PaginationMetadata {
+    optional int32 page_size = 1;     // Number of items per page
+    optional string prev_page_token = 2; // Token for the previous page
+    optional string next_page_token = 3; // Token for the next page
+}
+
+/// A paginated response wrapper.
+message PaginatedResponse {
+    // Status code (e.g., HTTP or custom).
+    int32 code = 1;
+
+    // This could be your success or error message.
+    string message = 2;
+
+    // If there's an error, you could store it here or just use google.rpc.Status directly.
+    Status error = 3;
+    PaginationMetadata pagination = 4; // Pagination metadata
+      // The actual payload.
+    oneof data {
+        // For single items.
+        v1.api.game.Game single_game = 5;
+        v1.api.game.Games games = 6;
+    }
+}
+
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game";
