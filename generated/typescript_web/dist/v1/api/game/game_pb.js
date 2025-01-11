@@ -768,7 +768,9 @@ proto.v1.api.game.GameGetRequest.prototype.toObject = function(opt_includeInstan
  */
 proto.v1.api.game.GameGetRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f
+id: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f,
+limit: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
+cursor: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -809,6 +811,14 @@ proto.v1.api.game.GameGetRequest.deserializeBinaryFromReader = function(msg, rea
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setLimit(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setCursor(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -842,6 +852,20 @@ proto.v1.api.game.GameGetRequest.serializeBinaryToWriter = function(message, wri
   if (f != null) {
     writer.writeString(
       1,
+      f
+    );
+  }
+  f = /** @type {string} */ (jspb.Message.getField(message, 2));
+  if (f != null) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = /** @type {string} */ (jspb.Message.getField(message, 3));
+  if (f != null) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -881,6 +905,78 @@ proto.v1.api.game.GameGetRequest.prototype.clearId = function() {
  */
 proto.v1.api.game.GameGetRequest.prototype.hasId = function() {
   return jspb.Message.getField(this, 1) != null;
+};
+
+
+/**
+ * optional string limit = 2;
+ * @return {string}
+ */
+proto.v1.api.game.GameGetRequest.prototype.getLimit = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.v1.api.game.GameGetRequest} returns this
+ */
+proto.v1.api.game.GameGetRequest.prototype.setLimit = function(value) {
+  return jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.GameGetRequest} returns this
+ */
+proto.v1.api.game.GameGetRequest.prototype.clearLimit = function() {
+  return jspb.Message.setField(this, 2, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.GameGetRequest.prototype.hasLimit = function() {
+  return jspb.Message.getField(this, 2) != null;
+};
+
+
+/**
+ * optional string cursor = 3;
+ * @return {string}
+ */
+proto.v1.api.game.GameGetRequest.prototype.getCursor = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.v1.api.game.GameGetRequest} returns this
+ */
+proto.v1.api.game.GameGetRequest.prototype.setCursor = function(value) {
+  return jspb.Message.setField(this, 3, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.GameGetRequest} returns this
+ */
+proto.v1.api.game.GameGetRequest.prototype.clearCursor = function() {
+  return jspb.Message.setField(this, 3, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.GameGetRequest.prototype.hasCursor = function() {
+  return jspb.Message.getField(this, 3) != null;
 };
 
 
