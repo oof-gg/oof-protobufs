@@ -229,7 +229,7 @@ jobs:
   build_npm_web:
   # This job builds the npm package
     runs-on: ubuntu-latest
-    needs: [build_protos_ts, run_tests_ts]
+    needs: [build_protos_ts, run_tests_ts, build_npm]
     if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Checkout code
@@ -270,7 +270,7 @@ jobs:
 
   auto_tag_release:
     runs-on: ubuntu-latest
-    needs: build_npm
+    needs: [build_npm, build_npm_web]
     if: github.ref == 'refs/heads/main'  # Only run on the main branch
     steps:
       - name: Check out the code

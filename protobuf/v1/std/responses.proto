@@ -4,41 +4,54 @@ package v1.std;
 
 import "google/protobuf/any.proto";
 
-// A standard error message.
-message Error {
-    int32 code = 1;         // Error code (e.g., HTTP status code or custom code)
-    string message = 2;     // Human-readable error message
-    string details = 3;     // Optional details about the error
+message Status {
+  // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  // user-facing error message should be localized and sent in the
+  // [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+  string message = 2;
+
+  // A list of messages that carry the error details.  There will be a
+  // common set of message types for APIs to use.
+  repeated google.protobuf.Any details = 3;
 }
 
-// A standard success response.
-message Success {
-    string message = 1;     // Human-readable success message
-    string details = 2;     // Optional details about the success
-}
-
-// A standardized response wrapper for any data.
+// Unify everything into one response.
 message StandardResponse {
-    oneof result {
-        Success success = 1; // Success message
-        Error error = 2;     // Error message
-    }
+  // Status code (e.g., HTTP or custom).
+  int32 code = 1;
+
+  // This could be your success or error message.
+  string message = 2;
+
+  // If there's an error, you could store it here or just use google.rpc.Status directly.
+  Status error = 3;
+
+  // The actual payload.
+  google.protobuf.Any data = 4;
 }
 
-//A standardized response wrapper for paginated data
-
-// Metadata for paginated responses.
+/// Metadata for paginated responses.
 message PaginationMetadata {
-    int32 page = 1;         // Current page number
-    int32 page_size = 2;    // Number of items per page
-    int64 total_items = 3;  // Total number of items
-    int32 total_pages = 4;  // Total number of pages
+    optional int32 page_size = 1;     // Number of items per page
+    optional string prev_page_token = 2; // Token for the previous page
+    optional string next_page_token = 3; // Token for the next page
 }
 
-// A paginated response wrapper.
+/// A paginated response wrapper.
 message PaginatedResponse {
-    PaginationMetadata pagination = 1; // Pagination metadata
-    repeated google.protobuf.Any items = 2; // List of items in this page
+    // Status code (e.g., HTTP or custom).
+    int32 code = 1;
+
+    // This could be your success or error message.
+    string message = 2;
+
+    // If there's an error, you could store it here or just use google.rpc.Status directly.
+    Status error = 3;
+    PaginationMetadata pagination = 4; // Pagination metadata
+    google.protobuf.Any data = 5; // List of items in this page
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/std";
