@@ -16,6 +16,8 @@ export interface GameCreateResponse {
 }
 export interface GameGetRequest {
     id?: string | undefined;
+    limit?: string | undefined;
+    cursor?: string | undefined;
 }
 export interface GameGetResponse {
     game: Game | undefined;

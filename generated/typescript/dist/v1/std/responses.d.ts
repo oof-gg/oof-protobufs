@@ -14,7 +14,7 @@ export interface Status {
      * A list of messages that carry the error details.  There will be a
      * common set of message types for APIs to use.
      */
-    details: Any[];
+    details: string[];
 }
 /** Unify everything into one response. */
 export interface StandardResponse {
