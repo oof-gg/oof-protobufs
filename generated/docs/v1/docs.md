@@ -716,6 +716,8 @@ CUSTOM - Custom events
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
 | id | [string](#string) | optional |  |
+| limit | [int32](#int32) | optional |  |
+| cursor | [string](#string) | optional |  |
 
 
 
@@ -1853,7 +1855,7 @@ Unify everything into one response.
 | ----- | ---- | ----- | ----------- |
 | code | [int32](#int32) |  | The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. |
 | message | [string](#string) |  | A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client. |
-| details | [google.protobuf.Any](#google-protobuf-Any) | repeated | A list of messages that carry the error details. There will be a common set of message types for APIs to use. |
+| details | [string](#string) | repeated | A list of messages that carry the error details. There will be a common set of message types for APIs to use. |
 
 
 

@@ -812,7 +812,7 @@ proto.v1.api.game.GameGetRequest.deserializeBinaryFromReader = function(msg, rea
       msg.setId(value);
       break;
     case 2:
-      var value = /** @type {string} */ (reader.readString());
+      var value = /** @type {number} */ (reader.readInt32());
       msg.setLimit(value);
       break;
     case 3:
@@ -855,9 +855,9 @@ proto.v1.api.game.GameGetRequest.serializeBinaryToWriter = function(message, wri
       f
     );
   }
-  f = /** @type {string} */ (jspb.Message.getField(message, 2));
+  f = /** @type {number} */ (jspb.Message.getField(message, 2));
   if (f != null) {
-    writer.writeString(
+    writer.writeInt32(
       2,
       f
     );
@@ -909,16 +909,16 @@ proto.v1.api.game.GameGetRequest.prototype.hasId = function() {
 
 
 /**
- * optional string limit = 2;
- * @return {string}
+ * optional int32 limit = 2;
+ * @return {number}
  */
 proto.v1.api.game.GameGetRequest.prototype.getLimit = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
 
 /**
- * @param {string} value
+ * @param {number} value
  * @return {!proto.v1.api.game.GameGetRequest} returns this
  */
 proto.v1.api.game.GameGetRequest.prototype.setLimit = function(value) {

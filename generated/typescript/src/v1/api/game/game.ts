@@ -28,7 +28,7 @@ export interface GameCreateResponse {
 
 export interface GameGetRequest {
   id?: string | undefined;
-  limit?: string | undefined;
+  limit?: number | undefined;
   cursor?: string | undefined;
 }
 
@@ -315,7 +315,7 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
       writer.uint32(10).string(message.id);
     }
     if (message.limit !== undefined) {
-      writer.uint32(18).string(message.limit);
+      writer.uint32(16).int32(message.limit);
     }
     if (message.cursor !== undefined) {
       writer.uint32(26).string(message.cursor);
@@ -339,11 +339,11 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
           continue;
         }
         case 2: {
-          if (tag !== 18) {
+          if (tag !== 16) {
             break;
           }
 
-          message.limit = reader.string();
+          message.limit = reader.int32();
           continue;
         }
         case 3: {
@@ -366,7 +366,7 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
   fromJSON(object: any): GameGetRequest {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : undefined,
-      limit: isSet(object.limit) ? globalThis.String(object.limit) : undefined,
+      limit: isSet(object.limit) ? globalThis.Number(object.limit) : undefined,
       cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : undefined,
     };
   },
@@ -377,7 +377,7 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
       obj.id = message.id;
     }
     if (message.limit !== undefined) {
-      obj.limit = message.limit;
+      obj.limit = Math.round(message.limit);
     }
     if (message.cursor !== undefined) {
       obj.cursor = message.cursor;
