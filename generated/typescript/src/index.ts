@@ -12,7 +12,7 @@ import * as api_player_action from './v1/api/player/action';
 import * as api_player_player from './v1/api/player/player';
 import * as api_player_player_service from './v1/api/common/player_service';
 import * as api_player_state from './v1/api/player/state';
-import * as std_regions from './v1/api/common/regions';
+import * as api_common_regions from './v1/api/common/regions';
 import * as std_responses from './v1/std/responses';
 
 export { api_auth_auth_service };
@@ -29,5 +29,5 @@ export { api_player_action };
 export { api_player_player };
 export { api_player_player_service };
 export { api_player_state };
-export { std_regions };
+export { api_common_regions };
 export { std_responses };
