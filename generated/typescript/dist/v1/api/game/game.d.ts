@@ -84,7 +84,7 @@ export interface PaginatedResponse {
     /** If there's an error, you could store it here or just use google.rpc.Status directly. */
     error: Status | undefined;
     /** Pagination metadata */
-    pagination: PaginationMetadata | undefined;
+    pagination?: PaginationMetadata | undefined;
     /** For single items. */
     singleGame?: Game | undefined;
     games?: Games | undefined;
