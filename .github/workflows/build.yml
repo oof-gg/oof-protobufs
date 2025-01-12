@@ -287,6 +287,12 @@ jobs:
           # Increment the patch version (or change logic for major/minor if needed)
           NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
           
+          # Check if the tag already exists
+          while git rev-parse "$NEW_TAG" >/dev/null 2>&1; do
+          PATCH=$((PATCH + 1))
+          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          done
+          
           echo "new_tag=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Create a new tag
