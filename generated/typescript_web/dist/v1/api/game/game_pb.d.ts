@@ -427,5 +427,10 @@ export namespace PaginatedResponse {
     SINGLE_GAME = 5,
     GAMES = 6,
   }
+
+  export enum PaginationCase { 
+    _PAGINATION_NOT_SET = 0,
+    PAGINATION = 4,
+  }
 }
 
