@@ -807,7 +807,7 @@ A paginated response wrapper.
 | code | [int32](#int32) |  | Status code (e.g., HTTP or custom). |
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-api-game-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
-| pagination | [PaginationMetadata](#v1-api-game-PaginationMetadata) |  | Pagination metadata |
+| pagination | [PaginationMetadata](#v1-api-game-PaginationMetadata) | optional | Pagination metadata |
 | single_game | [Game](#v1-api-game-Game) |  | For single items. |
 | games | [Games](#v1-api-game-Games) |  |  |
 

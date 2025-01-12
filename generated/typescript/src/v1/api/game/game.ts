@@ -112,7 +112,7 @@ export interface PaginatedResponse {
     | Status
     | undefined;
   /** Pagination metadata */
-  pagination:
+  pagination?:
     | PaginationMetadata
     | undefined;
   /** For single items. */

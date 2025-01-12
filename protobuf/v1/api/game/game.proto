@@ -99,7 +99,7 @@ message PaginatedResponse {
 
     // If there's an error, you could store it here or just use google.rpc.Status directly.
     Status error = 3;
-    PaginationMetadata pagination = 4; // Pagination metadata
+    optional PaginationMetadata pagination = 4; // Pagination metadata
       // The actual payload.
     oneof data {
         // For single items.
