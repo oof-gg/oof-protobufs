@@ -7,7 +7,7 @@
 package game
 
 import (
-	std "github.com/oof-gg/oof-protobufs/generated/go/v1/std"
+	common "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -213,7 +213,7 @@ type Session struct {
 	State GameState `protobuf:"varint,4,opt,name=state,proto3,enum=v1.api.game.GameState" json:"state,omitempty"`
 	// / Game attributes as a map of string to GameAttribute
 	Attributes    map[string]*GameAttribute `protobuf:"bytes,5,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"` // Game attributes
-	Region        *std.RegionEnum           `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
+	Region        *common.RegionEnum        `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
 	Data          *string                   `protobuf:"bytes,7,opt,name=data,proto3,oneof" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -284,11 +284,11 @@ func (x *Session) GetAttributes() map[string]*GameAttribute {
 	return nil
 }
 
-func (x *Session) GetRegion() std.RegionEnum {
+func (x *Session) GetRegion() common.RegionEnum {
 	if x != nil && x.Region != nil {
 		return *x.Region
 	}
-	return std.RegionEnum(0)
+	return common.RegionEnum(0)
 }
 
 func (x *Session) GetData() string {
@@ -305,7 +305,7 @@ type SessionCreate struct {
 	UserIds       []string                  `protobuf:"bytes,2,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
 	State         GameState                 `protobuf:"varint,3,opt,name=state,proto3,enum=v1.api.game.GameState" json:"state,omitempty"`
 	Attributes    map[string]*GameAttribute `protobuf:"bytes,4,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Region        *std.RegionEnum           `protobuf:"varint,5,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
+	Region        *common.RegionEnum        `protobuf:"varint,5,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
 	Data          *string                   `protobuf:"bytes,6,opt,name=data,proto3,oneof" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -369,11 +369,11 @@ func (x *SessionCreate) GetAttributes() map[string]*GameAttribute {
 	return nil
 }
 
-func (x *SessionCreate) GetRegion() std.RegionEnum {
+func (x *SessionCreate) GetRegion() common.RegionEnum {
 	if x != nil && x.Region != nil {
 		return *x.Region
 	}
-	return std.RegionEnum(0)
+	return common.RegionEnum(0)
 }
 
 func (x *SessionCreate) GetData() string {
@@ -390,7 +390,7 @@ type SessionUpdate struct {
 	UserIds       []string                  `protobuf:"bytes,3,rep,name=user_ids,json=userIds,proto3" json:"user_ids,omitempty"`
 	State         GameState                 `protobuf:"varint,4,opt,name=state,proto3,enum=v1.api.game.GameState" json:"state,omitempty"`
 	Attributes    map[string]*GameAttribute `protobuf:"bytes,5,rep,name=attributes,proto3" json:"attributes,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	Region        *std.RegionEnum           `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
+	Region        *common.RegionEnum        `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
 	Data          *string                   `protobuf:"bytes,7,opt,name=data,proto3,oneof" json:"data,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
@@ -461,11 +461,11 @@ func (x *SessionUpdate) GetAttributes() map[string]*GameAttribute {
 	return nil
 }
 
-func (x *SessionUpdate) GetRegion() std.RegionEnum {
+func (x *SessionUpdate) GetRegion() common.RegionEnum {
 	if x != nil && x.Region != nil {
 		return *x.Region
 	}
-	return std.RegionEnum(0)
+	return common.RegionEnum(0)
 }
 
 func (x *SessionUpdate) GetData() string {
@@ -760,18 +760,18 @@ func file_v1_api_game_session_proto_rawDescGZIP() []byte {
 var file_v1_api_game_session_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
 var file_v1_api_game_session_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_v1_api_game_session_proto_goTypes = []any{
-	(GameState)(0),        // 0: v1.api.game.GameState
-	(*GameAttribute)(nil), // 1: v1.api.game.GameAttribute
-	(*Session)(nil),       // 2: v1.api.game.Session
-	(*SessionCreate)(nil), // 3: v1.api.game.SessionCreate
-	(*SessionUpdate)(nil), // 4: v1.api.game.SessionUpdate
-	(*SessionGet)(nil),    // 5: v1.api.game.SessionGet
-	(*SessionDelete)(nil), // 6: v1.api.game.SessionDelete
-	(*Sessions)(nil),      // 7: v1.api.game.Sessions
-	nil,                   // 8: v1.api.game.Session.AttributesEntry
-	nil,                   // 9: v1.api.game.SessionCreate.AttributesEntry
-	nil,                   // 10: v1.api.game.SessionUpdate.AttributesEntry
-	(std.RegionEnum)(0),   // 11: v1.api.common.RegionEnum
+	(GameState)(0),         // 0: v1.api.game.GameState
+	(*GameAttribute)(nil),  // 1: v1.api.game.GameAttribute
+	(*Session)(nil),        // 2: v1.api.game.Session
+	(*SessionCreate)(nil),  // 3: v1.api.game.SessionCreate
+	(*SessionUpdate)(nil),  // 4: v1.api.game.SessionUpdate
+	(*SessionGet)(nil),     // 5: v1.api.game.SessionGet
+	(*SessionDelete)(nil),  // 6: v1.api.game.SessionDelete
+	(*Sessions)(nil),       // 7: v1.api.game.Sessions
+	nil,                    // 8: v1.api.game.Session.AttributesEntry
+	nil,                    // 9: v1.api.game.SessionCreate.AttributesEntry
+	nil,                    // 10: v1.api.game.SessionUpdate.AttributesEntry
+	(common.RegionEnum)(0), // 11: v1.api.common.RegionEnum
 }
 var file_v1_api_game_session_proto_depIdxs = []int32{
 	0,  // 0: v1.api.game.Session.state:type_name -> v1.api.game.GameState

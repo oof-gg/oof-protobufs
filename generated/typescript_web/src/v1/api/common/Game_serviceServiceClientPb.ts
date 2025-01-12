@@ -22,7 +22,6 @@ import * as v1_api_game_game_pb from '../../../v1/api/game/game_pb'; // proto im
 import * as v1_api_game_event_pb from '../../../v1/api/game/event_pb'; // proto import: "v1/api/game/event.proto"
 import * as v1_api_game_join_leave_pb from '../../../v1/api/game/join_leave_pb'; // proto import: "v1/api/game/join_leave.proto"
 import * as v1_api_game_session_pb from '../../../v1/api/game/session_pb'; // proto import: "v1/api/game/session.proto"
-import * as v1_std_responses_pb from '../../../v1/std/responses_pb'; // proto import: "v1/std/responses.proto"
 
 
 export class GameServiceClient {
@@ -48,28 +47,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/JoinLeave',
     grpcWeb.MethodType.UNARY,
     v1_api_game_join_leave_pb.JoinLeaveGame,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_join_leave_pb.JoinLeaveGame) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   joinLeave(
     request: v1_api_game_join_leave_pb.JoinLeaveGame,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   joinLeave(
     request: v1_api_game_join_leave_pb.JoinLeaveGame,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   joinLeave(
     request: v1_api_game_join_leave_pb.JoinLeaveGame,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -91,28 +90,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/CreateSession',
     grpcWeb.MethodType.UNARY,
     v1_api_game_session_pb.SessionCreate,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_session_pb.SessionCreate) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   createSession(
     request: v1_api_game_session_pb.SessionCreate,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   createSession(
     request: v1_api_game_session_pb.SessionCreate,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   createSession(
     request: v1_api_game_session_pb.SessionCreate,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -134,28 +133,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/GetSession',
     grpcWeb.MethodType.UNARY,
     v1_api_game_session_pb.SessionGet,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_session_pb.SessionGet) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   getSession(
     request: v1_api_game_session_pb.SessionGet,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   getSession(
     request: v1_api_game_session_pb.SessionGet,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   getSession(
     request: v1_api_game_session_pb.SessionGet,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -177,28 +176,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/UpdateSession',
     grpcWeb.MethodType.UNARY,
     v1_api_game_session_pb.SessionUpdate,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_session_pb.SessionUpdate) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   updateSession(
     request: v1_api_game_session_pb.SessionUpdate,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   updateSession(
     request: v1_api_game_session_pb.SessionUpdate,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   updateSession(
     request: v1_api_game_session_pb.SessionUpdate,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -220,28 +219,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/DeleteSession',
     grpcWeb.MethodType.UNARY,
     v1_api_game_session_pb.SessionDelete,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_session_pb.SessionDelete) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   deleteSession(
     request: v1_api_game_session_pb.SessionDelete,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   deleteSession(
     request: v1_api_game_session_pb.SessionDelete,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   deleteSession(
     request: v1_api_game_session_pb.SessionDelete,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -263,28 +262,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/CreateEntity',
     grpcWeb.MethodType.UNARY,
     v1_api_game_entity_pb.EntityCreateRequest,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_entity_pb.EntityCreateRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   createEntity(
     request: v1_api_game_entity_pb.EntityCreateRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   createEntity(
     request: v1_api_game_entity_pb.EntityCreateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   createEntity(
     request: v1_api_game_entity_pb.EntityCreateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -306,28 +305,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/GetEntity',
     grpcWeb.MethodType.UNARY,
     v1_api_game_entity_pb.EntityGetRequest,
-    v1_std_responses_pb.PaginatedResponse,
+    v1_api_game_game_pb.PaginatedResponse,
     (request: v1_api_game_entity_pb.EntityGetRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.PaginatedResponse.deserializeBinary
+    v1_api_game_game_pb.PaginatedResponse.deserializeBinary
   );
 
   getEntity(
     request: v1_api_game_entity_pb.EntityGetRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.PaginatedResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.PaginatedResponse>;
 
   getEntity(
     request: v1_api_game_entity_pb.EntityGetRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.PaginatedResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.PaginatedResponse>;
+               response: v1_api_game_game_pb.PaginatedResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.PaginatedResponse>;
 
   getEntity(
     request: v1_api_game_entity_pb.EntityGetRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.PaginatedResponse) => void) {
+               response: v1_api_game_game_pb.PaginatedResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -349,28 +348,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/UpdateEntity',
     grpcWeb.MethodType.UNARY,
     v1_api_game_entity_pb.EntityUpdateRequest,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_entity_pb.EntityUpdateRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   updateEntity(
     request: v1_api_game_entity_pb.EntityUpdateRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   updateEntity(
     request: v1_api_game_entity_pb.EntityUpdateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   updateEntity(
     request: v1_api_game_entity_pb.EntityUpdateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -392,28 +391,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/DeleteEntity',
     grpcWeb.MethodType.UNARY,
     v1_api_game_entity_pb.EntityDeleteRequest,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_entity_pb.EntityDeleteRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   deleteEntity(
     request: v1_api_game_entity_pb.EntityDeleteRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   deleteEntity(
     request: v1_api_game_entity_pb.EntityDeleteRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   deleteEntity(
     request: v1_api_game_entity_pb.EntityDeleteRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -435,28 +434,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/CreateGame',
     grpcWeb.MethodType.UNARY,
     v1_api_game_game_pb.GameCreateRequest,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_game_pb.GameCreateRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   createGame(
     request: v1_api_game_game_pb.GameCreateRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   createGame(
     request: v1_api_game_game_pb.GameCreateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   createGame(
     request: v1_api_game_game_pb.GameCreateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -478,28 +477,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/GetGame',
     grpcWeb.MethodType.UNARY,
     v1_api_game_game_pb.GameGetRequest,
-    v1_std_responses_pb.PaginatedResponse,
+    v1_api_game_game_pb.PaginatedResponse,
     (request: v1_api_game_game_pb.GameGetRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.PaginatedResponse.deserializeBinary
+    v1_api_game_game_pb.PaginatedResponse.deserializeBinary
   );
 
   getGame(
     request: v1_api_game_game_pb.GameGetRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.PaginatedResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.PaginatedResponse>;
 
   getGame(
     request: v1_api_game_game_pb.GameGetRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.PaginatedResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.PaginatedResponse>;
+               response: v1_api_game_game_pb.PaginatedResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.PaginatedResponse>;
 
   getGame(
     request: v1_api_game_game_pb.GameGetRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.PaginatedResponse) => void) {
+               response: v1_api_game_game_pb.PaginatedResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -521,28 +520,28 @@ export class GameServiceClient {
     '/v1.api.common.GameService/UpdateGame',
     grpcWeb.MethodType.UNARY,
     v1_api_game_game_pb.GameUpdateRequest,
-    v1_std_responses_pb.StandardResponse,
+    v1_api_game_game_pb.StandardResponse,
     (request: v1_api_game_game_pb.GameUpdateRequest) => {
       return request.serializeBinary();
     },
-    v1_std_responses_pb.StandardResponse.deserializeBinary
+    v1_api_game_game_pb.StandardResponse.deserializeBinary
   );
 
   updateGame(
     request: v1_api_game_game_pb.GameUpdateRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_std_responses_pb.StandardResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
 
   updateGame(
     request: v1_api_game_game_pb.GameUpdateRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_std_responses_pb.StandardResponse>;
+               response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
 
   updateGame(
     request: v1_api_game_game_pb.GameUpdateRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_std_responses_pb.StandardResponse) => void) {
+               response: v1_api_game_game_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +

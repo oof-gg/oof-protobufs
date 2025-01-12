@@ -4,10 +4,11 @@
 // - protoc             v5.28.2
 // source: v1/api/common/player_service.proto
 
-package player
+package common
 
 import (
 	context "context"
+	player "github.com/oof-gg/oof-protobufs/generated/go/v1/api/player"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,10 +30,10 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PlayerServiceClient interface {
-	CreatePlayer(ctx context.Context, in *Player, opts ...grpc.CallOption) (*Player, error)
-	GetPlayer(ctx context.Context, in *PlayerGet, opts ...grpc.CallOption) (*Players, error)
-	UpdatePlayer(ctx context.Context, in *PlayerUpdate, opts ...grpc.CallOption) (*Player, error)
-	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PlayerAction, PlayerAction], error)
+	CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.Player, error)
+	GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.Players, error)
+	UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.Player, error)
+	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[player.PlayerAction, player.PlayerAction], error)
 }
 
 type playerServiceClient struct {
@@ -43,9 +44,9 @@ func NewPlayerServiceClient(cc grpc.ClientConnInterface) PlayerServiceClient {
 	return &playerServiceClient{cc}
 }
 
-func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *Player, opts ...grpc.CallOption) (*Player, error) {
+func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.Player, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Player)
+	out := new(player.Player)
 	err := c.cc.Invoke(ctx, PlayerService_CreatePlayer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -53,9 +54,9 @@ func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *Player, opts
 	return out, nil
 }
 
-func (c *playerServiceClient) GetPlayer(ctx context.Context, in *PlayerGet, opts ...grpc.CallOption) (*Players, error) {
+func (c *playerServiceClient) GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.Players, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Players)
+	out := new(player.Players)
 	err := c.cc.Invoke(ctx, PlayerService_GetPlayer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -63,9 +64,9 @@ func (c *playerServiceClient) GetPlayer(ctx context.Context, in *PlayerGet, opts
 	return out, nil
 }
 
-func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *PlayerUpdate, opts ...grpc.CallOption) (*Player, error) {
+func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.Player, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Player)
+	out := new(player.Player)
 	err := c.cc.Invoke(ctx, PlayerService_UpdatePlayer_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -73,27 +74,27 @@ func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *PlayerUpdate
 	return out, nil
 }
 
-func (c *playerServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[PlayerAction, PlayerAction], error) {
+func (c *playerServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[player.PlayerAction, player.PlayerAction], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &PlayerService_ServiceDesc.Streams[0], PlayerService_StreamEvents_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[PlayerAction, PlayerAction]{ClientStream: stream}
+	x := &grpc.GenericClientStream[player.PlayerAction, player.PlayerAction]{ClientStream: stream}
 	return x, nil
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type PlayerService_StreamEventsClient = grpc.BidiStreamingClient[PlayerAction, PlayerAction]
+type PlayerService_StreamEventsClient = grpc.BidiStreamingClient[player.PlayerAction, player.PlayerAction]
 
 // PlayerServiceServer is the server API for PlayerService service.
 // All implementations must embed UnimplementedPlayerServiceServer
 // for forward compatibility.
 type PlayerServiceServer interface {
-	CreatePlayer(context.Context, *Player) (*Player, error)
-	GetPlayer(context.Context, *PlayerGet) (*Players, error)
-	UpdatePlayer(context.Context, *PlayerUpdate) (*Player, error)
-	StreamEvents(grpc.BidiStreamingServer[PlayerAction, PlayerAction]) error
+	CreatePlayer(context.Context, *player.Player) (*player.Player, error)
+	GetPlayer(context.Context, *player.PlayerGet) (*player.Players, error)
+	UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.Player, error)
+	StreamEvents(grpc.BidiStreamingServer[player.PlayerAction, player.PlayerAction]) error
 	mustEmbedUnimplementedPlayerServiceServer()
 }
 
@@ -104,16 +105,16 @@ type PlayerServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedPlayerServiceServer struct{}
 
-func (UnimplementedPlayerServiceServer) CreatePlayer(context.Context, *Player) (*Player, error) {
+func (UnimplementedPlayerServiceServer) CreatePlayer(context.Context, *player.Player) (*player.Player, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePlayer not implemented")
 }
-func (UnimplementedPlayerServiceServer) GetPlayer(context.Context, *PlayerGet) (*Players, error) {
+func (UnimplementedPlayerServiceServer) GetPlayer(context.Context, *player.PlayerGet) (*player.Players, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlayer not implemented")
 }
-func (UnimplementedPlayerServiceServer) UpdatePlayer(context.Context, *PlayerUpdate) (*Player, error) {
+func (UnimplementedPlayerServiceServer) UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.Player, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlayer not implemented")
 }
-func (UnimplementedPlayerServiceServer) StreamEvents(grpc.BidiStreamingServer[PlayerAction, PlayerAction]) error {
+func (UnimplementedPlayerServiceServer) StreamEvents(grpc.BidiStreamingServer[player.PlayerAction, player.PlayerAction]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamEvents not implemented")
 }
 func (UnimplementedPlayerServiceServer) mustEmbedUnimplementedPlayerServiceServer() {}
@@ -138,7 +139,7 @@ func RegisterPlayerServiceServer(s grpc.ServiceRegistrar, srv PlayerServiceServe
 }
 
 func _PlayerService_CreatePlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Player)
+	in := new(player.Player)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -150,13 +151,13 @@ func _PlayerService_CreatePlayer_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: PlayerService_CreatePlayer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServiceServer).CreatePlayer(ctx, req.(*Player))
+		return srv.(PlayerServiceServer).CreatePlayer(ctx, req.(*player.Player))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PlayerService_GetPlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlayerGet)
+	in := new(player.PlayerGet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -168,13 +169,13 @@ func _PlayerService_GetPlayer_Handler(srv interface{}, ctx context.Context, dec 
 		FullMethod: PlayerService_GetPlayer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServiceServer).GetPlayer(ctx, req.(*PlayerGet))
+		return srv.(PlayerServiceServer).GetPlayer(ctx, req.(*player.PlayerGet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PlayerService_UpdatePlayer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlayerUpdate)
+	in := new(player.PlayerUpdate)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -186,17 +187,17 @@ func _PlayerService_UpdatePlayer_Handler(srv interface{}, ctx context.Context, d
 		FullMethod: PlayerService_UpdatePlayer_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServiceServer).UpdatePlayer(ctx, req.(*PlayerUpdate))
+		return srv.(PlayerServiceServer).UpdatePlayer(ctx, req.(*player.PlayerUpdate))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
 func _PlayerService_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PlayerServiceServer).StreamEvents(&grpc.GenericServerStream[PlayerAction, PlayerAction]{ServerStream: stream})
+	return srv.(PlayerServiceServer).StreamEvents(&grpc.GenericServerStream[player.PlayerAction, player.PlayerAction]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type PlayerService_StreamEventsServer = grpc.BidiStreamingServer[PlayerAction, PlayerAction]
+type PlayerService_StreamEventsServer = grpc.BidiStreamingServer[player.PlayerAction, player.PlayerAction]
 
 // PlayerService_ServiceDesc is the grpc.ServiceDesc for PlayerService service.
 // It's only intended for direct use with grpc.RegisterService,

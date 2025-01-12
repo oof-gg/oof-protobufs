@@ -7,7 +7,7 @@
 package game
 
 import (
-	std "github.com/oof-gg/oof-protobufs/generated/go/v1/std"
+	common "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -75,7 +75,7 @@ type JoinLeaveGame struct {
 	Action        JoinLeaveGame_Action   `protobuf:"varint,3,opt,name=action,proto3,enum=v1.api.game.JoinLeaveGame_Action" json:"action,omitempty"`
 	TeamId        *string                `protobuf:"bytes,4,opt,name=team_id,json=teamId,proto3,oneof" json:"team_id,omitempty"`
 	SessionId     *string                `protobuf:"bytes,5,opt,name=session_id,json=sessionId,proto3,oneof" json:"session_id,omitempty"`
-	Region        *std.RegionEnum        `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
+	Region        *common.RegionEnum     `protobuf:"varint,6,opt,name=region,proto3,enum=v1.api.common.RegionEnum,oneof" json:"region,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -145,11 +145,11 @@ func (x *JoinLeaveGame) GetSessionId() string {
 	return ""
 }
 
-func (x *JoinLeaveGame) GetRegion() std.RegionEnum {
+func (x *JoinLeaveGame) GetRegion() common.RegionEnum {
 	if x != nil && x.Region != nil {
 		return *x.Region
 	}
-	return std.RegionEnum(0)
+	return common.RegionEnum(0)
 }
 
 var File_v1_api_game_join_leave_proto protoreflect.FileDescriptor
@@ -203,7 +203,7 @@ var file_v1_api_game_join_leave_proto_msgTypes = make([]protoimpl.MessageInfo, 1
 var file_v1_api_game_join_leave_proto_goTypes = []any{
 	(JoinLeaveGame_Action)(0), // 0: v1.api.game.JoinLeaveGame.Action
 	(*JoinLeaveGame)(nil),     // 1: v1.api.game.JoinLeaveGame
-	(std.RegionEnum)(0),       // 2: v1.api.common.RegionEnum
+	(common.RegionEnum)(0),    // 2: v1.api.common.RegionEnum
 }
 var file_v1_api_game_join_leave_proto_depIdxs = []int32{
 	0, // 0: v1.api.game.JoinLeaveGame.action:type_name -> v1.api.game.JoinLeaveGame.Action

@@ -31,5 +31,3 @@ var v1_api_game_event_pb = require('../../../v1/api/game/event_pb.js');
 goog.object.extend(proto, v1_api_game_event_pb);
 var v1_api_game_join_leave_pb = require('../../../v1/api/game/join_leave_pb.js');
 goog.object.extend(proto, v1_api_game_join_leave_pb);
-var v1_std_responses_pb = require('../../../v1/std/responses_pb.js');
-goog.object.extend(proto, v1_std_responses_pb);

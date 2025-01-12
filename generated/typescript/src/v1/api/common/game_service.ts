@@ -21,10 +21,15 @@ import {
   type ServiceError,
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
-import { PaginatedResponse, StandardResponse } from "../../std/responses";
 import { EntityCreateRequest, EntityDeleteRequest, EntityGetRequest, EntityUpdateRequest } from "../game/entity";
 import { GameEvent } from "../game/event";
-import { GameCreateRequest, GameGetRequest, GameUpdateRequest } from "../game/game";
+import {
+  GameCreateRequest,
+  GameGetRequest,
+  GameUpdateRequest,
+  PaginatedResponse,
+  StandardResponse,
+} from "../game/game";
 import { JoinLeaveGame } from "../game/join_leave";
 import { Session, SessionCreate, SessionDelete, SessionGet, SessionUpdate } from "../game/session";
 

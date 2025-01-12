@@ -4,9 +4,10 @@
 // 	protoc        v5.28.2
 // source: v1/api/common/player_service.proto
 
-package player
+package common
 
 import (
+	player "github.com/oof-gg/oof-protobufs/generated/go/v1/api/player"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -50,16 +51,16 @@ var file_v1_api_common_player_service_proto_rawDesc = []byte{
 	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6f, 0x66, 0x2d, 0x67,
 	0x67, 0x2f, 0x6f, 0x6f, 0x66, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x73, 0x2f,
 	0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x31, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x61, 0x70, 0x69, 0x2f, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x33,
 }
 
 var file_v1_api_common_player_service_proto_goTypes = []any{
-	(*Player)(nil),       // 0: v1.api.player.Player
-	(*PlayerGet)(nil),    // 1: v1.api.player.PlayerGet
-	(*PlayerUpdate)(nil), // 2: v1.api.player.PlayerUpdate
-	(*PlayerAction)(nil), // 3: v1.api.player.PlayerAction
-	(*Players)(nil),      // 4: v1.api.player.Players
+	(*player.Player)(nil),       // 0: v1.api.player.Player
+	(*player.PlayerGet)(nil),    // 1: v1.api.player.PlayerGet
+	(*player.PlayerUpdate)(nil), // 2: v1.api.player.PlayerUpdate
+	(*player.PlayerAction)(nil), // 3: v1.api.player.PlayerAction
+	(*player.Players)(nil),      // 4: v1.api.player.Players
 }
 var file_v1_api_common_player_service_proto_depIdxs = []int32{
 	0, // 0: v1.api.common.PlayerService.CreatePlayer:input_type -> v1.api.player.Player
@@ -82,8 +83,6 @@ func file_v1_api_common_player_service_proto_init() {
 	if File_v1_api_common_player_service_proto != nil {
 		return
 	}
-	file_v1_api_player_player_proto_init()
-	file_v1_api_player_action_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

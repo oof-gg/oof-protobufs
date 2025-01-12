@@ -4,10 +4,11 @@
 // - protoc             v5.28.2
 // source: v1/api/common/global_service.proto
 
-package global
+package common
 
 import (
 	context "context"
+	global "github.com/oof-gg/oof-protobufs/generated/go/v1/api/global"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -29,7 +30,7 @@ const (
 // / Global service for joining and leaving games
 type GlobalServiceClient interface {
 	// / Stream events from the global service
-	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[GlobalEvent, GlobalEvent], error)
+	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[global.GlobalEvent, global.GlobalEvent], error)
 }
 
 type globalServiceClient struct {
@@ -40,18 +41,18 @@ func NewGlobalServiceClient(cc grpc.ClientConnInterface) GlobalServiceClient {
 	return &globalServiceClient{cc}
 }
 
-func (c *globalServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[GlobalEvent, GlobalEvent], error) {
+func (c *globalServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[global.GlobalEvent, global.GlobalEvent], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	stream, err := c.cc.NewStream(ctx, &GlobalService_ServiceDesc.Streams[0], GlobalService_StreamEvents_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[GlobalEvent, GlobalEvent]{ClientStream: stream}
+	x := &grpc.GenericClientStream[global.GlobalEvent, global.GlobalEvent]{ClientStream: stream}
 	return x, nil
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type GlobalService_StreamEventsClient = grpc.BidiStreamingClient[GlobalEvent, GlobalEvent]
+type GlobalService_StreamEventsClient = grpc.BidiStreamingClient[global.GlobalEvent, global.GlobalEvent]
 
 // GlobalServiceServer is the server API for GlobalService service.
 // All implementations must embed UnimplementedGlobalServiceServer
@@ -60,7 +61,7 @@ type GlobalService_StreamEventsClient = grpc.BidiStreamingClient[GlobalEvent, Gl
 // / Global service for joining and leaving games
 type GlobalServiceServer interface {
 	// / Stream events from the global service
-	StreamEvents(grpc.BidiStreamingServer[GlobalEvent, GlobalEvent]) error
+	StreamEvents(grpc.BidiStreamingServer[global.GlobalEvent, global.GlobalEvent]) error
 	mustEmbedUnimplementedGlobalServiceServer()
 }
 
@@ -71,7 +72,7 @@ type GlobalServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGlobalServiceServer struct{}
 
-func (UnimplementedGlobalServiceServer) StreamEvents(grpc.BidiStreamingServer[GlobalEvent, GlobalEvent]) error {
+func (UnimplementedGlobalServiceServer) StreamEvents(grpc.BidiStreamingServer[global.GlobalEvent, global.GlobalEvent]) error {
 	return status.Errorf(codes.Unimplemented, "method StreamEvents not implemented")
 }
 func (UnimplementedGlobalServiceServer) mustEmbedUnimplementedGlobalServiceServer() {}
@@ -96,11 +97,11 @@ func RegisterGlobalServiceServer(s grpc.ServiceRegistrar, srv GlobalServiceServe
 }
 
 func _GlobalService_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(GlobalServiceServer).StreamEvents(&grpc.GenericServerStream[GlobalEvent, GlobalEvent]{ServerStream: stream})
+	return srv.(GlobalServiceServer).StreamEvents(&grpc.GenericServerStream[global.GlobalEvent, global.GlobalEvent]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type GlobalService_StreamEventsServer = grpc.BidiStreamingServer[GlobalEvent, GlobalEvent]
+type GlobalService_StreamEventsServer = grpc.BidiStreamingServer[global.GlobalEvent, global.GlobalEvent]
 
 // GlobalService_ServiceDesc is the grpc.ServiceDesc for GlobalService service.
 // It's only intended for direct use with grpc.RegisterService,

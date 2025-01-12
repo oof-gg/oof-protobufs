@@ -1293,18 +1293,18 @@ Represents the state of a game session
 
 | Method Name | Request Type | Response Type | Description |
 | ----------- | ------------ | ------------- | ------------|
-| JoinLeave | [.v1.api.game.JoinLeaveGame](#v1-api-game-JoinLeaveGame) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Join or leave a game, returns the queued session if not joined |
-| CreateSession | [.v1.api.game.SessionCreate](#v1-api-game-SessionCreate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| GetSession | [.v1.api.game.SessionGet](#v1-api-game-SessionGet) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| UpdateSession | [.v1.api.game.SessionUpdate](#v1-api-game-SessionUpdate) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| DeleteSession | [.v1.api.game.SessionDelete](#v1-api-game-SessionDelete) | [.v1.std.StandardResponse](#v1-std-StandardResponse) |  |
-| CreateEntity | [.v1.api.game.EntityCreateRequest](#v1-api-game-EntityCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | TODO: Adjust payloads for protos / Create a new entity |
-| GetEntity | [.v1.api.game.EntityGetRequest](#v1-api-game-EntityGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get an entity by ID |
-| UpdateEntity | [.v1.api.game.EntityUpdateRequest](#v1-api-game-EntityUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update an entity by ID |
-| DeleteEntity | [.v1.api.game.EntityDeleteRequest](#v1-api-game-EntityDeleteRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Delete an entity by ID |
-| CreateGame | [.v1.api.game.GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Create a new game |
-| GetGame | [.v1.api.game.GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.std.PaginatedResponse](#v1-std-PaginatedResponse) | Get a game by ID |
-| UpdateGame | [.v1.api.game.GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.std.StandardResponse](#v1-std-StandardResponse) | Update a game by ID |
+| JoinLeave | [.v1.api.game.JoinLeaveGame](#v1-api-game-JoinLeaveGame) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Join or leave a game, returns the queued session if not joined |
+| CreateSession | [.v1.api.game.SessionCreate](#v1-api-game-SessionCreate) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) |  |
+| GetSession | [.v1.api.game.SessionGet](#v1-api-game-SessionGet) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) |  |
+| UpdateSession | [.v1.api.game.SessionUpdate](#v1-api-game-SessionUpdate) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) |  |
+| DeleteSession | [.v1.api.game.SessionDelete](#v1-api-game-SessionDelete) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) |  |
+| CreateEntity | [.v1.api.game.EntityCreateRequest](#v1-api-game-EntityCreateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | TODO: Adjust payloads for protos / Create a new entity |
+| GetEntity | [.v1.api.game.EntityGetRequest](#v1-api-game-EntityGetRequest) | [.v1.api.game.PaginatedResponse](#v1-api-game-PaginatedResponse) | Get an entity by ID |
+| UpdateEntity | [.v1.api.game.EntityUpdateRequest](#v1-api-game-EntityUpdateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Update an entity by ID |
+| DeleteEntity | [.v1.api.game.EntityDeleteRequest](#v1-api-game-EntityDeleteRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Delete an entity by ID |
+| CreateGame | [.v1.api.game.GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Create a new game |
+| GetGame | [.v1.api.game.GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.api.game.PaginatedResponse](#v1-api-game-PaginatedResponse) | Get a game by ID |
+| UpdateGame | [.v1.api.game.GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Update a game by ID |
 | StreamEvents | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) stream | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) | Wait for queue updates |
 | WatchQueue | [.v1.api.game.Session](#v1-api-game-Session) | [.v1.api.game.Session](#v1-api-game-Session) stream | Stream events from the game |
 
