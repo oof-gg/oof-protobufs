@@ -1,6 +1,6 @@
 {
   "name": "@oof.gg/protobuf-ts-web",
-  "version": "1.0.93",
+  "version": "1.0.94",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
