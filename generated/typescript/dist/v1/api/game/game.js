@@ -8,6 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginatedResponse = exports.PaginationMetadata = exports.StandardResponse = exports.Status = exports.Games = exports.GameUpdateResponse = exports.GameUpdateRequest = exports.GameGetResponse = exports.GameGetRequest = exports.GameCreateResponse = exports.GameCreateRequest = exports.Game = exports.protobufPackage = void 0;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
+const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
 function createBaseGame() {
     return {
@@ -728,7 +729,15 @@ exports.Status = {
     },
 };
 function createBaseStandardResponse() {
-    return { code: 0, message: "", error: undefined, singleGame: undefined, games: undefined };
+    return {
+        code: 0,
+        message: "",
+        error: undefined,
+        singleGame: undefined,
+        games: undefined,
+        session: undefined,
+        sessions: undefined,
+    };
 }
 exports.StandardResponse = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -746,6 +755,12 @@ exports.StandardResponse = {
         }
         if (message.games !== undefined) {
             exports.Games.encode(message.games, writer.uint32(42).fork()).join();
+        }
+        if (message.session !== undefined) {
+            session_1.Session.encode(message.session, writer.uint32(50).fork()).join();
+        }
+        if (message.sessions !== undefined) {
+            session_1.Sessions.encode(message.sessions, writer.uint32(58).fork()).join();
         }
         return writer;
     },
@@ -791,6 +806,20 @@ exports.StandardResponse = {
                     message.games = exports.Games.decode(reader, reader.uint32());
                     continue;
                 }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.session = session_1.Session.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.sessions = session_1.Sessions.decode(reader, reader.uint32());
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -806,6 +835,8 @@ exports.StandardResponse = {
             error: isSet(object.error) ? exports.Status.fromJSON(object.error) : undefined,
             singleGame: isSet(object.singleGame) ? exports.Game.fromJSON(object.singleGame) : undefined,
             games: isSet(object.games) ? exports.Games.fromJSON(object.games) : undefined,
+            session: isSet(object.session) ? session_1.Session.fromJSON(object.session) : undefined,
+            sessions: isSet(object.sessions) ? session_1.Sessions.fromJSON(object.sessions) : undefined,
         };
     },
     toJSON(message) {
@@ -825,6 +856,12 @@ exports.StandardResponse = {
         if (message.games !== undefined) {
             obj.games = exports.Games.toJSON(message.games);
         }
+        if (message.session !== undefined) {
+            obj.session = session_1.Session.toJSON(message.session);
+        }
+        if (message.sessions !== undefined) {
+            obj.sessions = session_1.Sessions.toJSON(message.sessions);
+        }
         return obj;
     },
     create(base) {
@@ -841,6 +878,12 @@ exports.StandardResponse = {
             ? exports.Game.fromPartial(object.singleGame)
             : undefined;
         message.games = (object.games !== undefined && object.games !== null) ? exports.Games.fromPartial(object.games) : undefined;
+        message.session = (object.session !== undefined && object.session !== null)
+            ? session_1.Session.fromPartial(object.session)
+            : undefined;
+        message.sessions = (object.sessions !== undefined && object.sessions !== null)
+            ? session_1.Sessions.fromPartial(object.sessions)
+            : undefined;
         return message;
     },
 };
@@ -928,7 +971,16 @@ exports.PaginationMetadata = {
     },
 };
 function createBasePaginatedResponse() {
-    return { code: 0, message: "", error: undefined, pagination: undefined, singleGame: undefined, games: undefined };
+    return {
+        code: 0,
+        message: "",
+        error: undefined,
+        pagination: undefined,
+        game: undefined,
+        games: undefined,
+        session: undefined,
+        sessions: undefined,
+    };
 }
 exports.PaginatedResponse = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -944,11 +996,17 @@ exports.PaginatedResponse = {
         if (message.pagination !== undefined) {
             exports.PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
         }
-        if (message.singleGame !== undefined) {
-            exports.Game.encode(message.singleGame, writer.uint32(42).fork()).join();
+        if (message.game !== undefined) {
+            exports.Game.encode(message.game, writer.uint32(42).fork()).join();
         }
         if (message.games !== undefined) {
             exports.Games.encode(message.games, writer.uint32(50).fork()).join();
+        }
+        if (message.session !== undefined) {
+            session_1.Session.encode(message.session, writer.uint32(58).fork()).join();
+        }
+        if (message.sessions !== undefined) {
+            session_1.Sessions.encode(message.sessions, writer.uint32(66).fork()).join();
         }
         return writer;
     },
@@ -991,7 +1049,7 @@ exports.PaginatedResponse = {
                     if (tag !== 42) {
                         break;
                     }
-                    message.singleGame = exports.Game.decode(reader, reader.uint32());
+                    message.game = exports.Game.decode(reader, reader.uint32());
                     continue;
                 }
                 case 6: {
@@ -999,6 +1057,20 @@ exports.PaginatedResponse = {
                         break;
                     }
                     message.games = exports.Games.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.session = session_1.Session.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 8: {
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.sessions = session_1.Sessions.decode(reader, reader.uint32());
                     continue;
                 }
             }
@@ -1015,8 +1087,10 @@ exports.PaginatedResponse = {
             message: isSet(object.message) ? globalThis.String(object.message) : "",
             error: isSet(object.error) ? exports.Status.fromJSON(object.error) : undefined,
             pagination: isSet(object.pagination) ? exports.PaginationMetadata.fromJSON(object.pagination) : undefined,
-            singleGame: isSet(object.singleGame) ? exports.Game.fromJSON(object.singleGame) : undefined,
+            game: isSet(object.game) ? exports.Game.fromJSON(object.game) : undefined,
             games: isSet(object.games) ? exports.Games.fromJSON(object.games) : undefined,
+            session: isSet(object.session) ? session_1.Session.fromJSON(object.session) : undefined,
+            sessions: isSet(object.sessions) ? session_1.Sessions.fromJSON(object.sessions) : undefined,
         };
     },
     toJSON(message) {
@@ -1033,11 +1107,17 @@ exports.PaginatedResponse = {
         if (message.pagination !== undefined) {
             obj.pagination = exports.PaginationMetadata.toJSON(message.pagination);
         }
-        if (message.singleGame !== undefined) {
-            obj.singleGame = exports.Game.toJSON(message.singleGame);
+        if (message.game !== undefined) {
+            obj.game = exports.Game.toJSON(message.game);
         }
         if (message.games !== undefined) {
             obj.games = exports.Games.toJSON(message.games);
+        }
+        if (message.session !== undefined) {
+            obj.session = session_1.Session.toJSON(message.session);
+        }
+        if (message.sessions !== undefined) {
+            obj.sessions = session_1.Sessions.toJSON(message.sessions);
         }
         return obj;
     },
@@ -1054,10 +1134,14 @@ exports.PaginatedResponse = {
         message.pagination = (object.pagination !== undefined && object.pagination !== null)
             ? exports.PaginationMetadata.fromPartial(object.pagination)
             : undefined;
-        message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
-            ? exports.Game.fromPartial(object.singleGame)
-            : undefined;
+        message.game = (object.game !== undefined && object.game !== null) ? exports.Game.fromPartial(object.game) : undefined;
         message.games = (object.games !== undefined && object.games !== null) ? exports.Games.fromPartial(object.games) : undefined;
+        message.session = (object.session !== undefined && object.session !== null)
+            ? session_1.Session.fromPartial(object.session)
+            : undefined;
+        message.sessions = (object.sessions !== undefined && object.sessions !== null)
+            ? session_1.Sessions.fromPartial(object.sessions)
+            : undefined;
         return message;
     },
 };

@@ -1,4 +1,5 @@
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { Session, Sessions } from "./session";
 export declare const protobufPackage = "v1.api.game";
 export interface Game {
     id: string;
@@ -65,6 +66,8 @@ export interface StandardResponse {
     /** For single items. */
     singleGame?: Game | undefined;
     games?: Games | undefined;
+    session?: Session | undefined;
+    sessions?: Sessions | undefined;
 }
 /** / Metadata for paginated responses. */
 export interface PaginationMetadata {
@@ -86,8 +89,10 @@ export interface PaginatedResponse {
     /** Pagination metadata */
     pagination?: PaginationMetadata | undefined;
     /** For single items. */
-    singleGame?: Game | undefined;
+    game?: Game | undefined;
     games?: Games | undefined;
+    session?: Session | undefined;
+    sessions?: Sessions | undefined;
 }
 export declare const Game: MessageFns<Game>;
 export declare const GameCreateRequest: MessageFns<GameCreateRequest>;
