@@ -1,5 +1,6 @@
 import * as jspb from 'google-protobuf'
 
+import * as v1_api_game_session_pb from '../../../v1/api/game/session_pb'; // proto import: "v1/api/game/session.proto"
 
 
 export class Game extends jspb.Message {
@@ -302,6 +303,16 @@ export class StandardResponse extends jspb.Message {
   hasGames(): boolean;
   clearGames(): StandardResponse;
 
+  getSession(): v1_api_game_session_pb.Session | undefined;
+  setSession(value?: v1_api_game_session_pb.Session): StandardResponse;
+  hasSession(): boolean;
+  clearSession(): StandardResponse;
+
+  getSessions(): v1_api_game_session_pb.Sessions | undefined;
+  setSessions(value?: v1_api_game_session_pb.Sessions): StandardResponse;
+  hasSessions(): boolean;
+  clearSessions(): StandardResponse;
+
   getDataCase(): StandardResponse.DataCase;
 
   serializeBinary(): Uint8Array;
@@ -319,12 +330,16 @@ export namespace StandardResponse {
     error?: Status.AsObject,
     singleGame?: Game.AsObject,
     games?: Games.AsObject,
+    session?: v1_api_game_session_pb.Session.AsObject,
+    sessions?: v1_api_game_session_pb.Sessions.AsObject,
   }
 
   export enum DataCase { 
     DATA_NOT_SET = 0,
     SINGLE_GAME = 4,
     GAMES = 5,
+    SESSION = 6,
+    SESSIONS = 7,
   }
 }
 
@@ -392,15 +407,25 @@ export class PaginatedResponse extends jspb.Message {
   hasPagination(): boolean;
   clearPagination(): PaginatedResponse;
 
-  getSingleGame(): Game | undefined;
-  setSingleGame(value?: Game): PaginatedResponse;
-  hasSingleGame(): boolean;
-  clearSingleGame(): PaginatedResponse;
+  getGame(): Game | undefined;
+  setGame(value?: Game): PaginatedResponse;
+  hasGame(): boolean;
+  clearGame(): PaginatedResponse;
 
   getGames(): Games | undefined;
   setGames(value?: Games): PaginatedResponse;
   hasGames(): boolean;
   clearGames(): PaginatedResponse;
+
+  getSession(): v1_api_game_session_pb.Session | undefined;
+  setSession(value?: v1_api_game_session_pb.Session): PaginatedResponse;
+  hasSession(): boolean;
+  clearSession(): PaginatedResponse;
+
+  getSessions(): v1_api_game_session_pb.Sessions | undefined;
+  setSessions(value?: v1_api_game_session_pb.Sessions): PaginatedResponse;
+  hasSessions(): boolean;
+  clearSessions(): PaginatedResponse;
 
   getDataCase(): PaginatedResponse.DataCase;
 
@@ -418,14 +443,18 @@ export namespace PaginatedResponse {
     message: string,
     error?: Status.AsObject,
     pagination?: PaginationMetadata.AsObject,
-    singleGame?: Game.AsObject,
+    game?: Game.AsObject,
     games?: Games.AsObject,
+    session?: v1_api_game_session_pb.Session.AsObject,
+    sessions?: v1_api_game_session_pb.Sessions.AsObject,
   }
 
   export enum DataCase { 
     DATA_NOT_SET = 0,
-    SINGLE_GAME = 5,
+    GAME = 5,
     GAMES = 6,
+    SESSION = 7,
+    SESSIONS = 8,
   }
 
   export enum PaginationCase { 

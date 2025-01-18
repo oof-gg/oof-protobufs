@@ -808,8 +808,10 @@ A paginated response wrapper.
 | message | [string](#string) |  | This could be your success or error message. |
 | error | [Status](#v1-api-game-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
 | pagination | [PaginationMetadata](#v1-api-game-PaginationMetadata) | optional | Pagination metadata |
-| single_game | [Game](#v1-api-game-Game) |  | For single items. |
+| game | [Game](#v1-api-game-Game) |  | For single items. |
 | games | [Games](#v1-api-game-Games) |  |  |
+| session | [Session](#v1-api-game-Session) |  |  |
+| sessions | [Sessions](#v1-api-game-Sessions) |  |  |
 
 
 
@@ -846,6 +848,8 @@ Unify everything into one response.
 | error | [Status](#v1-api-game-Status) |  | If there&#39;s an error, you could store it here or just use google.rpc.Status directly. |
 | single_game | [Game](#v1-api-game-Game) |  | For single items. |
 | games | [Games](#v1-api-game-Games) |  |  |
+| session | [Session](#v1-api-game-Session) |  |  |
+| sessions | [Sessions](#v1-api-game-Sessions) |  |  |
 
 
 

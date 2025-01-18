@@ -6,6 +6,7 @@
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { Session, Sessions } from "./session";
 
 export const protobufPackage = "v1.api.game";
 
@@ -85,6 +86,8 @@ export interface StandardResponse {
   /** For single items. */
   singleGame?: Game | undefined;
   games?: Games | undefined;
+  session?: Session | undefined;
+  sessions?: Sessions | undefined;
 }
 
 /** / Metadata for paginated responses. */
@@ -116,8 +119,10 @@ export interface PaginatedResponse {
     | PaginationMetadata
     | undefined;
   /** For single items. */
-  singleGame?: Game | undefined;
+  game?: Game | undefined;
   games?: Games | undefined;
+  session?: Session | undefined;
+  sessions?: Sessions | undefined;
 }
 
 function createBaseGame(): Game {
@@ -918,7 +923,15 @@ export const Status: MessageFns<Status> = {
 };
 
 function createBaseStandardResponse(): StandardResponse {
-  return { code: 0, message: "", error: undefined, singleGame: undefined, games: undefined };
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    singleGame: undefined,
+    games: undefined,
+    session: undefined,
+    sessions: undefined,
+  };
 }
 
 export const StandardResponse: MessageFns<StandardResponse> = {
@@ -937,6 +950,12 @@ export const StandardResponse: MessageFns<StandardResponse> = {
     }
     if (message.games !== undefined) {
       Games.encode(message.games, writer.uint32(42).fork()).join();
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(50).fork()).join();
+    }
+    if (message.sessions !== undefined) {
+      Sessions.encode(message.sessions, writer.uint32(58).fork()).join();
     }
     return writer;
   },
@@ -988,6 +1007,22 @@ export const StandardResponse: MessageFns<StandardResponse> = {
           message.games = Games.decode(reader, reader.uint32());
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.session = Session.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.sessions = Sessions.decode(reader, reader.uint32());
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -1004,6 +1039,8 @@ export const StandardResponse: MessageFns<StandardResponse> = {
       error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
       singleGame: isSet(object.singleGame) ? Game.fromJSON(object.singleGame) : undefined,
       games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
+      session: isSet(object.session) ? Session.fromJSON(object.session) : undefined,
+      sessions: isSet(object.sessions) ? Sessions.fromJSON(object.sessions) : undefined,
     };
   },
 
@@ -1024,6 +1061,12 @@ export const StandardResponse: MessageFns<StandardResponse> = {
     if (message.games !== undefined) {
       obj.games = Games.toJSON(message.games);
     }
+    if (message.session !== undefined) {
+      obj.session = Session.toJSON(message.session);
+    }
+    if (message.sessions !== undefined) {
+      obj.sessions = Sessions.toJSON(message.sessions);
+    }
     return obj;
   },
 
@@ -1041,6 +1084,12 @@ export const StandardResponse: MessageFns<StandardResponse> = {
       ? Game.fromPartial(object.singleGame)
       : undefined;
     message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
+    message.session = (object.session !== undefined && object.session !== null)
+      ? Session.fromPartial(object.session)
+      : undefined;
+    message.sessions = (object.sessions !== undefined && object.sessions !== null)
+      ? Sessions.fromPartial(object.sessions)
+      : undefined;
     return message;
   },
 };
@@ -1138,7 +1187,16 @@ export const PaginationMetadata: MessageFns<PaginationMetadata> = {
 };
 
 function createBasePaginatedResponse(): PaginatedResponse {
-  return { code: 0, message: "", error: undefined, pagination: undefined, singleGame: undefined, games: undefined };
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    pagination: undefined,
+    game: undefined,
+    games: undefined,
+    session: undefined,
+    sessions: undefined,
+  };
 }
 
 export const PaginatedResponse: MessageFns<PaginatedResponse> = {
@@ -1155,11 +1213,17 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     if (message.pagination !== undefined) {
       PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
     }
-    if (message.singleGame !== undefined) {
-      Game.encode(message.singleGame, writer.uint32(42).fork()).join();
+    if (message.game !== undefined) {
+      Game.encode(message.game, writer.uint32(42).fork()).join();
     }
     if (message.games !== undefined) {
       Games.encode(message.games, writer.uint32(50).fork()).join();
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(58).fork()).join();
+    }
+    if (message.sessions !== undefined) {
+      Sessions.encode(message.sessions, writer.uint32(66).fork()).join();
     }
     return writer;
   },
@@ -1208,7 +1272,7 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
             break;
           }
 
-          message.singleGame = Game.decode(reader, reader.uint32());
+          message.game = Game.decode(reader, reader.uint32());
           continue;
         }
         case 6: {
@@ -1217,6 +1281,22 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
           }
 
           message.games = Games.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.session = Session.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.sessions = Sessions.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -1234,8 +1314,10 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
       message: isSet(object.message) ? globalThis.String(object.message) : "",
       error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
       pagination: isSet(object.pagination) ? PaginationMetadata.fromJSON(object.pagination) : undefined,
-      singleGame: isSet(object.singleGame) ? Game.fromJSON(object.singleGame) : undefined,
+      game: isSet(object.game) ? Game.fromJSON(object.game) : undefined,
       games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
+      session: isSet(object.session) ? Session.fromJSON(object.session) : undefined,
+      sessions: isSet(object.sessions) ? Sessions.fromJSON(object.sessions) : undefined,
     };
   },
 
@@ -1253,11 +1335,17 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     if (message.pagination !== undefined) {
       obj.pagination = PaginationMetadata.toJSON(message.pagination);
     }
-    if (message.singleGame !== undefined) {
-      obj.singleGame = Game.toJSON(message.singleGame);
+    if (message.game !== undefined) {
+      obj.game = Game.toJSON(message.game);
     }
     if (message.games !== undefined) {
       obj.games = Games.toJSON(message.games);
+    }
+    if (message.session !== undefined) {
+      obj.session = Session.toJSON(message.session);
+    }
+    if (message.sessions !== undefined) {
+      obj.sessions = Sessions.toJSON(message.sessions);
     }
     return obj;
   },
@@ -1275,10 +1363,14 @@ export const PaginatedResponse: MessageFns<PaginatedResponse> = {
     message.pagination = (object.pagination !== undefined && object.pagination !== null)
       ? PaginationMetadata.fromPartial(object.pagination)
       : undefined;
-    message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
-      ? Game.fromPartial(object.singleGame)
-      : undefined;
+    message.game = (object.game !== undefined && object.game !== null) ? Game.fromPartial(object.game) : undefined;
     message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
+    message.session = (object.session !== undefined && object.session !== null)
+      ? Session.fromPartial(object.session)
+      : undefined;
+    message.sessions = (object.sessions !== undefined && object.sessions !== null)
+      ? Sessions.fromPartial(object.sessions)
+      : undefined;
     return message;
   },
 };

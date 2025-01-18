@@ -21,6 +21,8 @@ var global =
     (function () { return this; }).call(null) ||
     Function('return this')();
 
+var v1_api_game_session_pb = require('../../../v1/api/game/session_pb.js');
+goog.object.extend(proto, v1_api_game_session_pb);
 goog.exportSymbol('proto.v1.api.game.Game', null, global);
 goog.exportSymbol('proto.v1.api.game.GameCreateRequest', null, global);
 goog.exportSymbol('proto.v1.api.game.GameCreateResponse', null, global);
@@ -2173,7 +2175,7 @@ proto.v1.api.game.Status.prototype.clearDetailsList = function() {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.v1.api.game.StandardResponse.oneofGroups_ = [[4,5]];
+proto.v1.api.game.StandardResponse.oneofGroups_ = [[4,5,6,7]];
 
 /**
  * @enum {number}
@@ -2181,7 +2183,9 @@ proto.v1.api.game.StandardResponse.oneofGroups_ = [[4,5]];
 proto.v1.api.game.StandardResponse.DataCase = {
   DATA_NOT_SET: 0,
   SINGLE_GAME: 4,
-  GAMES: 5
+  GAMES: 5,
+  SESSION: 6,
+  SESSIONS: 7
 };
 
 /**
@@ -2226,7 +2230,9 @@ code: jspb.Message.getFieldWithDefault(msg, 1, 0),
 message: jspb.Message.getFieldWithDefault(msg, 2, ""),
 error: (f = msg.getError()) && proto.v1.api.game.Status.toObject(includeInstance, f),
 singleGame: (f = msg.getSingleGame()) && proto.v1.api.game.Game.toObject(includeInstance, f),
-games: (f = msg.getGames()) && proto.v1.api.game.Games.toObject(includeInstance, f)
+games: (f = msg.getGames()) && proto.v1.api.game.Games.toObject(includeInstance, f),
+session: (f = msg.getSession()) && v1_api_game_session_pb.Session.toObject(includeInstance, f),
+sessions: (f = msg.getSessions()) && v1_api_game_session_pb.Sessions.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2285,6 +2291,16 @@ proto.v1.api.game.StandardResponse.deserializeBinaryFromReader = function(msg, r
       var value = new proto.v1.api.game.Games;
       reader.readMessage(value,proto.v1.api.game.Games.deserializeBinaryFromReader);
       msg.setGames(value);
+      break;
+    case 6:
+      var value = new v1_api_game_session_pb.Session;
+      reader.readMessage(value,v1_api_game_session_pb.Session.deserializeBinaryFromReader);
+      msg.setSession(value);
+      break;
+    case 7:
+      var value = new v1_api_game_session_pb.Sessions;
+      reader.readMessage(value,v1_api_game_session_pb.Sessions.deserializeBinaryFromReader);
+      msg.setSessions(value);
       break;
     default:
       reader.skipField();
@@ -2351,6 +2367,22 @@ proto.v1.api.game.StandardResponse.serializeBinaryToWriter = function(message, w
       5,
       f,
       proto.v1.api.game.Games.serializeBinaryToWriter
+    );
+  }
+  f = message.getSession();
+  if (f != null) {
+    writer.writeMessage(
+      6,
+      f,
+      v1_api_game_session_pb.Session.serializeBinaryToWriter
+    );
+  }
+  f = message.getSessions();
+  if (f != null) {
+    writer.writeMessage(
+      7,
+      f,
+      v1_api_game_session_pb.Sessions.serializeBinaryToWriter
     );
   }
 };
@@ -2500,6 +2532,80 @@ proto.v1.api.game.StandardResponse.prototype.clearGames = function() {
  */
 proto.v1.api.game.StandardResponse.prototype.hasGames = function() {
   return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional Session session = 6;
+ * @return {?proto.v1.api.game.Session}
+ */
+proto.v1.api.game.StandardResponse.prototype.getSession = function() {
+  return /** @type{?proto.v1.api.game.Session} */ (
+    jspb.Message.getWrapperField(this, v1_api_game_session_pb.Session, 6));
+};
+
+
+/**
+ * @param {?proto.v1.api.game.Session|undefined} value
+ * @return {!proto.v1.api.game.StandardResponse} returns this
+*/
+proto.v1.api.game.StandardResponse.prototype.setSession = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 6, proto.v1.api.game.StandardResponse.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.v1.api.game.StandardResponse} returns this
+ */
+proto.v1.api.game.StandardResponse.prototype.clearSession = function() {
+  return this.setSession(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.StandardResponse.prototype.hasSession = function() {
+  return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * optional Sessions sessions = 7;
+ * @return {?proto.v1.api.game.Sessions}
+ */
+proto.v1.api.game.StandardResponse.prototype.getSessions = function() {
+  return /** @type{?proto.v1.api.game.Sessions} */ (
+    jspb.Message.getWrapperField(this, v1_api_game_session_pb.Sessions, 7));
+};
+
+
+/**
+ * @param {?proto.v1.api.game.Sessions|undefined} value
+ * @return {!proto.v1.api.game.StandardResponse} returns this
+*/
+proto.v1.api.game.StandardResponse.prototype.setSessions = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 7, proto.v1.api.game.StandardResponse.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.v1.api.game.StandardResponse} returns this
+ */
+proto.v1.api.game.StandardResponse.prototype.clearSessions = function() {
+  return this.setSessions(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.StandardResponse.prototype.hasSessions = function() {
+  return jspb.Message.getField(this, 7) != null;
 };
 
 
@@ -2756,15 +2862,17 @@ proto.v1.api.game.PaginationMetadata.prototype.hasNextPageToken = function() {
  * @private {!Array<!Array<number>>}
  * @const
  */
-proto.v1.api.game.PaginatedResponse.oneofGroups_ = [[5,6]];
+proto.v1.api.game.PaginatedResponse.oneofGroups_ = [[5,6,7,8]];
 
 /**
  * @enum {number}
  */
 proto.v1.api.game.PaginatedResponse.DataCase = {
   DATA_NOT_SET: 0,
-  SINGLE_GAME: 5,
-  GAMES: 6
+  GAME: 5,
+  GAMES: 6,
+  SESSION: 7,
+  SESSIONS: 8
 };
 
 /**
@@ -2809,8 +2917,10 @@ code: jspb.Message.getFieldWithDefault(msg, 1, 0),
 message: jspb.Message.getFieldWithDefault(msg, 2, ""),
 error: (f = msg.getError()) && proto.v1.api.game.Status.toObject(includeInstance, f),
 pagination: (f = msg.getPagination()) && proto.v1.api.game.PaginationMetadata.toObject(includeInstance, f),
-singleGame: (f = msg.getSingleGame()) && proto.v1.api.game.Game.toObject(includeInstance, f),
-games: (f = msg.getGames()) && proto.v1.api.game.Games.toObject(includeInstance, f)
+game: (f = msg.getGame()) && proto.v1.api.game.Game.toObject(includeInstance, f),
+games: (f = msg.getGames()) && proto.v1.api.game.Games.toObject(includeInstance, f),
+session: (f = msg.getSession()) && v1_api_game_session_pb.Session.toObject(includeInstance, f),
+sessions: (f = msg.getSessions()) && v1_api_game_session_pb.Sessions.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2868,12 +2978,22 @@ proto.v1.api.game.PaginatedResponse.deserializeBinaryFromReader = function(msg, 
     case 5:
       var value = new proto.v1.api.game.Game;
       reader.readMessage(value,proto.v1.api.game.Game.deserializeBinaryFromReader);
-      msg.setSingleGame(value);
+      msg.setGame(value);
       break;
     case 6:
       var value = new proto.v1.api.game.Games;
       reader.readMessage(value,proto.v1.api.game.Games.deserializeBinaryFromReader);
       msg.setGames(value);
+      break;
+    case 7:
+      var value = new v1_api_game_session_pb.Session;
+      reader.readMessage(value,v1_api_game_session_pb.Session.deserializeBinaryFromReader);
+      msg.setSession(value);
+      break;
+    case 8:
+      var value = new v1_api_game_session_pb.Sessions;
+      reader.readMessage(value,v1_api_game_session_pb.Sessions.deserializeBinaryFromReader);
+      msg.setSessions(value);
       break;
     default:
       reader.skipField();
@@ -2934,7 +3054,7 @@ proto.v1.api.game.PaginatedResponse.serializeBinaryToWriter = function(message, 
       proto.v1.api.game.PaginationMetadata.serializeBinaryToWriter
     );
   }
-  f = message.getSingleGame();
+  f = message.getGame();
   if (f != null) {
     writer.writeMessage(
       5,
@@ -2948,6 +3068,22 @@ proto.v1.api.game.PaginatedResponse.serializeBinaryToWriter = function(message, 
       6,
       f,
       proto.v1.api.game.Games.serializeBinaryToWriter
+    );
+  }
+  f = message.getSession();
+  if (f != null) {
+    writer.writeMessage(
+      7,
+      f,
+      v1_api_game_session_pb.Session.serializeBinaryToWriter
+    );
+  }
+  f = message.getSessions();
+  if (f != null) {
+    writer.writeMessage(
+      8,
+      f,
+      v1_api_game_session_pb.Sessions.serializeBinaryToWriter
     );
   }
 };
@@ -3064,10 +3200,10 @@ proto.v1.api.game.PaginatedResponse.prototype.hasPagination = function() {
 
 
 /**
- * optional Game single_game = 5;
+ * optional Game game = 5;
  * @return {?proto.v1.api.game.Game}
  */
-proto.v1.api.game.PaginatedResponse.prototype.getSingleGame = function() {
+proto.v1.api.game.PaginatedResponse.prototype.getGame = function() {
   return /** @type{?proto.v1.api.game.Game} */ (
     jspb.Message.getWrapperField(this, proto.v1.api.game.Game, 5));
 };
@@ -3077,7 +3213,7 @@ proto.v1.api.game.PaginatedResponse.prototype.getSingleGame = function() {
  * @param {?proto.v1.api.game.Game|undefined} value
  * @return {!proto.v1.api.game.PaginatedResponse} returns this
 */
-proto.v1.api.game.PaginatedResponse.prototype.setSingleGame = function(value) {
+proto.v1.api.game.PaginatedResponse.prototype.setGame = function(value) {
   return jspb.Message.setOneofWrapperField(this, 5, proto.v1.api.game.PaginatedResponse.oneofGroups_[0], value);
 };
 
@@ -3086,8 +3222,8 @@ proto.v1.api.game.PaginatedResponse.prototype.setSingleGame = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.v1.api.game.PaginatedResponse} returns this
  */
-proto.v1.api.game.PaginatedResponse.prototype.clearSingleGame = function() {
-  return this.setSingleGame(undefined);
+proto.v1.api.game.PaginatedResponse.prototype.clearGame = function() {
+  return this.setGame(undefined);
 };
 
 
@@ -3095,7 +3231,7 @@ proto.v1.api.game.PaginatedResponse.prototype.clearSingleGame = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.v1.api.game.PaginatedResponse.prototype.hasSingleGame = function() {
+proto.v1.api.game.PaginatedResponse.prototype.hasGame = function() {
   return jspb.Message.getField(this, 5) != null;
 };
 
@@ -3134,6 +3270,80 @@ proto.v1.api.game.PaginatedResponse.prototype.clearGames = function() {
  */
 proto.v1.api.game.PaginatedResponse.prototype.hasGames = function() {
   return jspb.Message.getField(this, 6) != null;
+};
+
+
+/**
+ * optional Session session = 7;
+ * @return {?proto.v1.api.game.Session}
+ */
+proto.v1.api.game.PaginatedResponse.prototype.getSession = function() {
+  return /** @type{?proto.v1.api.game.Session} */ (
+    jspb.Message.getWrapperField(this, v1_api_game_session_pb.Session, 7));
+};
+
+
+/**
+ * @param {?proto.v1.api.game.Session|undefined} value
+ * @return {!proto.v1.api.game.PaginatedResponse} returns this
+*/
+proto.v1.api.game.PaginatedResponse.prototype.setSession = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 7, proto.v1.api.game.PaginatedResponse.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.v1.api.game.PaginatedResponse} returns this
+ */
+proto.v1.api.game.PaginatedResponse.prototype.clearSession = function() {
+  return this.setSession(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.PaginatedResponse.prototype.hasSession = function() {
+  return jspb.Message.getField(this, 7) != null;
+};
+
+
+/**
+ * optional Sessions sessions = 8;
+ * @return {?proto.v1.api.game.Sessions}
+ */
+proto.v1.api.game.PaginatedResponse.prototype.getSessions = function() {
+  return /** @type{?proto.v1.api.game.Sessions} */ (
+    jspb.Message.getWrapperField(this, v1_api_game_session_pb.Sessions, 8));
+};
+
+
+/**
+ * @param {?proto.v1.api.game.Sessions|undefined} value
+ * @return {!proto.v1.api.game.PaginatedResponse} returns this
+*/
+proto.v1.api.game.PaginatedResponse.prototype.setSessions = function(value) {
+  return jspb.Message.setOneofWrapperField(this, 8, proto.v1.api.game.PaginatedResponse.oneofGroups_[0], value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
+ * @return {!proto.v1.api.game.PaginatedResponse} returns this
+ */
+proto.v1.api.game.PaginatedResponse.prototype.clearSessions = function() {
+  return this.setSessions(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.PaginatedResponse.prototype.hasSessions = function() {
+  return jspb.Message.getField(this, 8) != null;
 };
 
 
