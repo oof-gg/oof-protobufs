@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package v1.api.game;
 
-import "v1/api/common/regions.proto";
+import "v1/std/regions.proto";
 
 
 /// Message joining or leaving a game
@@ -12,7 +12,7 @@ message JoinLeaveGame {
   Action action = 3;
   optional string team_id = 4;
   optional string session_id = 5;
-  optional v1.api.common.RegionEnum region = 6;
+  optional v1.std.RegionEnum region = 6;
 
   enum Action {
     JOIN = 0;

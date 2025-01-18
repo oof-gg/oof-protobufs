@@ -92,9 +92,6 @@
 - [v1/api/common/player_service.proto](#v1_api_common_player_service-proto)
     - [PlayerService](#v1-api-common-PlayerService)
   
-- [v1/api/common/regions.proto](#v1_api_common_regions-proto)
-    - [RegionEnum](#v1-api-common-RegionEnum)
-  
 - [v1/api/global/event.proto](#v1_api_global_event-proto)
     - [GlobalEvent](#v1-api-global-GlobalEvent)
     - [GlobalEvent.AttributesEntry](#v1-api-global-GlobalEvent-AttributesEntry)
@@ -130,6 +127,9 @@
     - [State.PlayerAttribute](#v1-api-player-State-PlayerAttribute)
   
     - [State.PlayerState](#v1-api-player-State-PlayerState)
+  
+- [v1/std/regions.proto](#v1_std_regions-proto)
+    - [RegionEnum](#v1-std-RegionEnum)
   
 - [v1/std/responses.proto](#v1_std_responses-proto)
     - [PaginatedResponse](#v1-std-PaginatedResponse)
@@ -1034,7 +1034,7 @@ Message joining or leaving a game
 | action | [JoinLeaveGame.Action](#v1-api-game-JoinLeaveGame-Action) |  |  |
 | team_id | [string](#string) | optional |  |
 | session_id | [string](#string) | optional |  |
-| region | [v1.api.common.RegionEnum](#v1-api-common-RegionEnum) | optional |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
 
 
 
@@ -1103,7 +1103,7 @@ Represents a game session, can be used to store game state and attributes such a
 | attributes | [Session.AttributesEntry](#v1-api-game-Session-AttributesEntry) | repeated | Game attributes as a map of string to GameAttribute
 
 Game attributes |
-| region | [v1.api.common.RegionEnum](#v1-api-common-RegionEnum) | optional |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
 | data | [string](#string) | optional |  |
 
 
@@ -1139,7 +1139,7 @@ Represents a game session creation request
 | user_ids | [string](#string) | repeated |  |
 | state | [GameState](#v1-api-game-GameState) |  |  |
 | attributes | [SessionCreate.AttributesEntry](#v1-api-game-SessionCreate-AttributesEntry) | repeated |  |
-| region | [v1.api.common.RegionEnum](#v1-api-common-RegionEnum) | optional |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
 | data | [string](#string) | optional |  |
 
 
@@ -1208,7 +1208,7 @@ Represents a game session update request
 | user_ids | [string](#string) | repeated |  |
 | state | [GameState](#v1-api-game-GameState) |  |  |
 | attributes | [SessionUpdate.AttributesEntry](#v1-api-game-SessionUpdate-AttributesEntry) | repeated |  |
-| region | [v1.api.common.RegionEnum](#v1-api-common-RegionEnum) | optional |  |
+| region | [v1.std.RegionEnum](#v1-std-RegionEnum) | optional |  |
 | data | [string](#string) | optional |  |
 
 
@@ -1362,60 +1362,6 @@ Global service for joining and leaving games
 | GetPlayer | [.v1.api.player.PlayerGet](#v1-api-player-PlayerGet) | [.v1.api.player.Players](#v1-api-player-Players) |  |
 | UpdatePlayer | [.v1.api.player.PlayerUpdate](#v1-api-player-PlayerUpdate) | [.v1.api.player.Player](#v1-api-player-Player) |  |
 | StreamEvents | [.v1.api.player.PlayerAction](#v1-api-player-PlayerAction) stream | [.v1.api.player.PlayerAction](#v1-api-player-PlayerAction) stream |  |
-
- 
-
-
-
-<a name="v1_api_common_regions-proto"></a>
-<p align="right"><a href="#top">Top</a></p>
-
-## v1/api/common/regions.proto
-
-
- 
-
-
-<a name="v1-api-common-RegionEnum"></a>
-
-### RegionEnum
-Enum for regions
-
-| Name | Number | Description |
-| ---- | ------ | ----------- |
-| REGION_UNSPECIFIED | 0 | Default unspecified region |
-| NA_EAST | 1 | Americas
-
-North America East |
-| NA_WEST | 2 | North America West |
-| SA | 3 | South America (all countries) |
-| EU_WEST | 4 | Europe
-
-Western Europe |
-| EU_CENTRAL | 5 | Central Europe |
-| EU_NORTH | 6 | Northern Europe |
-| AS_EAST | 7 | Asia
-
-East Asia |
-| AS_SE | 8 | Southeast Asia |
-| AS_SOUTH | 9 | South Asia |
-| OC | 10 | Oceania
-
-Oceania (e.g., Australia, New Zealand) |
-| MENA | 11 | MENA (Middle East &amp; North Africa)
-
-Middle East and North Africa |
-| AFRICA | 12 | Sub-Saharan Africa
-
-Sub-Saharan Africa |
-| GLOBAL | 13 | Global
-
-Cross-region/global servers |
-
-
- 
-
- 
 
  
 
@@ -1871,6 +1817,60 @@ Type of action
 | WAITING | 0 |  |
 | PLAYING | 1 |  |
 | FINISHED | 2 |  |
+
+
+ 
+
+ 
+
+ 
+
+
+
+<a name="v1_std_regions-proto"></a>
+<p align="right"><a href="#top">Top</a></p>
+
+## v1/std/regions.proto
+
+
+ 
+
+
+<a name="v1-std-RegionEnum"></a>
+
+### RegionEnum
+Enum for regions
+
+| Name | Number | Description |
+| ---- | ------ | ----------- |
+| REGION_UNSPECIFIED | 0 | Default unspecified region |
+| NA_EAST | 1 | Americas
+
+North America East |
+| NA_WEST | 2 | North America West |
+| SA | 3 | South America (all countries) |
+| EU_WEST | 4 | Europe
+
+Western Europe |
+| EU_CENTRAL | 5 | Central Europe |
+| EU_NORTH | 6 | Northern Europe |
+| AS_EAST | 7 | Asia
+
+East Asia |
+| AS_SE | 8 | Southeast Asia |
+| AS_SOUTH | 9 | South Asia |
+| OC | 10 | Oceania
+
+Oceania (e.g., Australia, New Zealand) |
+| MENA | 11 | MENA (Middle East &amp; North Africa)
+
+Middle East and North Africa |
+| AFRICA | 12 | Sub-Saharan Africa
+
+Sub-Saharan Africa |
+| GLOBAL | 13 | Global
+
+Cross-region/global servers |
 
 
  

@@ -2,7 +2,7 @@ module oof-example
 
 go 1.22
 
-require github.com/oof-gg/oof-protobufs v0.0.68
+require github.com/oof-gg/oof-protobufs v0.0.69
 
 require (
 	golang.org/x/net v0.30.0 // indirect

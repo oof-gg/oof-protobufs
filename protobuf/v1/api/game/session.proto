@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package v1.api.game;
 
-import "v1/api/common/regions.proto";
+import "v1/std/regions.proto";
 
 /// Represents the state of a game session
 enum GameState {
@@ -38,7 +38,7 @@ message Session {
   GameState state = 4;
   /// Game attributes as a map of string to GameAttribute
   map<string, GameAttribute> attributes = 5; // Game attributes
-  optional v1.api.common.RegionEnum region = 6;
+  optional v1.std.RegionEnum region = 6;
   optional string data = 7;
 }
 
@@ -48,7 +48,7 @@ message SessionCreate {
   repeated string user_ids = 2;
   GameState state = 3;
   map<string, GameAttribute> attributes = 4;
-  optional v1.api.common.RegionEnum region = 5;
+  optional v1.std.RegionEnum region = 5;
   optional string data = 6;
 }
 
@@ -58,7 +58,7 @@ message SessionUpdate {
   repeated string user_ids = 3;
   GameState state = 4;
   map<string, GameAttribute> attributes = 5;
-  optional v1.api.common.RegionEnum region = 6;
+  optional v1.std.RegionEnum region = 6;
   optional string data = 7;
 }
 

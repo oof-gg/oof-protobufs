@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package v1.api.common;
+package v1.std;
 
 /// Enum for regions
 enum RegionEnum {
@@ -34,4 +34,4 @@ enum RegionEnum {
     GLOBAL = 13; // Cross-region/global servers
 }
 
-option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/std";
