@@ -3,6 +3,8 @@ syntax = "proto3";
 
 package v1.api.game;
 
+import "v1/api/game/session.proto";
+
 message Game {
   string id = 1;
   string name = 2;
@@ -79,6 +81,8 @@ message StandardResponse {
     // For single items.
     Game single_game = 4;
     Games games = 5;
+    Session session = 6;
+    Sessions sessions = 7;
   }
 }
 
@@ -103,8 +107,10 @@ message PaginatedResponse {
       // The actual payload.
     oneof data {
         // For single items.
-        Game single_game = 5;
+        Game game = 5;
         Games games = 6;
+        Session session = 7;
+        Sessions sessions = 8;
     }
 }
 
