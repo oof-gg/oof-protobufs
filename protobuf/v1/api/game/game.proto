@@ -3,17 +3,23 @@ syntax = "proto3";
 
 package v1.api.game;
 
+import "v1/api/game/session.proto";
+
 message Game {
   string id = 1;
   string name = 2;
-  string description = 3;
-  string data = 4;
+  string short_description = 3;
+  string description = 4;
+  string image_url = 5;
+  string max_sessions = 6;
+  string max_players_per_session = 7;
+  optional string data = 8; // Can be any JSON data
 }
 
 message GameCreateRequest {
   string name = 1;
   string description = 2;
-  string data = 3;
+  optional string data = 3;
 }
 
 message GameCreateResponse {
@@ -22,6 +28,8 @@ message GameCreateResponse {
 
 message GameGetRequest {
   optional string id = 1;
+  optional int32 limit = 2;
+  optional string cursor = 3;
 }
 
 message GameGetResponse {
@@ -32,11 +40,78 @@ message GameUpdateRequest {
   string id = 1;
   string name = 2;
   string description = 3;
-  string data = 4;
+  optional string data = 4;
 }
 
 message GameUpdateResponse {
   Game game = 1;
+}
+
+message Games {
+  repeated Game games = 1;
+}
+
+message Status {
+  // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  // user-facing error message should be localized and sent in the
+  // [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+  string message = 2;
+
+  // A list of messages that carry the error details.  There will be a
+  // common set of message types for APIs to use.
+  repeated string details = 3;
+}
+
+// Unify everything into one response.
+message StandardResponse {
+  // Status code (e.g., HTTP or custom).
+  int32 code = 1;
+
+  // This could be your success or error message.
+  string message = 2;
+
+  // If there's an error, you could store it here or just use google.rpc.Status directly.
+  Status error = 3;
+
+  // The actual payload.
+  oneof data {
+    // For single items.
+    Game single_game = 4;
+    Games games = 5;
+    Session session = 6;
+    Sessions sessions = 7;
+  }
+}
+
+/// Metadata for paginated responses.
+message PaginationMetadata {
+    optional int32 page_size = 1;     // Number of items per page
+    optional string prev_page_token = 2; // Token for the previous page
+    optional string next_page_token = 3; // Token for the next page
+}
+
+/// A paginated response wrapper.
+message PaginatedResponse {
+    // Status code (e.g., HTTP or custom).
+    int32 code = 1;
+
+    // This could be your success or error message.
+    string message = 2;
+
+    // If there's an error, you could store it here or just use google.rpc.Status directly.
+    Status error = 3;
+    optional PaginationMetadata pagination = 4; // Pagination metadata
+      // The actual payload.
+    oneof data {
+        // For single items.
+        Game game = 5;
+        Games games = 6;
+        Session session = 7;
+        Sessions sessions = 8;
+    }
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/game";

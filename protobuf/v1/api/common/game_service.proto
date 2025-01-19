@@ -1,0 +1,44 @@
+
+syntax = "proto3";
+
+package v1.api.common;
+
+import "v1/api/game/game.proto";
+import "v1/api/game/session.proto";
+import "v1/api/game/entity.proto";
+import "v1/api/game/event.proto";
+import "v1/api/game/join_leave.proto";
+
+service GameService {
+  /// Join or leave a game, returns the queued session if not joined
+  rpc JoinLeave (v1.api.game.JoinLeaveGame) returns (v1.api.game.StandardResponse);
+  rpc CreateSession (v1.api.game.SessionCreate) returns (v1.api.game.StandardResponse);
+  rpc GetSession (v1.api.game.SessionGet) returns (v1.api.game.StandardResponse);
+  rpc UpdateSession (v1.api.game.SessionUpdate) returns (v1.api.game.StandardResponse);
+  rpc DeleteSession (v1.api.game.SessionDelete) returns (v1.api.game.StandardResponse);
+
+  //TODO: Adjust payloads for protos
+  /// Create a new entity
+  rpc CreateEntity (v1.api.game.EntityCreateRequest) returns (v1.api.game.StandardResponse);
+  /// Get an entity by ID
+  rpc GetEntity (v1.api.game.EntityGetRequest) returns (v1.api.game.PaginatedResponse);
+  /// Update an entity by ID
+  rpc UpdateEntity (v1.api.game.EntityUpdateRequest) returns (v1.api.game.StandardResponse);
+  /// Delete an entity by ID
+  rpc DeleteEntity (v1.api.game.EntityDeleteRequest) returns (v1.api.game.StandardResponse);
+
+  /// Create a new game
+  rpc CreateGame (v1.api.game.GameCreateRequest) returns (v1.api.game.StandardResponse);
+  /// Get a game by ID
+  rpc GetGame (v1.api.game.GameGetRequest) returns (v1.api.game.PaginatedResponse);
+  /// Update a game by ID
+  rpc UpdateGame (v1.api.game.GameUpdateRequest) returns (v1.api.game.StandardResponse);
+
+  /// Wait for queue updates
+  rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
+  /// Stream events from the game
+  rpc WatchQueue (v1.api.game.Session) returns (stream v1.api.game.Session);
+}
+
+// Go package path for the generated code
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";

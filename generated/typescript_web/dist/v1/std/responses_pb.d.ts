@@ -3,66 +3,50 @@ import * as jspb from 'google-protobuf'
 import * as google_protobuf_any_pb from 'google-protobuf/google/protobuf/any_pb'; // proto import: "google/protobuf/any.proto"
 
 
-export class Error extends jspb.Message {
+export class Status extends jspb.Message {
   getCode(): number;
-  setCode(value: number): Error;
+  setCode(value: number): Status;
 
   getMessage(): string;
-  setMessage(value: string): Error;
+  setMessage(value: string): Status;
 
-  getDetails(): string;
-  setDetails(value: string): Error;
+  getDetailsList(): Array<string>;
+  setDetailsList(value: Array<string>): Status;
+  clearDetailsList(): Status;
+  addDetails(value: string, index?: number): Status;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Error.AsObject;
-  static toObject(includeInstance: boolean, msg: Error): Error.AsObject;
-  static serializeBinaryToWriter(message: Error, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Error;
-  static deserializeBinaryFromReader(message: Error, reader: jspb.BinaryReader): Error;
+  toObject(includeInstance?: boolean): Status.AsObject;
+  static toObject(includeInstance: boolean, msg: Status): Status.AsObject;
+  static serializeBinaryToWriter(message: Status, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Status;
+  static deserializeBinaryFromReader(message: Status, reader: jspb.BinaryReader): Status;
 }
 
-export namespace Error {
+export namespace Status {
   export type AsObject = {
     code: number,
     message: string,
-    details: string,
-  }
-}
-
-export class Success extends jspb.Message {
-  getMessage(): string;
-  setMessage(value: string): Success;
-
-  getDetails(): string;
-  setDetails(value: string): Success;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Success.AsObject;
-  static toObject(includeInstance: boolean, msg: Success): Success.AsObject;
-  static serializeBinaryToWriter(message: Success, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Success;
-  static deserializeBinaryFromReader(message: Success, reader: jspb.BinaryReader): Success;
-}
-
-export namespace Success {
-  export type AsObject = {
-    message: string,
-    details: string,
+    detailsList: Array<string>,
   }
 }
 
 export class StandardResponse extends jspb.Message {
-  getSuccess(): Success | undefined;
-  setSuccess(value?: Success): StandardResponse;
-  hasSuccess(): boolean;
-  clearSuccess(): StandardResponse;
+  getCode(): number;
+  setCode(value: number): StandardResponse;
 
-  getError(): Error | undefined;
-  setError(value?: Error): StandardResponse;
+  getMessage(): string;
+  setMessage(value: string): StandardResponse;
+
+  getError(): Status | undefined;
+  setError(value?: Status): StandardResponse;
   hasError(): boolean;
   clearError(): StandardResponse;
 
-  getResultCase(): StandardResponse.ResultCase;
+  getData(): google_protobuf_any_pb.Any | undefined;
+  setData(value?: google_protobuf_any_pb.Any): StandardResponse;
+  hasData(): boolean;
+  clearData(): StandardResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StandardResponse.AsObject;
@@ -74,29 +58,28 @@ export class StandardResponse extends jspb.Message {
 
 export namespace StandardResponse {
   export type AsObject = {
-    success?: Success.AsObject,
-    error?: Error.AsObject,
-  }
-
-  export enum ResultCase { 
-    RESULT_NOT_SET = 0,
-    SUCCESS = 1,
-    ERROR = 2,
+    code: number,
+    message: string,
+    error?: Status.AsObject,
+    data?: google_protobuf_any_pb.Any.AsObject,
   }
 }
 
 export class PaginationMetadata extends jspb.Message {
-  getPage(): number;
-  setPage(value: number): PaginationMetadata;
-
   getPageSize(): number;
   setPageSize(value: number): PaginationMetadata;
+  hasPageSize(): boolean;
+  clearPageSize(): PaginationMetadata;
 
-  getTotalItems(): number;
-  setTotalItems(value: number): PaginationMetadata;
+  getPrevPageToken(): string;
+  setPrevPageToken(value: string): PaginationMetadata;
+  hasPrevPageToken(): boolean;
+  clearPrevPageToken(): PaginationMetadata;
 
-  getTotalPages(): number;
-  setTotalPages(value: number): PaginationMetadata;
+  getNextPageToken(): string;
+  setNextPageToken(value: string): PaginationMetadata;
+  hasNextPageToken(): boolean;
+  clearNextPageToken(): PaginationMetadata;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PaginationMetadata.AsObject;
@@ -108,23 +91,48 @@ export class PaginationMetadata extends jspb.Message {
 
 export namespace PaginationMetadata {
   export type AsObject = {
-    page: number,
-    pageSize: number,
-    totalItems: number,
-    totalPages: number,
+    pageSize?: number,
+    prevPageToken?: string,
+    nextPageToken?: string,
+  }
+
+  export enum PageSizeCase { 
+    _PAGE_SIZE_NOT_SET = 0,
+    PAGE_SIZE = 1,
+  }
+
+  export enum PrevPageTokenCase { 
+    _PREV_PAGE_TOKEN_NOT_SET = 0,
+    PREV_PAGE_TOKEN = 2,
+  }
+
+  export enum NextPageTokenCase { 
+    _NEXT_PAGE_TOKEN_NOT_SET = 0,
+    NEXT_PAGE_TOKEN = 3,
   }
 }
 
 export class PaginatedResponse extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): PaginatedResponse;
+
+  getMessage(): string;
+  setMessage(value: string): PaginatedResponse;
+
+  getError(): Status | undefined;
+  setError(value?: Status): PaginatedResponse;
+  hasError(): boolean;
+  clearError(): PaginatedResponse;
+
   getPagination(): PaginationMetadata | undefined;
   setPagination(value?: PaginationMetadata): PaginatedResponse;
   hasPagination(): boolean;
   clearPagination(): PaginatedResponse;
 
-  getItemsList(): Array<google_protobuf_any_pb.Any>;
-  setItemsList(value: Array<google_protobuf_any_pb.Any>): PaginatedResponse;
-  clearItemsList(): PaginatedResponse;
-  addItems(value?: google_protobuf_any_pb.Any, index?: number): google_protobuf_any_pb.Any;
+  getData(): google_protobuf_any_pb.Any | undefined;
+  setData(value?: google_protobuf_any_pb.Any): PaginatedResponse;
+  hasData(): boolean;
+  clearData(): PaginatedResponse;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PaginatedResponse.AsObject;
@@ -136,8 +144,11 @@ export class PaginatedResponse extends jspb.Message {
 
 export namespace PaginatedResponse {
   export type AsObject = {
+    code: number,
+    message: string,
+    error?: Status.AsObject,
     pagination?: PaginationMetadata.AsObject,
-    itemsList: Array<google_protobuf_any_pb.Any.AsObject>,
+    data?: google_protobuf_any_pb.Any.AsObject,
   }
 }
 

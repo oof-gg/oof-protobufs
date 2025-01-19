@@ -5,12 +5,22 @@
 //   protoc               v5.28.2
 // source: v1/api/game/game.proto
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GameUpdateResponse = exports.GameUpdateRequest = exports.GameGetResponse = exports.GameGetRequest = exports.GameCreateResponse = exports.GameCreateRequest = exports.Game = exports.protobufPackage = void 0;
+exports.PaginatedResponse = exports.PaginationMetadata = exports.StandardResponse = exports.Status = exports.Games = exports.GameUpdateResponse = exports.GameUpdateRequest = exports.GameGetResponse = exports.GameGetRequest = exports.GameCreateResponse = exports.GameCreateRequest = exports.Game = exports.protobufPackage = void 0;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
+const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
 function createBaseGame() {
-    return { id: "", name: "", description: "", data: "" };
+    return {
+        id: "",
+        name: "",
+        shortDescription: "",
+        description: "",
+        imageUrl: "",
+        maxSessions: "",
+        maxPlayersPerSession: "",
+        data: undefined,
+    };
 }
 exports.Game = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -20,11 +30,23 @@ exports.Game = {
         if (message.name !== "") {
             writer.uint32(18).string(message.name);
         }
-        if (message.description !== "") {
-            writer.uint32(26).string(message.description);
+        if (message.shortDescription !== "") {
+            writer.uint32(26).string(message.shortDescription);
         }
-        if (message.data !== "") {
-            writer.uint32(34).string(message.data);
+        if (message.description !== "") {
+            writer.uint32(34).string(message.description);
+        }
+        if (message.imageUrl !== "") {
+            writer.uint32(42).string(message.imageUrl);
+        }
+        if (message.maxSessions !== "") {
+            writer.uint32(50).string(message.maxSessions);
+        }
+        if (message.maxPlayersPerSession !== "") {
+            writer.uint32(58).string(message.maxPlayersPerSession);
+        }
+        if (message.data !== undefined) {
+            writer.uint32(66).string(message.data);
         }
         return writer;
     },
@@ -53,11 +75,39 @@ exports.Game = {
                     if (tag !== 26) {
                         break;
                     }
-                    message.description = reader.string();
+                    message.shortDescription = reader.string();
                     continue;
                 }
                 case 4: {
                     if (tag !== 34) {
+                        break;
+                    }
+                    message.description = reader.string();
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.imageUrl = reader.string();
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.maxSessions = reader.string();
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.maxPlayersPerSession = reader.string();
+                    continue;
+                }
+                case 8: {
+                    if (tag !== 66) {
                         break;
                     }
                     message.data = reader.string();
@@ -75,8 +125,12 @@ exports.Game = {
         return {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             name: isSet(object.name) ? globalThis.String(object.name) : "",
+            shortDescription: isSet(object.shortDescription) ? globalThis.String(object.shortDescription) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            imageUrl: isSet(object.imageUrl) ? globalThis.String(object.imageUrl) : "",
+            maxSessions: isSet(object.maxSessions) ? globalThis.String(object.maxSessions) : "",
+            maxPlayersPerSession: isSet(object.maxPlayersPerSession) ? globalThis.String(object.maxPlayersPerSession) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -87,10 +141,22 @@ exports.Game = {
         if (message.name !== "") {
             obj.name = message.name;
         }
+        if (message.shortDescription !== "") {
+            obj.shortDescription = message.shortDescription;
+        }
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.imageUrl !== "") {
+            obj.imageUrl = message.imageUrl;
+        }
+        if (message.maxSessions !== "") {
+            obj.maxSessions = message.maxSessions;
+        }
+        if (message.maxPlayersPerSession !== "") {
+            obj.maxPlayersPerSession = message.maxPlayersPerSession;
+        }
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -102,13 +168,17 @@ exports.Game = {
         const message = createBaseGame();
         message.id = object.id ?? "";
         message.name = object.name ?? "";
+        message.shortDescription = object.shortDescription ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.imageUrl = object.imageUrl ?? "";
+        message.maxSessions = object.maxSessions ?? "";
+        message.maxPlayersPerSession = object.maxPlayersPerSession ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
 function createBaseGameCreateRequest() {
-    return { name: "", description: "", data: "" };
+    return { name: "", description: "", data: undefined };
 }
 exports.GameCreateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -118,7 +188,7 @@ exports.GameCreateRequest = {
         if (message.description !== "") {
             writer.uint32(18).string(message.description);
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             writer.uint32(26).string(message.data);
         }
         return writer;
@@ -163,7 +233,7 @@ exports.GameCreateRequest = {
         return {
             name: isSet(object.name) ? globalThis.String(object.name) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -174,7 +244,7 @@ exports.GameCreateRequest = {
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -186,7 +256,7 @@ exports.GameCreateRequest = {
         const message = createBaseGameCreateRequest();
         message.name = object.name ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -242,12 +312,18 @@ exports.GameCreateResponse = {
     },
 };
 function createBaseGameGetRequest() {
-    return { id: "" };
+    return { id: undefined, limit: undefined, cursor: undefined };
 }
 exports.GameGetRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.id !== "") {
+        if (message.id !== undefined) {
             writer.uint32(10).string(message.id);
+        }
+        if (message.limit !== undefined) {
+            writer.uint32(16).int32(message.limit);
+        }
+        if (message.cursor !== undefined) {
+            writer.uint32(26).string(message.cursor);
         }
         return writer;
     },
@@ -265,6 +341,20 @@ exports.GameGetRequest = {
                     message.id = reader.string();
                     continue;
                 }
+                case 2: {
+                    if (tag !== 16) {
+                        break;
+                    }
+                    message.limit = reader.int32();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.cursor = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -274,12 +364,22 @@ exports.GameGetRequest = {
         return message;
     },
     fromJSON(object) {
-        return { id: isSet(object.id) ? globalThis.String(object.id) : "" };
+        return {
+            id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+            limit: isSet(object.limit) ? globalThis.Number(object.limit) : undefined,
+            cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : undefined,
+        };
     },
     toJSON(message) {
         const obj = {};
-        if (message.id !== "") {
+        if (message.id !== undefined) {
             obj.id = message.id;
+        }
+        if (message.limit !== undefined) {
+            obj.limit = Math.round(message.limit);
+        }
+        if (message.cursor !== undefined) {
+            obj.cursor = message.cursor;
         }
         return obj;
     },
@@ -288,7 +388,9 @@ exports.GameGetRequest = {
     },
     fromPartial(object) {
         const message = createBaseGameGetRequest();
-        message.id = object.id ?? "";
+        message.id = object.id ?? undefined;
+        message.limit = object.limit ?? undefined;
+        message.cursor = object.cursor ?? undefined;
         return message;
     },
 };
@@ -344,7 +446,7 @@ exports.GameGetResponse = {
     },
 };
 function createBaseGameUpdateRequest() {
-    return { id: "", name: "", description: "", data: "" };
+    return { id: "", name: "", description: "", data: undefined };
 }
 exports.GameUpdateRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -357,7 +459,7 @@ exports.GameUpdateRequest = {
         if (message.description !== "") {
             writer.uint32(26).string(message.description);
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             writer.uint32(34).string(message.data);
         }
         return writer;
@@ -410,7 +512,7 @@ exports.GameUpdateRequest = {
             id: isSet(object.id) ? globalThis.String(object.id) : "",
             name: isSet(object.name) ? globalThis.String(object.name) : "",
             description: isSet(object.description) ? globalThis.String(object.description) : "",
-            data: isSet(object.data) ? globalThis.String(object.data) : "",
+            data: isSet(object.data) ? globalThis.String(object.data) : undefined,
         };
     },
     toJSON(message) {
@@ -424,7 +526,7 @@ exports.GameUpdateRequest = {
         if (message.description !== "") {
             obj.description = message.description;
         }
-        if (message.data !== "") {
+        if (message.data !== undefined) {
             obj.data = message.data;
         }
         return obj;
@@ -437,7 +539,7 @@ exports.GameUpdateRequest = {
         message.id = object.id ?? "";
         message.name = object.name ?? "";
         message.description = object.description ?? "";
-        message.data = object.data ?? "";
+        message.data = object.data ?? undefined;
         return message;
     },
 };
@@ -489,6 +591,557 @@ exports.GameUpdateResponse = {
     fromPartial(object) {
         const message = createBaseGameUpdateResponse();
         message.game = (object.game !== undefined && object.game !== null) ? exports.Game.fromPartial(object.game) : undefined;
+        return message;
+    },
+};
+function createBaseGames() {
+    return { games: [] };
+}
+exports.Games = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        for (const v of message.games) {
+            exports.Game.encode(v, writer.uint32(10).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseGames();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.games.push(exports.Game.decode(reader, reader.uint32()));
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { games: globalThis.Array.isArray(object?.games) ? object.games.map((e) => exports.Game.fromJSON(e)) : [] };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.games?.length) {
+            obj.games = message.games.map((e) => exports.Game.toJSON(e));
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.Games.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseGames();
+        message.games = object.games?.map((e) => exports.Game.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseStatus() {
+    return { code: 0, message: "", details: [] };
+}
+exports.Status = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.code !== 0) {
+            writer.uint32(8).int32(message.code);
+        }
+        if (message.message !== "") {
+            writer.uint32(18).string(message.message);
+        }
+        for (const v of message.details) {
+            writer.uint32(26).string(v);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStatus();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.code = reader.int32();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.details.push(reader.string());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+            message: isSet(object.message) ? globalThis.String(object.message) : "",
+            details: globalThis.Array.isArray(object?.details) ? object.details.map((e) => globalThis.String(e)) : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.code !== 0) {
+            obj.code = Math.round(message.code);
+        }
+        if (message.message !== "") {
+            obj.message = message.message;
+        }
+        if (message.details?.length) {
+            obj.details = message.details;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.Status.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStatus();
+        message.code = object.code ?? 0;
+        message.message = object.message ?? "";
+        message.details = object.details?.map((e) => e) || [];
+        return message;
+    },
+};
+function createBaseStandardResponse() {
+    return {
+        code: 0,
+        message: "",
+        error: undefined,
+        singleGame: undefined,
+        games: undefined,
+        session: undefined,
+        sessions: undefined,
+    };
+}
+exports.StandardResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.code !== 0) {
+            writer.uint32(8).int32(message.code);
+        }
+        if (message.message !== "") {
+            writer.uint32(18).string(message.message);
+        }
+        if (message.error !== undefined) {
+            exports.Status.encode(message.error, writer.uint32(26).fork()).join();
+        }
+        if (message.singleGame !== undefined) {
+            exports.Game.encode(message.singleGame, writer.uint32(34).fork()).join();
+        }
+        if (message.games !== undefined) {
+            exports.Games.encode(message.games, writer.uint32(42).fork()).join();
+        }
+        if (message.session !== undefined) {
+            session_1.Session.encode(message.session, writer.uint32(50).fork()).join();
+        }
+        if (message.sessions !== undefined) {
+            session_1.Sessions.encode(message.sessions, writer.uint32(58).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseStandardResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.code = reader.int32();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.error = exports.Status.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.singleGame = exports.Game.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.games = exports.Games.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.session = session_1.Session.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.sessions = session_1.Sessions.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+            message: isSet(object.message) ? globalThis.String(object.message) : "",
+            error: isSet(object.error) ? exports.Status.fromJSON(object.error) : undefined,
+            singleGame: isSet(object.singleGame) ? exports.Game.fromJSON(object.singleGame) : undefined,
+            games: isSet(object.games) ? exports.Games.fromJSON(object.games) : undefined,
+            session: isSet(object.session) ? session_1.Session.fromJSON(object.session) : undefined,
+            sessions: isSet(object.sessions) ? session_1.Sessions.fromJSON(object.sessions) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.code !== 0) {
+            obj.code = Math.round(message.code);
+        }
+        if (message.message !== "") {
+            obj.message = message.message;
+        }
+        if (message.error !== undefined) {
+            obj.error = exports.Status.toJSON(message.error);
+        }
+        if (message.singleGame !== undefined) {
+            obj.singleGame = exports.Game.toJSON(message.singleGame);
+        }
+        if (message.games !== undefined) {
+            obj.games = exports.Games.toJSON(message.games);
+        }
+        if (message.session !== undefined) {
+            obj.session = session_1.Session.toJSON(message.session);
+        }
+        if (message.sessions !== undefined) {
+            obj.sessions = session_1.Sessions.toJSON(message.sessions);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.StandardResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseStandardResponse();
+        message.code = object.code ?? 0;
+        message.message = object.message ?? "";
+        message.error = (object.error !== undefined && object.error !== null)
+            ? exports.Status.fromPartial(object.error)
+            : undefined;
+        message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
+            ? exports.Game.fromPartial(object.singleGame)
+            : undefined;
+        message.games = (object.games !== undefined && object.games !== null) ? exports.Games.fromPartial(object.games) : undefined;
+        message.session = (object.session !== undefined && object.session !== null)
+            ? session_1.Session.fromPartial(object.session)
+            : undefined;
+        message.sessions = (object.sessions !== undefined && object.sessions !== null)
+            ? session_1.Sessions.fromPartial(object.sessions)
+            : undefined;
+        return message;
+    },
+};
+function createBasePaginationMetadata() {
+    return { pageSize: undefined, prevPageToken: undefined, nextPageToken: undefined };
+}
+exports.PaginationMetadata = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.pageSize !== undefined) {
+            writer.uint32(8).int32(message.pageSize);
+        }
+        if (message.prevPageToken !== undefined) {
+            writer.uint32(18).string(message.prevPageToken);
+        }
+        if (message.nextPageToken !== undefined) {
+            writer.uint32(26).string(message.nextPageToken);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBasePaginationMetadata();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.pageSize = reader.int32();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.prevPageToken = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.nextPageToken = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : undefined,
+            prevPageToken: isSet(object.prevPageToken) ? globalThis.String(object.prevPageToken) : undefined,
+            nextPageToken: isSet(object.nextPageToken) ? globalThis.String(object.nextPageToken) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.pageSize !== undefined) {
+            obj.pageSize = Math.round(message.pageSize);
+        }
+        if (message.prevPageToken !== undefined) {
+            obj.prevPageToken = message.prevPageToken;
+        }
+        if (message.nextPageToken !== undefined) {
+            obj.nextPageToken = message.nextPageToken;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.PaginationMetadata.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBasePaginationMetadata();
+        message.pageSize = object.pageSize ?? undefined;
+        message.prevPageToken = object.prevPageToken ?? undefined;
+        message.nextPageToken = object.nextPageToken ?? undefined;
+        return message;
+    },
+};
+function createBasePaginatedResponse() {
+    return {
+        code: 0,
+        message: "",
+        error: undefined,
+        pagination: undefined,
+        game: undefined,
+        games: undefined,
+        session: undefined,
+        sessions: undefined,
+    };
+}
+exports.PaginatedResponse = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.code !== 0) {
+            writer.uint32(8).int32(message.code);
+        }
+        if (message.message !== "") {
+            writer.uint32(18).string(message.message);
+        }
+        if (message.error !== undefined) {
+            exports.Status.encode(message.error, writer.uint32(26).fork()).join();
+        }
+        if (message.pagination !== undefined) {
+            exports.PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
+        }
+        if (message.game !== undefined) {
+            exports.Game.encode(message.game, writer.uint32(42).fork()).join();
+        }
+        if (message.games !== undefined) {
+            exports.Games.encode(message.games, writer.uint32(50).fork()).join();
+        }
+        if (message.session !== undefined) {
+            session_1.Session.encode(message.session, writer.uint32(58).fork()).join();
+        }
+        if (message.sessions !== undefined) {
+            session_1.Sessions.encode(message.sessions, writer.uint32(66).fork()).join();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBasePaginatedResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 8) {
+                        break;
+                    }
+                    message.code = reader.int32();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.message = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.error = exports.Status.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 4: {
+                    if (tag !== 34) {
+                        break;
+                    }
+                    message.pagination = exports.PaginationMetadata.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 5: {
+                    if (tag !== 42) {
+                        break;
+                    }
+                    message.game = exports.Game.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.games = exports.Games.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 7: {
+                    if (tag !== 58) {
+                        break;
+                    }
+                    message.session = session_1.Session.decode(reader, reader.uint32());
+                    continue;
+                }
+                case 8: {
+                    if (tag !== 66) {
+                        break;
+                    }
+                    message.sessions = session_1.Sessions.decode(reader, reader.uint32());
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+            message: isSet(object.message) ? globalThis.String(object.message) : "",
+            error: isSet(object.error) ? exports.Status.fromJSON(object.error) : undefined,
+            pagination: isSet(object.pagination) ? exports.PaginationMetadata.fromJSON(object.pagination) : undefined,
+            game: isSet(object.game) ? exports.Game.fromJSON(object.game) : undefined,
+            games: isSet(object.games) ? exports.Games.fromJSON(object.games) : undefined,
+            session: isSet(object.session) ? session_1.Session.fromJSON(object.session) : undefined,
+            sessions: isSet(object.sessions) ? session_1.Sessions.fromJSON(object.sessions) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.code !== 0) {
+            obj.code = Math.round(message.code);
+        }
+        if (message.message !== "") {
+            obj.message = message.message;
+        }
+        if (message.error !== undefined) {
+            obj.error = exports.Status.toJSON(message.error);
+        }
+        if (message.pagination !== undefined) {
+            obj.pagination = exports.PaginationMetadata.toJSON(message.pagination);
+        }
+        if (message.game !== undefined) {
+            obj.game = exports.Game.toJSON(message.game);
+        }
+        if (message.games !== undefined) {
+            obj.games = exports.Games.toJSON(message.games);
+        }
+        if (message.session !== undefined) {
+            obj.session = session_1.Session.toJSON(message.session);
+        }
+        if (message.sessions !== undefined) {
+            obj.sessions = session_1.Sessions.toJSON(message.sessions);
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.PaginatedResponse.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBasePaginatedResponse();
+        message.code = object.code ?? 0;
+        message.message = object.message ?? "";
+        message.error = (object.error !== undefined && object.error !== null)
+            ? exports.Status.fromPartial(object.error)
+            : undefined;
+        message.pagination = (object.pagination !== undefined && object.pagination !== null)
+            ? exports.PaginationMetadata.fromPartial(object.pagination)
+            : undefined;
+        message.game = (object.game !== undefined && object.game !== null) ? exports.Game.fromPartial(object.game) : undefined;
+        message.games = (object.games !== undefined && object.games !== null) ? exports.Games.fromPartial(object.games) : undefined;
+        message.session = (object.session !== undefined && object.session !== null)
+            ? session_1.Session.fromPartial(object.session)
+            : undefined;
+        message.sessions = (object.sessions !== undefined && object.sessions !== null)
+            ? session_1.Sessions.fromPartial(object.sessions)
+            : undefined;
         return message;
     },
 };

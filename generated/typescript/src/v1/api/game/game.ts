@@ -6,20 +6,26 @@
 
 /* eslint-disable */
 import { BinaryReader, BinaryWriter } from "@bufbuild/protobuf/wire";
+import { Session, Sessions } from "./session";
 
 export const protobufPackage = "v1.api.game";
 
 export interface Game {
   id: string;
   name: string;
+  shortDescription: string;
   description: string;
-  data: string;
+  imageUrl: string;
+  maxSessions: string;
+  maxPlayersPerSession: string;
+  /** Can be any JSON data */
+  data?: string | undefined;
 }
 
 export interface GameCreateRequest {
   name: string;
   description: string;
-  data: string;
+  data?: string | undefined;
 }
 
 export interface GameCreateResponse {
@@ -28,6 +34,8 @@ export interface GameCreateResponse {
 
 export interface GameGetRequest {
   id?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
 }
 
 export interface GameGetResponse {
@@ -38,15 +46,96 @@ export interface GameUpdateRequest {
   id: string;
   name: string;
   description: string;
-  data: string;
+  data?: string | undefined;
 }
 
 export interface GameUpdateResponse {
   game: Game | undefined;
 }
 
+export interface Games {
+  games: Game[];
+}
+
+export interface Status {
+  /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
+  code: number;
+  /**
+   * A developer-facing error message, which should be in English. Any
+   * user-facing error message should be localized and sent in the
+   * [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+   */
+  message: string;
+  /**
+   * A list of messages that carry the error details.  There will be a
+   * common set of message types for APIs to use.
+   */
+  details: string[];
+}
+
+/** Unify everything into one response. */
+export interface StandardResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
+  /** For single items. */
+  singleGame?: Game | undefined;
+  games?: Games | undefined;
+  session?: Session | undefined;
+  sessions?: Sessions | undefined;
+}
+
+/** / Metadata for paginated responses. */
+export interface PaginationMetadata {
+  /** Number of items per page */
+  pageSize?:
+    | number
+    | undefined;
+  /** Token for the previous page */
+  prevPageToken?:
+    | string
+    | undefined;
+  /** Token for the next page */
+  nextPageToken?: string | undefined;
+}
+
+/** / A paginated response wrapper. */
+export interface PaginatedResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
+  /** Pagination metadata */
+  pagination?:
+    | PaginationMetadata
+    | undefined;
+  /** For single items. */
+  game?: Game | undefined;
+  games?: Games | undefined;
+  session?: Session | undefined;
+  sessions?: Sessions | undefined;
+}
+
 function createBaseGame(): Game {
-  return { id: "", name: "", description: "", data: "" };
+  return {
+    id: "",
+    name: "",
+    shortDescription: "",
+    description: "",
+    imageUrl: "",
+    maxSessions: "",
+    maxPlayersPerSession: "",
+    data: undefined,
+  };
 }
 
 export const Game: MessageFns<Game> = {
@@ -57,11 +146,23 @@ export const Game: MessageFns<Game> = {
     if (message.name !== "") {
       writer.uint32(18).string(message.name);
     }
-    if (message.description !== "") {
-      writer.uint32(26).string(message.description);
+    if (message.shortDescription !== "") {
+      writer.uint32(26).string(message.shortDescription);
     }
-    if (message.data !== "") {
-      writer.uint32(34).string(message.data);
+    if (message.description !== "") {
+      writer.uint32(34).string(message.description);
+    }
+    if (message.imageUrl !== "") {
+      writer.uint32(42).string(message.imageUrl);
+    }
+    if (message.maxSessions !== "") {
+      writer.uint32(50).string(message.maxSessions);
+    }
+    if (message.maxPlayersPerSession !== "") {
+      writer.uint32(58).string(message.maxPlayersPerSession);
+    }
+    if (message.data !== undefined) {
+      writer.uint32(66).string(message.data);
     }
     return writer;
   },
@@ -94,11 +195,43 @@ export const Game: MessageFns<Game> = {
             break;
           }
 
-          message.description = reader.string();
+          message.shortDescription = reader.string();
           continue;
         }
         case 4: {
           if (tag !== 34) {
+            break;
+          }
+
+          message.description = reader.string();
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.imageUrl = reader.string();
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.maxSessions = reader.string();
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.maxPlayersPerSession = reader.string();
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
             break;
           }
 
@@ -118,8 +251,12 @@ export const Game: MessageFns<Game> = {
     return {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
+      shortDescription: isSet(object.shortDescription) ? globalThis.String(object.shortDescription) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
-      data: isSet(object.data) ? globalThis.String(object.data) : "",
+      imageUrl: isSet(object.imageUrl) ? globalThis.String(object.imageUrl) : "",
+      maxSessions: isSet(object.maxSessions) ? globalThis.String(object.maxSessions) : "",
+      maxPlayersPerSession: isSet(object.maxPlayersPerSession) ? globalThis.String(object.maxPlayersPerSession) : "",
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -131,10 +268,22 @@ export const Game: MessageFns<Game> = {
     if (message.name !== "") {
       obj.name = message.name;
     }
+    if (message.shortDescription !== "") {
+      obj.shortDescription = message.shortDescription;
+    }
     if (message.description !== "") {
       obj.description = message.description;
     }
-    if (message.data !== "") {
+    if (message.imageUrl !== "") {
+      obj.imageUrl = message.imageUrl;
+    }
+    if (message.maxSessions !== "") {
+      obj.maxSessions = message.maxSessions;
+    }
+    if (message.maxPlayersPerSession !== "") {
+      obj.maxPlayersPerSession = message.maxPlayersPerSession;
+    }
+    if (message.data !== undefined) {
       obj.data = message.data;
     }
     return obj;
@@ -147,14 +296,18 @@ export const Game: MessageFns<Game> = {
     const message = createBaseGame();
     message.id = object.id ?? "";
     message.name = object.name ?? "";
+    message.shortDescription = object.shortDescription ?? "";
     message.description = object.description ?? "";
-    message.data = object.data ?? "";
+    message.imageUrl = object.imageUrl ?? "";
+    message.maxSessions = object.maxSessions ?? "";
+    message.maxPlayersPerSession = object.maxPlayersPerSession ?? "";
+    message.data = object.data ?? undefined;
     return message;
   },
 };
 
 function createBaseGameCreateRequest(): GameCreateRequest {
-  return { name: "", description: "", data: "" };
+  return { name: "", description: "", data: undefined };
 }
 
 export const GameCreateRequest: MessageFns<GameCreateRequest> = {
@@ -165,7 +318,7 @@ export const GameCreateRequest: MessageFns<GameCreateRequest> = {
     if (message.description !== "") {
       writer.uint32(18).string(message.description);
     }
-    if (message.data !== "") {
+    if (message.data !== undefined) {
       writer.uint32(26).string(message.data);
     }
     return writer;
@@ -215,7 +368,7 @@ export const GameCreateRequest: MessageFns<GameCreateRequest> = {
     return {
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
-      data: isSet(object.data) ? globalThis.String(object.data) : "",
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -227,7 +380,7 @@ export const GameCreateRequest: MessageFns<GameCreateRequest> = {
     if (message.description !== "") {
       obj.description = message.description;
     }
-    if (message.data !== "") {
+    if (message.data !== undefined) {
       obj.data = message.data;
     }
     return obj;
@@ -240,7 +393,7 @@ export const GameCreateRequest: MessageFns<GameCreateRequest> = {
     const message = createBaseGameCreateRequest();
     message.name = object.name ?? "";
     message.description = object.description ?? "";
-    message.data = object.data ?? "";
+    message.data = object.data ?? undefined;
     return message;
   },
 };
@@ -304,13 +457,19 @@ export const GameCreateResponse: MessageFns<GameCreateResponse> = {
 };
 
 function createBaseGameGetRequest(): GameGetRequest {
-  return { id: undefined };
+  return { id: undefined, limit: undefined, cursor: undefined };
 }
 
 export const GameGetRequest: MessageFns<GameGetRequest> = {
   encode(message: GameGetRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
     if (message.id !== undefined) {
       writer.uint32(10).string(message.id);
+    }
+    if (message.limit !== undefined) {
+      writer.uint32(16).int32(message.limit);
+    }
+    if (message.cursor !== undefined) {
+      writer.uint32(26).string(message.cursor);
     }
     return writer;
   },
@@ -330,6 +489,22 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
           message.id = reader.string();
           continue;
         }
+        case 2: {
+          if (tag !== 16) {
+            break;
+          }
+
+          message.limit = reader.int32();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.cursor = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -340,13 +515,23 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
   },
 
   fromJSON(object: any): GameGetRequest {
-    return { id: isSet(object.id) ? globalThis.String(object.id) : undefined };
+    return {
+      id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+      limit: isSet(object.limit) ? globalThis.Number(object.limit) : undefined,
+      cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : undefined,
+    };
   },
 
   toJSON(message: GameGetRequest): unknown {
     const obj: any = {};
     if (message.id !== undefined) {
       obj.id = message.id;
+    }
+    if (message.limit !== undefined) {
+      obj.limit = Math.round(message.limit);
+    }
+    if (message.cursor !== undefined) {
+      obj.cursor = message.cursor;
     }
     return obj;
   },
@@ -357,6 +542,8 @@ export const GameGetRequest: MessageFns<GameGetRequest> = {
   fromPartial<I extends Exact<DeepPartial<GameGetRequest>, I>>(object: I): GameGetRequest {
     const message = createBaseGameGetRequest();
     message.id = object.id ?? undefined;
+    message.limit = object.limit ?? undefined;
+    message.cursor = object.cursor ?? undefined;
     return message;
   },
 };
@@ -420,7 +607,7 @@ export const GameGetResponse: MessageFns<GameGetResponse> = {
 };
 
 function createBaseGameUpdateRequest(): GameUpdateRequest {
-  return { id: "", name: "", description: "", data: "" };
+  return { id: "", name: "", description: "", data: undefined };
 }
 
 export const GameUpdateRequest: MessageFns<GameUpdateRequest> = {
@@ -434,7 +621,7 @@ export const GameUpdateRequest: MessageFns<GameUpdateRequest> = {
     if (message.description !== "") {
       writer.uint32(26).string(message.description);
     }
-    if (message.data !== "") {
+    if (message.data !== undefined) {
       writer.uint32(34).string(message.data);
     }
     return writer;
@@ -493,7 +680,7 @@ export const GameUpdateRequest: MessageFns<GameUpdateRequest> = {
       id: isSet(object.id) ? globalThis.String(object.id) : "",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
       description: isSet(object.description) ? globalThis.String(object.description) : "",
-      data: isSet(object.data) ? globalThis.String(object.data) : "",
+      data: isSet(object.data) ? globalThis.String(object.data) : undefined,
     };
   },
 
@@ -508,7 +695,7 @@ export const GameUpdateRequest: MessageFns<GameUpdateRequest> = {
     if (message.description !== "") {
       obj.description = message.description;
     }
-    if (message.data !== "") {
+    if (message.data !== undefined) {
       obj.data = message.data;
     }
     return obj;
@@ -522,7 +709,7 @@ export const GameUpdateRequest: MessageFns<GameUpdateRequest> = {
     message.id = object.id ?? "";
     message.name = object.name ?? "";
     message.description = object.description ?? "";
-    message.data = object.data ?? "";
+    message.data = object.data ?? undefined;
     return message;
   },
 };
@@ -581,6 +768,609 @@ export const GameUpdateResponse: MessageFns<GameUpdateResponse> = {
   fromPartial<I extends Exact<DeepPartial<GameUpdateResponse>, I>>(object: I): GameUpdateResponse {
     const message = createBaseGameUpdateResponse();
     message.game = (object.game !== undefined && object.game !== null) ? Game.fromPartial(object.game) : undefined;
+    return message;
+  },
+};
+
+function createBaseGames(): Games {
+  return { games: [] };
+}
+
+export const Games: MessageFns<Games> = {
+  encode(message: Games, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    for (const v of message.games) {
+      Game.encode(v!, writer.uint32(10).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Games {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseGames();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.games.push(Game.decode(reader, reader.uint32()));
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Games {
+    return { games: globalThis.Array.isArray(object?.games) ? object.games.map((e: any) => Game.fromJSON(e)) : [] };
+  },
+
+  toJSON(message: Games): unknown {
+    const obj: any = {};
+    if (message.games?.length) {
+      obj.games = message.games.map((e) => Game.toJSON(e));
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Games>, I>>(base?: I): Games {
+    return Games.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Games>, I>>(object: I): Games {
+    const message = createBaseGames();
+    message.games = object.games?.map((e) => Game.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseStatus(): Status {
+  return { code: 0, message: "", details: [] };
+}
+
+export const Status: MessageFns<Status> = {
+  encode(message: Status, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    for (const v of message.details) {
+      writer.uint32(26).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.details.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Status {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      details: globalThis.Array.isArray(object?.details) ? object.details.map((e: any) => globalThis.String(e)) : [],
+    };
+  },
+
+  toJSON(message: Status): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.details?.length) {
+      obj.details = message.details;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Status>, I>>(base?: I): Status {
+    return Status.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Status>, I>>(object: I): Status {
+    const message = createBaseStatus();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.details = object.details?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseStandardResponse(): StandardResponse {
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    singleGame: undefined,
+    games: undefined,
+    session: undefined,
+    sessions: undefined,
+  };
+}
+
+export const StandardResponse: MessageFns<StandardResponse> = {
+  encode(message: StandardResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.singleGame !== undefined) {
+      Game.encode(message.singleGame, writer.uint32(34).fork()).join();
+    }
+    if (message.games !== undefined) {
+      Games.encode(message.games, writer.uint32(42).fork()).join();
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(50).fork()).join();
+    }
+    if (message.sessions !== undefined) {
+      Sessions.encode(message.sessions, writer.uint32(58).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StandardResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStandardResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.singleGame = Game.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.games = Games.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.session = Session.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.sessions = Sessions.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StandardResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      singleGame: isSet(object.singleGame) ? Game.fromJSON(object.singleGame) : undefined,
+      games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
+      session: isSet(object.session) ? Session.fromJSON(object.session) : undefined,
+      sessions: isSet(object.sessions) ? Sessions.fromJSON(object.sessions) : undefined,
+    };
+  },
+
+  toJSON(message: StandardResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.singleGame !== undefined) {
+      obj.singleGame = Game.toJSON(message.singleGame);
+    }
+    if (message.games !== undefined) {
+      obj.games = Games.toJSON(message.games);
+    }
+    if (message.session !== undefined) {
+      obj.session = Session.toJSON(message.session);
+    }
+    if (message.sessions !== undefined) {
+      obj.sessions = Sessions.toJSON(message.sessions);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StandardResponse>, I>>(base?: I): StandardResponse {
+    return StandardResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StandardResponse>, I>>(object: I): StandardResponse {
+    const message = createBaseStandardResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
+    message.singleGame = (object.singleGame !== undefined && object.singleGame !== null)
+      ? Game.fromPartial(object.singleGame)
+      : undefined;
+    message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
+    message.session = (object.session !== undefined && object.session !== null)
+      ? Session.fromPartial(object.session)
+      : undefined;
+    message.sessions = (object.sessions !== undefined && object.sessions !== null)
+      ? Sessions.fromPartial(object.sessions)
+      : undefined;
+    return message;
+  },
+};
+
+function createBasePaginationMetadata(): PaginationMetadata {
+  return { pageSize: undefined, prevPageToken: undefined, nextPageToken: undefined };
+}
+
+export const PaginationMetadata: MessageFns<PaginationMetadata> = {
+  encode(message: PaginationMetadata, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.pageSize !== undefined) {
+      writer.uint32(8).int32(message.pageSize);
+    }
+    if (message.prevPageToken !== undefined) {
+      writer.uint32(18).string(message.prevPageToken);
+    }
+    if (message.nextPageToken !== undefined) {
+      writer.uint32(26).string(message.nextPageToken);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PaginationMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePaginationMetadata();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.pageSize = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.prevPageToken = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.nextPageToken = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PaginationMetadata {
+    return {
+      pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : undefined,
+      prevPageToken: isSet(object.prevPageToken) ? globalThis.String(object.prevPageToken) : undefined,
+      nextPageToken: isSet(object.nextPageToken) ? globalThis.String(object.nextPageToken) : undefined,
+    };
+  },
+
+  toJSON(message: PaginationMetadata): unknown {
+    const obj: any = {};
+    if (message.pageSize !== undefined) {
+      obj.pageSize = Math.round(message.pageSize);
+    }
+    if (message.prevPageToken !== undefined) {
+      obj.prevPageToken = message.prevPageToken;
+    }
+    if (message.nextPageToken !== undefined) {
+      obj.nextPageToken = message.nextPageToken;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PaginationMetadata>, I>>(base?: I): PaginationMetadata {
+    return PaginationMetadata.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PaginationMetadata>, I>>(object: I): PaginationMetadata {
+    const message = createBasePaginationMetadata();
+    message.pageSize = object.pageSize ?? undefined;
+    message.prevPageToken = object.prevPageToken ?? undefined;
+    message.nextPageToken = object.nextPageToken ?? undefined;
+    return message;
+  },
+};
+
+function createBasePaginatedResponse(): PaginatedResponse {
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    pagination: undefined,
+    game: undefined,
+    games: undefined,
+    session: undefined,
+    sessions: undefined,
+  };
+}
+
+export const PaginatedResponse: MessageFns<PaginatedResponse> = {
+  encode(message: PaginatedResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
+    }
+    if (message.game !== undefined) {
+      Game.encode(message.game, writer.uint32(42).fork()).join();
+    }
+    if (message.games !== undefined) {
+      Games.encode(message.games, writer.uint32(50).fork()).join();
+    }
+    if (message.session !== undefined) {
+      Session.encode(message.session, writer.uint32(58).fork()).join();
+    }
+    if (message.sessions !== undefined) {
+      Sessions.encode(message.sessions, writer.uint32(66).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PaginatedResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePaginatedResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.pagination = PaginationMetadata.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.game = Game.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.games = Games.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.session = Session.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.sessions = Sessions.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PaginatedResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      pagination: isSet(object.pagination) ? PaginationMetadata.fromJSON(object.pagination) : undefined,
+      game: isSet(object.game) ? Game.fromJSON(object.game) : undefined,
+      games: isSet(object.games) ? Games.fromJSON(object.games) : undefined,
+      session: isSet(object.session) ? Session.fromJSON(object.session) : undefined,
+      sessions: isSet(object.sessions) ? Sessions.fromJSON(object.sessions) : undefined,
+    };
+  },
+
+  toJSON(message: PaginatedResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PaginationMetadata.toJSON(message.pagination);
+    }
+    if (message.game !== undefined) {
+      obj.game = Game.toJSON(message.game);
+    }
+    if (message.games !== undefined) {
+      obj.games = Games.toJSON(message.games);
+    }
+    if (message.session !== undefined) {
+      obj.session = Session.toJSON(message.session);
+    }
+    if (message.sessions !== undefined) {
+      obj.sessions = Sessions.toJSON(message.sessions);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PaginatedResponse>, I>>(base?: I): PaginatedResponse {
+    return PaginatedResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PaginatedResponse>, I>>(object: I): PaginatedResponse {
+    const message = createBasePaginatedResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PaginationMetadata.fromPartial(object.pagination)
+      : undefined;
+    message.game = (object.game !== undefined && object.game !== null) ? Game.fromPartial(object.game) : undefined;
+    message.games = (object.games !== undefined && object.games !== null) ? Games.fromPartial(object.games) : undefined;
+    message.session = (object.session !== undefined && object.session !== null)
+      ? Session.fromPartial(object.session)
+      : undefined;
+    message.sessions = (object.sessions !== undefined && object.sessions !== null)
+      ? Sessions.fromPartial(object.sessions)
+      : undefined;
     return message;
   },
 };

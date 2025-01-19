@@ -15,7 +15,7 @@ message Status {
 
   // A list of messages that carry the error details.  There will be a
   // common set of message types for APIs to use.
-  repeated google.protobuf.Any details = 3;
+  repeated string details = 3;
 }
 
 // Unify everything into one response.
@@ -51,7 +51,8 @@ message PaginatedResponse {
     // If there's an error, you could store it here or just use google.rpc.Status directly.
     Status error = 3;
     PaginationMetadata pagination = 4; // Pagination metadata
-    google.protobuf.Any data = 5; // List of items in this page
+      // The actual payload.
+    google.protobuf.Any data = 5;
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/std";

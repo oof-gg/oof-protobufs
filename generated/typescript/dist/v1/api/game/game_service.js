@@ -11,6 +11,7 @@ const grpc_js_1 = require("@grpc/grpc-js");
 const responses_1 = require("../../std/responses");
 const entity_1 = require("./entity");
 const event_1 = require("./event");
+const game_1 = require("./game");
 const join_leave_1 = require("./join_leave");
 const session_1 = require("./session");
 exports.protobufPackage = "v1.api.game";
@@ -22,8 +23,8 @@ exports.GameServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(join_leave_1.JoinLeaveGame.encode(value).finish()),
         requestDeserialize: (value) => join_leave_1.JoinLeaveGame.decode(value),
-        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
-        responseDeserialize: (value) => session_1.Session.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
     createSession: {
         path: "/v1.api.game.GameService/CreateSession",
@@ -31,8 +32,8 @@ exports.GameServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(session_1.SessionCreate.encode(value).finish()),
         requestDeserialize: (value) => session_1.SessionCreate.decode(value),
-        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
-        responseDeserialize: (value) => session_1.Session.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
     getSession: {
         path: "/v1.api.game.GameService/GetSession",
@@ -40,8 +41,8 @@ exports.GameServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(session_1.SessionGet.encode(value).finish()),
         requestDeserialize: (value) => session_1.SessionGet.decode(value),
-        responseSerialize: (value) => Buffer.from(session_1.Sessions.encode(value).finish()),
-        responseDeserialize: (value) => session_1.Sessions.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
     updateSession: {
         path: "/v1.api.game.GameService/UpdateSession",
@@ -49,8 +50,8 @@ exports.GameServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(session_1.SessionUpdate.encode(value).finish()),
         requestDeserialize: (value) => session_1.SessionUpdate.decode(value),
-        responseSerialize: (value) => Buffer.from(session_1.Session.encode(value).finish()),
-        responseDeserialize: (value) => session_1.Session.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
     deleteSession: {
         path: "/v1.api.game.GameService/DeleteSession",
@@ -61,42 +62,78 @@ exports.GameServiceService = {
         responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
         responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
-    /** TODO: Adjust payloads for protos */
+    /**
+     * TODO: Adjust payloads for protos
+     * / Create a new entity
+     */
     createEntity: {
         path: "/v1.api.game.GameService/CreateEntity",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityCreateRequest.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityCreateRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(entity_1.EntityCreateResponse.encode(value).finish()),
-        responseDeserialize: (value) => entity_1.EntityCreateResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
+    /** / Get an entity by ID */
     getEntity: {
         path: "/v1.api.game.GameService/GetEntity",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityGetRequest.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityGetRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(entity_1.EntityGetResponse.encode(value).finish()),
-        responseDeserialize: (value) => entity_1.EntityGetResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.PaginatedResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.PaginatedResponse.decode(value),
     },
+    /** / Update an entity by ID */
     updateEntity: {
         path: "/v1.api.game.GameService/UpdateEntity",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityUpdateRequest.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityUpdateRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(entity_1.EntityUpdateResponse.encode(value).finish()),
-        responseDeserialize: (value) => entity_1.EntityUpdateResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
+    /** / Delete an entity by ID */
     deleteEntity: {
         path: "/v1.api.game.GameService/DeleteEntity",
         requestStream: false,
         responseStream: false,
         requestSerialize: (value) => Buffer.from(entity_1.EntityDeleteRequest.encode(value).finish()),
         requestDeserialize: (value) => entity_1.EntityDeleteRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(entity_1.EntityDeleteResponse.encode(value).finish()),
-        responseDeserialize: (value) => entity_1.EntityDeleteResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+    },
+    /** / Create a new game */
+    createGame: {
+        path: "/v1.api.game.GameService/CreateGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameCreateRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameCreateRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
+    },
+    /** / Get a game by ID */
+    getGame: {
+        path: "/v1.api.game.GameService/GetGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameGetRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameGetRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.PaginatedResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.PaginatedResponse.decode(value),
+    },
+    /** / Update a game by ID */
+    updateGame: {
+        path: "/v1.api.game.GameService/UpdateGame",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(game_1.GameUpdateRequest.encode(value).finish()),
+        requestDeserialize: (value) => game_1.GameUpdateRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(responses_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => responses_1.StandardResponse.decode(value),
     },
     /** / Wait for queue updates */
     streamEvents: {
