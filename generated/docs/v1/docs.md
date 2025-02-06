@@ -10,6 +10,7 @@
     - [RefreshTokenResponse](#v1-api-auth-RefreshTokenResponse)
     - [RegisterRequest](#v1-api-auth-RegisterRequest)
     - [RegisterResponse](#v1-api-auth-RegisterResponse)
+    - [TwitchLoginRequest](#v1-api-auth-TwitchLoginRequest)
     - [ValidateTokenRequest](#v1-api-auth-ValidateTokenRequest)
     - [ValidateTokenResponse](#v1-api-auth-ValidateTokenResponse)
   
@@ -248,6 +249,21 @@ Response for Register RPC with the user ID, access token, refresh token, and exp
 
 
 
+<a name="v1-api-auth-TwitchLoginRequest"></a>
+
+### TwitchLoginRequest
+Request for Twitch Login RPC
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| twitch_token | [string](#string) |  | Twitch OAuth Access Token |
+
+
+
+
+
+
 <a name="v1-api-auth-ValidateTokenRequest"></a>
 
 ### ValidateTokenRequest
@@ -296,6 +312,7 @@ Service definition for authentication
 | Login | [LoginRequest](#v1-api-auth-LoginRequest) | [LoginResponse](#v1-api-auth-LoginResponse) | User login RPC to generate an access token |
 | Register | [RegisterRequest](#v1-api-auth-RegisterRequest) | [RegisterResponse](#v1-api-auth-RegisterResponse) | User registration RPC to create a new user |
 | ValidateToken | [ValidateTokenRequest](#v1-api-auth-ValidateTokenRequest) | [ValidateTokenResponse](#v1-api-auth-ValidateTokenResponse) | RPC to validate an existing token |
+| TwitchLogin | [TwitchLoginRequest](#v1-api-auth-TwitchLoginRequest) | [LoginResponse](#v1-api-auth-LoginResponse) | Twitch login RPC to generate an access token |
 | RefreshToken | [RefreshTokenRequest](#v1-api-auth-RefreshTokenRequest) | [RefreshTokenResponse](#v1-api-auth-RefreshTokenResponse) | RPC to refresh an access token using a refresh token |
 
  
@@ -581,8 +598,8 @@ Game Events, message can trigger API calls or other events
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| id | [string](#string) |  | Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary |
-| event_name | [string](#string) |  |  |
+| id | [string](#string) | optional | Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary |
+| event_name | [string](#string) | optional |  |
 | timestamp | [int64](#int64) |  |  |
 | game_id | [string](#string) | optional |  |
 | player_id | [string](#string) | optional |  |

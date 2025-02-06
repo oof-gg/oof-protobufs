@@ -12,8 +12,8 @@ export const protobufPackage = "v1.api.game";
 /** / Game Events, message can trigger API calls or other events */
 export interface GameEvent {
   /** / Unique identifier for the event to prevent duplicates, and to be able to retrieve the event from the server if necessary */
-  id: string;
-  eventName: string;
+  id?: string | undefined;
+  eventName?: string | undefined;
   timestamp: number;
   gameId?: string | undefined;
   playerId?: string | undefined;
@@ -90,8 +90,8 @@ export interface GameEvent_EventAttribute {
 
 function createBaseGameEvent(): GameEvent {
   return {
-    id: "",
-    eventName: "",
+    id: undefined,
+    eventName: undefined,
     timestamp: 0,
     gameId: undefined,
     playerId: undefined,
@@ -105,10 +105,10 @@ function createBaseGameEvent(): GameEvent {
 
 export const GameEvent: MessageFns<GameEvent> = {
   encode(message: GameEvent, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.id !== "") {
+    if (message.id !== undefined) {
       writer.uint32(10).string(message.id);
     }
-    if (message.eventName !== "") {
+    if (message.eventName !== undefined) {
       writer.uint32(18).string(message.eventName);
     }
     if (message.timestamp !== 0) {
@@ -239,8 +239,8 @@ export const GameEvent: MessageFns<GameEvent> = {
 
   fromJSON(object: any): GameEvent {
     return {
-      id: isSet(object.id) ? globalThis.String(object.id) : "",
-      eventName: isSet(object.eventName) ? globalThis.String(object.eventName) : "",
+      id: isSet(object.id) ? globalThis.String(object.id) : undefined,
+      eventName: isSet(object.eventName) ? globalThis.String(object.eventName) : undefined,
       timestamp: isSet(object.timestamp) ? globalThis.Number(object.timestamp) : 0,
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : undefined,
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
@@ -259,10 +259,10 @@ export const GameEvent: MessageFns<GameEvent> = {
 
   toJSON(message: GameEvent): unknown {
     const obj: any = {};
-    if (message.id !== "") {
+    if (message.id !== undefined) {
       obj.id = message.id;
     }
-    if (message.eventName !== "") {
+    if (message.eventName !== undefined) {
       obj.eventName = message.eventName;
     }
     if (message.timestamp !== 0) {
@@ -303,8 +303,8 @@ export const GameEvent: MessageFns<GameEvent> = {
   },
   fromPartial<I extends Exact<DeepPartial<GameEvent>, I>>(object: I): GameEvent {
     const message = createBaseGameEvent();
-    message.id = object.id ?? "";
-    message.eventName = object.eventName ?? "";
+    message.id = object.id ?? undefined;
+    message.eventName = object.eventName ?? undefined;
     message.timestamp = object.timestamp ?? 0;
     message.gameId = object.gameId ?? undefined;
     message.playerId = object.playerId ?? undefined;

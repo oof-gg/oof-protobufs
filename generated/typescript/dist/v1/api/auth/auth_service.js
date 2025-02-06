@@ -5,7 +5,7 @@
 //   protoc               v5.28.2
 // source: v1/api/auth/auth_service.proto
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthServiceClient = exports.AuthServiceService = exports.RefreshTokenResponse = exports.RefreshTokenRequest = exports.RegisterResponse = exports.RegisterRequest = exports.ValidateTokenResponse = exports.ValidateTokenRequest = exports.LoginResponse = exports.LoginRequest = exports.protobufPackage = void 0;
+exports.AuthServiceClient = exports.AuthServiceService = exports.RefreshTokenResponse = exports.RefreshTokenRequest = exports.RegisterResponse = exports.RegisterRequest = exports.ValidateTokenResponse = exports.ValidateTokenRequest = exports.LoginResponse = exports.TwitchLoginRequest = exports.LoginRequest = exports.protobufPackage = void 0;
 /* eslint-disable */
 const wire_1 = require("@bufbuild/protobuf/wire");
 const grpc_js_1 = require("@grpc/grpc-js");
@@ -75,6 +75,57 @@ exports.LoginRequest = {
         const message = createBaseLoginRequest();
         message.username = object.username ?? "";
         message.password = object.password ?? "";
+        return message;
+    },
+};
+function createBaseTwitchLoginRequest() {
+    return { twitchToken: "" };
+}
+exports.TwitchLoginRequest = {
+    encode(message, writer = new wire_1.BinaryWriter()) {
+        if (message.twitchToken !== "") {
+            writer.uint32(10).string(message.twitchToken);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof wire_1.BinaryReader ? input : new wire_1.BinaryReader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseTwitchLoginRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1: {
+                    if (tag !== 10) {
+                        break;
+                    }
+                    message.twitchToken = reader.string();
+                    continue;
+                }
+            }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skip(tag & 7);
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { twitchToken: isSet(object.twitchToken) ? globalThis.String(object.twitchToken) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.twitchToken !== "") {
+            obj.twitchToken = message.twitchToken;
+        }
+        return obj;
+    },
+    create(base) {
+        return exports.TwitchLoginRequest.fromPartial(base ?? {});
+    },
+    fromPartial(object) {
+        const message = createBaseTwitchLoginRequest();
+        message.twitchToken = object.twitchToken ?? "";
         return message;
     },
 };
@@ -640,6 +691,16 @@ exports.AuthServiceService = {
         requestDeserialize: (value) => exports.ValidateTokenRequest.decode(value),
         responseSerialize: (value) => Buffer.from(exports.ValidateTokenResponse.encode(value).finish()),
         responseDeserialize: (value) => exports.ValidateTokenResponse.decode(value),
+    },
+    /** / Twitch login RPC to generate an access token */
+    twitchLogin: {
+        path: "/v1.api.auth.AuthService/TwitchLogin",
+        requestStream: false,
+        responseStream: false,
+        requestSerialize: (value) => Buffer.from(exports.TwitchLoginRequest.encode(value).finish()),
+        requestDeserialize: (value) => exports.TwitchLoginRequest.decode(value),
+        responseSerialize: (value) => Buffer.from(exports.LoginResponse.encode(value).finish()),
+        responseDeserialize: (value) => exports.LoginResponse.decode(value),
     },
     /** / RPC to refresh an access token using a refresh token */
     refreshToken: {
