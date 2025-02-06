@@ -58,7 +58,7 @@ jobs:
           npm run compile-ts-web || { echo "npm run compile-ts failed"; exit 1; }
 
       - name: Upload Protobuf Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-protos
           path: generated  # Path to the built files
@@ -99,7 +99,7 @@ jobs:
           export PATH=$PATH:$(go env GOPATH)/bin
 
       - name: Upload Protobuf Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: compiled-protos-go
           path: generated  # Path to the built files
@@ -113,7 +113,7 @@ jobs:
         node-version: [22.x]  # Using Node.js version 22
     steps:
       - name: Download Protobuf Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: compiled-protos
 
