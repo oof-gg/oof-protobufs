@@ -13,6 +13,9 @@ service AuthService {
     /// RPC to validate an existing token
     rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
 
+    /// Twitch login RPC to generate an access token
+    rpc TwitchLogin(TwitchLoginRequest) returns (LoginResponse);
+
     /// RPC to refresh an access token using a refresh token
     rpc RefreshToken(RefreshTokenRequest) returns (RefreshTokenResponse);
 }
