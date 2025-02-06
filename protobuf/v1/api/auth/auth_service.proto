@@ -23,6 +23,11 @@ message LoginRequest {
     string password = 2; /// User's password
 }
 
+/// Request for Twitch Login RPC
+message TwitchLoginRequest {
+    string twitch_token = 1; /// Twitch OAuth Access Token
+}
+
 /// Response for Login RPC
 message LoginResponse {
     string access_token = 1;  /// JWT Access Token
