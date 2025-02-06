@@ -29,6 +29,12 @@ export interface LoginRequest {
   password: string;
 }
 
+/** / Request for Twitch Login RPC */
+export interface TwitchLoginRequest {
+  /** / Twitch OAuth Access Token */
+  twitchToken: string;
+}
+
 /** / Response for Login RPC */
 export interface LoginResponse {
   /** / JWT Access Token */
@@ -165,6 +171,64 @@ export const LoginRequest: MessageFns<LoginRequest> = {
     const message = createBaseLoginRequest();
     message.username = object.username ?? "";
     message.password = object.password ?? "";
+    return message;
+  },
+};
+
+function createBaseTwitchLoginRequest(): TwitchLoginRequest {
+  return { twitchToken: "" };
+}
+
+export const TwitchLoginRequest: MessageFns<TwitchLoginRequest> = {
+  encode(message: TwitchLoginRequest, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.twitchToken !== "") {
+      writer.uint32(10).string(message.twitchToken);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): TwitchLoginRequest {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTwitchLoginRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 10) {
+            break;
+          }
+
+          message.twitchToken = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TwitchLoginRequest {
+    return { twitchToken: isSet(object.twitchToken) ? globalThis.String(object.twitchToken) : "" };
+  },
+
+  toJSON(message: TwitchLoginRequest): unknown {
+    const obj: any = {};
+    if (message.twitchToken !== "") {
+      obj.twitchToken = message.twitchToken;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<TwitchLoginRequest>, I>>(base?: I): TwitchLoginRequest {
+    return TwitchLoginRequest.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<TwitchLoginRequest>, I>>(object: I): TwitchLoginRequest {
+    const message = createBaseTwitchLoginRequest();
+    message.twitchToken = object.twitchToken ?? "";
     return message;
   },
 };
@@ -794,6 +858,16 @@ export const AuthServiceService = {
     responseSerialize: (value: ValidateTokenResponse) => Buffer.from(ValidateTokenResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => ValidateTokenResponse.decode(value),
   },
+  /** / Twitch login RPC to generate an access token */
+  twitchLogin: {
+    path: "/v1.api.auth.AuthService/TwitchLogin",
+    requestStream: false,
+    responseStream: false,
+    requestSerialize: (value: TwitchLoginRequest) => Buffer.from(TwitchLoginRequest.encode(value).finish()),
+    requestDeserialize: (value: Buffer) => TwitchLoginRequest.decode(value),
+    responseSerialize: (value: LoginResponse) => Buffer.from(LoginResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => LoginResponse.decode(value),
+  },
   /** / RPC to refresh an access token using a refresh token */
   refreshToken: {
     path: "/v1.api.auth.AuthService/RefreshToken",
@@ -813,6 +887,8 @@ export interface AuthServiceServer extends UntypedServiceImplementation {
   register: handleUnaryCall<RegisterRequest, RegisterResponse>;
   /** / RPC to validate an existing token */
   validateToken: handleUnaryCall<ValidateTokenRequest, ValidateTokenResponse>;
+  /** / Twitch login RPC to generate an access token */
+  twitchLogin: handleUnaryCall<TwitchLoginRequest, LoginResponse>;
   /** / RPC to refresh an access token using a refresh token */
   refreshToken: handleUnaryCall<RefreshTokenRequest, RefreshTokenResponse>;
 }
@@ -865,6 +941,22 @@ export interface AuthServiceClient extends Client {
     metadata: Metadata,
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: ValidateTokenResponse) => void,
+  ): ClientUnaryCall;
+  /** / Twitch login RPC to generate an access token */
+  twitchLogin(
+    request: TwitchLoginRequest,
+    callback: (error: ServiceError | null, response: LoginResponse) => void,
+  ): ClientUnaryCall;
+  twitchLogin(
+    request: TwitchLoginRequest,
+    metadata: Metadata,
+    callback: (error: ServiceError | null, response: LoginResponse) => void,
+  ): ClientUnaryCall;
+  twitchLogin(
+    request: TwitchLoginRequest,
+    metadata: Metadata,
+    options: Partial<CallOptions>,
+    callback: (error: ServiceError | null, response: LoginResponse) => void,
   ): ClientUnaryCall;
   /** / RPC to refresh an access token using a refresh token */
   refreshToken(
