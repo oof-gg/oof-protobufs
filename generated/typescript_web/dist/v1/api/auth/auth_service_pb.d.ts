@@ -24,6 +24,24 @@ export namespace LoginRequest {
   }
 }
 
+export class TwitchLoginRequest extends jspb.Message {
+  getTwitchToken(): string;
+  setTwitchToken(value: string): TwitchLoginRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TwitchLoginRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TwitchLoginRequest): TwitchLoginRequest.AsObject;
+  static serializeBinaryToWriter(message: TwitchLoginRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TwitchLoginRequest;
+  static deserializeBinaryFromReader(message: TwitchLoginRequest, reader: jspb.BinaryReader): TwitchLoginRequest;
+}
+
+export namespace TwitchLoginRequest {
+  export type AsObject = {
+    twitchToken: string,
+  }
+}
+
 export class LoginResponse extends jspb.Message {
   getAccessToken(): string;
   setAccessToken(value: string): LoginResponse;

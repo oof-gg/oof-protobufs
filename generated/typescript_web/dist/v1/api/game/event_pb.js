@@ -99,8 +99,8 @@ proto.v1.api.game.GameEvent.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.game.GameEvent.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-eventName: jspb.Message.getFieldWithDefault(msg, 2, ""),
+id: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f,
+eventName: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
 timestamp: jspb.Message.getFieldWithDefault(msg, 3, 0),
 gameId: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
 playerId: (f = jspb.Message.getField(msg, 5)) == null ? undefined : f,
@@ -216,15 +216,15 @@ proto.v1.api.game.GameEvent.prototype.serializeBinary = function() {
  */
 proto.v1.api.game.GameEvent.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getId();
-  if (f.length > 0) {
+  f = /** @type {string} */ (jspb.Message.getField(message, 1));
+  if (f != null) {
     writer.writeString(
       1,
       f
     );
   }
-  f = message.getEventName();
-  if (f.length > 0) {
+  f = /** @type {string} */ (jspb.Message.getField(message, 2));
+  if (f != null) {
     writer.writeString(
       2,
       f
@@ -631,7 +631,25 @@ proto.v1.api.game.GameEvent.prototype.getId = function() {
  * @return {!proto.v1.api.game.GameEvent} returns this
  */
 proto.v1.api.game.GameEvent.prototype.setId = function(value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return jspb.Message.setField(this, 1, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.GameEvent} returns this
+ */
+proto.v1.api.game.GameEvent.prototype.clearId = function() {
+  return jspb.Message.setField(this, 1, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.GameEvent.prototype.hasId = function() {
+  return jspb.Message.getField(this, 1) != null;
 };
 
 
@@ -649,7 +667,25 @@ proto.v1.api.game.GameEvent.prototype.getEventName = function() {
  * @return {!proto.v1.api.game.GameEvent} returns this
  */
 proto.v1.api.game.GameEvent.prototype.setEventName = function(value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return jspb.Message.setField(this, 2, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.GameEvent} returns this
+ */
+proto.v1.api.game.GameEvent.prototype.clearEventName = function() {
+  return jspb.Message.setField(this, 2, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.GameEvent.prototype.hasEventName = function() {
+  return jspb.Message.getField(this, 2) != null;
 };
 
 

@@ -26,6 +26,9 @@ class AuthServiceClient {
         this.methodDescriptorValidateToken = new grpcWeb.MethodDescriptor('/v1.api.auth.AuthService/ValidateToken', grpcWeb.MethodType.UNARY, v1_api_auth_auth_service_pb.ValidateTokenRequest, v1_api_auth_auth_service_pb.ValidateTokenResponse, (request) => {
             return request.serializeBinary();
         }, v1_api_auth_auth_service_pb.ValidateTokenResponse.deserializeBinary);
+        this.methodDescriptorTwitchLogin = new grpcWeb.MethodDescriptor('/v1.api.auth.AuthService/TwitchLogin', grpcWeb.MethodType.UNARY, v1_api_auth_auth_service_pb.TwitchLoginRequest, v1_api_auth_auth_service_pb.LoginResponse, (request) => {
+            return request.serializeBinary();
+        }, v1_api_auth_auth_service_pb.LoginResponse.deserializeBinary);
         this.methodDescriptorRefreshToken = new grpcWeb.MethodDescriptor('/v1.api.auth.AuthService/RefreshToken', grpcWeb.MethodType.UNARY, v1_api_auth_auth_service_pb.RefreshTokenRequest, v1_api_auth_auth_service_pb.RefreshTokenResponse, (request) => {
             return request.serializeBinary();
         }, v1_api_auth_auth_service_pb.RefreshTokenResponse.deserializeBinary);
@@ -62,6 +65,14 @@ class AuthServiceClient {
         }
         return this.client_.unaryCall(this.hostname_ +
             '/v1.api.auth.AuthService/ValidateToken', request, metadata || {}, this.methodDescriptorValidateToken);
+    }
+    twitchLogin(request, metadata, callback) {
+        if (callback !== undefined) {
+            return this.client_.rpcCall(this.hostname_ +
+                '/v1.api.auth.AuthService/TwitchLogin', request, metadata || {}, this.methodDescriptorTwitchLogin, callback);
+        }
+        return this.client_.unaryCall(this.hostname_ +
+            '/v1.api.auth.AuthService/TwitchLogin', request, metadata || {}, this.methodDescriptorTwitchLogin);
     }
     refreshToken(request, metadata, callback) {
         if (callback !== undefined) {

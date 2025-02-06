@@ -5,9 +5,13 @@ import * as jspb from 'google-protobuf'
 export class GameEvent extends jspb.Message {
   getId(): string;
   setId(value: string): GameEvent;
+  hasId(): boolean;
+  clearId(): GameEvent;
 
   getEventName(): string;
   setEventName(value: string): GameEvent;
+  hasEventName(): boolean;
+  clearEventName(): GameEvent;
 
   getTimestamp(): number;
   setTimestamp(value: number): GameEvent;
@@ -53,8 +57,8 @@ export class GameEvent extends jspb.Message {
 
 export namespace GameEvent {
   export type AsObject = {
-    id: string,
-    eventName: string,
+    id?: string,
+    eventName?: string,
     timestamp: number,
     gameId?: string,
     playerId?: string,
@@ -112,6 +116,16 @@ export namespace GameEvent {
     TYPE_GAME_EVENT = 2,
     TYPE_SYSTEM = 3,
     TYPE_COMPLETION = 4,
+  }
+
+  export enum IdCase { 
+    _ID_NOT_SET = 0,
+    ID = 1,
+  }
+
+  export enum EventNameCase { 
+    _EVENT_NAME_NOT_SET = 0,
+    EVENT_NAME = 2,
   }
 
   export enum GameIdCase { 

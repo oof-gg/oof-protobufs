@@ -28,6 +28,9 @@ export declare class AuthServiceClient {
     methodDescriptorValidateToken: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.ValidateTokenRequest, v1_api_auth_auth_service_pb.ValidateTokenResponse>;
     validateToken(request: v1_api_auth_auth_service_pb.ValidateTokenRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.ValidateTokenResponse>;
     validateToken(request: v1_api_auth_auth_service_pb.ValidateTokenRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.ValidateTokenResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.ValidateTokenResponse>;
+    methodDescriptorTwitchLogin: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.TwitchLoginRequest, v1_api_auth_auth_service_pb.LoginResponse>;
+    twitchLogin(request: v1_api_auth_auth_service_pb.TwitchLoginRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.LoginResponse>;
+    twitchLogin(request: v1_api_auth_auth_service_pb.TwitchLoginRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.LoginResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.LoginResponse>;
     methodDescriptorRefreshToken: grpcWeb.MethodDescriptor<v1_api_auth_auth_service_pb.RefreshTokenRequest, v1_api_auth_auth_service_pb.RefreshTokenResponse>;
     refreshToken(request: v1_api_auth_auth_service_pb.RefreshTokenRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.RefreshTokenResponse>;
     refreshToken(request: v1_api_auth_auth_service_pb.RefreshTokenRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_auth_auth_service_pb.RefreshTokenResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.RefreshTokenResponse>;

@@ -168,6 +168,49 @@ export class AuthServiceClient {
     this.methodDescriptorValidateToken);
   }
 
+  methodDescriptorTwitchLogin = new grpcWeb.MethodDescriptor(
+    '/v1.api.auth.AuthService/TwitchLogin',
+    grpcWeb.MethodType.UNARY,
+    v1_api_auth_auth_service_pb.TwitchLoginRequest,
+    v1_api_auth_auth_service_pb.LoginResponse,
+    (request: v1_api_auth_auth_service_pb.TwitchLoginRequest) => {
+      return request.serializeBinary();
+    },
+    v1_api_auth_auth_service_pb.LoginResponse.deserializeBinary
+  );
+
+  twitchLogin(
+    request: v1_api_auth_auth_service_pb.TwitchLoginRequest,
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_auth_auth_service_pb.LoginResponse>;
+
+  twitchLogin(
+    request: v1_api_auth_auth_service_pb.TwitchLoginRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.RpcError,
+               response: v1_api_auth_auth_service_pb.LoginResponse) => void): grpcWeb.ClientReadableStream<v1_api_auth_auth_service_pb.LoginResponse>;
+
+  twitchLogin(
+    request: v1_api_auth_auth_service_pb.TwitchLoginRequest,
+    metadata?: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.RpcError,
+               response: v1_api_auth_auth_service_pb.LoginResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/v1.api.auth.AuthService/TwitchLogin',
+        request,
+        metadata || {},
+        this.methodDescriptorTwitchLogin,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/v1.api.auth.AuthService/TwitchLogin',
+    request,
+    metadata || {},
+    this.methodDescriptorTwitchLogin);
+  }
+
   methodDescriptorRefreshToken = new grpcWeb.MethodDescriptor(
     '/v1.api.auth.AuthService/RefreshToken',
     grpcWeb.MethodType.UNARY,
