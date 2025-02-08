@@ -28,7 +28,9 @@ message LoginRequest {
 
 /// Request for Twitch Login RPC
 message TwitchLoginRequest {
-    string twitch_token = 1; /// Twitch OAuth Access Token
+    string helix_token = 1; /// Twitch OAuth Access Token
+    string client_id = 2; /// Twitch Client ID
+    string user_id = 3; /// Twitch User ID
 }
 
 /// Response for Login RPC

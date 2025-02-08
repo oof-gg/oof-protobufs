@@ -79,12 +79,18 @@ exports.LoginRequest = {
     },
 };
 function createBaseTwitchLoginRequest() {
-    return { twitchToken: "" };
+    return { helixToken: "", clientId: "", userId: "" };
 }
 exports.TwitchLoginRequest = {
     encode(message, writer = new wire_1.BinaryWriter()) {
-        if (message.twitchToken !== "") {
-            writer.uint32(10).string(message.twitchToken);
+        if (message.helixToken !== "") {
+            writer.uint32(10).string(message.helixToken);
+        }
+        if (message.clientId !== "") {
+            writer.uint32(18).string(message.clientId);
+        }
+        if (message.userId !== "") {
+            writer.uint32(26).string(message.userId);
         }
         return writer;
     },
@@ -99,7 +105,21 @@ exports.TwitchLoginRequest = {
                     if (tag !== 10) {
                         break;
                     }
-                    message.twitchToken = reader.string();
+                    message.helixToken = reader.string();
+                    continue;
+                }
+                case 2: {
+                    if (tag !== 18) {
+                        break;
+                    }
+                    message.clientId = reader.string();
+                    continue;
+                }
+                case 3: {
+                    if (tag !== 26) {
+                        break;
+                    }
+                    message.userId = reader.string();
                     continue;
                 }
             }
@@ -111,12 +131,22 @@ exports.TwitchLoginRequest = {
         return message;
     },
     fromJSON(object) {
-        return { twitchToken: isSet(object.twitchToken) ? globalThis.String(object.twitchToken) : "" };
+        return {
+            helixToken: isSet(object.helixToken) ? globalThis.String(object.helixToken) : "",
+            clientId: isSet(object.clientId) ? globalThis.String(object.clientId) : "",
+            userId: isSet(object.userId) ? globalThis.String(object.userId) : "",
+        };
     },
     toJSON(message) {
         const obj = {};
-        if (message.twitchToken !== "") {
-            obj.twitchToken = message.twitchToken;
+        if (message.helixToken !== "") {
+            obj.helixToken = message.helixToken;
+        }
+        if (message.clientId !== "") {
+            obj.clientId = message.clientId;
+        }
+        if (message.userId !== "") {
+            obj.userId = message.userId;
         }
         return obj;
     },
@@ -125,7 +155,9 @@ exports.TwitchLoginRequest = {
     },
     fromPartial(object) {
         const message = createBaseTwitchLoginRequest();
-        message.twitchToken = object.twitchToken ?? "";
+        message.helixToken = object.helixToken ?? "";
+        message.clientId = object.clientId ?? "";
+        message.userId = object.userId ?? "";
         return message;
     },
 };
