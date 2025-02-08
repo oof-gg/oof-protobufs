@@ -25,8 +25,14 @@ export namespace LoginRequest {
 }
 
 export class TwitchLoginRequest extends jspb.Message {
-  getTwitchToken(): string;
-  setTwitchToken(value: string): TwitchLoginRequest;
+  getHelixToken(): string;
+  setHelixToken(value: string): TwitchLoginRequest;
+
+  getClientId(): string;
+  setClientId(value: string): TwitchLoginRequest;
+
+  getUserId(): string;
+  setUserId(value: string): TwitchLoginRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): TwitchLoginRequest.AsObject;
@@ -38,7 +44,9 @@ export class TwitchLoginRequest extends jspb.Message {
 
 export namespace TwitchLoginRequest {
   export type AsObject = {
-    twitchToken: string,
+    helixToken: string,
+    clientId: string,
+    userId: string,
   }
 }
 

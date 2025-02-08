@@ -411,7 +411,9 @@ proto.v1.api.auth.TwitchLoginRequest.prototype.toObject = function(opt_includeIn
  */
 proto.v1.api.auth.TwitchLoginRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-twitchToken: jspb.Message.getFieldWithDefault(msg, 1, "")
+helixToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
+clientId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+userId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -450,7 +452,15 @@ proto.v1.api.auth.TwitchLoginRequest.deserializeBinaryFromReader = function(msg,
     switch (field) {
     case 1:
       var value = /** @type {string} */ (reader.readString());
-      msg.setTwitchToken(value);
+      msg.setHelixToken(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setClientId(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setUserId(value);
       break;
     default:
       reader.skipField();
@@ -481,10 +491,24 @@ proto.v1.api.auth.TwitchLoginRequest.prototype.serializeBinary = function() {
  */
 proto.v1.api.auth.TwitchLoginRequest.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getTwitchToken();
+  f = message.getHelixToken();
   if (f.length > 0) {
     writer.writeString(
       1,
+      f
+    );
+  }
+  f = message.getClientId();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getUserId();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -492,10 +516,10 @@ proto.v1.api.auth.TwitchLoginRequest.serializeBinaryToWriter = function(message,
 
 
 /**
- * optional string twitch_token = 1;
+ * optional string helix_token = 1;
  * @return {string}
  */
-proto.v1.api.auth.TwitchLoginRequest.prototype.getTwitchToken = function() {
+proto.v1.api.auth.TwitchLoginRequest.prototype.getHelixToken = function() {
   return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
 };
 
@@ -504,8 +528,44 @@ proto.v1.api.auth.TwitchLoginRequest.prototype.getTwitchToken = function() {
  * @param {string} value
  * @return {!proto.v1.api.auth.TwitchLoginRequest} returns this
  */
-proto.v1.api.auth.TwitchLoginRequest.prototype.setTwitchToken = function(value) {
+proto.v1.api.auth.TwitchLoginRequest.prototype.setHelixToken = function(value) {
   return jspb.Message.setProto3StringField(this, 1, value);
+};
+
+
+/**
+ * optional string client_id = 2;
+ * @return {string}
+ */
+proto.v1.api.auth.TwitchLoginRequest.prototype.getClientId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.v1.api.auth.TwitchLoginRequest} returns this
+ */
+proto.v1.api.auth.TwitchLoginRequest.prototype.setClientId = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string user_id = 3;
+ * @return {string}
+ */
+proto.v1.api.auth.TwitchLoginRequest.prototype.getUserId = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.v1.api.auth.TwitchLoginRequest} returns this
+ */
+proto.v1.api.auth.TwitchLoginRequest.prototype.setUserId = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

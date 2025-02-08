@@ -11,7 +11,11 @@ export interface LoginRequest {
 /** / Request for Twitch Login RPC */
 export interface TwitchLoginRequest {
     /** / Twitch OAuth Access Token */
-    twitchToken: string;
+    helixToken: string;
+    /** / Twitch Client ID */
+    clientId: string;
+    /** / Twitch User ID */
+    userId: string;
 }
 /** / Response for Login RPC */
 export interface LoginResponse {

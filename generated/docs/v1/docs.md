@@ -257,7 +257,9 @@ Request for Twitch Login RPC
 
 | Field | Type | Label | Description |
 | ----- | ---- | ----- | ----------- |
-| twitch_token | [string](#string) |  | Twitch OAuth Access Token |
+| helix_token | [string](#string) |  | Twitch OAuth Access Token |
+| client_id | [string](#string) |  | Twitch Client ID |
+| user_id | [string](#string) |  | Twitch User ID |
 
 
 
