@@ -34,6 +34,9 @@ service GameService {
   /// Update a game by ID
   rpc UpdateGame (v1.api.game.GameUpdateRequest) returns (v1.api.game.StandardResponse);
 
+  /// Trending games
+  rpc TrendingGame (v1.api.game.TrendingGamesRequest) returns (v1.api.game.PaginatedResponse);
+
   /// Wait for queue updates
   rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
   /// Stream events from the game
