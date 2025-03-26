@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.game.Entities', null, global);
 goog.exportSymbol('proto.v1.api.game.Entity', null, global);
@@ -298,15 +291,15 @@ proto.v1.api.game.Entity.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.game.Entity.toObject = function(includeInstance, msg) {
   var f, obj = {
-name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-type: jspb.Message.getFieldWithDefault(msg, 2, ""),
-id: jspb.Message.getFieldWithDefault(msg, 3, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 4, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 5, ""),
-attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.game.EntityAttribute.toObject) : [],
-controller: jspb.Message.getFieldWithDefault(msg, 7, 0),
-playerId: (f = jspb.Message.getField(msg, 8)) == null ? undefined : f,
-data: (f = jspb.Message.getField(msg, 9)) == null ? undefined : f
+    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    id: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.game.EntityAttribute.toObject) : [],
+    controller: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    playerId: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -590,8 +583,7 @@ proto.v1.api.game.Entity.prototype.getAttributesMap = function(opt_noLazyCreate)
  */
 proto.v1.api.game.Entity.prototype.clearAttributesMap = function() {
   this.getAttributesMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -723,7 +715,7 @@ proto.v1.api.game.Entities.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.game.Entities.toObject = function(includeInstance, msg) {
   var f, obj = {
-entitiesList: jspb.Message.toObjectList(msg.getEntitiesList(),
+    entitiesList: jspb.Message.toObjectList(msg.getEntitiesList(),
     proto.v1.api.game.Entity.toObject, includeInstance)
   };
 
@@ -904,10 +896,10 @@ proto.v1.api.game.EntityAttribute.prototype.toObject = function(opt_includeInsta
  */
 proto.v1.api.game.EntityAttribute.toObject = function(includeInstance, msg) {
   var f, obj = {
-stringValue: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-intValue: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-floatValue: (f = jspb.Message.getOptionalFloatingPointField(msg, 4)) == null ? undefined : f,
-boolValue: (f = jspb.Message.getBooleanField(msg, 5)) == null ? undefined : f
+    stringValue: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    intValue: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    floatValue: jspb.Message.getFloatingPointFieldWithDefault(msg, 4, 0.0),
+    boolValue: jspb.Message.getBooleanFieldWithDefault(msg, 5, false)
   };
 
   if (includeInstance) {
@@ -1196,9 +1188,9 @@ proto.v1.api.game.EntityGetRequest.prototype.toObject = function(opt_includeInst
  */
 proto.v1.api.game.EntityGetRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1386,7 +1378,7 @@ proto.v1.api.game.EntityGetResponse.prototype.toObject = function(opt_includeIns
  */
 proto.v1.api.game.EntityGetResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
+    entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1537,14 +1529,14 @@ proto.v1.api.game.EntityCreateRequest.prototype.toObject = function(opt_includeI
  */
 proto.v1.api.game.EntityCreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-name: jspb.Message.getFieldWithDefault(msg, 1, ""),
-type: jspb.Message.getFieldWithDefault(msg, 2, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 4, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 5, ""),
-attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.game.EntityAttribute.toObject) : [],
-controller: jspb.Message.getFieldWithDefault(msg, 7, 0),
-playerId: (f = jspb.Message.getField(msg, 8)) == null ? undefined : f,
-data: (f = jspb.Message.getField(msg, 9)) == null ? undefined : f
+    name: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.game.EntityAttribute.toObject) : [],
+    controller: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    playerId: jspb.Message.getFieldWithDefault(msg, 8, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 9, "")
   };
 
   if (includeInstance) {
@@ -1799,8 +1791,7 @@ proto.v1.api.game.EntityCreateRequest.prototype.getAttributesMap = function(opt_
  */
 proto.v1.api.game.EntityCreateRequest.prototype.clearAttributesMap = function() {
   this.getAttributesMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
@@ -1925,7 +1916,7 @@ proto.v1.api.game.EntityCreateResponse.prototype.toObject = function(opt_include
  */
 proto.v1.api.game.EntityCreateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
+    entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2083,10 +2074,10 @@ proto.v1.api.game.EntityUpdateRequest.prototype.toObject = function(opt_includeI
  */
 proto.v1.api.game.EntityUpdateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 3, ""),
-attributesList: jspb.Message.toObjectList(msg.getAttributesList(),
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    attributesList: jspb.Message.toObjectList(msg.getAttributesList(),
     proto.v1.api.game.EntityAttribute.toObject, includeInstance)
   };
 
@@ -2326,7 +2317,7 @@ proto.v1.api.game.EntityUpdateResponse.prototype.toObject = function(opt_include
  */
 proto.v1.api.game.EntityUpdateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
+    entity: (f = msg.getEntity()) && proto.v1.api.game.Entity.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -2477,9 +2468,9 @@ proto.v1.api.game.EntityDeleteRequest.prototype.toObject = function(opt_includeI
  */
 proto.v1.api.game.EntityDeleteRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -2667,9 +2658,9 @@ proto.v1.api.game.EntityDeleteResponse.prototype.toObject = function(opt_include
  */
 proto.v1.api.game.EntityDeleteResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {

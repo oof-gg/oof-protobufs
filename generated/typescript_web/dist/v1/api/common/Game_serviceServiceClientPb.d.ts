@@ -58,6 +58,9 @@ export declare class GameServiceClient {
     methodDescriptorUpdateGame: grpcWeb.MethodDescriptor<v1_api_game_game_pb.GameUpdateRequest, v1_api_game_game_pb.StandardResponse>;
     updateGame(request: v1_api_game_game_pb.GameUpdateRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.StandardResponse>;
     updateGame(request: v1_api_game_game_pb.GameUpdateRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_game_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.StandardResponse>;
+    methodDescriptorTrendingGame: grpcWeb.MethodDescriptor<v1_api_game_game_pb.TrendingGamesRequest, v1_api_game_game_pb.PaginatedResponse>;
+    trendingGame(request: v1_api_game_game_pb.TrendingGamesRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_game_game_pb.PaginatedResponse>;
+    trendingGame(request: v1_api_game_game_pb.TrendingGamesRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_game_game_pb.PaginatedResponse) => void): grpcWeb.ClientReadableStream<v1_api_game_game_pb.PaginatedResponse>;
     methodDescriptorWatchQueue: grpcWeb.MethodDescriptor<v1_api_game_session_pb.Session, v1_api_game_session_pb.Session>;
     watchQueue(request: v1_api_game_session_pb.Session, metadata?: grpcWeb.Metadata): grpcWeb.ClientReadableStream<v1_api_game_session_pb.Session>;
 }

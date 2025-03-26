@@ -213,6 +213,42 @@ export namespace GameUpdateRequest {
   }
 }
 
+export class TrendingGamesRequest extends jspb.Message {
+  getLimit(): number;
+  setLimit(value: number): TrendingGamesRequest;
+  hasLimit(): boolean;
+  clearLimit(): TrendingGamesRequest;
+
+  getCursor(): string;
+  setCursor(value: string): TrendingGamesRequest;
+  hasCursor(): boolean;
+  clearCursor(): TrendingGamesRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): TrendingGamesRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: TrendingGamesRequest): TrendingGamesRequest.AsObject;
+  static serializeBinaryToWriter(message: TrendingGamesRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): TrendingGamesRequest;
+  static deserializeBinaryFromReader(message: TrendingGamesRequest, reader: jspb.BinaryReader): TrendingGamesRequest;
+}
+
+export namespace TrendingGamesRequest {
+  export type AsObject = {
+    limit?: number,
+    cursor?: string,
+  }
+
+  export enum LimitCase { 
+    _LIMIT_NOT_SET = 0,
+    LIMIT = 1,
+  }
+
+  export enum CursorCase { 
+    _CURSOR_NOT_SET = 0,
+    CURSOR = 2,
+  }
+}
+
 export class GameUpdateResponse extends jspb.Message {
   getGame(): Game | undefined;
   setGame(value?: Game): GameUpdateResponse;

@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.global.GlobalEvent', null, global);
 goog.exportSymbol('proto.v1.api.global.GlobalEvent.EventAttribute', null, global);
@@ -99,14 +92,14 @@ proto.v1.api.global.GlobalEvent.prototype.toObject = function(opt_includeInstanc
  */
 proto.v1.api.global.GlobalEvent.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-eventName: jspb.Message.getFieldWithDefault(msg, 2, ""),
-timestamp: jspb.Message.getFieldWithDefault(msg, 3, 0),
-gameId: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
-playerId: (f = jspb.Message.getField(msg, 5)) == null ? undefined : f,
-teamId: (f = jspb.Message.getField(msg, 6)) == null ? undefined : f,
-attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.global.GlobalEvent.EventAttribute.toObject) : [],
-type: jspb.Message.getFieldWithDefault(msg, 8, 0)
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    eventName: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    timestamp: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    gameId: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    playerId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    teamId: jspb.Message.getFieldWithDefault(msg, 6, ""),
+    attributesMap: (f = msg.getAttributesMap()) ? f.toObject(includeInstance, proto.v1.api.global.GlobalEvent.EventAttribute.toObject) : [],
+    type: jspb.Message.getFieldWithDefault(msg, 8, 0)
   };
 
   if (includeInstance) {
@@ -333,10 +326,10 @@ proto.v1.api.global.GlobalEvent.EventAttribute.prototype.toObject = function(opt
  */
 proto.v1.api.global.GlobalEvent.EventAttribute.toObject = function(includeInstance, msg) {
   var f, obj = {
-stringValue: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f,
-intValue: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-floatValue: (f = jspb.Message.getOptionalFloatingPointField(msg, 3)) == null ? undefined : f,
-boolValue: (f = jspb.Message.getBooleanField(msg, 4)) == null ? undefined : f
+    stringValue: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    intValue: jspb.Message.getFieldWithDefault(msg, 2, 0),
+    floatValue: jspb.Message.getFloatingPointFieldWithDefault(msg, 3, 0.0),
+    boolValue: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -774,8 +767,7 @@ proto.v1.api.global.GlobalEvent.prototype.getAttributesMap = function(opt_noLazy
  */
 proto.v1.api.global.GlobalEvent.prototype.clearAttributesMap = function() {
   this.getAttributesMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**

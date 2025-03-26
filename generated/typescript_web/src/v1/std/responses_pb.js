@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 var google_protobuf_any_pb = require('google-protobuf/google/protobuf/any_pb.js');
 goog.object.extend(proto, google_protobuf_any_pb);
@@ -150,9 +143,9 @@ proto.v1.std.Status.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.std.Status.toObject = function(includeInstance, msg) {
   var f, obj = {
-code: jspb.Message.getFieldWithDefault(msg, 1, 0),
-message: jspb.Message.getFieldWithDefault(msg, 2, ""),
-detailsList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f
+    code: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    detailsList: (f = jspb.Message.getRepeatedField(msg, 3)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -359,10 +352,10 @@ proto.v1.std.StandardResponse.prototype.toObject = function(opt_includeInstance)
  */
 proto.v1.std.StandardResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-code: jspb.Message.getFieldWithDefault(msg, 1, 0),
-message: jspb.Message.getFieldWithDefault(msg, 2, ""),
-error: (f = msg.getError()) && proto.v1.std.Status.toObject(includeInstance, f),
-data: (f = msg.getData()) && google_protobuf_any_pb.Any.toObject(includeInstance, f)
+    code: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    error: (f = msg.getError()) && proto.v1.std.Status.toObject(includeInstance, f),
+    data: (f = msg.getData()) && google_protobuf_any_pb.Any.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -621,9 +614,9 @@ proto.v1.std.PaginationMetadata.prototype.toObject = function(opt_includeInstanc
  */
 proto.v1.std.PaginationMetadata.toObject = function(includeInstance, msg) {
   var f, obj = {
-pageSize: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f,
-prevPageToken: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-nextPageToken: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f
+    pageSize: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    prevPageToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    nextPageToken: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -865,11 +858,11 @@ proto.v1.std.PaginatedResponse.prototype.toObject = function(opt_includeInstance
  */
 proto.v1.std.PaginatedResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-code: jspb.Message.getFieldWithDefault(msg, 1, 0),
-message: jspb.Message.getFieldWithDefault(msg, 2, ""),
-error: (f = msg.getError()) && proto.v1.std.Status.toObject(includeInstance, f),
-pagination: (f = msg.getPagination()) && proto.v1.std.PaginationMetadata.toObject(includeInstance, f),
-data: (f = msg.getData()) && google_protobuf_any_pb.Any.toObject(includeInstance, f)
+    code: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    error: (f = msg.getError()) && proto.v1.std.Status.toObject(includeInstance, f),
+    pagination: (f = msg.getPagination()) && proto.v1.std.PaginationMetadata.toObject(includeInstance, f),
+    data: (f = msg.getData()) && google_protobuf_any_pb.Any.toObject(includeInstance, f)
   };
 
   if (includeInstance) {

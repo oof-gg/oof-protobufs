@@ -54,6 +54,7 @@
     - [PaginationMetadata](#v1-api-game-PaginationMetadata)
     - [StandardResponse](#v1-api-game-StandardResponse)
     - [Status](#v1-api-game-Status)
+    - [TrendingGamesRequest](#v1-api-game-TrendingGamesRequest)
   
 - [v1/api/game/instance.proto](#v1_api_game_instance-proto)
     - [AuthConfig](#v1-api-game-AuthConfig)
@@ -891,6 +892,22 @@ Unify everything into one response.
 
 
 
+
+<a name="v1-api-game-TrendingGamesRequest"></a>
+
+### TrendingGamesRequest
+
+
+
+| Field | Type | Label | Description |
+| ----- | ---- | ----- | ----------- |
+| limit | [int32](#int32) | optional |  |
+| cursor | [string](#string) | optional |  |
+
+
+
+
+
  
 
  
@@ -1328,6 +1345,7 @@ Represents the state of a game session
 | CreateGame | [.v1.api.game.GameCreateRequest](#v1-api-game-GameCreateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Create a new game |
 | GetGame | [.v1.api.game.GameGetRequest](#v1-api-game-GameGetRequest) | [.v1.api.game.PaginatedResponse](#v1-api-game-PaginatedResponse) | Get a game by ID |
 | UpdateGame | [.v1.api.game.GameUpdateRequest](#v1-api-game-GameUpdateRequest) | [.v1.api.game.StandardResponse](#v1-api-game-StandardResponse) | Update a game by ID |
+| TrendingGame | [.v1.api.game.TrendingGamesRequest](#v1-api-game-TrendingGamesRequest) | [.v1.api.game.PaginatedResponse](#v1-api-game-PaginatedResponse) | Trending games |
 | StreamEvents | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) stream | [.v1.api.game.GameEvent](#v1-api-game-GameEvent) | Wait for queue updates |
 | WatchQueue | [.v1.api.game.Session](#v1-api-game-Session) | [.v1.api.game.Session](#v1-api-game-Session) stream | Stream events from the game |
 

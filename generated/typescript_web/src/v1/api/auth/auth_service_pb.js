@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.auth.LoginRequest', null, global);
 goog.exportSymbol('proto.v1.api.auth.LoginResponse', null, global);
@@ -251,8 +244,8 @@ proto.v1.api.auth.LoginRequest.prototype.toObject = function(opt_includeInstance
  */
 proto.v1.api.auth.LoginRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-password: jspb.Message.getFieldWithDefault(msg, 2, "")
+    username: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -411,9 +404,9 @@ proto.v1.api.auth.TwitchLoginRequest.prototype.toObject = function(opt_includeIn
  */
 proto.v1.api.auth.TwitchLoginRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-helixToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
-clientId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-userId: jspb.Message.getFieldWithDefault(msg, 3, "")
+    helixToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    clientId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    userId: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -601,9 +594,9 @@ proto.v1.api.auth.LoginResponse.prototype.toObject = function(opt_includeInstanc
  */
 proto.v1.api.auth.LoginResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-accessToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
-refreshToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
-expiresIn: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    accessToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    refreshToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    expiresIn: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {
@@ -791,7 +784,7 @@ proto.v1.api.auth.ValidateTokenRequest.prototype.toObject = function(opt_include
  */
 proto.v1.api.auth.ValidateTokenRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-accessToken: jspb.Message.getFieldWithDefault(msg, 1, "")
+    accessToken: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -921,9 +914,9 @@ proto.v1.api.auth.ValidateTokenResponse.prototype.toObject = function(opt_includ
  */
 proto.v1.api.auth.ValidateTokenResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-isValid: jspb.Message.getBooleanFieldWithDefault(msg, 1, false),
-userId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-role: jspb.Message.getFieldWithDefault(msg, 3, "")
+    isValid: jspb.Message.getBooleanFieldWithDefault(msg, 1, false),
+    userId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    role: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1111,9 +1104,9 @@ proto.v1.api.auth.RegisterRequest.prototype.toObject = function(opt_includeInsta
  */
 proto.v1.api.auth.RegisterRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-email: jspb.Message.getFieldWithDefault(msg, 2, ""),
-password: jspb.Message.getFieldWithDefault(msg, 3, "")
+    username: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    password: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1301,10 +1294,10 @@ proto.v1.api.auth.RegisterResponse.prototype.toObject = function(opt_includeInst
  */
 proto.v1.api.auth.RegisterResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-accessToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
-refreshToken: jspb.Message.getFieldWithDefault(msg, 3, ""),
-expiresIn: jspb.Message.getFieldWithDefault(msg, 4, 0)
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    accessToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    refreshToken: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    expiresIn: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -1521,7 +1514,7 @@ proto.v1.api.auth.RefreshTokenRequest.prototype.toObject = function(opt_includeI
  */
 proto.v1.api.auth.RefreshTokenRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-refreshToken: jspb.Message.getFieldWithDefault(msg, 1, "")
+    refreshToken: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1651,9 +1644,9 @@ proto.v1.api.auth.RefreshTokenResponse.prototype.toObject = function(opt_include
  */
 proto.v1.api.auth.RefreshTokenResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-accessToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
-refreshToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
-expiresIn: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    accessToken: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    refreshToken: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    expiresIn: jspb.Message.getFieldWithDefault(msg, 3, 0)
   };
 
   if (includeInstance) {

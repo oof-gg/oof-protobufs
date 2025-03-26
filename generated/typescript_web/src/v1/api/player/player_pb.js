@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.player.Player', null, global);
 goog.exportSymbol('proto.v1.api.player.PlayerCreate', null, global);
@@ -165,14 +158,14 @@ proto.v1.api.player.Player.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.player.Player.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-username: jspb.Message.getFieldWithDefault(msg, 2, ""),
-email: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-team: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
-score: jspb.Message.getFieldWithDefault(msg, 5, 0),
-type: jspb.Message.getFieldWithDefault(msg, 6, 0),
-status: jspb.Message.getFieldWithDefault(msg, 7, 0),
-role: (f = jspb.Message.getField(msg, 8)) == null ? undefined : f
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    username: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    team: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    score: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    type: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    status: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    role: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -559,13 +552,13 @@ proto.v1.api.player.PlayerCreate.prototype.toObject = function(opt_includeInstan
  */
 proto.v1.api.player.PlayerCreate.toObject = function(includeInstance, msg) {
   var f, obj = {
-username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-email: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-team: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-score: jspb.Message.getFieldWithDefault(msg, 4, 0),
-type: jspb.Message.getFieldWithDefault(msg, 5, 0),
-status: jspb.Message.getFieldWithDefault(msg, 6, 0),
-role: (f = jspb.Message.getField(msg, 7)) == null ? undefined : f
+    username: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    email: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    team: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    score: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    type: jspb.Message.getFieldWithDefault(msg, 5, 0),
+    status: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    role: jspb.Message.getFieldWithDefault(msg, 7, "")
   };
 
   if (includeInstance) {
@@ -923,11 +916,11 @@ proto.v1.api.player.PlayerUpdate.prototype.toObject = function(opt_includeInstan
  */
 proto.v1.api.player.PlayerUpdate.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: jspb.Message.getFieldWithDefault(msg, 1, ""),
-team: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
-type: (f = jspb.Message.getField(msg, 6)) == null ? undefined : f,
-status: (f = jspb.Message.getField(msg, 7)) == null ? undefined : f,
-role: (f = jspb.Message.getField(msg, 8)) == null ? undefined : f
+    id: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    team: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    type: jspb.Message.getFieldWithDefault(msg, 6, 0),
+    status: jspb.Message.getFieldWithDefault(msg, 7, 0),
+    role: jspb.Message.getFieldWithDefault(msg, 8, "")
   };
 
   if (includeInstance) {
@@ -1245,7 +1238,7 @@ proto.v1.api.player.PlayerGet.prototype.toObject = function(opt_includeInstance)
  */
 proto.v1.api.player.PlayerGet.toObject = function(includeInstance, msg) {
   var f, obj = {
-id: (f = jspb.Message.getField(msg, 1)) == null ? undefined : f
+    id: jspb.Message.getFieldWithDefault(msg, 1, "")
   };
 
   if (includeInstance) {
@@ -1400,7 +1393,7 @@ proto.v1.api.player.Players.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.player.Players.toObject = function(includeInstance, msg) {
   var f, obj = {
-playersList: jspb.Message.toObjectList(msg.getPlayersList(),
+    playersList: jspb.Message.toObjectList(msg.getPlayersList(),
     proto.v1.api.player.Player.toObject, includeInstance)
   };
 

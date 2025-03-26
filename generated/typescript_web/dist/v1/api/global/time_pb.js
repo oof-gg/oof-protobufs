@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.global.GlobalTime', null, global);
 /**
@@ -75,8 +68,8 @@ proto.v1.api.global.GlobalTime.prototype.toObject = function(opt_includeInstance
  */
 proto.v1.api.global.GlobalTime.toObject = function(includeInstance, msg) {
   var f, obj = {
-timestamp: jspb.Message.getFieldWithDefault(msg, 1, 0),
-hash: jspb.Message.getFieldWithDefault(msg, 2, "")
+    timestamp: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    hash: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {

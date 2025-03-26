@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 var v1_std_regions_pb = require('../../../v1/std/regions_pb.js');
 goog.object.extend(proto, v1_std_regions_pb);
@@ -78,12 +71,12 @@ proto.v1.api.game.JoinLeaveGame.prototype.toObject = function(opt_includeInstanc
  */
 proto.v1.api.game.JoinLeaveGame.toObject = function(includeInstance, msg) {
   var f, obj = {
-userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
-gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
-action: jspb.Message.getFieldWithDefault(msg, 3, 0),
-teamId: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
-sessionId: (f = jspb.Message.getField(msg, 5)) == null ? undefined : f,
-region: (f = jspb.Message.getField(msg, 6)) == null ? undefined : f
+    userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    action: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    teamId: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    sessionId: jspb.Message.getFieldWithDefault(msg, 5, ""),
+    region: jspb.Message.getFieldWithDefault(msg, 6, 0)
   };
 
   if (includeInstance) {

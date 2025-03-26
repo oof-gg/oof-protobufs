@@ -2,7 +2,6 @@
 /**
  * @fileoverview
  * @enhanceable
- * @suppress {missingRequire} reports error on implicit type usages.
  * @suppress {messageConventions} JS Compiler reports an error if a variable or
  *     field starts with 'MSG_' and isn't a translatable message.
  * @public
@@ -13,13 +12,7 @@
 
 var jspb = require('google-protobuf');
 var goog = jspb;
-var global =
-    (typeof globalThis !== 'undefined' && globalThis) ||
-    (typeof window !== 'undefined' && window) ||
-    (typeof global !== 'undefined' && global) ||
-    (typeof self !== 'undefined' && self) ||
-    (function () { return this; }).call(null) ||
-    Function('return this')();
+var global = Function('return this')();
 
 goog.exportSymbol('proto.v1.api.game.AuthConfig', null, global);
 goog.exportSymbol('proto.v1.api.game.Instance', null, global);
@@ -143,10 +136,10 @@ proto.v1.api.game.Instance.prototype.toObject = function(opt_includeInstance) {
  */
 proto.v1.api.game.Instance.toObject = function(includeInstance, msg) {
   var f, obj = {
-state: jspb.Message.getFieldWithDefault(msg, 1, 0),
-gameId: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-playerId: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-data: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f
+    state: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    playerId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -417,10 +410,10 @@ proto.v1.api.game.InstanceNotification.prototype.toObject = function(opt_include
  */
 proto.v1.api.game.InstanceNotification.toObject = function(includeInstance, msg) {
   var f, obj = {
-state: jspb.Message.getFieldWithDefault(msg, 1, 0),
-gameId: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-playerId: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-data: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f
+    state: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    playerId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -691,11 +684,11 @@ proto.v1.api.game.InstanceCommandMessage.prototype.toObject = function(opt_inclu
  */
 proto.v1.api.game.InstanceCommandMessage.toObject = function(includeInstance, msg) {
   var f, obj = {
-state: jspb.Message.getFieldWithDefault(msg, 1, 0),
-gameId: (f = jspb.Message.getField(msg, 2)) == null ? undefined : f,
-playerId: (f = jspb.Message.getField(msg, 3)) == null ? undefined : f,
-data: (f = jspb.Message.getField(msg, 4)) == null ? undefined : f,
-authConfig: (f = msg.getAuthConfig()) && proto.v1.api.game.AuthConfig.toObject(includeInstance, f)
+    state: jspb.Message.getFieldWithDefault(msg, 1, 0),
+    gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    playerId: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    data: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    authConfig: (f = msg.getAuthConfig()) && proto.v1.api.game.AuthConfig.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -1016,8 +1009,8 @@ proto.v1.api.game.AuthConfig.prototype.toObject = function(opt_includeInstance) 
  */
 proto.v1.api.game.AuthConfig.toObject = function(includeInstance, msg) {
   var f, obj = {
-token: jspb.Message.getFieldWithDefault(msg, 1, ""),
-configMap: (f = msg.getConfigMap()) ? f.toObject(includeInstance, undefined) : []
+    token: jspb.Message.getFieldWithDefault(msg, 1, ""),
+    configMap: (f = msg.getConfigMap()) ? f.toObject(includeInstance, undefined) : []
   };
 
   if (includeInstance) {
@@ -1144,8 +1137,7 @@ proto.v1.api.game.AuthConfig.prototype.getConfigMap = function(opt_noLazyCreate)
  */
 proto.v1.api.game.AuthConfig.prototype.clearConfigMap = function() {
   this.getConfigMap().clear();
-  return this;
-};
+  return this;};
 
 
 /**
