@@ -43,6 +43,11 @@ message GameUpdateRequest {
   optional string data = 4;
 }
 
+message TrendingGamesRequest {
+  optional int32 limit = 1;
+  optional string cursor = 2;
+}
+
 message GameUpdateResponse {
   Game game = 1;
 }
