@@ -184,7 +184,7 @@ func (c *gameServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallO
 
 type GameService_StreamEventsClient interface {
 	Send(*game.GameEvent) error
-	CloseAndRecv() (*game.GameEvent, error)
+	Recv() (*game.GameEvent, error)
 	grpc.ClientStream
 }
 
@@ -196,10 +196,7 @@ func (x *gameServiceStreamEventsClient) Send(m *game.GameEvent) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *gameServiceStreamEventsClient) CloseAndRecv() (*game.GameEvent, error) {
-	if err := x.ClientStream.CloseSend(); err != nil {
-		return nil, err
-	}
+func (x *gameServiceStreamEventsClient) Recv() (*game.GameEvent, error) {
 	m := new(game.GameEvent)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -574,7 +571,7 @@ func _GameService_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream
 }
 
 type GameService_StreamEventsServer interface {
-	SendAndClose(*game.GameEvent) error
+	Send(*game.GameEvent) error
 	Recv() (*game.GameEvent, error)
 	grpc.ServerStream
 }
@@ -583,7 +580,7 @@ type gameServiceStreamEventsServer struct {
 	grpc.ServerStream
 }
 
-func (x *gameServiceStreamEventsServer) SendAndClose(m *game.GameEvent) error {
+func (x *gameServiceStreamEventsServer) Send(m *game.GameEvent) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -680,6 +677,7 @@ var GameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "StreamEvents",
 			Handler:       _GameService_StreamEvents_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 		{

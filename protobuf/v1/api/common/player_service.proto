@@ -6,9 +6,9 @@ import "v1/api/player/player.proto";
 import "v1/api/player/action.proto";
 
 service PlayerService {
-  rpc CreatePlayer (v1.api.player.Player) returns (v1.api.player.Player);
-  rpc GetPlayer (v1.api.player.PlayerGet) returns (v1.api.player.Players);
-  rpc UpdatePlayer (v1.api.player.PlayerUpdate) returns (v1.api.player.Player);
+  rpc CreatePlayer (v1.api.player.Player) returns (v1.api.player.StandardResponse);
+  rpc GetPlayer (v1.api.player.PlayerGet) returns (v1.api.player.StandardResponse);
+  rpc UpdatePlayer (v1.api.player.PlayerUpdate) returns (v1.api.player.StandardResponse);
   rpc StreamEvents (stream v1.api.player.PlayerAction) returns (stream v1.api.player.PlayerAction);
 }
 

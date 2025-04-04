@@ -4,11 +4,24 @@ syntax = "proto3";
 package v1.api.common;
 
 import "v1/api/global/event.proto";
+import "v1/api/game/event.proto";
+import "v1/api/player/action.proto";
+import "v1/std/responses.proto";
 
 /// Global service for joining and leaving games
 service GlobalService {
   /// Stream events from the global service
   rpc StreamEvents (stream v1.api.global.GlobalEvent) returns (stream v1.api.global.GlobalEvent);
+}
+
+/// Websocket Events, message can trigger API calls or other events
+message WebSocketMessage {
+  oneof payload {
+    v1.api.global.GlobalEvent global_event = 1;
+    v1.api.game.GameEvent game_event = 2;
+    v1.api.player.PlayerAction player_action = 3;
+    v1.std.StandardResponse response = 4;
+  }
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";

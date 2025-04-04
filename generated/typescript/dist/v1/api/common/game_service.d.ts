@@ -1,4 +1,4 @@
-import { type CallOptions, ChannelCredentials, Client, type ClientOptions, ClientReadableStream, type ClientUnaryCall, ClientWritableStream, handleClientStreamingCall, handleServerStreamingCall, type handleUnaryCall, Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
+import { type CallOptions, ChannelCredentials, Client, ClientDuplexStream, type ClientOptions, ClientReadableStream, type ClientUnaryCall, handleBidiStreamingCall, handleServerStreamingCall, type handleUnaryCall, Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
 import { EntityCreateRequest, EntityDeleteRequest, EntityGetRequest, EntityUpdateRequest } from "../game/entity";
 import { GameEvent } from "../game/event";
 import { GameCreateRequest, GameGetRequest, GameUpdateRequest, PaginatedResponse, StandardResponse, TrendingGamesRequest } from "../game/game";
@@ -140,7 +140,7 @@ export declare const GameServiceService: {
     readonly streamEvents: {
         readonly path: "/v1.api.common.GameService/StreamEvents";
         readonly requestStream: true;
-        readonly responseStream: false;
+        readonly responseStream: true;
         readonly requestSerialize: (value: GameEvent) => Buffer;
         readonly requestDeserialize: (value: Buffer) => GameEvent;
         readonly responseSerialize: (value: GameEvent) => Buffer;
@@ -184,7 +184,7 @@ export interface GameServiceServer extends UntypedServiceImplementation {
     /** / Trending games */
     trendingGame: handleUnaryCall<TrendingGamesRequest, PaginatedResponse>;
     /** / Wait for queue updates */
-    streamEvents: handleClientStreamingCall<GameEvent, GameEvent>;
+    streamEvents: handleBidiStreamingCall<GameEvent, GameEvent>;
     /** / Stream events from the game */
     watchQueue: handleServerStreamingCall<Session, Session>;
 }
@@ -241,10 +241,9 @@ export interface GameServiceClient extends Client {
     trendingGame(request: TrendingGamesRequest, metadata: Metadata, callback: (error: ServiceError | null, response: PaginatedResponse) => void): ClientUnaryCall;
     trendingGame(request: TrendingGamesRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: PaginatedResponse) => void): ClientUnaryCall;
     /** / Wait for queue updates */
-    streamEvents(callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
-    streamEvents(metadata: Metadata, callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
-    streamEvents(options: Partial<CallOptions>, callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
-    streamEvents(metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
+    streamEvents(): ClientDuplexStream<GameEvent, GameEvent>;
+    streamEvents(options: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
+    streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
     /** / Stream events from the game */
     watchQueue(request: Session, options?: Partial<CallOptions>): ClientReadableStream<Session>;
     watchQueue(request: Session, metadata?: Metadata, options?: Partial<CallOptions>): ClientReadableStream<Session>;

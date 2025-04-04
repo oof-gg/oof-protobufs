@@ -18,8 +18,8 @@ exports.PlayerServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(player_1.Player.encode(value).finish()),
         requestDeserialize: (value) => player_1.Player.decode(value),
-        responseSerialize: (value) => Buffer.from(player_1.Player.encode(value).finish()),
-        responseDeserialize: (value) => player_1.Player.decode(value),
+        responseSerialize: (value) => Buffer.from(player_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => player_1.StandardResponse.decode(value),
     },
     getPlayer: {
         path: "/v1.api.common.PlayerService/GetPlayer",
@@ -27,8 +27,8 @@ exports.PlayerServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(player_1.PlayerGet.encode(value).finish()),
         requestDeserialize: (value) => player_1.PlayerGet.decode(value),
-        responseSerialize: (value) => Buffer.from(player_1.Players.encode(value).finish()),
-        responseDeserialize: (value) => player_1.Players.decode(value),
+        responseSerialize: (value) => Buffer.from(player_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => player_1.StandardResponse.decode(value),
     },
     updatePlayer: {
         path: "/v1.api.common.PlayerService/UpdatePlayer",
@@ -36,8 +36,8 @@ exports.PlayerServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(player_1.PlayerUpdate.encode(value).finish()),
         requestDeserialize: (value) => player_1.PlayerUpdate.decode(value),
-        responseSerialize: (value) => Buffer.from(player_1.Player.encode(value).finish()),
-        responseDeserialize: (value) => player_1.Player.decode(value),
+        responseSerialize: (value) => Buffer.from(player_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => player_1.StandardResponse.decode(value),
     },
     streamEvents: {
         path: "/v1.api.common.PlayerService/StreamEvents",

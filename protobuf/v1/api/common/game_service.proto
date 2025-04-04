@@ -38,7 +38,7 @@ service GameService {
   rpc TrendingGame (v1.api.game.TrendingGamesRequest) returns (v1.api.game.PaginatedResponse);
 
   /// Wait for queue updates
-  rpc StreamEvents (stream v1.api.game.GameEvent) returns (v1.api.game.GameEvent);
+  rpc StreamEvents (stream v1.api.game.GameEvent) returns (stream v1.api.game.GameEvent);
   /// Stream events from the game
   rpc WatchQueue (v1.api.game.Session) returns (stream v1.api.game.Session);
 }

@@ -45,6 +45,39 @@ message PlayerGet {
   optional string id = 1;
 }
 
+message Status {
+  // The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+  int32 code = 1;
+
+  // A developer-facing error message, which should be in English. Any
+  // user-facing error message should be localized and sent in the
+  // [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+  string message = 2;
+
+  // A list of messages that carry the error details.  There will be a
+  // common set of message types for APIs to use.
+  repeated string details = 3;
+}
+
+// Unify everything into one response.
+message StandardResponse {
+  // Status code (e.g., HTTP or custom).
+  int32 code = 1;
+
+  // This could be your success or error message.
+  string message = 2;
+
+  // If there's an error, you could store it here or just use google.rpc.Status directly.
+  Status error = 3;
+
+  // The actual payload.
+  oneof data {
+    // For single items.
+    Player single_player = 4;
+    Players players = 5;
+  }
+}
+
 message Players {
   repeated Player players = 1;
 }

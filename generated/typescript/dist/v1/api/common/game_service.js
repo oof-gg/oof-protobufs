@@ -148,7 +148,7 @@ exports.GameServiceService = {
     streamEvents: {
         path: "/v1.api.common.GameService/StreamEvents",
         requestStream: true,
-        responseStream: false,
+        responseStream: true,
         requestSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),
         requestDeserialize: (value) => event_1.GameEvent.decode(value),
         responseSerialize: (value) => Buffer.from(event_1.GameEvent.encode(value).finish()),

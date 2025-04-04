@@ -436,6 +436,186 @@ func (x *PlayerGet) GetId() string {
 	return ""
 }
 
+type Status struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// A developer-facing error message, which should be in English. Any
+	// user-facing error message should be localized and sent in the
+	// [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// A list of messages that carry the error details.  There will be a
+	// common set of message types for APIs to use.
+	Details []string `protobuf:"bytes,3,rep,name=details,proto3" json:"details,omitempty"`
+}
+
+func (x *Status) Reset() {
+	*x = Status{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_api_player_player_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Status) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Status) ProtoMessage() {}
+
+func (x *Status) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_api_player_player_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Status.ProtoReflect.Descriptor instead.
+func (*Status) Descriptor() ([]byte, []int) {
+	return file_v1_api_player_player_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *Status) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *Status) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *Status) GetDetails() []string {
+	if x != nil {
+		return x.Details
+	}
+	return nil
+}
+
+// Unify everything into one response.
+type StandardResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// Status code (e.g., HTTP or custom).
+	Code int32 `protobuf:"varint,1,opt,name=code,proto3" json:"code,omitempty"`
+	// This could be your success or error message.
+	Message string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	// If there's an error, you could store it here or just use google.rpc.Status directly.
+	Error *Status `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
+	// The actual payload.
+	//
+	// Types that are assignable to Data:
+	//	*StandardResponse_SinglePlayer
+	//	*StandardResponse_Players
+	Data isStandardResponse_Data `protobuf_oneof:"data"`
+}
+
+func (x *StandardResponse) Reset() {
+	*x = StandardResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_api_player_player_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *StandardResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StandardResponse) ProtoMessage() {}
+
+func (x *StandardResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_api_player_player_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StandardResponse.ProtoReflect.Descriptor instead.
+func (*StandardResponse) Descriptor() ([]byte, []int) {
+	return file_v1_api_player_player_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *StandardResponse) GetCode() int32 {
+	if x != nil {
+		return x.Code
+	}
+	return 0
+}
+
+func (x *StandardResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+func (x *StandardResponse) GetError() *Status {
+	if x != nil {
+		return x.Error
+	}
+	return nil
+}
+
+func (m *StandardResponse) GetData() isStandardResponse_Data {
+	if m != nil {
+		return m.Data
+	}
+	return nil
+}
+
+func (x *StandardResponse) GetSinglePlayer() *Player {
+	if x, ok := x.GetData().(*StandardResponse_SinglePlayer); ok {
+		return x.SinglePlayer
+	}
+	return nil
+}
+
+func (x *StandardResponse) GetPlayers() *Players {
+	if x, ok := x.GetData().(*StandardResponse_Players); ok {
+		return x.Players
+	}
+	return nil
+}
+
+type isStandardResponse_Data interface {
+	isStandardResponse_Data()
+}
+
+type StandardResponse_SinglePlayer struct {
+	// For single items.
+	SinglePlayer *Player `protobuf:"bytes,4,opt,name=single_player,json=singlePlayer,proto3,oneof"`
+}
+
+type StandardResponse_Players struct {
+	Players *Players `protobuf:"bytes,5,opt,name=players,proto3,oneof"`
+}
+
+func (*StandardResponse_SinglePlayer) isStandardResponse_Data() {}
+
+func (*StandardResponse_Players) isStandardResponse_Data() {}
+
 type Players struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -447,7 +627,7 @@ type Players struct {
 func (x *Players) Reset() {
 	*x = Players{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_v1_api_player_player_proto_msgTypes[4]
+		mi := &file_v1_api_player_player_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -460,7 +640,7 @@ func (x *Players) String() string {
 func (*Players) ProtoMessage() {}
 
 func (x *Players) ProtoReflect() protoreflect.Message {
-	mi := &file_v1_api_player_player_proto_msgTypes[4]
+	mi := &file_v1_api_player_player_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -473,7 +653,7 @@ func (x *Players) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Players.ProtoReflect.Descriptor instead.
 func (*Players) Descriptor() ([]byte, []int) {
-	return file_v1_api_player_player_proto_rawDescGZIP(), []int{4}
+	return file_v1_api_player_player_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Players) GetPlayers() []*Player {
@@ -540,20 +720,39 @@ var file_v1_api_player_player_proto_rawDesc = []byte{
 	0x74, 0x75, 0x73, 0x42, 0x07, 0x0a, 0x05, 0x5f, 0x72, 0x6f, 0x6c, 0x65, 0x22, 0x27, 0x0a, 0x09,
 	0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x47, 0x65, 0x74, 0x12, 0x13, 0x0a, 0x02, 0x69, 0x64, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x02, 0x69, 0x64, 0x88, 0x01, 0x01, 0x42, 0x05,
-	0x0a, 0x03, 0x5f, 0x69, 0x64, 0x22, 0x3a, 0x0a, 0x07, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73,
-	0x12, 0x2f, 0x0a, 0x07, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28,
-	0x0b, 0x32, 0x15, 0x2e, 0x76, 0x31, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x65,
-	0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x52, 0x07, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72,
-	0x73, 0x2a, 0x1f, 0x0a, 0x0a, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12,
-	0x09, 0x0a, 0x05, 0x48, 0x55, 0x4d, 0x41, 0x4e, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x41, 0x49,
-	0x10, 0x01, 0x2a, 0x28, 0x0a, 0x0c, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x53, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x12, 0x0a, 0x0a, 0x06, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x00, 0x12, 0x0c,
-	0x0a, 0x08, 0x49, 0x4e, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x42, 0x3c, 0x5a, 0x3a,
-	0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6f, 0x66, 0x2d, 0x67,
-	0x67, 0x2f, 0x6f, 0x6f, 0x66, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x73, 0x2f,
-	0x67, 0x65, 0x6e, 0x65, 0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x31, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x0a, 0x03, 0x5f, 0x69, 0x64, 0x22, 0x50, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12,
+	0x12, 0x0a, 0x04, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63,
+	0x6f, 0x64, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x18, 0x0a,
+	0x07, 0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x03, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07,
+	0x64, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x22, 0xe7, 0x01, 0x0a, 0x10, 0x53, 0x74, 0x61, 0x6e,
+	0x64, 0x61, 0x72, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x12, 0x0a, 0x04,
+	0x63, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x05, 0x52, 0x04, 0x63, 0x6f, 0x64, 0x65,
+	0x12, 0x18, 0x0a, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x6d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x2b, 0x0a, 0x05, 0x65, 0x72,
+	0x72, 0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x76, 0x31, 0x2e, 0x61,
+	0x70, 0x69, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x12, 0x3c, 0x0a, 0x0d, 0x73, 0x69, 0x6e, 0x67, 0x6c,
+	0x65, 0x5f, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15,
+	0x2e, 0x76, 0x31, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x2e, 0x50,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x48, 0x00, 0x52, 0x0c, 0x73, 0x69, 0x6e, 0x67, 0x6c, 0x65, 0x50,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x12, 0x32, 0x0a, 0x07, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x16, 0x2e, 0x76, 0x31, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x48, 0x00,
+	0x52, 0x07, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x42, 0x06, 0x0a, 0x04, 0x64, 0x61, 0x74,
+	0x61, 0x22, 0x3a, 0x0a, 0x07, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x12, 0x2f, 0x0a, 0x07,
+	0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x15, 0x2e,
+	0x76, 0x31, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x2e, 0x50, 0x6c,
+	0x61, 0x79, 0x65, 0x72, 0x52, 0x07, 0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x73, 0x2a, 0x1f, 0x0a,
+	0x0a, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x54, 0x79, 0x70, 0x65, 0x12, 0x09, 0x0a, 0x05, 0x48,
+	0x55, 0x4d, 0x41, 0x4e, 0x10, 0x00, 0x12, 0x06, 0x0a, 0x02, 0x41, 0x49, 0x10, 0x01, 0x2a, 0x28,
+	0x0a, 0x0c, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x0a,
+	0x0a, 0x06, 0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x00, 0x12, 0x0c, 0x0a, 0x08, 0x49, 0x4e,
+	0x41, 0x43, 0x54, 0x49, 0x56, 0x45, 0x10, 0x01, 0x42, 0x3c, 0x5a, 0x3a, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x6f, 0x6f, 0x66, 0x2d, 0x67, 0x67, 0x2f, 0x6f, 0x6f,
+	0x66, 0x2d, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x73, 0x2f, 0x67, 0x65, 0x6e, 0x65,
+	0x72, 0x61, 0x74, 0x65, 0x64, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x31, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x70, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -569,29 +768,34 @@ func file_v1_api_player_player_proto_rawDescGZIP() []byte {
 }
 
 var file_v1_api_player_player_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
-var file_v1_api_player_player_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_v1_api_player_player_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_v1_api_player_player_proto_goTypes = []interface{}{
-	(PlayerType)(0),      // 0: v1.api.player.PlayerType
-	(PlayerStatus)(0),    // 1: v1.api.player.PlayerStatus
-	(*Player)(nil),       // 2: v1.api.player.Player
-	(*PlayerCreate)(nil), // 3: v1.api.player.PlayerCreate
-	(*PlayerUpdate)(nil), // 4: v1.api.player.PlayerUpdate
-	(*PlayerGet)(nil),    // 5: v1.api.player.PlayerGet
-	(*Players)(nil),      // 6: v1.api.player.Players
+	(PlayerType)(0),          // 0: v1.api.player.PlayerType
+	(PlayerStatus)(0),        // 1: v1.api.player.PlayerStatus
+	(*Player)(nil),           // 2: v1.api.player.Player
+	(*PlayerCreate)(nil),     // 3: v1.api.player.PlayerCreate
+	(*PlayerUpdate)(nil),     // 4: v1.api.player.PlayerUpdate
+	(*PlayerGet)(nil),        // 5: v1.api.player.PlayerGet
+	(*Status)(nil),           // 6: v1.api.player.Status
+	(*StandardResponse)(nil), // 7: v1.api.player.StandardResponse
+	(*Players)(nil),          // 8: v1.api.player.Players
 }
 var file_v1_api_player_player_proto_depIdxs = []int32{
-	0, // 0: v1.api.player.Player.type:type_name -> v1.api.player.PlayerType
-	1, // 1: v1.api.player.Player.status:type_name -> v1.api.player.PlayerStatus
-	0, // 2: v1.api.player.PlayerCreate.type:type_name -> v1.api.player.PlayerType
-	1, // 3: v1.api.player.PlayerCreate.status:type_name -> v1.api.player.PlayerStatus
-	0, // 4: v1.api.player.PlayerUpdate.type:type_name -> v1.api.player.PlayerType
-	1, // 5: v1.api.player.PlayerUpdate.status:type_name -> v1.api.player.PlayerStatus
-	2, // 6: v1.api.player.Players.players:type_name -> v1.api.player.Player
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	0,  // 0: v1.api.player.Player.type:type_name -> v1.api.player.PlayerType
+	1,  // 1: v1.api.player.Player.status:type_name -> v1.api.player.PlayerStatus
+	0,  // 2: v1.api.player.PlayerCreate.type:type_name -> v1.api.player.PlayerType
+	1,  // 3: v1.api.player.PlayerCreate.status:type_name -> v1.api.player.PlayerStatus
+	0,  // 4: v1.api.player.PlayerUpdate.type:type_name -> v1.api.player.PlayerType
+	1,  // 5: v1.api.player.PlayerUpdate.status:type_name -> v1.api.player.PlayerStatus
+	6,  // 6: v1.api.player.StandardResponse.error:type_name -> v1.api.player.Status
+	2,  // 7: v1.api.player.StandardResponse.single_player:type_name -> v1.api.player.Player
+	8,  // 8: v1.api.player.StandardResponse.players:type_name -> v1.api.player.Players
+	2,  // 9: v1.api.player.Players.players:type_name -> v1.api.player.Player
+	10, // [10:10] is the sub-list for method output_type
+	10, // [10:10] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_v1_api_player_player_proto_init() }
@@ -649,6 +853,30 @@ func file_v1_api_player_player_proto_init() {
 			}
 		}
 		file_v1_api_player_player_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Status); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_api_player_player_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*StandardResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_api_player_player_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Players); i {
 			case 0:
 				return &v.state
@@ -665,13 +893,17 @@ func file_v1_api_player_player_proto_init() {
 	file_v1_api_player_player_proto_msgTypes[1].OneofWrappers = []interface{}{}
 	file_v1_api_player_player_proto_msgTypes[2].OneofWrappers = []interface{}{}
 	file_v1_api_player_player_proto_msgTypes[3].OneofWrappers = []interface{}{}
+	file_v1_api_player_player_proto_msgTypes[5].OneofWrappers = []interface{}{
+		(*StandardResponse_SinglePlayer)(nil),
+		(*StandardResponse_Players)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_api_player_player_proto_rawDesc,
 			NumEnums:      2,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

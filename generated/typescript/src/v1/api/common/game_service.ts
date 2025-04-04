@@ -9,11 +9,11 @@ import {
   type CallOptions,
   ChannelCredentials,
   Client,
+  ClientDuplexStream,
   type ClientOptions,
   ClientReadableStream,
   type ClientUnaryCall,
-  ClientWritableStream,
-  handleClientStreamingCall,
+  handleBidiStreamingCall,
   handleServerStreamingCall,
   type handleUnaryCall,
   makeGenericClientConstructor,
@@ -171,7 +171,7 @@ export const GameServiceService = {
   streamEvents: {
     path: "/v1.api.common.GameService/StreamEvents",
     requestStream: true,
-    responseStream: false,
+    responseStream: true,
     requestSerialize: (value: GameEvent) => Buffer.from(GameEvent.encode(value).finish()),
     requestDeserialize: (value: Buffer) => GameEvent.decode(value),
     responseSerialize: (value: GameEvent) => Buffer.from(GameEvent.encode(value).finish()),
@@ -216,7 +216,7 @@ export interface GameServiceServer extends UntypedServiceImplementation {
   /** / Trending games */
   trendingGame: handleUnaryCall<TrendingGamesRequest, PaginatedResponse>;
   /** / Wait for queue updates */
-  streamEvents: handleClientStreamingCall<GameEvent, GameEvent>;
+  streamEvents: handleBidiStreamingCall<GameEvent, GameEvent>;
   /** / Stream events from the game */
   watchQueue: handleServerStreamingCall<Session, Session>;
 }
@@ -430,20 +430,9 @@ export interface GameServiceClient extends Client {
     callback: (error: ServiceError | null, response: PaginatedResponse) => void,
   ): ClientUnaryCall;
   /** / Wait for queue updates */
-  streamEvents(callback: (error: ServiceError | null, response: GameEvent) => void): ClientWritableStream<GameEvent>;
-  streamEvents(
-    metadata: Metadata,
-    callback: (error: ServiceError | null, response: GameEvent) => void,
-  ): ClientWritableStream<GameEvent>;
-  streamEvents(
-    options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: GameEvent) => void,
-  ): ClientWritableStream<GameEvent>;
-  streamEvents(
-    metadata: Metadata,
-    options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: GameEvent) => void,
-  ): ClientWritableStream<GameEvent>;
+  streamEvents(): ClientDuplexStream<GameEvent, GameEvent>;
+  streamEvents(options: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
+  streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<GameEvent, GameEvent>;
   /** / Stream events from the game */
   watchQueue(request: Session, options?: Partial<CallOptions>): ClientReadableStream<Session>;
   watchQueue(request: Session, metadata?: Metadata, options?: Partial<CallOptions>): ClientReadableStream<Session>;

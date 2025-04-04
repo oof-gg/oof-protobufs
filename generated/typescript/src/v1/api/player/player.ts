@@ -111,6 +111,37 @@ export interface PlayerGet {
   id?: string | undefined;
 }
 
+export interface Status {
+  /** The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code]. */
+  code: number;
+  /**
+   * A developer-facing error message, which should be in English. Any
+   * user-facing error message should be localized and sent in the
+   * [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+   */
+  message: string;
+  /**
+   * A list of messages that carry the error details.  There will be a
+   * common set of message types for APIs to use.
+   */
+  details: string[];
+}
+
+/** Unify everything into one response. */
+export interface StandardResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
+  /** For single items. */
+  singlePlayer?: Player | undefined;
+  players?: Players | undefined;
+}
+
 export interface Players {
   players: Player[];
 }
@@ -621,6 +652,228 @@ export const PlayerGet: MessageFns<PlayerGet> = {
   fromPartial<I extends Exact<DeepPartial<PlayerGet>, I>>(object: I): PlayerGet {
     const message = createBasePlayerGet();
     message.id = object.id ?? undefined;
+    return message;
+  },
+};
+
+function createBaseStatus(): Status {
+  return { code: 0, message: "", details: [] };
+}
+
+export const Status: MessageFns<Status> = {
+  encode(message: Status, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    for (const v of message.details) {
+      writer.uint32(26).string(v!);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.details.push(reader.string());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Status {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      details: globalThis.Array.isArray(object?.details) ? object.details.map((e: any) => globalThis.String(e)) : [],
+    };
+  },
+
+  toJSON(message: Status): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.details?.length) {
+      obj.details = message.details;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Status>, I>>(base?: I): Status {
+    return Status.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Status>, I>>(object: I): Status {
+    const message = createBaseStatus();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.details = object.details?.map((e) => e) || [];
+    return message;
+  },
+};
+
+function createBaseStandardResponse(): StandardResponse {
+  return { code: 0, message: "", error: undefined, singlePlayer: undefined, players: undefined };
+}
+
+export const StandardResponse: MessageFns<StandardResponse> = {
+  encode(message: StandardResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.singlePlayer !== undefined) {
+      Player.encode(message.singlePlayer, writer.uint32(34).fork()).join();
+    }
+    if (message.players !== undefined) {
+      Players.encode(message.players, writer.uint32(42).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): StandardResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStandardResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.singlePlayer = Player.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.players = Players.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): StandardResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      singlePlayer: isSet(object.singlePlayer) ? Player.fromJSON(object.singlePlayer) : undefined,
+      players: isSet(object.players) ? Players.fromJSON(object.players) : undefined,
+    };
+  },
+
+  toJSON(message: StandardResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.singlePlayer !== undefined) {
+      obj.singlePlayer = Player.toJSON(message.singlePlayer);
+    }
+    if (message.players !== undefined) {
+      obj.players = Players.toJSON(message.players);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<StandardResponse>, I>>(base?: I): StandardResponse {
+    return StandardResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<StandardResponse>, I>>(object: I): StandardResponse {
+    const message = createBaseStandardResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
+    message.singlePlayer = (object.singlePlayer !== undefined && object.singlePlayer !== null)
+      ? Player.fromPartial(object.singlePlayer)
+      : undefined;
+    message.players = (object.players !== undefined && object.players !== null)
+      ? Players.fromPartial(object.players)
+      : undefined;
     return message;
   },
 };

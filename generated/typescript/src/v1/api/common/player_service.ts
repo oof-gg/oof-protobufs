@@ -20,7 +20,7 @@ import {
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
 import { PlayerAction } from "../player/action";
-import { Player, PlayerGet, Players, PlayerUpdate } from "../player/player";
+import { Player, PlayerGet, PlayerUpdate, StandardResponse } from "../player/player";
 
 export const protobufPackage = "v1.api.common";
 
@@ -32,8 +32,8 @@ export const PlayerServiceService = {
     responseStream: false,
     requestSerialize: (value: Player) => Buffer.from(Player.encode(value).finish()),
     requestDeserialize: (value: Buffer) => Player.decode(value),
-    responseSerialize: (value: Player) => Buffer.from(Player.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => Player.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
   getPlayer: {
     path: "/v1.api.common.PlayerService/GetPlayer",
@@ -41,8 +41,8 @@ export const PlayerServiceService = {
     responseStream: false,
     requestSerialize: (value: PlayerGet) => Buffer.from(PlayerGet.encode(value).finish()),
     requestDeserialize: (value: Buffer) => PlayerGet.decode(value),
-    responseSerialize: (value: Players) => Buffer.from(Players.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => Players.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
   updatePlayer: {
     path: "/v1.api.common.PlayerService/UpdatePlayer",
@@ -50,8 +50,8 @@ export const PlayerServiceService = {
     responseStream: false,
     requestSerialize: (value: PlayerUpdate) => Buffer.from(PlayerUpdate.encode(value).finish()),
     requestDeserialize: (value: Buffer) => PlayerUpdate.decode(value),
-    responseSerialize: (value: Player) => Buffer.from(Player.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => Player.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
   streamEvents: {
     path: "/v1.api.common.PlayerService/StreamEvents",
@@ -65,51 +65,57 @@ export const PlayerServiceService = {
 } as const;
 
 export interface PlayerServiceServer extends UntypedServiceImplementation {
-  createPlayer: handleUnaryCall<Player, Player>;
-  getPlayer: handleUnaryCall<PlayerGet, Players>;
-  updatePlayer: handleUnaryCall<PlayerUpdate, Player>;
+  createPlayer: handleUnaryCall<Player, StandardResponse>;
+  getPlayer: handleUnaryCall<PlayerGet, StandardResponse>;
+  updatePlayer: handleUnaryCall<PlayerUpdate, StandardResponse>;
   streamEvents: handleBidiStreamingCall<PlayerAction, PlayerAction>;
 }
 
 export interface PlayerServiceClient extends Client {
-  createPlayer(request: Player, callback: (error: ServiceError | null, response: Player) => void): ClientUnaryCall;
+  createPlayer(
+    request: Player,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
+  ): ClientUnaryCall;
   createPlayer(
     request: Player,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: Player) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   createPlayer(
     request: Player,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: Player) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
-  getPlayer(request: PlayerGet, callback: (error: ServiceError | null, response: Players) => void): ClientUnaryCall;
+  getPlayer(
+    request: PlayerGet,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
+  ): ClientUnaryCall;
   getPlayer(
     request: PlayerGet,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: Players) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayer(
     request: PlayerGet,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: Players) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   updatePlayer(
     request: PlayerUpdate,
-    callback: (error: ServiceError | null, response: Player) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   updatePlayer(
     request: PlayerUpdate,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: Player) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   updatePlayer(
     request: PlayerUpdate,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: Player) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   streamEvents(): ClientDuplexStream<PlayerAction, PlayerAction>;
   streamEvents(options: Partial<CallOptions>): ClientDuplexStream<PlayerAction, PlayerAction>;

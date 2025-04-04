@@ -19,9 +19,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PlayerServiceClient interface {
-	CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.Player, error)
-	GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.Players, error)
-	UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.Player, error)
+	CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.StandardResponse, error)
+	GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.StandardResponse, error)
+	UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.StandardResponse, error)
 	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (PlayerService_StreamEventsClient, error)
 }
 
@@ -33,8 +33,8 @@ func NewPlayerServiceClient(cc grpc.ClientConnInterface) PlayerServiceClient {
 	return &playerServiceClient{cc}
 }
 
-func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.Player, error) {
-	out := new(player.Player)
+func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.StandardResponse, error) {
+	out := new(player.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.PlayerService/CreatePlayer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,8 +42,8 @@ func (c *playerServiceClient) CreatePlayer(ctx context.Context, in *player.Playe
 	return out, nil
 }
 
-func (c *playerServiceClient) GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.Players, error) {
-	out := new(player.Players)
+func (c *playerServiceClient) GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.StandardResponse, error) {
+	out := new(player.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.PlayerService/GetPlayer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -51,8 +51,8 @@ func (c *playerServiceClient) GetPlayer(ctx context.Context, in *player.PlayerGe
 	return out, nil
 }
 
-func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.Player, error) {
-	out := new(player.Player)
+func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.StandardResponse, error) {
+	out := new(player.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.PlayerService/UpdatePlayer", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -95,9 +95,9 @@ func (x *playerServiceStreamEventsClient) Recv() (*player.PlayerAction, error) {
 // All implementations must embed UnimplementedPlayerServiceServer
 // for forward compatibility
 type PlayerServiceServer interface {
-	CreatePlayer(context.Context, *player.Player) (*player.Player, error)
-	GetPlayer(context.Context, *player.PlayerGet) (*player.Players, error)
-	UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.Player, error)
+	CreatePlayer(context.Context, *player.Player) (*player.StandardResponse, error)
+	GetPlayer(context.Context, *player.PlayerGet) (*player.StandardResponse, error)
+	UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.StandardResponse, error)
 	StreamEvents(PlayerService_StreamEventsServer) error
 	mustEmbedUnimplementedPlayerServiceServer()
 }
@@ -106,13 +106,13 @@ type PlayerServiceServer interface {
 type UnimplementedPlayerServiceServer struct {
 }
 
-func (UnimplementedPlayerServiceServer) CreatePlayer(context.Context, *player.Player) (*player.Player, error) {
+func (UnimplementedPlayerServiceServer) CreatePlayer(context.Context, *player.Player) (*player.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreatePlayer not implemented")
 }
-func (UnimplementedPlayerServiceServer) GetPlayer(context.Context, *player.PlayerGet) (*player.Players, error) {
+func (UnimplementedPlayerServiceServer) GetPlayer(context.Context, *player.PlayerGet) (*player.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlayer not implemented")
 }
-func (UnimplementedPlayerServiceServer) UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.Player, error) {
+func (UnimplementedPlayerServiceServer) UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlayer not implemented")
 }
 func (UnimplementedPlayerServiceServer) StreamEvents(PlayerService_StreamEventsServer) error {
