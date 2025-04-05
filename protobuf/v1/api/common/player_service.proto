@@ -9,7 +9,6 @@ service PlayerService {
   rpc CreatePlayer (v1.api.player.Player) returns (v1.api.player.StandardResponse);
   rpc GetPlayer (v1.api.player.PlayerGet) returns (v1.api.player.StandardResponse);
   rpc UpdatePlayer (v1.api.player.PlayerUpdate) returns (v1.api.player.StandardResponse);
-  rpc StreamEvents (stream v1.api.player.PlayerAction) returns (stream v1.api.player.PlayerAction);
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";

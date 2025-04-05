@@ -1,0 +1,11 @@
+
+package v1.api.common;
+
+import "v1/api/game/event.proto";
+
+service InstanceService {
+  rpc StreamEvents  (stream v1.api.game.GameEvent) returns (stream v1.api.game.GameEvent);
+  
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";
