@@ -1,4 +1,4 @@
-// source: v1/api/common/player_service.proto
+// source: v1/api/common/instance_service.proto
 /**
  * @fileoverview
  * @enhanceable
@@ -14,5 +14,5 @@ var jspb = require('google-protobuf');
 var goog = jspb;
 var global = Function('return this')();
 
-var v1_api_player_player_pb = require('../../../v1/api/player/player_pb.js');
-goog.object.extend(proto, v1_api_player_player_pb);
+var v1_api_game_event_pb = require('../../../v1/api/game/event_pb.js');
+goog.object.extend(proto, v1_api_game_event_pb);

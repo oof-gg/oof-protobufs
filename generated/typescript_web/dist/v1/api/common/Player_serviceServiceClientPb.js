@@ -17,15 +17,15 @@ const grpcWeb = require("grpc-web");
 const v1_api_player_player_pb = require("../../../v1/api/player/player_pb"); // proto import: "v1/api/player/player.proto"
 class PlayerServiceClient {
     constructor(hostname, credentials, options) {
-        this.methodDescriptorCreatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/CreatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.Player, v1_api_player_player_pb.Player, (request) => {
+        this.methodDescriptorCreatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/CreatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.Player, v1_api_player_player_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_player_player_pb.Player.deserializeBinary);
-        this.methodDescriptorGetPlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/GetPlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerGet, v1_api_player_player_pb.Players, (request) => {
+        }, v1_api_player_player_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetPlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/GetPlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerGet, v1_api_player_player_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_player_player_pb.Players.deserializeBinary);
-        this.methodDescriptorUpdatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/UpdatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerUpdate, v1_api_player_player_pb.Player, (request) => {
+        }, v1_api_player_player_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorUpdatePlayer = new grpcWeb.MethodDescriptor('/v1.api.common.PlayerService/UpdatePlayer', grpcWeb.MethodType.UNARY, v1_api_player_player_pb.PlayerUpdate, v1_api_player_player_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_player_player_pb.Player.deserializeBinary);
+        }, v1_api_player_player_pb.StandardResponse.deserializeBinary);
         if (!options)
             options = {};
         if (!credentials)

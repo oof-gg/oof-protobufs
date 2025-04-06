@@ -22,7 +22,6 @@ type PlayerServiceClient interface {
 	CreatePlayer(ctx context.Context, in *player.Player, opts ...grpc.CallOption) (*player.StandardResponse, error)
 	GetPlayer(ctx context.Context, in *player.PlayerGet, opts ...grpc.CallOption) (*player.StandardResponse, error)
 	UpdatePlayer(ctx context.Context, in *player.PlayerUpdate, opts ...grpc.CallOption) (*player.StandardResponse, error)
-	StreamEvents(ctx context.Context, opts ...grpc.CallOption) (PlayerService_StreamEventsClient, error)
 }
 
 type playerServiceClient struct {
@@ -60,37 +59,6 @@ func (c *playerServiceClient) UpdatePlayer(ctx context.Context, in *player.Playe
 	return out, nil
 }
 
-func (c *playerServiceClient) StreamEvents(ctx context.Context, opts ...grpc.CallOption) (PlayerService_StreamEventsClient, error) {
-	stream, err := c.cc.NewStream(ctx, &PlayerService_ServiceDesc.Streams[0], "/v1.api.common.PlayerService/StreamEvents", opts...)
-	if err != nil {
-		return nil, err
-	}
-	x := &playerServiceStreamEventsClient{stream}
-	return x, nil
-}
-
-type PlayerService_StreamEventsClient interface {
-	Send(*player.PlayerAction) error
-	Recv() (*player.PlayerAction, error)
-	grpc.ClientStream
-}
-
-type playerServiceStreamEventsClient struct {
-	grpc.ClientStream
-}
-
-func (x *playerServiceStreamEventsClient) Send(m *player.PlayerAction) error {
-	return x.ClientStream.SendMsg(m)
-}
-
-func (x *playerServiceStreamEventsClient) Recv() (*player.PlayerAction, error) {
-	m := new(player.PlayerAction)
-	if err := x.ClientStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // PlayerServiceServer is the server API for PlayerService service.
 // All implementations must embed UnimplementedPlayerServiceServer
 // for forward compatibility
@@ -98,7 +66,6 @@ type PlayerServiceServer interface {
 	CreatePlayer(context.Context, *player.Player) (*player.StandardResponse, error)
 	GetPlayer(context.Context, *player.PlayerGet) (*player.StandardResponse, error)
 	UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.StandardResponse, error)
-	StreamEvents(PlayerService_StreamEventsServer) error
 	mustEmbedUnimplementedPlayerServiceServer()
 }
 
@@ -114,9 +81,6 @@ func (UnimplementedPlayerServiceServer) GetPlayer(context.Context, *player.Playe
 }
 func (UnimplementedPlayerServiceServer) UpdatePlayer(context.Context, *player.PlayerUpdate) (*player.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlayer not implemented")
-}
-func (UnimplementedPlayerServiceServer) StreamEvents(PlayerService_StreamEventsServer) error {
-	return status.Errorf(codes.Unimplemented, "method StreamEvents not implemented")
 }
 func (UnimplementedPlayerServiceServer) mustEmbedUnimplementedPlayerServiceServer() {}
 
@@ -185,32 +149,6 @@ func _PlayerService_UpdatePlayer_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PlayerService_StreamEvents_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(PlayerServiceServer).StreamEvents(&playerServiceStreamEventsServer{stream})
-}
-
-type PlayerService_StreamEventsServer interface {
-	Send(*player.PlayerAction) error
-	Recv() (*player.PlayerAction, error)
-	grpc.ServerStream
-}
-
-type playerServiceStreamEventsServer struct {
-	grpc.ServerStream
-}
-
-func (x *playerServiceStreamEventsServer) Send(m *player.PlayerAction) error {
-	return x.ServerStream.SendMsg(m)
-}
-
-func (x *playerServiceStreamEventsServer) Recv() (*player.PlayerAction, error) {
-	m := new(player.PlayerAction)
-	if err := x.ServerStream.RecvMsg(m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
 // PlayerService_ServiceDesc is the grpc.ServiceDesc for PlayerService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -231,13 +169,6 @@ var PlayerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PlayerService_UpdatePlayer_Handler,
 		},
 	},
-	Streams: []grpc.StreamDesc{
-		{
-			StreamName:    "StreamEvents",
-			Handler:       _PlayerService_StreamEvents_Handler,
-			ServerStreams: true,
-			ClientStreams: true,
-		},
-	},
+	Streams:  []grpc.StreamDesc{},
 	Metadata: "v1/api/common/player_service.proto",
 }

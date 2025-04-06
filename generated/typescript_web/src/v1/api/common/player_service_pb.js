@@ -16,5 +16,3 @@ var global = Function('return this')();
 
 var v1_api_player_player_pb = require('../../../v1/api/player/player_pb.js');
 goog.object.extend(proto, v1_api_player_player_pb);
-var v1_api_player_action_pb = require('../../../v1/api/player/action_pb.js');
-goog.object.extend(proto, v1_api_player_action_pb);

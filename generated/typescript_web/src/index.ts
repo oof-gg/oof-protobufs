@@ -19,6 +19,8 @@ import * as v1_api_player_player_service_pb from './v1/api/common/player_service
 import * as v1_api_player_state_pb from './v1/api/player/state_pb';
 import * as v1_api_common_regions_pb from './v1/api/common/regions_pb';
 import * as v1_std_responses_pb from './v1/std/responses_pb';
+import * as v1_api_common_instance_service_pb from './v1/api/common/instance_service_pb';
+
 
 export {
 v1_api_auth_Auth_serviceServiceClientPb,
@@ -41,5 +43,6 @@ v1_api_player_player_pb,
 v1_api_player_player_service_pb,
 v1_api_player_state_pb,
 v1_api_common_regions_pb,
-v1_std_responses_pb
+v1_std_responses_pb,
+v1_api_common_instance_service_pb,
 };

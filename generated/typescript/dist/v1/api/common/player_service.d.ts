@@ -1,5 +1,4 @@
-import { type CallOptions, ChannelCredentials, Client, ClientDuplexStream, type ClientOptions, type ClientUnaryCall, handleBidiStreamingCall, type handleUnaryCall, Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
-import { PlayerAction } from "../player/action";
+import { type CallOptions, ChannelCredentials, Client, type ClientOptions, type ClientUnaryCall, type handleUnaryCall, Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
 import { Player, PlayerGet, PlayerUpdate, StandardResponse } from "../player/player";
 export declare const protobufPackage = "v1.api.common";
 export type PlayerServiceService = typeof PlayerServiceService;
@@ -31,21 +30,11 @@ export declare const PlayerServiceService: {
         readonly responseSerialize: (value: StandardResponse) => Buffer;
         readonly responseDeserialize: (value: Buffer) => StandardResponse;
     };
-    readonly streamEvents: {
-        readonly path: "/v1.api.common.PlayerService/StreamEvents";
-        readonly requestStream: true;
-        readonly responseStream: true;
-        readonly requestSerialize: (value: PlayerAction) => Buffer;
-        readonly requestDeserialize: (value: Buffer) => PlayerAction;
-        readonly responseSerialize: (value: PlayerAction) => Buffer;
-        readonly responseDeserialize: (value: Buffer) => PlayerAction;
-    };
 };
 export interface PlayerServiceServer extends UntypedServiceImplementation {
     createPlayer: handleUnaryCall<Player, StandardResponse>;
     getPlayer: handleUnaryCall<PlayerGet, StandardResponse>;
     updatePlayer: handleUnaryCall<PlayerUpdate, StandardResponse>;
-    streamEvents: handleBidiStreamingCall<PlayerAction, PlayerAction>;
 }
 export interface PlayerServiceClient extends Client {
     createPlayer(request: Player, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
@@ -57,9 +46,6 @@ export interface PlayerServiceClient extends Client {
     updatePlayer(request: PlayerUpdate, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
     updatePlayer(request: PlayerUpdate, metadata: Metadata, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
     updatePlayer(request: PlayerUpdate, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
-    streamEvents(): ClientDuplexStream<PlayerAction, PlayerAction>;
-    streamEvents(options: Partial<CallOptions>): ClientDuplexStream<PlayerAction, PlayerAction>;
-    streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<PlayerAction, PlayerAction>;
 }
 export declare const PlayerServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): PlayerServiceClient;
