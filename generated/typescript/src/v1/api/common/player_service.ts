@@ -9,17 +9,14 @@ import {
   type CallOptions,
   ChannelCredentials,
   Client,
-  ClientDuplexStream,
   type ClientOptions,
   type ClientUnaryCall,
-  handleBidiStreamingCall,
   type handleUnaryCall,
   makeGenericClientConstructor,
   Metadata,
   type ServiceError,
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
-import { PlayerAction } from "../player/action";
 import { Player, PlayerGet, PlayerUpdate, StandardResponse } from "../player/player";
 
 export const protobufPackage = "v1.api.common";
@@ -53,22 +50,12 @@ export const PlayerServiceService = {
     responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
     responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
-  streamEvents: {
-    path: "/v1.api.common.PlayerService/StreamEvents",
-    requestStream: true,
-    responseStream: true,
-    requestSerialize: (value: PlayerAction) => Buffer.from(PlayerAction.encode(value).finish()),
-    requestDeserialize: (value: Buffer) => PlayerAction.decode(value),
-    responseSerialize: (value: PlayerAction) => Buffer.from(PlayerAction.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => PlayerAction.decode(value),
-  },
 } as const;
 
 export interface PlayerServiceServer extends UntypedServiceImplementation {
   createPlayer: handleUnaryCall<Player, StandardResponse>;
   getPlayer: handleUnaryCall<PlayerGet, StandardResponse>;
   updatePlayer: handleUnaryCall<PlayerUpdate, StandardResponse>;
-  streamEvents: handleBidiStreamingCall<PlayerAction, PlayerAction>;
 }
 
 export interface PlayerServiceClient extends Client {
@@ -117,9 +104,6 @@ export interface PlayerServiceClient extends Client {
     options: Partial<CallOptions>,
     callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
-  streamEvents(): ClientDuplexStream<PlayerAction, PlayerAction>;
-  streamEvents(options: Partial<CallOptions>): ClientDuplexStream<PlayerAction, PlayerAction>;
-  streamEvents(metadata: Metadata, options?: Partial<CallOptions>): ClientDuplexStream<PlayerAction, PlayerAction>;
 }
 
 export const PlayerServiceClient = makeGenericClientConstructor(

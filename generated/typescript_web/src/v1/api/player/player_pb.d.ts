@@ -219,6 +219,82 @@ export namespace PlayerGet {
   }
 }
 
+export class Status extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): Status;
+
+  getMessage(): string;
+  setMessage(value: string): Status;
+
+  getDetailsList(): Array<string>;
+  setDetailsList(value: Array<string>): Status;
+  clearDetailsList(): Status;
+  addDetails(value: string, index?: number): Status;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Status.AsObject;
+  static toObject(includeInstance: boolean, msg: Status): Status.AsObject;
+  static serializeBinaryToWriter(message: Status, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Status;
+  static deserializeBinaryFromReader(message: Status, reader: jspb.BinaryReader): Status;
+}
+
+export namespace Status {
+  export type AsObject = {
+    code: number,
+    message: string,
+    detailsList: Array<string>,
+  }
+}
+
+export class StandardResponse extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): StandardResponse;
+
+  getMessage(): string;
+  setMessage(value: string): StandardResponse;
+
+  getError(): Status | undefined;
+  setError(value?: Status): StandardResponse;
+  hasError(): boolean;
+  clearError(): StandardResponse;
+
+  getSinglePlayer(): Player | undefined;
+  setSinglePlayer(value?: Player): StandardResponse;
+  hasSinglePlayer(): boolean;
+  clearSinglePlayer(): StandardResponse;
+
+  getPlayers(): Players | undefined;
+  setPlayers(value?: Players): StandardResponse;
+  hasPlayers(): boolean;
+  clearPlayers(): StandardResponse;
+
+  getDataCase(): StandardResponse.DataCase;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): StandardResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: StandardResponse): StandardResponse.AsObject;
+  static serializeBinaryToWriter(message: StandardResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): StandardResponse;
+  static deserializeBinaryFromReader(message: StandardResponse, reader: jspb.BinaryReader): StandardResponse;
+}
+
+export namespace StandardResponse {
+  export type AsObject = {
+    code: number,
+    message: string,
+    error?: Status.AsObject,
+    singlePlayer?: Player.AsObject,
+    players?: Players.AsObject,
+  }
+
+  export enum DataCase { 
+    DATA_NOT_SET = 0,
+    SINGLE_PLAYER = 4,
+    PLAYERS = 5,
+  }
+}
+
 export class Players extends jspb.Message {
   getPlayersList(): Array<Player>;
   setPlayersList(value: Array<Player>): Players;

@@ -8,7 +8,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PlayerServiceClient = exports.PlayerServiceService = exports.protobufPackage = void 0;
 /* eslint-disable */
 const grpc_js_1 = require("@grpc/grpc-js");
-const action_1 = require("../player/action");
 const player_1 = require("../player/player");
 exports.protobufPackage = "v1.api.common";
 exports.PlayerServiceService = {
@@ -38,15 +37,6 @@ exports.PlayerServiceService = {
         requestDeserialize: (value) => player_1.PlayerUpdate.decode(value),
         responseSerialize: (value) => Buffer.from(player_1.StandardResponse.encode(value).finish()),
         responseDeserialize: (value) => player_1.StandardResponse.decode(value),
-    },
-    streamEvents: {
-        path: "/v1.api.common.PlayerService/StreamEvents",
-        requestStream: true,
-        responseStream: true,
-        requestSerialize: (value) => Buffer.from(action_1.PlayerAction.encode(value).finish()),
-        requestDeserialize: (value) => action_1.PlayerAction.decode(value),
-        responseSerialize: (value) => Buffer.from(action_1.PlayerAction.encode(value).finish()),
-        responseDeserialize: (value) => action_1.PlayerAction.decode(value),
     },
 };
 exports.PlayerServiceClient = (0, grpc_js_1.makeGenericClientConstructor)(exports.PlayerServiceService, "v1.api.common.PlayerService");

@@ -10,5 +10,12 @@
     "declarationDir": "./dist",
     "lib": ["ES2020", "DOM"]
   },
-  "include": ["src/v1/api/game/**/*", "src/v1/api/global/**/*", "src/v1/api/player/**/*", "src/v1/api/auth/**/*", "src/v1/stds/**/*", "src/index.ts"],
+  "include": [
+    "src/v1/api/game/**/*", 
+    "src/v1/api/global/**/*", 
+    "src/v1/api/common/**/*",
+    "src/v1/api/player/**/*", 
+    "src/v1/api/auth/**/*", 
+    "src/v1/stds/**/*", 
+    "src/index.ts"],
 }

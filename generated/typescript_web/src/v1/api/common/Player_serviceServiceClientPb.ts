@@ -18,7 +18,6 @@
 import * as grpcWeb from 'grpc-web';
 
 import * as v1_api_player_player_pb from '../../../v1/api/player/player_pb'; // proto import: "v1/api/player/player.proto"
-import * as v1_api_player_action_pb from '../../../v1/api/player/action_pb'; // proto import: "v1/api/player/action.proto"
 
 
 export class PlayerServiceClient {
@@ -44,28 +43,28 @@ export class PlayerServiceClient {
     '/v1.api.common.PlayerService/CreatePlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.Player,
-    v1_api_player_player_pb.Player,
+    v1_api_player_player_pb.StandardResponse,
     (request: v1_api_player_player_pb.Player) => {
       return request.serializeBinary();
     },
-    v1_api_player_player_pb.Player.deserializeBinary
+    v1_api_player_player_pb.StandardResponse.deserializeBinary
   );
 
   createPlayer(
     request: v1_api_player_player_pb.Player,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.Player>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.StandardResponse>;
 
   createPlayer(
     request: v1_api_player_player_pb.Player,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Player) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.Player>;
+               response: v1_api_player_player_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.StandardResponse>;
 
   createPlayer(
     request: v1_api_player_player_pb.Player,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Player) => void) {
+               response: v1_api_player_player_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -87,28 +86,28 @@ export class PlayerServiceClient {
     '/v1.api.common.PlayerService/GetPlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.PlayerGet,
-    v1_api_player_player_pb.Players,
+    v1_api_player_player_pb.StandardResponse,
     (request: v1_api_player_player_pb.PlayerGet) => {
       return request.serializeBinary();
     },
-    v1_api_player_player_pb.Players.deserializeBinary
+    v1_api_player_player_pb.StandardResponse.deserializeBinary
   );
 
   getPlayer(
     request: v1_api_player_player_pb.PlayerGet,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.Players>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.StandardResponse>;
 
   getPlayer(
     request: v1_api_player_player_pb.PlayerGet,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Players) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.Players>;
+               response: v1_api_player_player_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.StandardResponse>;
 
   getPlayer(
     request: v1_api_player_player_pb.PlayerGet,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Players) => void) {
+               response: v1_api_player_player_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -130,28 +129,28 @@ export class PlayerServiceClient {
     '/v1.api.common.PlayerService/UpdatePlayer',
     grpcWeb.MethodType.UNARY,
     v1_api_player_player_pb.PlayerUpdate,
-    v1_api_player_player_pb.Player,
+    v1_api_player_player_pb.StandardResponse,
     (request: v1_api_player_player_pb.PlayerUpdate) => {
       return request.serializeBinary();
     },
-    v1_api_player_player_pb.Player.deserializeBinary
+    v1_api_player_player_pb.StandardResponse.deserializeBinary
   );
 
   updatePlayer(
     request: v1_api_player_player_pb.PlayerUpdate,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.Player>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_player_player_pb.StandardResponse>;
 
   updatePlayer(
     request: v1_api_player_player_pb.PlayerUpdate,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Player) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.Player>;
+               response: v1_api_player_player_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_player_player_pb.StandardResponse>;
 
   updatePlayer(
     request: v1_api_player_player_pb.PlayerUpdate,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_player_player_pb.Player) => void) {
+               response: v1_api_player_player_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
