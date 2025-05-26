@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.v1_api_common_instance_service_pb = exports.v1_std_responses_pb = exports.v1_api_common_regions_pb = exports.v1_api_player_state_pb = exports.v1_api_player_player_service_pb = exports.v1_api_player_player_pb = exports.v1_api_player_action_pb = exports.v1_api_player_Player_serviceServiceClientPb = exports.v1_api_global_time_pb = exports.v1_api_global_global_service_pb = exports.v1_api_global_event_pb = exports.v1_api_global_Global_serviceServiceClientPb = exports.v1_api_game_session_pb = exports.v1_api_game_join_leave_pb = exports.v1_api_game_instance_pb = exports.v1_api_game_game_service_pb = exports.v1_api_game_game_pb = exports.v1_api_game_event_pb = exports.v1_api_game_entity_pb = exports.v1_api_game_Game_serviceServiceClientPb = exports.v1_api_auth_auth_service_pb = exports.v1_api_auth_Auth_serviceServiceClientPb = void 0;
+exports.v1_api_score_score_pb = exports.v1_api_score_Score_service_pb = exports.v1_api_score_Score_serviceServiceClientPb = exports.v1_api_common_instance_service_pb = exports.v1_std_responses_pb = exports.v1_api_common_regions_pb = exports.v1_api_player_state_pb = exports.v1_api_player_player_service_pb = exports.v1_api_player_player_pb = exports.v1_api_player_action_pb = exports.v1_api_player_Player_serviceServiceClientPb = exports.v1_api_global_time_pb = exports.v1_api_global_global_service_pb = exports.v1_api_global_event_pb = exports.v1_api_global_Global_serviceServiceClientPb = exports.v1_api_game_session_pb = exports.v1_api_game_join_leave_pb = exports.v1_api_game_instance_pb = exports.v1_api_game_game_service_pb = exports.v1_api_game_game_pb = exports.v1_api_game_event_pb = exports.v1_api_game_entity_pb = exports.v1_api_game_Game_serviceServiceClientPb = exports.v1_api_auth_auth_service_pb = exports.v1_api_auth_Auth_serviceServiceClientPb = void 0;
 const v1_api_auth_Auth_serviceServiceClientPb = require("./v1/api/auth/Auth_serviceServiceClientPb");
 exports.v1_api_auth_Auth_serviceServiceClientPb = v1_api_auth_Auth_serviceServiceClientPb;
 const v1_api_auth_auth_service_pb = require("./v1/api/auth/auth_service_pb");
@@ -45,3 +45,9 @@ const v1_std_responses_pb = require("./v1/std/responses_pb");
 exports.v1_std_responses_pb = v1_std_responses_pb;
 const v1_api_common_instance_service_pb = require("./v1/api/common/instance_service_pb");
 exports.v1_api_common_instance_service_pb = v1_api_common_instance_service_pb;
+const v1_api_score_Score_serviceServiceClientPb = require("./v1/api/common/Score_serviceServiceClientPb");
+exports.v1_api_score_Score_serviceServiceClientPb = v1_api_score_Score_serviceServiceClientPb;
+const v1_api_score_Score_service_pb = require("./v1/api/common/score_service_pb");
+exports.v1_api_score_Score_service_pb = v1_api_score_Score_service_pb;
+const v1_api_score_score_pb = require("./v1/api/score/score_pb");
+exports.v1_api_score_score_pb = v1_api_score_score_pb;

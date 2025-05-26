@@ -3,7 +3,6 @@ syntax = "proto3";
 package v1.api.common;
 
 import "v1/api/player/player.proto";
-import "v1/api/player/action.proto";
 
 service PlayerService {
   rpc CreatePlayer (v1.api.player.Player) returns (v1.api.player.StandardResponse);

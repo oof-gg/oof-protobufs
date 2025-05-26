@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package v1.api.score;
+
+import "google/protobuf/timestamp.proto";
+
+message Score {
+  string id = 1;
+  string player_id = 2;
+  string game_id = 3;
+  string instance_id = 4; // optional - for game session tracking
+  int64 value = 5;
+  string score_type = 6; // "points", "time", "kills", etc.
+  google.protobuf.Timestamp created_at = 7;
+  map<string, string> metadata = 8; // flexible for game-specific data
+}
+
+message LeaderboardEntry {
+  int32 rank = 1;
+  Score score = 2;
+  string player_name = 3; // denormalized for performance
+}
+
+message PlayerScoresRequest {
+  string player_id = 1;
+  string game_id = 2; // optional, if not provided, fetch all scores for the player
+  int32 limit = 3; // maximum number of scores to return
+  int32 offset = 4; // for pagination
+}
+
+message PlayerScoresResponse {
+  string player_id = 1;
+  string game_id = 2; // if provided in request
+  repeated Score scores = 3;
+  int32 total_count = 4; // total number of scores available for the player
+}
+
+message Leaderboard {
+  string game_id = 1;
+  string score_type = 2;
+  string time_period = 3; // "all_time", "daily", "weekly", "monthly"
+  repeated LeaderboardEntry entries = 4;
+  google.protobuf.Timestamp last_updated = 5;
+}
+
+message ScoreSubmission {
+  string player_id = 1;
+  string game_id = 2;
+  string instance_id = 3;
+  int64 value = 4;
+  string score_type = 5;
+  map<string, string> metadata = 6;
+}
+
+message LeaderboardRequest {
+  string game_id = 1;
+  string score_type = 2;
+  string time_period = 3;
+  int32 limit = 4;
+  int32 offset = 5;
+}
+
+message PlayerRankRequest {
+  string player_id = 1;
+  string game_id = 2; // optional, if not provided, fetch rank across all games
+  string score_type = 3; // optional, if not provided, fetch overall rank
+}
+
+message PlayerRankResponse {
+  string player_id = 1;
+  string game_id = 2; // if provided in request
+  string score_type = 3; // if provided in request
+  int32 rank = 4; // player's rank in the leaderboard
+  int64 score_value = 5; // player's score value
+  int32 total_players = 6; // total number of players in the leaderboard for this game/score type
+}
+
+message StandardResponse {
+  bool success = 1;
+  string message = 2;
+  repeated string errors = 3;
+}
+
+option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/score";
