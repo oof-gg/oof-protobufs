@@ -32,7 +32,7 @@ export interface PlayerScoresRequest {
     /** maximum number of scores to return */
     limit: number;
     /** for pagination */
-    offset: number;
+    cursor: string;
 }
 export interface PlayerScoresResponse {
     playerId: string;
@@ -69,7 +69,7 @@ export interface LeaderboardRequest {
     scoreType: string;
     timePeriod: string;
     limit: number;
-    offset: number;
+    cursor: string;
 }
 export interface PlayerRankRequest {
     playerId: string;
@@ -91,10 +91,52 @@ export interface PlayerRankResponse {
     /** total number of players in the leaderboard for this game/score type */
     totalPlayers: number;
 }
-export interface StandardResponse {
-    success: boolean;
+/** / Metadata for paginated responses. */
+export interface PaginationMetadata {
+    /** Number of items per page */
+    pageSize?: number | undefined;
+    /** Token for the previous page */
+    prevPageToken?: string | undefined;
+    /** Token for the next page */
+    nextPageToken?: string | undefined;
+}
+export interface Status {
+    /** Status code (e.g., HTTP or custom). */
+    code: number;
+    /** This could be your success or error message. */
     message: string;
-    errors: string[];
+    /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+    details: string;
+}
+/** / A paginated response wrapper. */
+export interface PaginatedResponse {
+    /** Status code (e.g., HTTP or custom). */
+    code: number;
+    /** This could be your success or error message. */
+    message: string;
+    /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+    error: Status | undefined;
+    /** Pagination metadata */
+    pagination?: PaginationMetadata | undefined;
+    /** For single items. */
+    playerScores?: PlayerScoresResponse | undefined;
+    leaderboard?: Leaderboard | undefined;
+    leaderboardEntry?: LeaderboardEntry | undefined;
+    playerRank?: PlayerRankResponse | undefined;
+}
+/** / Unify everything into one response. */
+export interface StandardResponse {
+    /** Status code (e.g., HTTP or custom). */
+    code: number;
+    /** This could be your success or error message. */
+    message: string;
+    /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+    error: Status | undefined;
+    /** For single items. */
+    playerScores?: PlayerScoresResponse | undefined;
+    leaderboard?: Leaderboard | undefined;
+    leaderboardEntry?: LeaderboardEntry | undefined;
+    playerRank?: PlayerRankResponse | undefined;
 }
 export declare const Score: MessageFns<Score>;
 export declare const Score_MetadataEntry: MessageFns<Score_MetadataEntry>;
@@ -107,6 +149,9 @@ export declare const ScoreSubmission_MetadataEntry: MessageFns<ScoreSubmission_M
 export declare const LeaderboardRequest: MessageFns<LeaderboardRequest>;
 export declare const PlayerRankRequest: MessageFns<PlayerRankRequest>;
 export declare const PlayerRankResponse: MessageFns<PlayerRankResponse>;
+export declare const PaginationMetadata: MessageFns<PaginationMetadata>;
+export declare const Status: MessageFns<Status>;
+export declare const PaginatedResponse: MessageFns<PaginatedResponse>;
 export declare const StandardResponse: MessageFns<StandardResponse>;
 type Builtin = Date | Function | Uint8Array | string | number | boolean | undefined;
 export type DeepPartial<T> = T extends Builtin ? T : T extends globalThis.Array<infer U> ? globalThis.Array<DeepPartial<U>> : T extends ReadonlyArray<infer U> ? ReadonlyArray<DeepPartial<U>> : T extends {} ? {

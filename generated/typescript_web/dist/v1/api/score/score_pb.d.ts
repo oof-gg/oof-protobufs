@@ -89,8 +89,8 @@ export class PlayerScoresRequest extends jspb.Message {
   getLimit(): number;
   setLimit(value: number): PlayerScoresRequest;
 
-  getOffset(): number;
-  setOffset(value: number): PlayerScoresRequest;
+  getCursor(): string;
+  setCursor(value: string): PlayerScoresRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PlayerScoresRequest.AsObject;
@@ -105,7 +105,7 @@ export namespace PlayerScoresRequest {
     playerId: string,
     gameId: string,
     limit: number,
-    offset: number,
+    cursor: string,
   }
 }
 
@@ -230,8 +230,8 @@ export class LeaderboardRequest extends jspb.Message {
   getLimit(): number;
   setLimit(value: number): LeaderboardRequest;
 
-  getOffset(): number;
-  setOffset(value: number): LeaderboardRequest;
+  getCursor(): string;
+  setCursor(value: string): LeaderboardRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): LeaderboardRequest.AsObject;
@@ -247,7 +247,7 @@ export namespace LeaderboardRequest {
     scoreType: string,
     timePeriod: string,
     limit: number,
-    offset: number,
+    cursor: string,
   }
 }
 
@@ -315,17 +315,185 @@ export namespace PlayerRankResponse {
   }
 }
 
+export class PaginationMetadata extends jspb.Message {
+  getPageSize(): number;
+  setPageSize(value: number): PaginationMetadata;
+  hasPageSize(): boolean;
+  clearPageSize(): PaginationMetadata;
+
+  getPrevPageToken(): string;
+  setPrevPageToken(value: string): PaginationMetadata;
+  hasPrevPageToken(): boolean;
+  clearPrevPageToken(): PaginationMetadata;
+
+  getNextPageToken(): string;
+  setNextPageToken(value: string): PaginationMetadata;
+  hasNextPageToken(): boolean;
+  clearNextPageToken(): PaginationMetadata;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PaginationMetadata.AsObject;
+  static toObject(includeInstance: boolean, msg: PaginationMetadata): PaginationMetadata.AsObject;
+  static serializeBinaryToWriter(message: PaginationMetadata, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PaginationMetadata;
+  static deserializeBinaryFromReader(message: PaginationMetadata, reader: jspb.BinaryReader): PaginationMetadata;
+}
+
+export namespace PaginationMetadata {
+  export type AsObject = {
+    pageSize?: number,
+    prevPageToken?: string,
+    nextPageToken?: string,
+  }
+
+  export enum PageSizeCase { 
+    _PAGE_SIZE_NOT_SET = 0,
+    PAGE_SIZE = 1,
+  }
+
+  export enum PrevPageTokenCase { 
+    _PREV_PAGE_TOKEN_NOT_SET = 0,
+    PREV_PAGE_TOKEN = 2,
+  }
+
+  export enum NextPageTokenCase { 
+    _NEXT_PAGE_TOKEN_NOT_SET = 0,
+    NEXT_PAGE_TOKEN = 3,
+  }
+}
+
+export class Status extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): Status;
+
+  getMessage(): string;
+  setMessage(value: string): Status;
+
+  getDetails(): string;
+  setDetails(value: string): Status;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Status.AsObject;
+  static toObject(includeInstance: boolean, msg: Status): Status.AsObject;
+  static serializeBinaryToWriter(message: Status, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Status;
+  static deserializeBinaryFromReader(message: Status, reader: jspb.BinaryReader): Status;
+}
+
+export namespace Status {
+  export type AsObject = {
+    code: number,
+    message: string,
+    details: string,
+  }
+}
+
+export class PaginatedResponse extends jspb.Message {
+  getCode(): number;
+  setCode(value: number): PaginatedResponse;
+
+  getMessage(): string;
+  setMessage(value: string): PaginatedResponse;
+
+  getError(): Status | undefined;
+  setError(value?: Status): PaginatedResponse;
+  hasError(): boolean;
+  clearError(): PaginatedResponse;
+
+  getPagination(): PaginationMetadata | undefined;
+  setPagination(value?: PaginationMetadata): PaginatedResponse;
+  hasPagination(): boolean;
+  clearPagination(): PaginatedResponse;
+
+  getPlayerScores(): PlayerScoresResponse | undefined;
+  setPlayerScores(value?: PlayerScoresResponse): PaginatedResponse;
+  hasPlayerScores(): boolean;
+  clearPlayerScores(): PaginatedResponse;
+
+  getLeaderboard(): Leaderboard | undefined;
+  setLeaderboard(value?: Leaderboard): PaginatedResponse;
+  hasLeaderboard(): boolean;
+  clearLeaderboard(): PaginatedResponse;
+
+  getLeaderboardEntry(): LeaderboardEntry | undefined;
+  setLeaderboardEntry(value?: LeaderboardEntry): PaginatedResponse;
+  hasLeaderboardEntry(): boolean;
+  clearLeaderboardEntry(): PaginatedResponse;
+
+  getPlayerRank(): PlayerRankResponse | undefined;
+  setPlayerRank(value?: PlayerRankResponse): PaginatedResponse;
+  hasPlayerRank(): boolean;
+  clearPlayerRank(): PaginatedResponse;
+
+  getDataCase(): PaginatedResponse.DataCase;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PaginatedResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: PaginatedResponse): PaginatedResponse.AsObject;
+  static serializeBinaryToWriter(message: PaginatedResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PaginatedResponse;
+  static deserializeBinaryFromReader(message: PaginatedResponse, reader: jspb.BinaryReader): PaginatedResponse;
+}
+
+export namespace PaginatedResponse {
+  export type AsObject = {
+    code: number,
+    message: string,
+    error?: Status.AsObject,
+    pagination?: PaginationMetadata.AsObject,
+    playerScores?: PlayerScoresResponse.AsObject,
+    leaderboard?: Leaderboard.AsObject,
+    leaderboardEntry?: LeaderboardEntry.AsObject,
+    playerRank?: PlayerRankResponse.AsObject,
+  }
+
+  export enum DataCase { 
+    DATA_NOT_SET = 0,
+    PLAYER_SCORES = 5,
+    LEADERBOARD = 6,
+    LEADERBOARD_ENTRY = 7,
+    PLAYER_RANK = 8,
+  }
+
+  export enum PaginationCase { 
+    _PAGINATION_NOT_SET = 0,
+    PAGINATION = 4,
+  }
+}
+
 export class StandardResponse extends jspb.Message {
-  getSuccess(): boolean;
-  setSuccess(value: boolean): StandardResponse;
+  getCode(): number;
+  setCode(value: number): StandardResponse;
 
   getMessage(): string;
   setMessage(value: string): StandardResponse;
 
-  getErrorsList(): Array<string>;
-  setErrorsList(value: Array<string>): StandardResponse;
-  clearErrorsList(): StandardResponse;
-  addErrors(value: string, index?: number): StandardResponse;
+  getError(): Status | undefined;
+  setError(value?: Status): StandardResponse;
+  hasError(): boolean;
+  clearError(): StandardResponse;
+
+  getPlayerScores(): PlayerScoresResponse | undefined;
+  setPlayerScores(value?: PlayerScoresResponse): StandardResponse;
+  hasPlayerScores(): boolean;
+  clearPlayerScores(): StandardResponse;
+
+  getLeaderboard(): Leaderboard | undefined;
+  setLeaderboard(value?: Leaderboard): StandardResponse;
+  hasLeaderboard(): boolean;
+  clearLeaderboard(): StandardResponse;
+
+  getLeaderboardEntry(): LeaderboardEntry | undefined;
+  setLeaderboardEntry(value?: LeaderboardEntry): StandardResponse;
+  hasLeaderboardEntry(): boolean;
+  clearLeaderboardEntry(): StandardResponse;
+
+  getPlayerRank(): PlayerRankResponse | undefined;
+  setPlayerRank(value?: PlayerRankResponse): StandardResponse;
+  hasPlayerRank(): boolean;
+  clearPlayerRank(): StandardResponse;
+
+  getDataCase(): StandardResponse.DataCase;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): StandardResponse.AsObject;
@@ -337,9 +505,21 @@ export class StandardResponse extends jspb.Message {
 
 export namespace StandardResponse {
   export type AsObject = {
-    success: boolean,
+    code: number,
     message: string,
-    errorsList: Array<string>,
+    error?: Status.AsObject,
+    playerScores?: PlayerScoresResponse.AsObject,
+    leaderboard?: Leaderboard.AsObject,
+    leaderboardEntry?: LeaderboardEntry.AsObject,
+    playerRank?: PlayerRankResponse.AsObject,
+  }
+
+  export enum DataCase { 
+    DATA_NOT_SET = 0,
+    PLAYER_SCORES = 5,
+    LEADERBOARD = 6,
+    LEADERBOARD_ENTRY = 7,
+    PLAYER_RANK = 8,
   }
 }
 

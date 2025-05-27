@@ -20,9 +20,9 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ScoreServiceClient interface {
 	SubmitScore(ctx context.Context, in *score.ScoreSubmission, opts ...grpc.CallOption) (*score.StandardResponse, error)
-	GetPlayerScores(ctx context.Context, in *score.PlayerScoresRequest, opts ...grpc.CallOption) (*score.PlayerScoresResponse, error)
-	GetLeaderboard(ctx context.Context, in *score.LeaderboardRequest, opts ...grpc.CallOption) (*score.Leaderboard, error)
-	GetPlayerRank(ctx context.Context, in *score.PlayerRankRequest, opts ...grpc.CallOption) (*score.PlayerRankResponse, error)
+	GetPlayerScores(ctx context.Context, in *score.PlayerScoresRequest, opts ...grpc.CallOption) (*score.StandardResponse, error)
+	GetLeaderboard(ctx context.Context, in *score.LeaderboardRequest, opts ...grpc.CallOption) (*score.StandardResponse, error)
+	GetPlayerRank(ctx context.Context, in *score.PlayerRankRequest, opts ...grpc.CallOption) (*score.StandardResponse, error)
 }
 
 type scoreServiceClient struct {
@@ -42,8 +42,8 @@ func (c *scoreServiceClient) SubmitScore(ctx context.Context, in *score.ScoreSub
 	return out, nil
 }
 
-func (c *scoreServiceClient) GetPlayerScores(ctx context.Context, in *score.PlayerScoresRequest, opts ...grpc.CallOption) (*score.PlayerScoresResponse, error) {
-	out := new(score.PlayerScoresResponse)
+func (c *scoreServiceClient) GetPlayerScores(ctx context.Context, in *score.PlayerScoresRequest, opts ...grpc.CallOption) (*score.StandardResponse, error) {
+	out := new(score.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.ScoreService/GetPlayerScores", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -51,8 +51,8 @@ func (c *scoreServiceClient) GetPlayerScores(ctx context.Context, in *score.Play
 	return out, nil
 }
 
-func (c *scoreServiceClient) GetLeaderboard(ctx context.Context, in *score.LeaderboardRequest, opts ...grpc.CallOption) (*score.Leaderboard, error) {
-	out := new(score.Leaderboard)
+func (c *scoreServiceClient) GetLeaderboard(ctx context.Context, in *score.LeaderboardRequest, opts ...grpc.CallOption) (*score.StandardResponse, error) {
+	out := new(score.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.ScoreService/GetLeaderboard", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -60,8 +60,8 @@ func (c *scoreServiceClient) GetLeaderboard(ctx context.Context, in *score.Leade
 	return out, nil
 }
 
-func (c *scoreServiceClient) GetPlayerRank(ctx context.Context, in *score.PlayerRankRequest, opts ...grpc.CallOption) (*score.PlayerRankResponse, error) {
-	out := new(score.PlayerRankResponse)
+func (c *scoreServiceClient) GetPlayerRank(ctx context.Context, in *score.PlayerRankRequest, opts ...grpc.CallOption) (*score.StandardResponse, error) {
+	out := new(score.StandardResponse)
 	err := c.cc.Invoke(ctx, "/v1.api.common.ScoreService/GetPlayerRank", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -74,9 +74,9 @@ func (c *scoreServiceClient) GetPlayerRank(ctx context.Context, in *score.Player
 // for forward compatibility
 type ScoreServiceServer interface {
 	SubmitScore(context.Context, *score.ScoreSubmission) (*score.StandardResponse, error)
-	GetPlayerScores(context.Context, *score.PlayerScoresRequest) (*score.PlayerScoresResponse, error)
-	GetLeaderboard(context.Context, *score.LeaderboardRequest) (*score.Leaderboard, error)
-	GetPlayerRank(context.Context, *score.PlayerRankRequest) (*score.PlayerRankResponse, error)
+	GetPlayerScores(context.Context, *score.PlayerScoresRequest) (*score.StandardResponse, error)
+	GetLeaderboard(context.Context, *score.LeaderboardRequest) (*score.StandardResponse, error)
+	GetPlayerRank(context.Context, *score.PlayerRankRequest) (*score.StandardResponse, error)
 	mustEmbedUnimplementedScoreServiceServer()
 }
 
@@ -87,13 +87,13 @@ type UnimplementedScoreServiceServer struct {
 func (UnimplementedScoreServiceServer) SubmitScore(context.Context, *score.ScoreSubmission) (*score.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitScore not implemented")
 }
-func (UnimplementedScoreServiceServer) GetPlayerScores(context.Context, *score.PlayerScoresRequest) (*score.PlayerScoresResponse, error) {
+func (UnimplementedScoreServiceServer) GetPlayerScores(context.Context, *score.PlayerScoresRequest) (*score.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlayerScores not implemented")
 }
-func (UnimplementedScoreServiceServer) GetLeaderboard(context.Context, *score.LeaderboardRequest) (*score.Leaderboard, error) {
+func (UnimplementedScoreServiceServer) GetLeaderboard(context.Context, *score.LeaderboardRequest) (*score.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeaderboard not implemented")
 }
-func (UnimplementedScoreServiceServer) GetPlayerRank(context.Context, *score.PlayerRankRequest) (*score.PlayerRankResponse, error) {
+func (UnimplementedScoreServiceServer) GetPlayerRank(context.Context, *score.PlayerRankRequest) (*score.StandardResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlayerRank not implemented")
 }
 func (UnimplementedScoreServiceServer) mustEmbedUnimplementedScoreServiceServer() {}

@@ -22,13 +22,13 @@ export declare class ScoreServiceClient {
     methodDescriptorSubmitScore: grpcWeb.MethodDescriptor<v1_api_score_score_pb.ScoreSubmission, v1_api_score_score_pb.StandardResponse>;
     submitScore(request: v1_api_score_score_pb.ScoreSubmission, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
     submitScore(request: v1_api_score_score_pb.ScoreSubmission, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
-    methodDescriptorGetPlayerScores: grpcWeb.MethodDescriptor<v1_api_score_score_pb.PlayerScoresRequest, v1_api_score_score_pb.PlayerScoresResponse>;
-    getPlayerScores(request: v1_api_score_score_pb.PlayerScoresRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.PlayerScoresResponse>;
-    getPlayerScores(request: v1_api_score_score_pb.PlayerScoresRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.PlayerScoresResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.PlayerScoresResponse>;
-    methodDescriptorGetLeaderboard: grpcWeb.MethodDescriptor<v1_api_score_score_pb.LeaderboardRequest, v1_api_score_score_pb.Leaderboard>;
-    getLeaderboard(request: v1_api_score_score_pb.LeaderboardRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.Leaderboard>;
-    getLeaderboard(request: v1_api_score_score_pb.LeaderboardRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.Leaderboard) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.Leaderboard>;
-    methodDescriptorGetPlayerRank: grpcWeb.MethodDescriptor<v1_api_score_score_pb.PlayerRankRequest, v1_api_score_score_pb.PlayerRankResponse>;
-    getPlayerRank(request: v1_api_score_score_pb.PlayerRankRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.PlayerRankResponse>;
-    getPlayerRank(request: v1_api_score_score_pb.PlayerRankRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.PlayerRankResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.PlayerRankResponse>;
+    methodDescriptorGetPlayerScores: grpcWeb.MethodDescriptor<v1_api_score_score_pb.PlayerScoresRequest, v1_api_score_score_pb.StandardResponse>;
+    getPlayerScores(request: v1_api_score_score_pb.PlayerScoresRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
+    getPlayerScores(request: v1_api_score_score_pb.PlayerScoresRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
+    methodDescriptorGetLeaderboard: grpcWeb.MethodDescriptor<v1_api_score_score_pb.LeaderboardRequest, v1_api_score_score_pb.StandardResponse>;
+    getLeaderboard(request: v1_api_score_score_pb.LeaderboardRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
+    getLeaderboard(request: v1_api_score_score_pb.LeaderboardRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
+    methodDescriptorGetPlayerRank: grpcWeb.MethodDescriptor<v1_api_score_score_pb.PlayerRankRequest, v1_api_score_score_pb.StandardResponse>;
+    getPlayerRank(request: v1_api_score_score_pb.PlayerRankRequest, metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
+    getPlayerRank(request: v1_api_score_score_pb.PlayerRankRequest, metadata: grpcWeb.Metadata | null, callback: (err: grpcWeb.RpcError, response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
 }
