@@ -6,9 +6,9 @@ import "v1/api/score/score.proto";
 
 service ScoreService {
   rpc SubmitScore (v1.api.score.ScoreSubmission) returns (v1.api.score.StandardResponse);
-  rpc GetPlayerScores (v1.api.score.PlayerScoresRequest) returns (v1.api.score.PlayerScoresResponse);
-  rpc GetLeaderboard (v1.api.score.LeaderboardRequest) returns (v1.api.score.Leaderboard);
-  rpc GetPlayerRank (v1.api.score.PlayerRankRequest) returns (v1.api.score.PlayerRankResponse);
+  rpc GetPlayerScores (v1.api.score.PlayerScoresRequest) returns (v1.api.score.StandardResponse);
+  rpc GetLeaderboard (v1.api.score.LeaderboardRequest) returns (v1.api.score.StandardResponse);
+  rpc GetPlayerRank (v1.api.score.PlayerRankRequest) returns (v1.api.score.StandardResponse);
 }
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/common";

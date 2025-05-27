@@ -1,5 +1,5 @@
 import { type CallOptions, ChannelCredentials, Client, type ClientOptions, type ClientUnaryCall, type handleUnaryCall, Metadata, type ServiceError, type UntypedServiceImplementation } from "@grpc/grpc-js";
-import { Leaderboard, LeaderboardRequest, PlayerRankRequest, PlayerRankResponse, PlayerScoresRequest, PlayerScoresResponse, ScoreSubmission, StandardResponse } from "../score/score";
+import { LeaderboardRequest, PlayerRankRequest, PlayerScoresRequest, ScoreSubmission, StandardResponse } from "../score/score";
 export declare const protobufPackage = "v1.api.common";
 export type ScoreServiceService = typeof ScoreServiceService;
 export declare const ScoreServiceService: {
@@ -18,8 +18,8 @@ export declare const ScoreServiceService: {
         readonly responseStream: false;
         readonly requestSerialize: (value: PlayerScoresRequest) => Buffer;
         readonly requestDeserialize: (value: Buffer) => PlayerScoresRequest;
-        readonly responseSerialize: (value: PlayerScoresResponse) => Buffer;
-        readonly responseDeserialize: (value: Buffer) => PlayerScoresResponse;
+        readonly responseSerialize: (value: StandardResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => StandardResponse;
     };
     readonly getLeaderboard: {
         readonly path: "/v1.api.common.ScoreService/GetLeaderboard";
@@ -27,8 +27,8 @@ export declare const ScoreServiceService: {
         readonly responseStream: false;
         readonly requestSerialize: (value: LeaderboardRequest) => Buffer;
         readonly requestDeserialize: (value: Buffer) => LeaderboardRequest;
-        readonly responseSerialize: (value: Leaderboard) => Buffer;
-        readonly responseDeserialize: (value: Buffer) => Leaderboard;
+        readonly responseSerialize: (value: StandardResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => StandardResponse;
     };
     readonly getPlayerRank: {
         readonly path: "/v1.api.common.ScoreService/GetPlayerRank";
@@ -36,29 +36,29 @@ export declare const ScoreServiceService: {
         readonly responseStream: false;
         readonly requestSerialize: (value: PlayerRankRequest) => Buffer;
         readonly requestDeserialize: (value: Buffer) => PlayerRankRequest;
-        readonly responseSerialize: (value: PlayerRankResponse) => Buffer;
-        readonly responseDeserialize: (value: Buffer) => PlayerRankResponse;
+        readonly responseSerialize: (value: StandardResponse) => Buffer;
+        readonly responseDeserialize: (value: Buffer) => StandardResponse;
     };
 };
 export interface ScoreServiceServer extends UntypedServiceImplementation {
     submitScore: handleUnaryCall<ScoreSubmission, StandardResponse>;
-    getPlayerScores: handleUnaryCall<PlayerScoresRequest, PlayerScoresResponse>;
-    getLeaderboard: handleUnaryCall<LeaderboardRequest, Leaderboard>;
-    getPlayerRank: handleUnaryCall<PlayerRankRequest, PlayerRankResponse>;
+    getPlayerScores: handleUnaryCall<PlayerScoresRequest, StandardResponse>;
+    getLeaderboard: handleUnaryCall<LeaderboardRequest, StandardResponse>;
+    getPlayerRank: handleUnaryCall<PlayerRankRequest, StandardResponse>;
 }
 export interface ScoreServiceClient extends Client {
     submitScore(request: ScoreSubmission, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
     submitScore(request: ScoreSubmission, metadata: Metadata, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
     submitScore(request: ScoreSubmission, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
-    getPlayerScores(request: PlayerScoresRequest, callback: (error: ServiceError | null, response: PlayerScoresResponse) => void): ClientUnaryCall;
-    getPlayerScores(request: PlayerScoresRequest, metadata: Metadata, callback: (error: ServiceError | null, response: PlayerScoresResponse) => void): ClientUnaryCall;
-    getPlayerScores(request: PlayerScoresRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: PlayerScoresResponse) => void): ClientUnaryCall;
-    getLeaderboard(request: LeaderboardRequest, callback: (error: ServiceError | null, response: Leaderboard) => void): ClientUnaryCall;
-    getLeaderboard(request: LeaderboardRequest, metadata: Metadata, callback: (error: ServiceError | null, response: Leaderboard) => void): ClientUnaryCall;
-    getLeaderboard(request: LeaderboardRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: Leaderboard) => void): ClientUnaryCall;
-    getPlayerRank(request: PlayerRankRequest, callback: (error: ServiceError | null, response: PlayerRankResponse) => void): ClientUnaryCall;
-    getPlayerRank(request: PlayerRankRequest, metadata: Metadata, callback: (error: ServiceError | null, response: PlayerRankResponse) => void): ClientUnaryCall;
-    getPlayerRank(request: PlayerRankRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: PlayerRankResponse) => void): ClientUnaryCall;
+    getPlayerScores(request: PlayerScoresRequest, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getPlayerScores(request: PlayerScoresRequest, metadata: Metadata, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getPlayerScores(request: PlayerScoresRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getLeaderboard(request: LeaderboardRequest, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getLeaderboard(request: LeaderboardRequest, metadata: Metadata, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getLeaderboard(request: LeaderboardRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getPlayerRank(request: PlayerRankRequest, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getPlayerRank(request: PlayerRankRequest, metadata: Metadata, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
+    getPlayerRank(request: PlayerRankRequest, metadata: Metadata, options: Partial<CallOptions>, callback: (error: ServiceError | null, response: StandardResponse) => void): ClientUnaryCall;
 }
 export declare const ScoreServiceClient: {
     new (address: string, credentials: ChannelCredentials, options?: Partial<ClientOptions>): ScoreServiceClient;

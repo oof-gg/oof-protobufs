@@ -86,28 +86,28 @@ export class ScoreServiceClient {
     '/v1.api.common.ScoreService/GetPlayerScores',
     grpcWeb.MethodType.UNARY,
     v1_api_score_score_pb.PlayerScoresRequest,
-    v1_api_score_score_pb.PlayerScoresResponse,
+    v1_api_score_score_pb.StandardResponse,
     (request: v1_api_score_score_pb.PlayerScoresRequest) => {
       return request.serializeBinary();
     },
-    v1_api_score_score_pb.PlayerScoresResponse.deserializeBinary
+    v1_api_score_score_pb.StandardResponse.deserializeBinary
   );
 
   getPlayerScores(
     request: v1_api_score_score_pb.PlayerScoresRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.PlayerScoresResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
 
   getPlayerScores(
     request: v1_api_score_score_pb.PlayerScoresRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.PlayerScoresResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.PlayerScoresResponse>;
+               response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
 
   getPlayerScores(
     request: v1_api_score_score_pb.PlayerScoresRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.PlayerScoresResponse) => void) {
+               response: v1_api_score_score_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -129,28 +129,28 @@ export class ScoreServiceClient {
     '/v1.api.common.ScoreService/GetLeaderboard',
     grpcWeb.MethodType.UNARY,
     v1_api_score_score_pb.LeaderboardRequest,
-    v1_api_score_score_pb.Leaderboard,
+    v1_api_score_score_pb.StandardResponse,
     (request: v1_api_score_score_pb.LeaderboardRequest) => {
       return request.serializeBinary();
     },
-    v1_api_score_score_pb.Leaderboard.deserializeBinary
+    v1_api_score_score_pb.StandardResponse.deserializeBinary
   );
 
   getLeaderboard(
     request: v1_api_score_score_pb.LeaderboardRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.Leaderboard>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
 
   getLeaderboard(
     request: v1_api_score_score_pb.LeaderboardRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.Leaderboard) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.Leaderboard>;
+               response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
 
   getLeaderboard(
     request: v1_api_score_score_pb.LeaderboardRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.Leaderboard) => void) {
+               response: v1_api_score_score_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
@@ -172,28 +172,28 @@ export class ScoreServiceClient {
     '/v1.api.common.ScoreService/GetPlayerRank',
     grpcWeb.MethodType.UNARY,
     v1_api_score_score_pb.PlayerRankRequest,
-    v1_api_score_score_pb.PlayerRankResponse,
+    v1_api_score_score_pb.StandardResponse,
     (request: v1_api_score_score_pb.PlayerRankRequest) => {
       return request.serializeBinary();
     },
-    v1_api_score_score_pb.PlayerRankResponse.deserializeBinary
+    v1_api_score_score_pb.StandardResponse.deserializeBinary
   );
 
   getPlayerRank(
     request: v1_api_score_score_pb.PlayerRankRequest,
-    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.PlayerRankResponse>;
+    metadata?: grpcWeb.Metadata | null): Promise<v1_api_score_score_pb.StandardResponse>;
 
   getPlayerRank(
     request: v1_api_score_score_pb.PlayerRankRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.PlayerRankResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.PlayerRankResponse>;
+               response: v1_api_score_score_pb.StandardResponse) => void): grpcWeb.ClientReadableStream<v1_api_score_score_pb.StandardResponse>;
 
   getPlayerRank(
     request: v1_api_score_score_pb.PlayerRankRequest,
     metadata?: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.RpcError,
-               response: v1_api_score_score_pb.PlayerRankResponse) => void) {
+               response: v1_api_score_score_pb.StandardResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +

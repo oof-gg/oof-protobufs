@@ -20,15 +20,15 @@ class ScoreServiceClient {
         this.methodDescriptorSubmitScore = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/SubmitScore', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.ScoreSubmission, v1_api_score_score_pb.StandardResponse, (request) => {
             return request.serializeBinary();
         }, v1_api_score_score_pb.StandardResponse.deserializeBinary);
-        this.methodDescriptorGetPlayerScores = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetPlayerScores', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.PlayerScoresRequest, v1_api_score_score_pb.PlayerScoresResponse, (request) => {
+        this.methodDescriptorGetPlayerScores = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetPlayerScores', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.PlayerScoresRequest, v1_api_score_score_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_score_score_pb.PlayerScoresResponse.deserializeBinary);
-        this.methodDescriptorGetLeaderboard = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetLeaderboard', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.LeaderboardRequest, v1_api_score_score_pb.Leaderboard, (request) => {
+        }, v1_api_score_score_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetLeaderboard = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetLeaderboard', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.LeaderboardRequest, v1_api_score_score_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_score_score_pb.Leaderboard.deserializeBinary);
-        this.methodDescriptorGetPlayerRank = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetPlayerRank', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.PlayerRankRequest, v1_api_score_score_pb.PlayerRankResponse, (request) => {
+        }, v1_api_score_score_pb.StandardResponse.deserializeBinary);
+        this.methodDescriptorGetPlayerRank = new grpcWeb.MethodDescriptor('/v1.api.common.ScoreService/GetPlayerRank', grpcWeb.MethodType.UNARY, v1_api_score_score_pb.PlayerRankRequest, v1_api_score_score_pb.StandardResponse, (request) => {
             return request.serializeBinary();
-        }, v1_api_score_score_pb.PlayerRankResponse.deserializeBinary);
+        }, v1_api_score_score_pb.StandardResponse.deserializeBinary);
         if (!options)
             options = {};
         if (!credentials)

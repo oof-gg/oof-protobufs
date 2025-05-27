@@ -47,7 +47,7 @@ export interface PlayerScoresRequest {
   /** maximum number of scores to return */
   limit: number;
   /** for pagination */
-  offset: number;
+  cursor: string;
 }
 
 export interface PlayerScoresResponse {
@@ -87,7 +87,7 @@ export interface LeaderboardRequest {
   scoreType: string;
   timePeriod: string;
   limit: number;
-  offset: number;
+  cursor: string;
 }
 
 export interface PlayerRankRequest {
@@ -112,10 +112,65 @@ export interface PlayerRankResponse {
   totalPlayers: number;
 }
 
-export interface StandardResponse {
-  success: boolean;
+/** / Metadata for paginated responses. */
+export interface PaginationMetadata {
+  /** Number of items per page */
+  pageSize?:
+    | number
+    | undefined;
+  /** Token for the previous page */
+  prevPageToken?:
+    | string
+    | undefined;
+  /** Token for the next page */
+  nextPageToken?: string | undefined;
+}
+
+export interface Status {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
   message: string;
-  errors: string[];
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  details: string;
+}
+
+/** / A paginated response wrapper. */
+export interface PaginatedResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
+  /** Pagination metadata */
+  pagination?:
+    | PaginationMetadata
+    | undefined;
+  /** For single items. */
+  playerScores?: PlayerScoresResponse | undefined;
+  leaderboard?: Leaderboard | undefined;
+  leaderboardEntry?: LeaderboardEntry | undefined;
+  playerRank?: PlayerRankResponse | undefined;
+}
+
+/** / Unify everything into one response. */
+export interface StandardResponse {
+  /** Status code (e.g., HTTP or custom). */
+  code: number;
+  /** This could be your success or error message. */
+  message: string;
+  /** If there's an error, you could store it here or just use google.rpc.Status directly. */
+  error:
+    | Status
+    | undefined;
+  /** For single items. */
+  playerScores?: PlayerScoresResponse | undefined;
+  leaderboard?: Leaderboard | undefined;
+  leaderboardEntry?: LeaderboardEntry | undefined;
+  playerRank?: PlayerRankResponse | undefined;
 }
 
 function createBaseScore(): Score {
@@ -487,7 +542,7 @@ export const LeaderboardEntry: MessageFns<LeaderboardEntry> = {
 };
 
 function createBasePlayerScoresRequest(): PlayerScoresRequest {
-  return { playerId: "", gameId: "", limit: 0, offset: 0 };
+  return { playerId: "", gameId: "", limit: 0, cursor: "" };
 }
 
 export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
@@ -501,8 +556,8 @@ export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
     if (message.limit !== 0) {
       writer.uint32(24).int32(message.limit);
     }
-    if (message.offset !== 0) {
-      writer.uint32(32).int32(message.offset);
+    if (message.cursor !== "") {
+      writer.uint32(34).string(message.cursor);
     }
     return writer;
   },
@@ -539,11 +594,11 @@ export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
           continue;
         }
         case 4: {
-          if (tag !== 32) {
+          if (tag !== 34) {
             break;
           }
 
-          message.offset = reader.int32();
+          message.cursor = reader.string();
           continue;
         }
       }
@@ -560,7 +615,7 @@ export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : "",
       gameId: isSet(object.gameId) ? globalThis.String(object.gameId) : "",
       limit: isSet(object.limit) ? globalThis.Number(object.limit) : 0,
-      offset: isSet(object.offset) ? globalThis.Number(object.offset) : 0,
+      cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : "",
     };
   },
 
@@ -575,8 +630,8 @@ export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
     if (message.limit !== 0) {
       obj.limit = Math.round(message.limit);
     }
-    if (message.offset !== 0) {
-      obj.offset = Math.round(message.offset);
+    if (message.cursor !== "") {
+      obj.cursor = message.cursor;
     }
     return obj;
   },
@@ -589,7 +644,7 @@ export const PlayerScoresRequest: MessageFns<PlayerScoresRequest> = {
     message.playerId = object.playerId ?? "";
     message.gameId = object.gameId ?? "";
     message.limit = object.limit ?? 0;
-    message.offset = object.offset ?? 0;
+    message.cursor = object.cursor ?? "";
     return message;
   },
 };
@@ -1066,7 +1121,7 @@ export const ScoreSubmission_MetadataEntry: MessageFns<ScoreSubmission_MetadataE
 };
 
 function createBaseLeaderboardRequest(): LeaderboardRequest {
-  return { gameId: "", scoreType: "", timePeriod: "", limit: 0, offset: 0 };
+  return { gameId: "", scoreType: "", timePeriod: "", limit: 0, cursor: "" };
 }
 
 export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
@@ -1083,8 +1138,8 @@ export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
     if (message.limit !== 0) {
       writer.uint32(32).int32(message.limit);
     }
-    if (message.offset !== 0) {
-      writer.uint32(40).int32(message.offset);
+    if (message.cursor !== "") {
+      writer.uint32(42).string(message.cursor);
     }
     return writer;
   },
@@ -1129,11 +1184,11 @@ export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
           continue;
         }
         case 5: {
-          if (tag !== 40) {
+          if (tag !== 42) {
             break;
           }
 
-          message.offset = reader.int32();
+          message.cursor = reader.string();
           continue;
         }
       }
@@ -1151,7 +1206,7 @@ export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
       scoreType: isSet(object.scoreType) ? globalThis.String(object.scoreType) : "",
       timePeriod: isSet(object.timePeriod) ? globalThis.String(object.timePeriod) : "",
       limit: isSet(object.limit) ? globalThis.Number(object.limit) : 0,
-      offset: isSet(object.offset) ? globalThis.Number(object.offset) : 0,
+      cursor: isSet(object.cursor) ? globalThis.String(object.cursor) : "",
     };
   },
 
@@ -1169,8 +1224,8 @@ export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
     if (message.limit !== 0) {
       obj.limit = Math.round(message.limit);
     }
-    if (message.offset !== 0) {
-      obj.offset = Math.round(message.offset);
+    if (message.cursor !== "") {
+      obj.cursor = message.cursor;
     }
     return obj;
   },
@@ -1184,7 +1239,7 @@ export const LeaderboardRequest: MessageFns<LeaderboardRequest> = {
     message.scoreType = object.scoreType ?? "";
     message.timePeriod = object.timePeriod ?? "";
     message.limit = object.limit ?? 0;
-    message.offset = object.offset ?? 0;
+    message.cursor = object.cursor ?? "";
     return message;
   },
 };
@@ -1421,20 +1476,417 @@ export const PlayerRankResponse: MessageFns<PlayerRankResponse> = {
   },
 };
 
-function createBaseStandardResponse(): StandardResponse {
-  return { success: false, message: "", errors: [] };
+function createBasePaginationMetadata(): PaginationMetadata {
+  return { pageSize: undefined, prevPageToken: undefined, nextPageToken: undefined };
 }
 
-export const StandardResponse: MessageFns<StandardResponse> = {
-  encode(message: StandardResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
-    if (message.success !== false) {
-      writer.uint32(8).bool(message.success);
+export const PaginationMetadata: MessageFns<PaginationMetadata> = {
+  encode(message: PaginationMetadata, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.pageSize !== undefined) {
+      writer.uint32(8).int32(message.pageSize);
+    }
+    if (message.prevPageToken !== undefined) {
+      writer.uint32(18).string(message.prevPageToken);
+    }
+    if (message.nextPageToken !== undefined) {
+      writer.uint32(26).string(message.nextPageToken);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PaginationMetadata {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePaginationMetadata();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.pageSize = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.prevPageToken = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.nextPageToken = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PaginationMetadata {
+    return {
+      pageSize: isSet(object.pageSize) ? globalThis.Number(object.pageSize) : undefined,
+      prevPageToken: isSet(object.prevPageToken) ? globalThis.String(object.prevPageToken) : undefined,
+      nextPageToken: isSet(object.nextPageToken) ? globalThis.String(object.nextPageToken) : undefined,
+    };
+  },
+
+  toJSON(message: PaginationMetadata): unknown {
+    const obj: any = {};
+    if (message.pageSize !== undefined) {
+      obj.pageSize = Math.round(message.pageSize);
+    }
+    if (message.prevPageToken !== undefined) {
+      obj.prevPageToken = message.prevPageToken;
+    }
+    if (message.nextPageToken !== undefined) {
+      obj.nextPageToken = message.nextPageToken;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PaginationMetadata>, I>>(base?: I): PaginationMetadata {
+    return PaginationMetadata.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PaginationMetadata>, I>>(object: I): PaginationMetadata {
+    const message = createBasePaginationMetadata();
+    message.pageSize = object.pageSize ?? undefined;
+    message.prevPageToken = object.prevPageToken ?? undefined;
+    message.nextPageToken = object.nextPageToken ?? undefined;
+    return message;
+  },
+};
+
+function createBaseStatus(): Status {
+  return { code: 0, message: "", details: "" };
+}
+
+export const Status: MessageFns<Status> = {
+  encode(message: Status, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
     }
     if (message.message !== "") {
       writer.uint32(18).string(message.message);
     }
-    for (const v of message.errors) {
-      writer.uint32(26).string(v!);
+    if (message.details !== "") {
+      writer.uint32(26).string(message.details);
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): Status {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseStatus();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.details = reader.string();
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): Status {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      details: isSet(object.details) ? globalThis.String(object.details) : "",
+    };
+  },
+
+  toJSON(message: Status): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.details !== "") {
+      obj.details = message.details;
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<Status>, I>>(base?: I): Status {
+    return Status.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<Status>, I>>(object: I): Status {
+    const message = createBaseStatus();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.details = object.details ?? "";
+    return message;
+  },
+};
+
+function createBasePaginatedResponse(): PaginatedResponse {
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    pagination: undefined,
+    playerScores: undefined,
+    leaderboard: undefined,
+    leaderboardEntry: undefined,
+    playerRank: undefined,
+  };
+}
+
+export const PaginatedResponse: MessageFns<PaginatedResponse> = {
+  encode(message: PaginatedResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.pagination !== undefined) {
+      PaginationMetadata.encode(message.pagination, writer.uint32(34).fork()).join();
+    }
+    if (message.playerScores !== undefined) {
+      PlayerScoresResponse.encode(message.playerScores, writer.uint32(42).fork()).join();
+    }
+    if (message.leaderboard !== undefined) {
+      Leaderboard.encode(message.leaderboard, writer.uint32(50).fork()).join();
+    }
+    if (message.leaderboardEntry !== undefined) {
+      LeaderboardEntry.encode(message.leaderboardEntry, writer.uint32(58).fork()).join();
+    }
+    if (message.playerRank !== undefined) {
+      PlayerRankResponse.encode(message.playerRank, writer.uint32(66).fork()).join();
+    }
+    return writer;
+  },
+
+  decode(input: BinaryReader | Uint8Array, length?: number): PaginatedResponse {
+    const reader = input instanceof BinaryReader ? input : new BinaryReader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasePaginatedResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1: {
+          if (tag !== 8) {
+            break;
+          }
+
+          message.code = reader.int32();
+          continue;
+        }
+        case 2: {
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        }
+        case 3: {
+          if (tag !== 26) {
+            break;
+          }
+
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 4: {
+          if (tag !== 34) {
+            break;
+          }
+
+          message.pagination = PaginationMetadata.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.playerScores = PlayerScoresResponse.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.leaderboard = Leaderboard.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.leaderboardEntry = LeaderboardEntry.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.playerRank = PlayerRankResponse.decode(reader, reader.uint32());
+          continue;
+        }
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skip(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): PaginatedResponse {
+    return {
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      pagination: isSet(object.pagination) ? PaginationMetadata.fromJSON(object.pagination) : undefined,
+      playerScores: isSet(object.playerScores) ? PlayerScoresResponse.fromJSON(object.playerScores) : undefined,
+      leaderboard: isSet(object.leaderboard) ? Leaderboard.fromJSON(object.leaderboard) : undefined,
+      leaderboardEntry: isSet(object.leaderboardEntry) ? LeaderboardEntry.fromJSON(object.leaderboardEntry) : undefined,
+      playerRank: isSet(object.playerRank) ? PlayerRankResponse.fromJSON(object.playerRank) : undefined,
+    };
+  },
+
+  toJSON(message: PaginatedResponse): unknown {
+    const obj: any = {};
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.pagination !== undefined) {
+      obj.pagination = PaginationMetadata.toJSON(message.pagination);
+    }
+    if (message.playerScores !== undefined) {
+      obj.playerScores = PlayerScoresResponse.toJSON(message.playerScores);
+    }
+    if (message.leaderboard !== undefined) {
+      obj.leaderboard = Leaderboard.toJSON(message.leaderboard);
+    }
+    if (message.leaderboardEntry !== undefined) {
+      obj.leaderboardEntry = LeaderboardEntry.toJSON(message.leaderboardEntry);
+    }
+    if (message.playerRank !== undefined) {
+      obj.playerRank = PlayerRankResponse.toJSON(message.playerRank);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<PaginatedResponse>, I>>(base?: I): PaginatedResponse {
+    return PaginatedResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<PaginatedResponse>, I>>(object: I): PaginatedResponse {
+    const message = createBasePaginatedResponse();
+    message.code = object.code ?? 0;
+    message.message = object.message ?? "";
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
+    message.pagination = (object.pagination !== undefined && object.pagination !== null)
+      ? PaginationMetadata.fromPartial(object.pagination)
+      : undefined;
+    message.playerScores = (object.playerScores !== undefined && object.playerScores !== null)
+      ? PlayerScoresResponse.fromPartial(object.playerScores)
+      : undefined;
+    message.leaderboard = (object.leaderboard !== undefined && object.leaderboard !== null)
+      ? Leaderboard.fromPartial(object.leaderboard)
+      : undefined;
+    message.leaderboardEntry = (object.leaderboardEntry !== undefined && object.leaderboardEntry !== null)
+      ? LeaderboardEntry.fromPartial(object.leaderboardEntry)
+      : undefined;
+    message.playerRank = (object.playerRank !== undefined && object.playerRank !== null)
+      ? PlayerRankResponse.fromPartial(object.playerRank)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseStandardResponse(): StandardResponse {
+  return {
+    code: 0,
+    message: "",
+    error: undefined,
+    playerScores: undefined,
+    leaderboard: undefined,
+    leaderboardEntry: undefined,
+    playerRank: undefined,
+  };
+}
+
+export const StandardResponse: MessageFns<StandardResponse> = {
+  encode(message: StandardResponse, writer: BinaryWriter = new BinaryWriter()): BinaryWriter {
+    if (message.code !== 0) {
+      writer.uint32(8).int32(message.code);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.error !== undefined) {
+      Status.encode(message.error, writer.uint32(26).fork()).join();
+    }
+    if (message.playerScores !== undefined) {
+      PlayerScoresResponse.encode(message.playerScores, writer.uint32(42).fork()).join();
+    }
+    if (message.leaderboard !== undefined) {
+      Leaderboard.encode(message.leaderboard, writer.uint32(50).fork()).join();
+    }
+    if (message.leaderboardEntry !== undefined) {
+      LeaderboardEntry.encode(message.leaderboardEntry, writer.uint32(58).fork()).join();
+    }
+    if (message.playerRank !== undefined) {
+      PlayerRankResponse.encode(message.playerRank, writer.uint32(66).fork()).join();
     }
     return writer;
   },
@@ -1451,7 +1903,7 @@ export const StandardResponse: MessageFns<StandardResponse> = {
             break;
           }
 
-          message.success = reader.bool();
+          message.code = reader.int32();
           continue;
         }
         case 2: {
@@ -1467,7 +1919,39 @@ export const StandardResponse: MessageFns<StandardResponse> = {
             break;
           }
 
-          message.errors.push(reader.string());
+          message.error = Status.decode(reader, reader.uint32());
+          continue;
+        }
+        case 5: {
+          if (tag !== 42) {
+            break;
+          }
+
+          message.playerScores = PlayerScoresResponse.decode(reader, reader.uint32());
+          continue;
+        }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.leaderboard = Leaderboard.decode(reader, reader.uint32());
+          continue;
+        }
+        case 7: {
+          if (tag !== 58) {
+            break;
+          }
+
+          message.leaderboardEntry = LeaderboardEntry.decode(reader, reader.uint32());
+          continue;
+        }
+        case 8: {
+          if (tag !== 66) {
+            break;
+          }
+
+          message.playerRank = PlayerRankResponse.decode(reader, reader.uint32());
           continue;
         }
       }
@@ -1481,22 +1965,38 @@ export const StandardResponse: MessageFns<StandardResponse> = {
 
   fromJSON(object: any): StandardResponse {
     return {
-      success: isSet(object.success) ? globalThis.Boolean(object.success) : false,
+      code: isSet(object.code) ? globalThis.Number(object.code) : 0,
       message: isSet(object.message) ? globalThis.String(object.message) : "",
-      errors: globalThis.Array.isArray(object?.errors) ? object.errors.map((e: any) => globalThis.String(e)) : [],
+      error: isSet(object.error) ? Status.fromJSON(object.error) : undefined,
+      playerScores: isSet(object.playerScores) ? PlayerScoresResponse.fromJSON(object.playerScores) : undefined,
+      leaderboard: isSet(object.leaderboard) ? Leaderboard.fromJSON(object.leaderboard) : undefined,
+      leaderboardEntry: isSet(object.leaderboardEntry) ? LeaderboardEntry.fromJSON(object.leaderboardEntry) : undefined,
+      playerRank: isSet(object.playerRank) ? PlayerRankResponse.fromJSON(object.playerRank) : undefined,
     };
   },
 
   toJSON(message: StandardResponse): unknown {
     const obj: any = {};
-    if (message.success !== false) {
-      obj.success = message.success;
+    if (message.code !== 0) {
+      obj.code = Math.round(message.code);
     }
     if (message.message !== "") {
       obj.message = message.message;
     }
-    if (message.errors?.length) {
-      obj.errors = message.errors;
+    if (message.error !== undefined) {
+      obj.error = Status.toJSON(message.error);
+    }
+    if (message.playerScores !== undefined) {
+      obj.playerScores = PlayerScoresResponse.toJSON(message.playerScores);
+    }
+    if (message.leaderboard !== undefined) {
+      obj.leaderboard = Leaderboard.toJSON(message.leaderboard);
+    }
+    if (message.leaderboardEntry !== undefined) {
+      obj.leaderboardEntry = LeaderboardEntry.toJSON(message.leaderboardEntry);
+    }
+    if (message.playerRank !== undefined) {
+      obj.playerRank = PlayerRankResponse.toJSON(message.playerRank);
     }
     return obj;
   },
@@ -1506,9 +2006,23 @@ export const StandardResponse: MessageFns<StandardResponse> = {
   },
   fromPartial<I extends Exact<DeepPartial<StandardResponse>, I>>(object: I): StandardResponse {
     const message = createBaseStandardResponse();
-    message.success = object.success ?? false;
+    message.code = object.code ?? 0;
     message.message = object.message ?? "";
-    message.errors = object.errors?.map((e) => e) || [];
+    message.error = (object.error !== undefined && object.error !== null)
+      ? Status.fromPartial(object.error)
+      : undefined;
+    message.playerScores = (object.playerScores !== undefined && object.playerScores !== null)
+      ? PlayerScoresResponse.fromPartial(object.playerScores)
+      : undefined;
+    message.leaderboard = (object.leaderboard !== undefined && object.leaderboard !== null)
+      ? Leaderboard.fromPartial(object.leaderboard)
+      : undefined;
+    message.leaderboardEntry = (object.leaderboardEntry !== undefined && object.leaderboardEntry !== null)
+      ? LeaderboardEntry.fromPartial(object.leaderboardEntry)
+      : undefined;
+    message.playerRank = (object.playerRank !== undefined && object.playerRank !== null)
+      ? PlayerRankResponse.fromPartial(object.playerRank)
+      : undefined;
     return message;
   },
 };

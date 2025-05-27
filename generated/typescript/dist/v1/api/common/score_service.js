@@ -26,8 +26,8 @@ exports.ScoreServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(score_1.PlayerScoresRequest.encode(value).finish()),
         requestDeserialize: (value) => score_1.PlayerScoresRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(score_1.PlayerScoresResponse.encode(value).finish()),
-        responseDeserialize: (value) => score_1.PlayerScoresResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(score_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => score_1.StandardResponse.decode(value),
     },
     getLeaderboard: {
         path: "/v1.api.common.ScoreService/GetLeaderboard",
@@ -35,8 +35,8 @@ exports.ScoreServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(score_1.LeaderboardRequest.encode(value).finish()),
         requestDeserialize: (value) => score_1.LeaderboardRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(score_1.Leaderboard.encode(value).finish()),
-        responseDeserialize: (value) => score_1.Leaderboard.decode(value),
+        responseSerialize: (value) => Buffer.from(score_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => score_1.StandardResponse.decode(value),
     },
     getPlayerRank: {
         path: "/v1.api.common.ScoreService/GetPlayerRank",
@@ -44,8 +44,8 @@ exports.ScoreServiceService = {
         responseStream: false,
         requestSerialize: (value) => Buffer.from(score_1.PlayerRankRequest.encode(value).finish()),
         requestDeserialize: (value) => score_1.PlayerRankRequest.decode(value),
-        responseSerialize: (value) => Buffer.from(score_1.PlayerRankResponse.encode(value).finish()),
-        responseDeserialize: (value) => score_1.PlayerRankResponse.decode(value),
+        responseSerialize: (value) => Buffer.from(score_1.StandardResponse.encode(value).finish()),
+        responseDeserialize: (value) => score_1.StandardResponse.decode(value),
     },
 };
 exports.ScoreServiceClient = (0, grpc_js_1.makeGenericClientConstructor)(exports.ScoreServiceService, "v1.api.common.ScoreService");

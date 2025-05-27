@@ -18,12 +18,9 @@ import {
   type UntypedServiceImplementation,
 } from "@grpc/grpc-js";
 import {
-  Leaderboard,
   LeaderboardRequest,
   PlayerRankRequest,
-  PlayerRankResponse,
   PlayerScoresRequest,
-  PlayerScoresResponse,
   ScoreSubmission,
   StandardResponse,
 } from "../score/score";
@@ -47,8 +44,8 @@ export const ScoreServiceService = {
     responseStream: false,
     requestSerialize: (value: PlayerScoresRequest) => Buffer.from(PlayerScoresRequest.encode(value).finish()),
     requestDeserialize: (value: Buffer) => PlayerScoresRequest.decode(value),
-    responseSerialize: (value: PlayerScoresResponse) => Buffer.from(PlayerScoresResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => PlayerScoresResponse.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
   getLeaderboard: {
     path: "/v1.api.common.ScoreService/GetLeaderboard",
@@ -56,8 +53,8 @@ export const ScoreServiceService = {
     responseStream: false,
     requestSerialize: (value: LeaderboardRequest) => Buffer.from(LeaderboardRequest.encode(value).finish()),
     requestDeserialize: (value: Buffer) => LeaderboardRequest.decode(value),
-    responseSerialize: (value: Leaderboard) => Buffer.from(Leaderboard.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => Leaderboard.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
   getPlayerRank: {
     path: "/v1.api.common.ScoreService/GetPlayerRank",
@@ -65,16 +62,16 @@ export const ScoreServiceService = {
     responseStream: false,
     requestSerialize: (value: PlayerRankRequest) => Buffer.from(PlayerRankRequest.encode(value).finish()),
     requestDeserialize: (value: Buffer) => PlayerRankRequest.decode(value),
-    responseSerialize: (value: PlayerRankResponse) => Buffer.from(PlayerRankResponse.encode(value).finish()),
-    responseDeserialize: (value: Buffer) => PlayerRankResponse.decode(value),
+    responseSerialize: (value: StandardResponse) => Buffer.from(StandardResponse.encode(value).finish()),
+    responseDeserialize: (value: Buffer) => StandardResponse.decode(value),
   },
 } as const;
 
 export interface ScoreServiceServer extends UntypedServiceImplementation {
   submitScore: handleUnaryCall<ScoreSubmission, StandardResponse>;
-  getPlayerScores: handleUnaryCall<PlayerScoresRequest, PlayerScoresResponse>;
-  getLeaderboard: handleUnaryCall<LeaderboardRequest, Leaderboard>;
-  getPlayerRank: handleUnaryCall<PlayerRankRequest, PlayerRankResponse>;
+  getPlayerScores: handleUnaryCall<PlayerScoresRequest, StandardResponse>;
+  getLeaderboard: handleUnaryCall<LeaderboardRequest, StandardResponse>;
+  getPlayerRank: handleUnaryCall<PlayerRankRequest, StandardResponse>;
 }
 
 export interface ScoreServiceClient extends Client {
@@ -95,48 +92,48 @@ export interface ScoreServiceClient extends Client {
   ): ClientUnaryCall;
   getPlayerScores(
     request: PlayerScoresRequest,
-    callback: (error: ServiceError | null, response: PlayerScoresResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayerScores(
     request: PlayerScoresRequest,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: PlayerScoresResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayerScores(
     request: PlayerScoresRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: PlayerScoresResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getLeaderboard(
     request: LeaderboardRequest,
-    callback: (error: ServiceError | null, response: Leaderboard) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getLeaderboard(
     request: LeaderboardRequest,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: Leaderboard) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getLeaderboard(
     request: LeaderboardRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: Leaderboard) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayerRank(
     request: PlayerRankRequest,
-    callback: (error: ServiceError | null, response: PlayerRankResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayerRank(
     request: PlayerRankRequest,
     metadata: Metadata,
-    callback: (error: ServiceError | null, response: PlayerRankResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
   getPlayerRank(
     request: PlayerRankRequest,
     metadata: Metadata,
     options: Partial<CallOptions>,
-    callback: (error: ServiceError | null, response: PlayerRankResponse) => void,
+    callback: (error: ServiceError | null, response: StandardResponse) => void,
   ): ClientUnaryCall;
 }
 

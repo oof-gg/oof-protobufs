@@ -25,7 +25,7 @@ message PlayerScoresRequest {
   string player_id = 1;
   string game_id = 2; // optional, if not provided, fetch all scores for the player
   int32 limit = 3; // maximum number of scores to return
-  int32 offset = 4; // for pagination
+  string cursor = 4; // for pagination
 }
 
 message PlayerScoresResponse {
@@ -57,7 +57,7 @@ message LeaderboardRequest {
   string score_type = 2;
   string time_period = 3;
   int32 limit = 4;
-  int32 offset = 5;
+  string cursor = 5;
 }
 
 message PlayerRankRequest {
@@ -75,10 +75,67 @@ message PlayerRankResponse {
   int32 total_players = 6; // total number of players in the leaderboard for this game/score type
 }
 
-message StandardResponse {
-  bool success = 1;
-  string message = 2;
-  repeated string errors = 3;
+/// Metadata for paginated responses.
+message PaginationMetadata {
+    optional int32 page_size = 1;     // Number of items per page
+    optional string prev_page_token = 2; // Token for the previous page
+    optional string next_page_token = 3; // Token for the next page
 }
+
+message Status {
+    // Status code (e.g., HTTP or custom).
+    int32 code = 1;
+
+    // This could be your success or error message.
+    string message = 2;
+
+    // If there's an error, you could store it here or just use google.rpc.Status directly.
+    string details = 3; // Optional details about the error
+}
+
+/// A paginated response wrapper.
+message PaginatedResponse {
+    // Status code (e.g., HTTP or custom).
+    int32 code = 1;
+
+    // This could be your success or error message.
+    string message = 2;
+
+    // If there's an error, you could store it here or just use google.rpc.Status directly.
+    Status error = 3;
+
+    optional PaginationMetadata pagination = 4; // Pagination metadata
+
+    // The actual payload.
+    oneof data {
+      // For single items.
+      PlayerScoresResponse player_scores = 5;
+      Leaderboard leaderboard = 6;
+      LeaderboardEntry leaderboard_entry = 7;
+      PlayerRankResponse player_rank = 8;
+    }
+}
+
+/// Unify everything into one response.
+message StandardResponse {
+  // Status code (e.g., HTTP or custom).
+  int32 code = 1;
+
+  // This could be your success or error message.
+  string message = 2;
+
+  // If there's an error, you could store it here or just use google.rpc.Status directly.
+  Status error = 3;
+
+  // The actual payload.
+  oneof data {
+    // For single items.
+    PlayerScoresResponse player_scores = 5;
+    Leaderboard leaderboard = 6;
+    LeaderboardEntry leaderboard_entry = 7;
+    PlayerRankResponse player_rank = 8;
+  }
+}
+
 
 option go_package = "github.com/oof-gg/oof-protobufs/generated/go/v1/api/score";
