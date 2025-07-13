@@ -46,6 +46,8 @@ export interface InstanceCommandMessage {
     playerId?: string | undefined;
     data?: string | undefined;
     authConfig?: AuthConfig | undefined;
+    /** Optional player name to be used in the game instance */
+    playerName?: string | undefined;
 }
 /** / Represents the authentication and configuration for the game instance */
 export interface AuthConfig {

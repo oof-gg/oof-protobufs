@@ -688,7 +688,8 @@ proto.v1.api.game.InstanceCommandMessage.toObject = function(includeInstance, ms
     gameId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     playerId: jspb.Message.getFieldWithDefault(msg, 3, ""),
     data: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    authConfig: (f = msg.getAuthConfig()) && proto.v1.api.game.AuthConfig.toObject(includeInstance, f)
+    authConfig: (f = msg.getAuthConfig()) && proto.v1.api.game.AuthConfig.toObject(includeInstance, f),
+    playerName: jspb.Message.getFieldWithDefault(msg, 6, "")
   };
 
   if (includeInstance) {
@@ -745,6 +746,10 @@ proto.v1.api.game.InstanceCommandMessage.deserializeBinaryFromReader = function(
       var value = new proto.v1.api.game.AuthConfig;
       reader.readMessage(value,proto.v1.api.game.AuthConfig.deserializeBinaryFromReader);
       msg.setAuthConfig(value);
+      break;
+    case 6:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setPlayerName(value);
       break;
     default:
       reader.skipField();
@@ -809,6 +814,13 @@ proto.v1.api.game.InstanceCommandMessage.serializeBinaryToWriter = function(mess
       5,
       f,
       proto.v1.api.game.AuthConfig.serializeBinaryToWriter
+    );
+  }
+  f = /** @type {string} */ (jspb.Message.getField(message, 6));
+  if (f != null) {
+    writer.writeString(
+      6,
+      f
     );
   }
 };
@@ -974,6 +986,42 @@ proto.v1.api.game.InstanceCommandMessage.prototype.clearAuthConfig = function() 
  */
 proto.v1.api.game.InstanceCommandMessage.prototype.hasAuthConfig = function() {
   return jspb.Message.getField(this, 5) != null;
+};
+
+
+/**
+ * optional string player_name = 6;
+ * @return {string}
+ */
+proto.v1.api.game.InstanceCommandMessage.prototype.getPlayerName = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 6, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.v1.api.game.InstanceCommandMessage} returns this
+ */
+proto.v1.api.game.InstanceCommandMessage.prototype.setPlayerName = function(value) {
+  return jspb.Message.setField(this, 6, value);
+};
+
+
+/**
+ * Clears the field making it undefined.
+ * @return {!proto.v1.api.game.InstanceCommandMessage} returns this
+ */
+proto.v1.api.game.InstanceCommandMessage.prototype.clearPlayerName = function() {
+  return jspb.Message.setField(this, 6, undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.v1.api.game.InstanceCommandMessage.prototype.hasPlayerName = function() {
+  return jspb.Message.getField(this, 6) != null;
 };
 
 

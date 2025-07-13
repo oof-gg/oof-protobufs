@@ -128,6 +128,11 @@ export class InstanceCommandMessage extends jspb.Message {
   hasAuthConfig(): boolean;
   clearAuthConfig(): InstanceCommandMessage;
 
+  getPlayerName(): string;
+  setPlayerName(value: string): InstanceCommandMessage;
+  hasPlayerName(): boolean;
+  clearPlayerName(): InstanceCommandMessage;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): InstanceCommandMessage.AsObject;
   static toObject(includeInstance: boolean, msg: InstanceCommandMessage): InstanceCommandMessage.AsObject;
@@ -143,6 +148,7 @@ export namespace InstanceCommandMessage {
     playerId?: string,
     data?: string,
     authConfig?: AuthConfig.AsObject,
+    playerName?: string,
   }
 
   export enum GameIdCase { 
@@ -163,6 +169,11 @@ export namespace InstanceCommandMessage {
   export enum AuthConfigCase { 
     _AUTH_CONFIG_NOT_SET = 0,
     AUTH_CONFIG = 5,
+  }
+
+  export enum PlayerNameCase { 
+    _PLAYER_NAME_NOT_SET = 0,
+    PLAYER_NAME = 6,
   }
 }
 

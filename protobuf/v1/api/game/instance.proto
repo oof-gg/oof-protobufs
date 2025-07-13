@@ -46,6 +46,7 @@ message InstanceCommandMessage {
   optional string player_id = 3;
   optional string data = 4;
   optional AuthConfig auth_config = 5;
+  optional string player_name = 6; // Optional player name to be used in the game instance
 }
 
 /// Represents the authentication and configuration for the game instance

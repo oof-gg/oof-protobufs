@@ -328,7 +328,14 @@ exports.InstanceNotification = {
     },
 };
 function createBaseInstanceCommandMessage() {
-    return { state: 0, gameId: undefined, playerId: undefined, data: undefined, authConfig: undefined };
+    return {
+        state: 0,
+        gameId: undefined,
+        playerId: undefined,
+        data: undefined,
+        authConfig: undefined,
+        playerName: undefined,
+    };
 }
 exports.InstanceCommandMessage = {
     encode(message, writer = new wire_1.BinaryWriter()) {
@@ -346,6 +353,9 @@ exports.InstanceCommandMessage = {
         }
         if (message.authConfig !== undefined) {
             exports.AuthConfig.encode(message.authConfig, writer.uint32(42).fork()).join();
+        }
+        if (message.playerName !== undefined) {
+            writer.uint32(50).string(message.playerName);
         }
         return writer;
     },
@@ -391,6 +401,13 @@ exports.InstanceCommandMessage = {
                     message.authConfig = exports.AuthConfig.decode(reader, reader.uint32());
                     continue;
                 }
+                case 6: {
+                    if (tag !== 50) {
+                        break;
+                    }
+                    message.playerName = reader.string();
+                    continue;
+                }
             }
             if ((tag & 7) === 4 || tag === 0) {
                 break;
@@ -406,6 +423,7 @@ exports.InstanceCommandMessage = {
             playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
             data: isSet(object.data) ? globalThis.String(object.data) : undefined,
             authConfig: isSet(object.authConfig) ? exports.AuthConfig.fromJSON(object.authConfig) : undefined,
+            playerName: isSet(object.playerName) ? globalThis.String(object.playerName) : undefined,
         };
     },
     toJSON(message) {
@@ -425,6 +443,9 @@ exports.InstanceCommandMessage = {
         if (message.authConfig !== undefined) {
             obj.authConfig = exports.AuthConfig.toJSON(message.authConfig);
         }
+        if (message.playerName !== undefined) {
+            obj.playerName = message.playerName;
+        }
         return obj;
     },
     create(base) {
@@ -439,6 +460,7 @@ exports.InstanceCommandMessage = {
         message.authConfig = (object.authConfig !== undefined && object.authConfig !== null)
             ? exports.AuthConfig.fromPartial(object.authConfig)
             : undefined;
+        message.playerName = object.playerName ?? undefined;
         return message;
     },
 };

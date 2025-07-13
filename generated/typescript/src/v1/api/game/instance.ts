@@ -153,7 +153,11 @@ export interface InstanceCommandMessage {
   gameId?: string | undefined;
   playerId?: string | undefined;
   data?: string | undefined;
-  authConfig?: AuthConfig | undefined;
+  authConfig?:
+    | AuthConfig
+    | undefined;
+  /** Optional player name to be used in the game instance */
+  playerName?: string | undefined;
 }
 
 /** / Represents the authentication and configuration for the game instance */
@@ -384,7 +388,14 @@ export const InstanceNotification: MessageFns<InstanceNotification> = {
 };
 
 function createBaseInstanceCommandMessage(): InstanceCommandMessage {
-  return { state: 0, gameId: undefined, playerId: undefined, data: undefined, authConfig: undefined };
+  return {
+    state: 0,
+    gameId: undefined,
+    playerId: undefined,
+    data: undefined,
+    authConfig: undefined,
+    playerName: undefined,
+  };
 }
 
 export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
@@ -403,6 +414,9 @@ export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
     }
     if (message.authConfig !== undefined) {
       AuthConfig.encode(message.authConfig, writer.uint32(42).fork()).join();
+    }
+    if (message.playerName !== undefined) {
+      writer.uint32(50).string(message.playerName);
     }
     return writer;
   },
@@ -454,6 +468,14 @@ export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
           message.authConfig = AuthConfig.decode(reader, reader.uint32());
           continue;
         }
+        case 6: {
+          if (tag !== 50) {
+            break;
+          }
+
+          message.playerName = reader.string();
+          continue;
+        }
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -470,6 +492,7 @@ export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
       playerId: isSet(object.playerId) ? globalThis.String(object.playerId) : undefined,
       data: isSet(object.data) ? globalThis.String(object.data) : undefined,
       authConfig: isSet(object.authConfig) ? AuthConfig.fromJSON(object.authConfig) : undefined,
+      playerName: isSet(object.playerName) ? globalThis.String(object.playerName) : undefined,
     };
   },
 
@@ -490,6 +513,9 @@ export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
     if (message.authConfig !== undefined) {
       obj.authConfig = AuthConfig.toJSON(message.authConfig);
     }
+    if (message.playerName !== undefined) {
+      obj.playerName = message.playerName;
+    }
     return obj;
   },
 
@@ -505,6 +531,7 @@ export const InstanceCommandMessage: MessageFns<InstanceCommandMessage> = {
     message.authConfig = (object.authConfig !== undefined && object.authConfig !== null)
       ? AuthConfig.fromPartial(object.authConfig)
       : undefined;
+    message.playerName = object.playerName ?? undefined;
     return message;
   },
 };
